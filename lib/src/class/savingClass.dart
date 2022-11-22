@@ -5,7 +5,7 @@ class savingClass {
   var _savingId = '';
   var _savingDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var _savingName = '';
-  var _savingAmount = '123';
+  var _savingAmount = '';
   var _savingTargetId = '';
   var _savingTargetName = '';
 
@@ -22,6 +22,10 @@ class savingClass {
 
   bool hasSavingId() {
     return _savingId.isNotEmpty ? true : false;
+  }
+
+  bool hasTargetId() {
+    return _savingTargetId.isEmpty ? false : true;
   }
 
   get userId => _userId;

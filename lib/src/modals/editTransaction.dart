@@ -61,7 +61,7 @@ class _EditTransaction extends State<EditTransaction> {
                   ),
                 );
               },
-              child: Container(
+              child: SizedBox(
                 height: 60,
                 child: Center(
                     child: Row(

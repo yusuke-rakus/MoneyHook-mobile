@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
+import 'package:money_hooks/src/class/savingTargetClass.dart';
 
 class EditSaving extends StatefulWidget {
   EditSaving(this.saving, {super.key});
@@ -15,11 +16,19 @@ class EditSaving extends StatefulWidget {
 
 class _EditSaving extends State<EditSaving> {
   late savingClass saving;
+  late List<savingTargetClass> savingTargetList = [
+    savingTargetClass.setTargetFields('4', '長野旅行'),
+    savingTargetClass.setTargetFields('12', '沖縄旅行'),
+    savingTargetClass.setTargetFields('92', '長い目標長い目標長い目標長い目標長い目標'),
+  ];
 
   @override
   void initState() {
     super.initState();
     saving = widget.saving;
+    if (savingTargetList.isNotEmpty) {
+      savingTargetList.insert(0, savingTargetClass.setTargetFields('', 'なし'));
+    }
   }
 
   @override
@@ -75,7 +84,7 @@ class _EditSaving extends State<EditSaving> {
                     ),
                   );
                 },
-                child: Container(
+                child: SizedBox(
                   height: 60,
                   child: Center(
                       child: Row(
@@ -102,8 +111,8 @@ class _EditSaving extends State<EditSaving> {
                           onChanged: (value) {
                             saving.savingAmount = value;
                           },
-                          controller: TextEditingController(
-                              text: saving.savingAmount),
+                          controller:
+                              TextEditingController(text: saving.savingAmount),
                           decoration: const InputDecoration(
                               hintText: '0',
                               hintStyle:
@@ -136,15 +145,78 @@ class _EditSaving extends State<EditSaving> {
                 ),
               ),
               // 貯金目標
-              Container(
-                color: Colors.red,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.only(left: 40, right: 40),
-                height: 100,
-                child: const Text('貯金目標選択'),
+              Visibility(
+                visible: savingTargetList.isNotEmpty,
+                child: Container(
+                  margin: const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
+                  child: InkWell(
+                    onTap: () {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height / 3,
+                            child: CupertinoPicker(
+                              backgroundColor: Colors.white,
+                              diameterRatio: 1.0,
+                              itemExtent: 30.0,
+                              scrollController: FixedExtentScrollController(
+                                  initialItem: savingTargetList
+                                      .map((e) => e.savingTargetId)
+                                      .toList()
+                                      .indexOf(saving.savingTargetId)),
+                              onSelectedItemChanged: (int i) {
+                                setState(() {
+                                  // 貯金目標をセット
+                                  saving.savingTargetName =
+                                      savingTargetList[i].savingTargetName;
+                                  saving.savingTargetId =
+                                      savingTargetList[i].savingTargetId;
+                                });
+                              },
+                              children: savingTargetList
+                                  .map((e) => Text(e.savingTargetName))
+                                  .toList(),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: SizedBox(
+                      height: 70,
+                      child: InputDecorator(
+                        decoration: const InputDecoration(
+                          labelText: 'カテゴリ',
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                saving.hasTargetId()
+                                    ? saving.savingTargetName
+                                    : 'なし',
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 20),
+                              ),
+                            ),
+                            const Align(
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                Icons.keyboard_arrow_down,
+                                size: 30,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
+          // 登録ボタン
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: Align(
@@ -153,7 +225,9 @@ class _EditSaving extends State<EditSaving> {
                 height: 60,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    print(saving);
+                  },
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),

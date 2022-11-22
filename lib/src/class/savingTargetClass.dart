@@ -1,8 +1,8 @@
 class savingTargetClass {
   var _userId = '';
   var _savingTargetId = '';
-  var _savingTargetName = 'サンプル目標';
-  var _targetAmount = '10000';
+  var _savingTargetName = '';
+  var _targetAmount = '';
 
   savingTargetClass();
 
@@ -11,6 +11,11 @@ class savingTargetClass {
     this._savingTargetId,
     this._savingTargetName,
     this._targetAmount,
+  );
+
+  savingTargetClass.setTargetFields(
+    this._savingTargetId,
+    this._savingTargetName,
   );
 
   bool hasTargetId() {
