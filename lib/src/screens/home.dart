@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/modals/editTransaction.dart';
 
+import '../components/monthHeader.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -9,7 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ホーム"),
+        title: const MonthHeader(),
       ),
       body: Column(
         children: [
