@@ -2,17 +2,15 @@ import "package:flutter/material.dart";
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/modals/editTransaction.dart';
 
-import '../components/monthHeader.dart';
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const MonthHeader(),
-      ),
+      appBar: AppBar(title: Text('hej')
+          // title: MonthHeader(env: envClass(),),
+          ),
       body: Column(
         children: [
           const Center(

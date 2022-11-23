@@ -39,6 +39,7 @@ dependencies:
   switcher: ^1.0.0
   intl: ^0.17.0
   flutter_speed_dial: ^6.2.0
+  flutter_riverpod: ^2.1.1
 
 dev_dependencies:
   flutter_test:

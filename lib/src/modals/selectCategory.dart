@@ -53,7 +53,7 @@ class _SelectCategory extends State<SelectCategory> {
                   ),
                 );
               },
-              child: Container(
+              child: SizedBox(
                 height: 60,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

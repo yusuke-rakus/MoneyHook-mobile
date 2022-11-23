@@ -16,20 +16,34 @@ class transactionClass {
   transactionClass();
 
   transactionClass.setFields(
-      this._userId,
-      this._transactionId,
-      this._transactionDate,
-      this._transactionSign,
-      this._transactionAmount,
-      this._transactionName,
-      this._categoryId,
-      this._categoryName,
-      this._subCategoryId,
-      this._subCategoryName,
-      this._fixedFlg);
+    this._userId,
+    this._transactionId,
+    this._transactionDate,
+    this._transactionSign,
+    this._transactionAmount,
+    this._transactionName,
+    this._categoryId,
+    this._categoryName,
+    this._subCategoryId,
+    this._subCategoryName,
+    this._fixedFlg,
+  );
+
+  transactionClass.setTimelineFields(
+    this._transactionId,
+    this._transactionDate,
+    this._transactionSign,
+    this._transactionAmount,
+    this._transactionName,
+    this._categoryName,
+  );
 
   bool hasTransactionId() {
     return _transactionId.isNotEmpty ? true : false;
+  }
+
+  String getMonth() {
+    return DateFormat('yyyy-MM-dd').parse(_transactionDate).month.toString();
   }
 
   get userId => _userId;
