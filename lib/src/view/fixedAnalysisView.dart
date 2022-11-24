@@ -1,13 +1,13 @@
 import "package:flutter/material.dart";
 
-class FixedAnalysis extends StatefulWidget {
-  const FixedAnalysis({super.key});
+class FixedAnalysisView extends StatefulWidget {
+  const FixedAnalysisView({super.key});
 
   @override
-  State<FixedAnalysis> createState() => _FixedAnalysis();
+  State<FixedAnalysisView> createState() => _FixedAnalysis();
 }
 
-class _FixedAnalysis extends State<FixedAnalysis> {
+class _FixedAnalysis extends State<FixedAnalysisView> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
