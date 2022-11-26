@@ -56,31 +56,28 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
       ),
-      body: Center(
-        child: ListView(
-          children: [
-            Container(
-                margin: const EdgeInsets.only(top: 10, right: 8, left: 8),
-                color: Colors.cyan,
-                height: 180,
-                width: double.infinity,
-                child: const Center(child: Text('Hej!'))),
-            Container(
-              // color: Colors.grey,
-              margin: const EdgeInsets.only(left: 8),
-              height: 40,
-              child: Row(
-                children: const [
-                  Text('収支', style: TextStyle(fontSize: 20)),
-                  SizedBox(width: 20),
-                  Text('-12000',
-                      style: TextStyle(fontSize: 20, color: Colors.red)),
-                ],
-              ),
+      body: ListView(
+        children: [
+          Container(
+              margin: const EdgeInsets.only(top: 10, right: 8, left: 8),
+              color: Colors.cyan,
+              height: 180,
+              width: double.infinity,
+              child: const Center(child: Text('Hej!'))),
+          Container(
+            margin: const EdgeInsets.only(left: 8),
+            height: 40,
+            child: Row(
+              children: const [
+                Text('収支', style: TextStyle(fontSize: 20)),
+                SizedBox(width: 20),
+                Text('-12000',
+                    style: TextStyle(fontSize: 20, color: Colors.red)),
+              ],
             ),
-            const HomeAccodion()
-          ],
-        ),
+          ),
+          const HomeAccodion()
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
