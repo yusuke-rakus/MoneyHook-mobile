@@ -46,6 +46,10 @@ class transactionClass {
     return DateFormat('yyyy-MM-dd').parse(_transactionDate).month.toString();
   }
 
+  String getDay() {
+    return DateFormat('yyyy-MM-dd').parse(_transactionDate).day.toString();
+  }
+
   get userId => _userId;
 
   set userId(value) {

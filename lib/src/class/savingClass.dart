@@ -28,6 +28,10 @@ class savingClass {
     return _savingTargetId.isEmpty ? false : true;
   }
 
+  String getDay() {
+    return DateFormat('yyyy-MM-dd').parse(_savingDate).day.toString();
+  }
+
   get userId => _userId;
 
   set userId(value) {

@@ -4,14 +4,14 @@ import 'package:money_hooks/src/components/timelineList.dart';
 import '../class/transactionClass.dart';
 import '../env/env.dart';
 
-class timelineView extends StatefulWidget {
-  const timelineView({Key? key}) : super(key: key);
+class TimelineView extends StatefulWidget {
+  const TimelineView({Key? key}) : super(key: key);
 
   @override
-  State<timelineView> createState() => _timelineViewState();
+  State<TimelineView> createState() => _TimelineViewState();
 }
 
-class _timelineViewState extends State<timelineView> {
+class _TimelineViewState extends State<TimelineView> {
   late envClass env;
   late List<transactionClass> timelineList;
 
@@ -23,9 +23,9 @@ class _timelineViewState extends State<timelineView> {
       transactionClass.setTimelineFields(
           '1', '2022-11-01', -1, '1000', 'スーパーアルプス1', '食費'),
       transactionClass.setTimelineFields(
-          '2', '2022-11-01', -1, '1000', 'スーパーアルプス2', '食費'),
+          '2', '2022-11-18', -1, '1000', 'スーパーアルプス2', '食費'),
       transactionClass.setTimelineFields(
-          '3', '2022-11-01', -1, '1000', 'スーパーアルプス3', '食費'),
+          '3', '2022-11-25', -1, '1000', 'スーパーアルプス3', '食費'),
     ];
   }
 
