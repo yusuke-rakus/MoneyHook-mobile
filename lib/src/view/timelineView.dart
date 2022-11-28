@@ -32,46 +32,43 @@ class _TimelineViewState extends State<TimelineView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      env.subtractMonth();
-                      timelineList.clear();
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_back_ios)),
-              Text('${env.getMonth()}月'),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      env.addMonth();
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_forward_ios)),
-            ],
-          ),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    env.subtractMonth();
+                    timelineList.clear();
+                  });
+                },
+                icon: const Icon(Icons.arrow_back_ios)),
+            Text('${env.getMonth()}月'),
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    env.addMonth();
+                  });
+                },
+                icon: const Icon(Icons.arrow_forward_ios)),
+          ],
         ),
-        body: Center(
-          child: Column(
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(top: 10, right: 8, left: 8),
-                  color: Colors.cyan,
-                  height: 180,
-                  width: double.infinity,
-                  child: const Center(child: Text('heh'))),
-              Flexible(
-                child: TimelineList(
-                  env: env,
-                  timelineList: timelineList,
-                ),
-              )
-            ],
+      ),
+      body: ListView(
+        children: [
+          Container(
+              margin: const EdgeInsets.only(top: 10, right: 8, left: 8),
+              color: Colors.cyan,
+              height: 180,
+              width: double.infinity,
+              child: const Center(child: Text('hej'))),
+          TimelineList(
+            env: env,
+            timelineList: timelineList,
           ),
-        ));
+        ],
+      ),
+    );
   }
 }

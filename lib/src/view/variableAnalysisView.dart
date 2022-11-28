@@ -52,7 +52,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: Column(
         children: [
           // 月選択
           Container(
@@ -75,41 +75,47 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
               ],
             ),
           ),
-          // 合計値
-          Container(
-            margin: const EdgeInsets.only(right: 15, left: 15),
-            height: 60,
-            child: Row(
-              children: const [
-                Text('変動費合計', style: TextStyle(fontSize: 17)),
-                SizedBox(width: 20),
-                Text('11,111', style: TextStyle(fontSize: 30)),
-              ],
-            ),
-          ),
-          // 変動費
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            itemCount: monthlyVariableList.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ExpansionTile(
-                  title: Text('${monthlyVariableList[index]['categoryName']}'),
-                  children: monthlyVariableList[index]['subCategoryList']
-                      .map<Widget>((subCategory) => ExpansionTile(
-                            title: Text(subCategory['subCategoryName']),
-                            children: subCategory['transactionList']
-                                .map<Widget>((tran) => ListTile(
-                                    title: Text(tran['transactionName'])))
-                                .toList(),
-                          ))
-                      .toList());
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return const Divider();
-            },
-          ),
+          Flexible(
+              child: ListView(
+            children: [
+              // 合計値
+              Container(
+                margin: const EdgeInsets.only(right: 15, left: 15),
+                height: 60,
+                child: Row(
+                  children: const [
+                    Text('変動費合計', style: TextStyle(fontSize: 17)),
+                    SizedBox(width: 20),
+                    Text('11,111', style: TextStyle(fontSize: 30)),
+                  ],
+                ),
+              ),
+              // 変動費
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                itemCount: monthlyVariableList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ExpansionTile(
+                      title:
+                          Text('${monthlyVariableList[index]['categoryName']}'),
+                      children: monthlyVariableList[index]['subCategoryList']
+                          .map<Widget>((subCategory) => ExpansionTile(
+                                title: Text(subCategory['subCategoryName']),
+                                children: subCategory['transactionList']
+                                    .map<Widget>((tran) => ListTile(
+                                        title: Text(tran['transactionName'])))
+                                    .toList(),
+                              ))
+                          .toList());
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return const Divider();
+                },
+              ),
+            ],
+          )),
         ],
       ),
     );

@@ -11,6 +11,8 @@ class TimelineList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
       itemCount: timelineList.length,
       itemBuilder: (BuildContext context, int index) {
