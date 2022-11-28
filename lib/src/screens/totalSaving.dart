@@ -28,7 +28,7 @@ class _TotalSaving extends State<TotalSaving> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListView(
+        body: Column(
       children: [
         // 月選択
         Container(
@@ -51,28 +51,33 @@ class _TotalSaving extends State<TotalSaving> {
             ],
           ),
         ),
-        // 合計値
-        Container(
-          margin: const EdgeInsets.only(right: 15, left: 15),
-          height: 60,
-          child: Row(
-            children: const [
-              Text('変動費合計', style: TextStyle(fontSize: 17)),
-              SizedBox(width: 20),
-              Text('11,111',
-                  style: TextStyle(fontSize: 20, color: Colors.green)),
-            ],
-          ),
-        ),
-        // グラフ
-        Container(
-          height: 150,
-          margin: const EdgeInsets.all(20),
-          color: Colors.blueGrey,
-          child: const Center(child: Text('グラフだよ')),
-        ),
-        // 貯金目標リスト
-        SavingTargetList(env: env, savingTargetList: savingTargetList),
+        Flexible(
+            child: ListView(
+          children: [
+            // 合計値
+            Container(
+              margin: const EdgeInsets.only(right: 15, left: 15),
+              height: 60,
+              child: Row(
+                children: const [
+                  Text('変動費合計', style: TextStyle(fontSize: 17)),
+                  SizedBox(width: 20),
+                  Text('11,111',
+                      style: TextStyle(fontSize: 20, color: Colors.green)),
+                ],
+              ),
+            ),
+            // グラフ
+            Container(
+              height: 150,
+              margin: const EdgeInsets.all(20),
+              color: Colors.blueGrey,
+              child: const Center(child: Text('グラフだよ')),
+            ),
+            // 貯金目標リスト
+            SavingTargetList(env: env, savingTargetList: savingTargetList),
+          ],
+        )),
       ],
     ));
   }

@@ -29,7 +29,7 @@ class _SavingList extends State<SavingList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      body: Column(
         children: [
           // 月選択
           Container(
@@ -52,22 +52,27 @@ class _SavingList extends State<SavingList> {
               ],
             ),
           ),
-          // 合計値
-          Container(
-            margin: const EdgeInsets.only(right: 15, left: 15),
-            height: 60,
-            child: Row(
-              children: const [
-                Text('変動費合計', style: TextStyle(fontSize: 17)),
-                SizedBox(width: 20),
-                Text('11,111',
-                    style: TextStyle(fontSize: 30, color: Colors.green)),
-              ],
-            ),
-          ),
-          SavingTimelineList(
-            env: env,
-            savingTimelineList: savingList,
+          Flexible(
+            child: ListView(children: [
+              // 合計値
+              Container(
+                margin: const EdgeInsets.only(right: 15, left: 15),
+                height: 60,
+                child: Row(
+                  children: const [
+                    Text('変動費合計', style: TextStyle(fontSize: 17)),
+                    SizedBox(width: 20),
+                    Text('11,111',
+                        style: TextStyle(fontSize: 30, color: Colors.green)),
+                  ],
+                ),
+              ),
+              // タイムライン
+              SavingTimelineList(
+                env: env,
+                savingTimelineList: savingList,
+              )
+            ]),
           ),
         ],
       ),
