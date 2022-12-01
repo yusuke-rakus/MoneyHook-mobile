@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/components/charts/homeChart.dart';
 import 'package:money_hooks/src/components/homeAccodion.dart';
 
 import '../class/transactionClass.dart';
@@ -58,12 +59,12 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: ListView(
         children: [
-          Container(
-              margin: const EdgeInsets.only(top: 10, right: 8, left: 8),
-              color: Colors.cyan,
-              height: 180,
-              width: double.infinity,
-              child: const Center(child: Text('Hej!'))),
+          const Center(
+            child: SizedBox(
+              height: 250,
+              child: HomeChart(),
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(left: 8),
             height: 40,

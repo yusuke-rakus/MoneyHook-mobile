@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/class/savingTargetClass.dart';
+import 'package:money_hooks/src/components/charts/totalSavingChart.dart';
 import 'package:money_hooks/src/components/savingTargetList.dart';
 import 'package:money_hooks/src/env/env.dart';
 
@@ -68,11 +69,9 @@ class _TotalSaving extends State<TotalSaving> {
               ),
             ),
             // グラフ
-            Container(
-              height: 150,
-              margin: const EdgeInsets.all(20),
-              color: Colors.blueGrey,
-              child: const Center(child: Text('グラフだよ')),
+            const SizedBox(
+              height: 200,
+              child: TotalSavingChart(),
             ),
             // 貯金目標リスト
             SavingTargetList(env: env, savingTargetList: savingTargetList),

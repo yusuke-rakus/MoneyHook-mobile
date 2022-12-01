@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/components/charts/timelineChart.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
 
 import '../class/transactionClass.dart';
@@ -57,12 +58,10 @@ class _TimelineViewState extends State<TimelineView> {
       ),
       body: ListView(
         children: [
-          Container(
-              margin: const EdgeInsets.only(top: 10, right: 8, left: 8),
-              color: Colors.cyan,
-              height: 180,
-              width: double.infinity,
-              child: const Center(child: Text('hej'))),
+          const SizedBox(
+            height: 250,
+            child: TimelineChart(),
+          ),
           TimelineList(
             env: env,
             timelineList: timelineList,
