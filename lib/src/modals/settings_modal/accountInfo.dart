@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/modals/settings_modal/changeEmail.dart';
 
+import 'changePassword.dart';
+
 class AccountInfo extends StatelessWidget {
   const AccountInfo({Key? key}) : super(key: key);
 
@@ -27,7 +29,7 @@ class AccountInfo extends StatelessWidget {
                   _menuCard(context, Icons.email_outlined, 'メールアドレス変更',
                       const ChangeEmail()),
                   _menuCard(context, Icons.vpn_key_outlined, 'パスワード変更',
-                      const ChangeEmail()),
+                      const ChangePassword()),
                 ],
               ),
             ),

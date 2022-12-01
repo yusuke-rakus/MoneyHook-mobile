@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ChangeEmail extends StatefulWidget {
-  const ChangeEmail({Key? key}) : super(key: key);
+class MonthlyTransaction extends StatefulWidget {
+  const MonthlyTransaction({Key? key}) : super(key: key);
 
   @override
-  State<ChangeEmail> createState() => _ChangeEmailState();
+  State<MonthlyTransaction> createState() => _MonthlyTransactionState();
 }
 
-class _ChangeEmailState extends State<ChangeEmail> {
-  bool _showPassword = false;
-
+class _MonthlyTransactionState extends State<MonthlyTransaction> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,38 +24,10 @@ class _ChangeEmailState extends State<ChangeEmail> {
                   child: const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
-                        'メールアドレス変更',
+                        '収支の自動入力',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ))),
-              const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
-                child: TextField(
-                  decoration: InputDecoration(
-                    labelText: 'メールアドレス',
-                    icon: Icon(Icons.email_outlined),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, right: 20),
-                child: TextField(
-                  obscureText: !_showPassword,
-                  // controller: _passwordTextController,
-                  decoration: InputDecoration(
-                      labelText: "パスワード",
-                      icon: const Icon(Icons.vpn_key_rounded),
-                      suffixIcon: IconButton(
-                        icon: Icon(_showPassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined),
-                        onPressed: () {
-                          setState(() {
-                            _showPassword = !_showPassword;
-                          });
-                        },
-                      )),
-                ),
-              ),
+              const Text('Hej'),
             ],
           ),
           Padding(

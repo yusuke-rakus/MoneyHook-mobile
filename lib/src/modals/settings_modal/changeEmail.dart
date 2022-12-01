@@ -8,6 +8,8 @@ class ChangeEmail extends StatefulWidget {
 }
 
 class _ChangeEmailState extends State<ChangeEmail> {
+  bool _showPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,13 +38,24 @@ class _ChangeEmailState extends State<ChangeEmail> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TextField(
+                  obscureText: !_showPassword,
+                  // controller: _passwordTextController,
                   decoration: InputDecoration(
-                    labelText: 'パスワード',
-                    icon: Icon(Icons.vpn_key_rounded),
-                  ),
+                      labelText: "パスワード",
+                      icon: const Icon(Icons.vpn_key_rounded),
+                      suffixIcon: IconButton(
+                        icon: Icon(_showPassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined),
+                        onPressed: () {
+                          setState(() {
+                            _showPassword = !_showPassword;
+                          });
+                        },
+                      )),
                 ),
               ),
             ],

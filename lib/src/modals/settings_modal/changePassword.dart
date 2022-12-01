@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 
-class ChangeEmail extends StatefulWidget {
-  const ChangeEmail({Key? key}) : super(key: key);
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({Key? key}) : super(key: key);
 
   @override
-  State<ChangeEmail> createState() => _ChangeEmailState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _ChangeEmailState extends State<ChangeEmail> {
+class _ChangePasswordState extends State<ChangePassword> {
+  bool _showCurrentPassword = false;
+  bool _showNewPassword = false;
+  bool _showNewPassword2 = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,25 +28,64 @@ class _ChangeEmailState extends State<ChangeEmail> {
                   child: const Align(
                       alignment: Alignment.bottomLeft,
                       child: Text(
-                        'メールアドレス変更',
+                        'パスワード変更',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ))),
-              const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TextField(
+                  obscureText: !_showCurrentPassword,
+                  // controller: _passwordTextController,
                   decoration: InputDecoration(
-                    labelText: 'メールアドレス',
-                    icon: Icon(Icons.email_outlined),
-                  ),
+                      labelText: "現在のパスワード",
+                      suffixIcon: IconButton(
+                        icon: Icon(_showCurrentPassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined),
+                        onPressed: () {
+                          setState(() {
+                            _showCurrentPassword = !_showCurrentPassword;
+                          });
+                        },
+                      )),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 20, right: 20),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TextField(
+                  obscureText: !_showNewPassword,
+                  // controller: _passwordTextController,
                   decoration: InputDecoration(
-                    labelText: 'パスワード',
-                    icon: Icon(Icons.vpn_key_rounded),
-                  ),
+                      labelText: "新しいパスワード",
+                      suffixIcon: IconButton(
+                        icon: Icon(_showNewPassword
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined),
+                        onPressed: () {
+                          setState(() {
+                            _showNewPassword = !_showNewPassword;
+                          });
+                        },
+                      )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: TextField(
+                  obscureText: !_showNewPassword2,
+                  // controller: _passwordTextController,
+                  decoration: InputDecoration(
+                      labelText: "再入力",
+                      suffixIcon: IconButton(
+                        icon: Icon(_showNewPassword2
+                            ? Icons.visibility_outlined
+                            : Icons.visibility_off_outlined),
+                        onPressed: () {
+                          setState(() {
+                            _showNewPassword2 = !_showNewPassword2;
+                          });
+                        },
+                      )),
                 ),
               ),
             ],
