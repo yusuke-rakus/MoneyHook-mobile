@@ -98,14 +98,34 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                 itemCount: monthlyVariableList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ExpansionTile(
-                      title:
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Text('${monthlyVariableList[index]['categoryName']}'),
+                          Text(
+                              '${monthlyVariableList[index]['categoryTotalAmount']}'),
+                        ],
+                      ),
                       children: monthlyVariableList[index]['subCategoryList']
                           .map<Widget>((subCategory) => ExpansionTile(
-                                title: Text(subCategory['subCategoryName']),
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(subCategory['subCategoryName']),
+                                    Text(subCategory['subCategoryTotalAmount']),
+                                  ],
+                                ),
                                 children: subCategory['transactionList']
                                     .map<Widget>((tran) => ListTile(
-                                        title: Text(tran['transactionName'])))
+                                            title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(tran['transactionName']),
+                                            Text(tran['transactionAmount']),
+                                          ],
+                                        )))
                                     .toList(),
                               ))
                           .toList());

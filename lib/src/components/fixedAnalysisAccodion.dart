@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class FixedAnalysisAccodion extends StatelessWidget {
-  const FixedAnalysisAccodion({Key? key}) : super(key: key);
+class FixedAnalysisAccordion extends StatelessWidget {
+  const FixedAnalysisAccordion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,8 @@ class FixedAnalysisAccodion extends StatelessWidget {
             'transactionAmount': '10000',
           },
         ]
-      },{
+      },
+      {
         'categoryName': '配当',
         'totalCategoryAmount': '2000',
         'transactionList': [
@@ -34,10 +35,22 @@ class FixedAnalysisAccodion extends StatelessWidget {
       itemCount: monthlyFixedList.length,
       itemBuilder: (BuildContext context, int index) {
         return ExpansionTile(
-          title: Text('${monthlyFixedList[index]['categoryName']}'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('${monthlyFixedList[index]['categoryName']}'),
+              Text('${monthlyFixedList[index]['totalCategoryAmount']}'),
+            ],
+          ),
           children: monthlyFixedList[index]['transactionList']
-              .map<Widget>(
-                  (value) => ListTile(title: Text(value['transactionName'])))
+              .map<Widget>((value) => ListTile(
+                      title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(value['transactionName']),
+                      Text(value['transactionAmount']),
+                    ],
+                  )))
               .toList(),
         );
       },

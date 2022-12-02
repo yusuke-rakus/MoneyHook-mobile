@@ -12,70 +12,42 @@ class HomeAccodion extends StatelessWidget {
         'subCategoryList': [
           {
             'subCategoryName': 'スーパー',
-            'subCategoryTotalAmount': '10000',
+            'subCategoryTotalAmount': '-10000',
           },
           {
             'subCategoryName': 'なし',
-            'subCategoryTotalAmount': '10000',
+            'subCategoryTotalAmount': '-10000',
           },
         ]
       },
       {
-        'categoryName': '食費2',
-        'categoryTotalAmount': '-20000',
+        'categoryName': '食費',
+        'categoryTotalAmount': '-10000',
         'subCategoryList': [
           {
-            'subCategoryName': 'スーパー2',
-            'subCategoryTotalAmount': '20000',
+            'subCategoryName': 'スーパー',
+            'subCategoryTotalAmount': '-10000',
           },
           {
-            'subCategoryName': 'なし2',
-            'subCategoryTotalAmount': '20000',
+            'subCategoryName': 'なし',
+            'subCategoryTotalAmount': '-10000',
           },
         ]
       },
       {
-        'categoryName': '食費2',
-        'categoryTotalAmount': '-20000',
+        'categoryName': '食費',
+        'categoryTotalAmount': '-10000',
         'subCategoryList': [
           {
-            'subCategoryName': 'スーパー2',
-            'subCategoryTotalAmount': '20000',
+            'subCategoryName': 'スーパー',
+            'subCategoryTotalAmount': '-10000',
           },
           {
-            'subCategoryName': 'なし2',
-            'subCategoryTotalAmount': '20000',
+            'subCategoryName': 'なし',
+            'subCategoryTotalAmount': '-10000',
           },
         ]
       },
-      {
-        'categoryName': '食費2',
-        'categoryTotalAmount': '-20000',
-        'subCategoryList': [
-          {
-            'subCategoryName': 'スーパー2',
-            'subCategoryTotalAmount': '20000',
-          },
-          {
-            'subCategoryName': 'なし2',
-            'subCategoryTotalAmount': '20000',
-          },
-        ]
-      },
-      {
-        'categoryName': '食費2',
-        'categoryTotalAmount': '-20000',
-        'subCategoryList': [
-          {
-            'subCategoryName': 'スーパー2',
-            'subCategoryTotalAmount': '20000',
-          },
-          {
-            'subCategoryName': 'なし2',
-            'subCategoryTotalAmount': '20000',
-          },
-        ]
-      }
     ];
 
     return ListView.separated(
@@ -85,10 +57,22 @@ class HomeAccodion extends StatelessWidget {
       itemCount: categoryList.length,
       itemBuilder: (BuildContext context, int index) {
         return ExpansionTile(
-          title: Text('${categoryList[index]['categoryName']}'),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('${categoryList[index]['categoryName']}'),
+              Text('${categoryList[index]['categoryTotalAmount']}'),
+            ],
+          ),
           children: categoryList[index]['subCategoryList']
-              .map<Widget>(
-                  (value) => ListTile(title: Text(value['subCategoryName'])))
+              .map<Widget>((value) => ListTile(
+                      title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(value['subCategoryName']),
+                      Text(value['subCategoryTotalAmount']),
+                    ],
+                  )))
               .toList(),
         );
       },

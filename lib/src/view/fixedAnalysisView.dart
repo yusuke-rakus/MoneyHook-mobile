@@ -74,7 +74,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 5, right: 5),
-                    child: const FixedAnalysisAccodion(),
+                    child: const FixedAnalysisAccordion(),
                   )
                 ],
               ),
@@ -101,7 +101,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                       ],
                     ),
                   ),
-                  const FixedAnalysisAccodion()
+                  const FixedAnalysisAccordion()
                 ],
               ),
             ],
