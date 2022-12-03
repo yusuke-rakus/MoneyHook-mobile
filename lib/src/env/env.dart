@@ -13,7 +13,12 @@ class envClass {
   // 加算
   void addMonth() {
     DateTime date = DateFormat('yyyy-MM-dd').parse(_thisMonth);
-    date = DateTime(date.year, date.month + 1, date.day);
+    DateTime today = DateTime(DateTime.now().year, DateTime.now().month, 1);
+
+    if (date.compareTo(today) < 0) {
+      date = DateTime(date.year, date.month + 1, date.day);
+    }
+
     _thisMonth = DateFormat('yyyy-MM-dd').format(date);
   }
 
