@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/env/env.dart';
 
 class VariableAnalysisView extends StatefulWidget {
   const VariableAnalysisView({super.key});
@@ -8,46 +9,54 @@ class VariableAnalysisView extends StatefulWidget {
 }
 
 class _VariableAnalysis extends State<VariableAnalysisView> {
-  final List<Map<String, dynamic>> monthlyVariableList = [
-    {
-      'categoryName': 'コンビニ',
-      'categoryTotalAmount': '-10000',
-      'subCategoryList': [
-        {
-          'subCategoryName': 'なし',
-          'subCategoryTotalAmount': '10000',
-          'transactionList': [
-            {
-              'transactionId': '1',
-              'transactionName': 'タバコ',
-              'transactionAmount': '450',
-            },
-            {
-              'transactionId': '2',
-              'transactionName': 'タバコ',
-              'transactionAmount': '450',
-            }
-          ]
-        },
-        {
-          'subCategoryName': '間食',
-          'subCategoryTotalAmount': '10000',
-          'transactionList': [
-            {
-              'transactionId': '3',
-              'transactionName': 'チョコ',
-              'transactionAmount': '450',
-            },
-            {
-              'transactionId': '4',
-              'transactionName': 'ポテチ',
-              'transactionAmount': '450',
-            }
-          ]
-        },
-      ]
-    }
-  ];
+  late List<Map<String, dynamic>> monthlyVariableList;
+  late envClass env;
+
+  @override
+  void initState() {
+    super.initState();
+    env = envClass();
+    monthlyVariableList = [
+      {
+        'categoryName': 'コンビニ',
+        'categoryTotalAmount': '-10000',
+        'subCategoryList': [
+          {
+            'subCategoryName': 'なし',
+            'subCategoryTotalAmount': '10000',
+            'transactionList': [
+              {
+                'transactionId': '1',
+                'transactionName': 'タバコ',
+                'transactionAmount': '450',
+              },
+              {
+                'transactionId': '2',
+                'transactionName': 'タバコ',
+                'transactionAmount': '450',
+              }
+            ]
+          },
+          {
+            'subCategoryName': '間食',
+            'subCategoryTotalAmount': '10000',
+            'transactionList': [
+              {
+                'transactionId': '3',
+                'transactionName': 'チョコ',
+                'transactionAmount': '450',
+              },
+              {
+                'transactionId': '4',
+                'transactionName': 'ポテチ',
+                'transactionAmount': '450',
+              }
+            ]
+          },
+        ]
+      }
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +72,18 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
               children: [
                 IconButton(
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        env.subtractMonth();
+                      });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
-                const Text('11月', style: TextStyle(fontSize: 15)),
+                Text('${env.getMonth()}月',
+                    style: const TextStyle(fontSize: 15)),
                 IconButton(
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        env.addMonth();
+                      });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),
               ],
@@ -97,7 +111,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 itemCount: monthlyVariableList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return _variableAccordion(context, monthlyVariableList[index]);
+                  return _variableAccordion(
+                      context, monthlyVariableList[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider();
@@ -111,38 +126,36 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
   }
 
   // アコーディオン
-  Widget _variableAccordion(BuildContext context, Map<String, dynamic> monthlyVariableList){
+  Widget _variableAccordion(
+      BuildContext context, Map<String, dynamic> monthlyVariableList) {
     return ExpansionTile(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('${monthlyVariableList['categoryName']}'),
-            Text(
-                '${monthlyVariableList['categoryTotalAmount']}'),
+            Text('${monthlyVariableList['categoryTotalAmount']}'),
           ],
         ),
         children: monthlyVariableList['subCategoryList']
             .map<Widget>((subCategory) => ExpansionTile(
-          title: Row(
-            mainAxisAlignment:
-            MainAxisAlignment.spaceBetween,
-            children: [
-              Text(subCategory['subCategoryName']),
-              Text(subCategory['subCategoryTotalAmount']),
-            ],
-          ),
-          children: subCategory['transactionList']
-              .map<Widget>((tran) => ListTile(
-              title: Row(
-                mainAxisAlignment:
-                MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(tran['transactionName']),
-                  Text(tran['transactionAmount']),
-                ],
-              )))
-              .toList(),
-        ))
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(subCategory['subCategoryName']),
+                      Text(subCategory['subCategoryTotalAmount']),
+                    ],
+                  ),
+                  children: subCategory['transactionList']
+                      .map<Widget>((tran) => ListTile(
+                              title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(tran['transactionName']),
+                              Text(tran['transactionAmount']),
+                            ],
+                          )))
+                      .toList(),
+                ))
             .toList());
   }
 }

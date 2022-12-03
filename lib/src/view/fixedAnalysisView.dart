@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/components/fixedAnalysisAccodion.dart';
+import 'package:money_hooks/src/env/env.dart';
 
 class FixedAnalysisView extends StatefulWidget {
   const FixedAnalysisView({super.key});
@@ -9,6 +10,14 @@ class FixedAnalysisView extends StatefulWidget {
 }
 
 class _FixedAnalysis extends State<FixedAnalysisView> {
+  late envClass env;
+
+  @override
+  void initState() {
+    super.initState();
+    env = envClass();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,13 +32,18 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
               children: [
                 IconButton(
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        env.subtractMonth();
+                      });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
-                const Text('11月', style: TextStyle(fontSize: 15)),
+                Text('${env.getMonth()}月',
+                    style: const TextStyle(fontSize: 15)),
                 IconButton(
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        env.addMonth();
+                      });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),
               ],

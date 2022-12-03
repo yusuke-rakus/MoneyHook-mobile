@@ -40,13 +40,18 @@ class _SavingList extends State<SavingList> {
               children: [
                 IconButton(
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        env.subtractMonth();
+                      });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
-                const Text('11月', style: TextStyle(fontSize: 15)),
+                Text('${env.getMonth()}月',
+                    style: const TextStyle(fontSize: 15)),
                 IconButton(
                     onPressed: () {
-                      setState(() {});
+                      setState(() {
+                        env.addMonth();
+                      });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),
               ],
