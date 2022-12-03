@@ -59,7 +59,7 @@ class _TimelineViewState extends State<TimelineView> {
       body: ListView(
         children: [
           const SizedBox(
-            height: 250,
+            height: 200,
             child: TimelineChart(),
           ),
           TimelineList(

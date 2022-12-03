@@ -15,9 +15,8 @@ class SettingsScreen extends StatelessWidget {
           children: [
             _menuCard(context, Icons.account_circle_outlined, 'アカウント情報',
                 const AccountInfo()),
-            _menuCard(context, Icons.account_tree, '自動入力', const MonthlyTransaction()),
-            _menuCard(context, Icons.filter_none_outlined, '計算対象外の固定費',
-                const AccountInfo()),
+            _menuCard(context, Icons.account_tree, '自動入力',
+                const MonthlyTransaction()),
           ],
         ));
   }

@@ -97,38 +97,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                 itemCount: monthlyVariableList.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return ExpansionTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('${monthlyVariableList[index]['categoryName']}'),
-                          Text(
-                              '${monthlyVariableList[index]['categoryTotalAmount']}'),
-                        ],
-                      ),
-                      children: monthlyVariableList[index]['subCategoryList']
-                          .map<Widget>((subCategory) => ExpansionTile(
-                                title: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(subCategory['subCategoryName']),
-                                    Text(subCategory['subCategoryTotalAmount']),
-                                  ],
-                                ),
-                                children: subCategory['transactionList']
-                                    .map<Widget>((tran) => ListTile(
-                                            title: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(tran['transactionName']),
-                                            Text(tran['transactionAmount']),
-                                          ],
-                                        )))
-                                    .toList(),
-                              ))
-                          .toList());
+                  return _variableAccordion(context, monthlyVariableList[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider();
@@ -139,5 +108,41 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
         ],
       ),
     );
+  }
+
+  // アコーディオン
+  Widget _variableAccordion(BuildContext context, Map<String, dynamic> monthlyVariableList){
+    return ExpansionTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text('${monthlyVariableList['categoryName']}'),
+            Text(
+                '${monthlyVariableList['categoryTotalAmount']}'),
+          ],
+        ),
+        children: monthlyVariableList['subCategoryList']
+            .map<Widget>((subCategory) => ExpansionTile(
+          title: Row(
+            mainAxisAlignment:
+            MainAxisAlignment.spaceBetween,
+            children: [
+              Text(subCategory['subCategoryName']),
+              Text(subCategory['subCategoryTotalAmount']),
+            ],
+          ),
+          children: subCategory['transactionList']
+              .map<Widget>((tran) => ListTile(
+              title: Row(
+                mainAxisAlignment:
+                MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(tran['transactionName']),
+                  Text(tran['transactionAmount']),
+                ],
+              )))
+              .toList(),
+        ))
+            .toList());
   }
 }

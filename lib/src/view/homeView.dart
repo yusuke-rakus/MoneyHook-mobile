@@ -59,12 +59,14 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: ListView(
         children: [
+          // 円グラフ
           const Center(
             child: SizedBox(
               height: 250,
               child: HomeChart(),
             ),
           ),
+          // 収支
           Container(
             margin: const EdgeInsets.only(left: 8),
             height: 40,
@@ -77,7 +79,8 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
           ),
-          const HomeAccodion()
+          // アコーディオン
+          const HomeAccordion()
         ],
       ),
       floatingActionButton: FloatingActionButton(

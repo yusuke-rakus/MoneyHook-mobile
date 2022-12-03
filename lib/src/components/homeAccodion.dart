@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HomeAccodion extends StatelessWidget {
-  const HomeAccodion({Key? key}) : super(key: key);
+class HomeAccordion extends StatelessWidget {
+  const HomeAccordion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -20,9 +20,9 @@ class _TotalSaving extends State<TotalSaving> {
     super.initState();
     env = envClass();
     savingTargetList = [
-      savingTargetClass.setFields('1', '1', '目標サンプル1', '100000'),
-      savingTargetClass.setFields('1', '1', '目標サンプル2', '100000'),
-      savingTargetClass.setFields('1', '1', '目標サンプル3', '100000')
+      savingTargetClass.setFields('1', '1', '長野旅行', '100000', '10000', '5'),
+      savingTargetClass.setFields('1', '1', '沖縄旅行', '100000', '10000', '5'),
+      savingTargetClass.setFields('1', '1', '目標サンプル3', '100000', '10000', '5')
     ];
   }
 
@@ -75,6 +75,9 @@ class _TotalSaving extends State<TotalSaving> {
             ),
             // 貯金目標リスト
             SavingTargetList(env: env, savingTargetList: savingTargetList),
+            const SizedBox(
+              height: 100,
+            )
           ],
         )),
       ],
