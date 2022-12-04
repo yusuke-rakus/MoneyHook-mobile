@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:money_hooks/src/api/userApi.dart';
 
 import '../app.dart';
 import '../class/userClass.dart';
@@ -24,6 +25,19 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     const storage = FlutterSecureStorage();
+
+    // ログイン処理
+    void _login(userClass loginInfo) {
+      Future(() async {
+        userApi.login(loginInfo);
+
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => const MyStatefulWidget()));
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -79,15 +93,8 @@ class _LoginState extends State<Login> {
                 height: 60,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    await storage.write(key: 'USER_ID', value: 'Hej,USER_ID');
-
-                    // ignore: use_build_context_synchronously
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const MyStatefulWidget()));
+                  onPressed: () {
+                    _login(loginInfo);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
@@ -95,8 +102,8 @@ class _LoginState extends State<Login> {
                     fixedSize: const Size(double.infinity, 50),
                   ),
                   child: const Text(
-                    '登録',
-                    style: TextStyle(fontSize: 23, letterSpacing: 20),
+                    'ログイン',
+                    style: TextStyle(fontSize: 20, letterSpacing: 15),
                   ),
                 ),
               ),

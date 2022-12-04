@@ -33,16 +33,10 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Widget> _screens = [const Loading()];
   int _selectedIndex = 0;
-  late Widget _bottomNavigationBar = const SizedBox();
+  bool isLogin = false;
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
   String? userId;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   void setScreenItems() {
     _screens = [
@@ -52,27 +46,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       const SavingScreen(),
       const SettingsScreen(),
     ];
-    _bottomNavigationBar = BottomNavigationBar(
-      unselectedFontSize: 10,
-      selectedFontSize: 10,
-      currentIndex: _selectedIndex,
-      onTap: _onItemTapped,
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(icon: Icon(Icons.home_filled), label: "ホーム"),
-        BottomNavigationBarItem(icon: Icon(Icons.show_chart), label: "タイムライン"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.pie_chart_outline), label: "費用分析"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.savings_outlined), label: "貯金"),
-        BottomNavigationBarItem(icon: Icon(Icons.settings), label: "設定"),
-      ],
-      type: BottomNavigationBarType.fixed,
-    );
+    isLogin = true;
   }
 
   void setLoginItem() {
     _screens = [Login()];
-    _bottomNavigationBar = const SizedBox();
+    isLogin = false;
   }
 
   @override
@@ -83,25 +62,49 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Future(() async {
       userId = await storage.read(key: 'USER_ID');
 
+      print('UserId: $userId');
+
       if (userId == null) {
-        print('Loaded: $userId');
         setState(() {
           setLoginItem();
         });
       } else {
-        print('Reloaded: $userId');
         setState(() {
           setScreenItems();
         });
       }
-      print('finished1');
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: _screens[_selectedIndex],
-        bottomNavigationBar: _bottomNavigationBar);
+      body: _screens[_selectedIndex],
+      bottomNavigationBar: isLogin
+          ? BottomNavigationBar(
+              unselectedFontSize: 10,
+              selectedFontSize: 10,
+              currentIndex: _selectedIndex,
+              onTap: (int i) {
+                setState(() {
+                  _selectedIndex = i;
+                });
+              },
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home_filled), label: "ホーム"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.show_chart), label: "タイムライン"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.pie_chart_outline), label: "費用分析"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.savings_outlined), label: "貯金"),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.settings), label: "設定"),
+              ],
+              type: BottomNavigationBarType.fixed,
+            )
+          : const SizedBox(),
+    );
   }
 }

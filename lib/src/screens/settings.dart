@@ -3,6 +3,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 
+import '../app.dart';
+
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({Key? key}) : super(key: key);
 
@@ -22,6 +24,13 @@ class SettingsScreen extends StatelessWidget {
                 onPressed: () async {
                   const storage = FlutterSecureStorage();
                   await storage.deleteAll();
+
+                  // ignore: use_build_context_synchronously
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              const MyStatefulWidget()));
                 },
                 child: const Text('ログアウト')),
           ],
