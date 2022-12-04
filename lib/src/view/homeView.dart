@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/class/response/homeTransaction.dart';
 import 'package:money_hooks/src/components/charts/homeChart.dart';
 import 'package:money_hooks/src/components/homeAccodion.dart';
 
@@ -15,20 +17,56 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   late envClass env;
-  late List<transactionClass> timelineList;
+  late homeTransaction homeTransactionList;
 
   @override
   void initState() {
     super.initState();
     env = envClass();
-    timelineList = [
-      transactionClass.setTimelineFields(
-          '1', '2022-11-01', -1, '1000', 'スーパーアルプス1', '食費'),
-      transactionClass.setTimelineFields(
-          '2', '2022-11-01', -1, '1000', 'スーパーアルプス2', '食費'),
-      transactionClass.setTimelineFields(
-          '3', '2022-11-01', -1, '1000', 'スーパーアルプス3', '食費'),
-    ];
+    homeTransactionList = homeTransaction(100000, [
+      {
+        'categoryName': '食費',
+        'categoryTotalAmount': '-10000',
+        'subCategoryList': [
+          {
+            'subCategoryName': 'スーパー',
+            'subCategoryTotalAmount': '-10000',
+          },
+          {
+            'subCategoryName': 'なし',
+            'subCategoryTotalAmount': '-10000',
+          },
+        ]
+      },
+      {
+        'categoryName': '食費',
+        'categoryTotalAmount': '-10000',
+        'subCategoryList': [
+          {
+            'subCategoryName': 'スーパー',
+            'subCategoryTotalAmount': '-10000',
+          },
+          {
+            'subCategoryName': 'なし',
+            'subCategoryTotalAmount': '-10000',
+          },
+        ]
+      },
+      {
+        'categoryName': '食費',
+        'categoryTotalAmount': '-10000',
+        'subCategoryList': [
+          {
+            'subCategoryName': 'スーパー',
+            'subCategoryTotalAmount': '-10000',
+          },
+          {
+            'subCategoryName': 'なし',
+            'subCategoryTotalAmount': '-10000',
+          },
+        ]
+      },
+    ]);
   }
 
   @override
@@ -42,7 +80,7 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: () {
                   setState(() {
                     env.subtractMonth();
-                    timelineList.clear();
+                    transactionApi.printSample(env, homeTransactionList);
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -80,7 +118,9 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           // アコーディオン
-          const HomeAccordion()
+          HomeAccordion(
+            homeTransactionList: homeTransactionList.categoryList,
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(

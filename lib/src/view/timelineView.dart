@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/class/response/timelineTransaction.dart';
 import 'package:money_hooks/src/components/charts/timelineChart.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
 
@@ -14,20 +15,20 @@ class TimelineView extends StatefulWidget {
 
 class _TimelineViewState extends State<TimelineView> {
   late envClass env;
-  late List<transactionClass> timelineList;
+  late timelineTransaction timelineList;
 
   @override
   void initState() {
     super.initState();
     env = envClass();
-    timelineList = [
+    timelineList = timelineTransaction([
       transactionClass.setTimelineFields(
           '1', '2022-11-01', -1, '1000', 'スーパーアルプス1', '食費'),
       transactionClass.setTimelineFields(
           '2', '2022-11-18', -1, '1000', 'スーパーアルプス2', '食費'),
       transactionClass.setTimelineFields(
           '3', '2022-11-25', -1, '1000', 'スーパーアルプス3', '食費'),
-    ];
+    ]);
   }
 
   @override
@@ -41,7 +42,7 @@ class _TimelineViewState extends State<TimelineView> {
                 onPressed: () {
                   setState(() {
                     env.subtractMonth();
-                    timelineList.clear();
+                    timelineList.transactionList.clear();
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -64,7 +65,7 @@ class _TimelineViewState extends State<TimelineView> {
           ),
           TimelineList(
             env: env,
-            timelineList: timelineList,
+            timelineList: timelineList.transactionList,
           ),
         ],
       ),

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 
@@ -17,6 +18,12 @@ class SettingsScreen extends StatelessWidget {
                 const AccountInfo()),
             _menuCard(context, Icons.account_tree, '自動入力',
                 const MonthlyTransaction()),
+            ElevatedButton(
+                onPressed: () async {
+                  const storage = FlutterSecureStorage();
+                  await storage.deleteAll();
+                },
+                child: const Text('ログアウト')),
           ],
         ));
   }
