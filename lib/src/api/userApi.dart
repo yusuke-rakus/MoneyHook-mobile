@@ -23,7 +23,7 @@ class userApi {
       } else {
         // ログイン成功
         setLoading();
-        await storage.write(key: 'USER_ID', value: 'Hej,USER_ID');
+        await storage.write(key: 'USER_ID', value: res.data['user']['userId']);
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
             context,

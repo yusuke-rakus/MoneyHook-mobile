@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/screens/analysis.dart';
-import 'package:money_hooks/src/screens/home.dart';
+import 'package:money_hooks/src/screens/homeScreen.dart';
 import 'package:money_hooks/src/screens/loading.dart';
 import 'package:money_hooks/src/screens/login.dart';
 import 'package:money_hooks/src/screens/saving.dart';
 import 'package:money_hooks/src/screens/settings.dart';
-import 'package:money_hooks/src/screens/timeline.dart';
+import 'package:money_hooks/src/screens/timelineScreen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -34,9 +34,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Widget> _screens = [const Loading()];
   int _selectedIndex = 0;
   bool isLogin = false;
+  bool isLoading = false;
+  String? userId;
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
-  String? userId;
 
   void setScreenItems() {
     _screens = [
@@ -50,7 +51,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   }
 
   void setLoginItem() {
-    _screens = [Login()];
+    _screens = [Login(isLoading)];
     isLogin = false;
   }
 
@@ -85,11 +86,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               unselectedFontSize: 10,
               selectedFontSize: 10,
               currentIndex: _selectedIndex,
-              onTap: (int i) {
-                setState(() {
-                  _selectedIndex = i;
-                });
-              },
+              onTap: isLoading
+                  ? null
+                  : (int i) {
+                      setState(() {
+                        _selectedIndex = i;
+                      });
+                    },
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                     icon: Icon(Icons.home_filled), label: "ホーム"),

@@ -6,14 +6,14 @@ import 'package:money_hooks/src/components/timelineList.dart';
 import '../class/transactionClass.dart';
 import '../env/env.dart';
 
-class TimelineView extends StatefulWidget {
-  const TimelineView({Key? key}) : super(key: key);
+class TimelineScreen extends StatefulWidget {
+  const TimelineScreen({Key? key}) : super(key: key);
 
   @override
-  State<TimelineView> createState() => _TimelineViewState();
+  State<TimelineScreen> createState() => _TimelineScreenState();
 }
 
-class _TimelineViewState extends State<TimelineView> {
+class _TimelineScreenState extends State<TimelineScreen> {
   late envClass env;
   late timelineTransaction timelineList;
 

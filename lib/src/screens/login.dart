@@ -6,7 +6,9 @@ import 'package:money_hooks/src/api/userApi.dart';
 import '../class/userClass.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  Login(this.isLoading, {super.key});
+
+  bool isLoading;
 
   @override
   State<Login> createState() => _LoginState();
@@ -14,7 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _showPassword = false;
-  bool _isLoading = false;
+  late bool _isLoading;
   late userClass loginInfo;
 
   void setLoading() {
@@ -28,6 +30,7 @@ class _LoginState extends State<Login> {
   void initState() {
     super.initState();
     loginInfo = userClass.init();
+    _isLoading = widget.isLoading;
   }
 
   // ログイン処理

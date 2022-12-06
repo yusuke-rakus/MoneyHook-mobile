@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/homeTransaction.dart';
 import 'package:money_hooks/src/components/charts/homeChart.dart';
-import 'package:money_hooks/src/components/homeAccodion.dart';
+import 'package:money_hooks/src/components/homeAccordion.dart';
 
 import '../class/transactionClass.dart';
 import '../env/env.dart';
 import '../modals/editTransaction.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeScreenState extends State<HomeScreen> {
   late envClass env;
   late homeTransaction homeTransactionList;
   bool _isLoading = false;
