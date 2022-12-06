@@ -1,20 +1,35 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/class/userClass.dart';
+
+import '../app.dart';
 
 class userApi {
   static String rootURI = '${Api.rootURI}/user';
   static Dio dio = Dio();
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  static void login(userClass loginInfo) async {
-    Response res = await dio.post('$rootURI/login',
-        data: {'email': 'sample@sample.com', 'password': 'matumoto223'});
-
-    if (res.data['status'] == 'error') {
-    } else {
-      await storage.write(key: 'USER_ID', value: 'Hej,USER_ID');
-    }
+  static Future<void> login(
+      BuildContext context, userClass loginInfo, Function setLoading) async {
+    setLoading();
+    await Future(() async {
+      Response res =
+          await dio.post('$rootURI/login', data: loginInfo.loginJson());
+      if (res.data['status'] == 'error') {
+        // ログイン失敗
+        setLoading();
+      } else {
+        // ログイン成功
+        setLoading();
+        await storage.write(key: 'USER_ID', value: 'Hej,USER_ID');
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (BuildContext context) => const MyStatefulWidget()));
+      }
+    });
   }
 }

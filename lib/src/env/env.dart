@@ -1,4 +1,3 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 class envClass {
@@ -21,12 +20,6 @@ class envClass {
     }
 
     thisMonth = DateFormat('yyyy-MM-dd').format(date);
-
-    //ここから試験用
-    // const storage = FlutterSecureStorage();
-    // String? userId = await storage.read(key: 'USER_ID');
-    // print('ユーザーID: ${userId == null}');
-    // print('ユーザーID: $userId');
   }
 
   // 減算
@@ -34,10 +27,5 @@ class envClass {
     DateTime date = DateFormat('yyyy-MM-dd').parse(thisMonth);
     date = DateTime(date.year, date.month - 1, date.day);
     thisMonth = DateFormat('yyyy-MM-dd').format(date);
-
-    //ここから試験用
-    // const storage = FlutterSecureStorage();
-    // storage.write(key: 'USER_ID', value: 'Hej,sampleValue');
-    // storage.deleteAll();
   }
 }

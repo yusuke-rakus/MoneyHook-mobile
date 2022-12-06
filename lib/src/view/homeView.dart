@@ -18,6 +18,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   late envClass env;
   late homeTransaction homeTransactionList;
+  bool _isLoading = false;
+
+  void setLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
 
   @override
   void initState() {
@@ -80,7 +87,7 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: () {
                   setState(() {
                     env.subtractMonth();
-                    transactionApi.printSample(env, homeTransactionList);
+                    transactionApi.getHome(env, setLoading);
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -95,34 +102,36 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          // 円グラフ
-          const Center(
-            child: SizedBox(
-              height: 250,
-              child: HomeChart(),
-            ),
-          ),
-          // 収支
-          Container(
-            margin: const EdgeInsets.only(left: 8),
-            height: 40,
-            child: Row(
-              children: const [
-                Text('収支', style: TextStyle(fontSize: 20)),
-                SizedBox(width: 20),
-                Text('-12000',
-                    style: TextStyle(fontSize: 20, color: Colors.red)),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator(color: Colors.red))
+          : ListView(
+              children: [
+                // 円グラフ
+                const Center(
+                  child: SizedBox(
+                    height: 250,
+                    child: HomeChart(),
+                  ),
+                ),
+                // 収支
+                Container(
+                  margin: const EdgeInsets.only(left: 8),
+                  height: 40,
+                  child: Row(
+                    children: const [
+                      Text('収支', style: TextStyle(fontSize: 20)),
+                      SizedBox(width: 20),
+                      Text('-12000',
+                          style: TextStyle(fontSize: 20, color: Colors.red)),
+                    ],
+                  ),
+                ),
+                // アコーディオン
+                HomeAccordion(
+                  homeTransactionList: homeTransactionList.categoryList,
+                )
               ],
             ),
-          ),
-          // アコーディオン
-          HomeAccordion(
-            homeTransactionList: homeTransactionList.categoryList,
-          )
-        ],
-      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {

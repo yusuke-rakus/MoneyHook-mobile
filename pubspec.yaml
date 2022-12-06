@@ -21,6 +21,7 @@ dependencies:
   flutter_secure_storage: ^4.2.1
   loading_animation_widget: ^1.2.0+3
   dio: ^4.0.6
+  loader_overlay: ^2.1.0
 
 flutter_icons:
   android: "launcher_icon"
