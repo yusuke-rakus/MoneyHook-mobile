@@ -33,7 +33,7 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   List<Widget> _screens = [const Loading()];
   int _selectedIndex = 0;
-  bool isLogin = false;
+  bool isLoading = false;
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
   String? userId;
@@ -46,12 +46,12 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       const SavingScreen(),
       const SettingsScreen(),
     ];
-    isLogin = true;
+    isLoading = true;
   }
 
   void setLoginItem() {
     _screens = [Login()];
-    isLogin = false;
+    isLoading = false;
   }
 
   @override
@@ -80,7 +80,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedIndex],
-      bottomNavigationBar: isLogin
+      bottomNavigationBar: isLoading
           ? BottomNavigationBar(
               unselectedFontSize: 10,
               selectedFontSize: 10,
