@@ -3,7 +3,9 @@ import 'package:money_hooks/src/view/fixedAnalysisView.dart';
 import 'package:money_hooks/src/view/variableAnalysisView.dart';
 
 class AnalysisScreen extends StatelessWidget {
-  const AnalysisScreen({Key? key}) : super(key: key);
+  AnalysisScreen(this.isLoading, {super.key});
+
+  bool isLoading;
 
   @override
   Widget build(BuildContext context) {

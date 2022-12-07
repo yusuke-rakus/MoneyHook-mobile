@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/timelineTransaction.dart';
 import 'package:money_hooks/src/components/charts/timelineChart.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
@@ -7,7 +9,9 @@ import '../class/transactionClass.dart';
 import '../env/env.dart';
 
 class TimelineScreen extends StatefulWidget {
-  const TimelineScreen({Key? key}) : super(key: key);
+  TimelineScreen(this.isLoading, {super.key});
+
+  bool isLoading;
 
   @override
   State<TimelineScreen> createState() => _TimelineScreenState();
@@ -15,20 +19,27 @@ class TimelineScreen extends StatefulWidget {
 
 class _TimelineScreenState extends State<TimelineScreen> {
   late envClass env;
-  late timelineTransaction timelineList;
+  late timelineTransaction timelineList = timelineTransaction();
+  late bool _isLoading;
+
+  void setLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  void setTimelineData(List<transactionClass> responseList) {
+    setState(() {
+      timelineList = timelineTransaction.init(responseList);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     env = envClass();
-    timelineList = timelineTransaction([
-      transactionClass.setTimelineFields(
-          '1', '2022-11-01', -1, '1000', 'スーパーアルプス1', '食費'),
-      transactionClass.setTimelineFields(
-          '2', '2022-11-18', -1, '1000', 'スーパーアルプス2', '食費'),
-      transactionClass.setTimelineFields(
-          '3', '2022-11-25', -1, '1000', 'スーパーアルプス3', '食費'),
-    ]);
+    _isLoading = widget.isLoading;
+    transactionApi.getTimelineData(env, setLoading, setTimelineData);
   }
 
   @override
@@ -42,7 +53,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 onPressed: () {
                   setState(() {
                     env.subtractMonth();
-                    timelineList.transactionList.clear();
+                    transactionApi.getTimelineData(
+                        env, setLoading, setTimelineData);
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -51,6 +63,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 onPressed: () {
                   setState(() {
                     env.addMonth();
+                    transactionApi.getTimelineData(
+                        env, setLoading, setTimelineData);
                   });
                 },
                 icon: const Icon(Icons.arrow_forward_ios)),
@@ -63,9 +77,14 @@ class _TimelineScreenState extends State<TimelineScreen> {
             height: 200,
             child: TimelineChart(),
           ),
-          TimelineList(
-            env: env,
-            timelineList: timelineList.transactionList,
+          Center(
+            child: _isLoading
+                ? LoadingAnimationWidget.staggeredDotsWave(
+                    color: const Color(0xFF76D5FF), size: 50)
+                : TimelineList(
+                    env: env,
+                    timelineList: timelineList.transactionList,
+                  ),
           ),
         ],
       ),

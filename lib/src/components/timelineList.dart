@@ -18,7 +18,7 @@ class TimelineList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
             onTap: () {
-              print(timelineList[index].transactionId);
+              print(timelineList[index].transactionId.toString());
               print(env.thisMonth);
             },
             child: SizedBox(
@@ -39,7 +39,7 @@ class TimelineList extends StatelessWidget {
                     style: const TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '¥${timelineList[index].transactionAmount}',
+                    '¥${timelineList[index].transactionAmount.toString()}',
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Icon(Icons.arrow_forward_ios),

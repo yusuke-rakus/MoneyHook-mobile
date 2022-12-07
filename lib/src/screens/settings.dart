@@ -6,7 +6,9 @@ import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 import '../app.dart';
 
 class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  SettingsScreen(this.isLoading, {super.key});
+
+  bool isLoading;
 
   @override
   Widget build(BuildContext context) {

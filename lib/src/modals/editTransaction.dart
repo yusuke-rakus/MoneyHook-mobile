@@ -190,11 +190,10 @@ class _EditTransaction extends State<EditTransaction> {
               child: CheckboxListTile(
                 activeColor: Colors.blue,
                 title: const Text('固定費として計算する'),
-                // value: false,
                 value: transaction.fixedFlg,
-                onChanged: (bool? value) {
+                onChanged: (value) {
                   setState(() {
-                    transaction.fixedFlg = value;
+                    transaction.fixedFlg = !transaction.fixedFlg;
                   });
                 },
               ),

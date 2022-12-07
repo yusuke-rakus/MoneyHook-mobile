@@ -9,7 +9,9 @@ import 'package:money_hooks/src/screens/totalSaving.dart';
 import '../class/savingTargetClass.dart';
 
 class SavingScreen extends StatelessWidget {
-  const SavingScreen({Key? key}) : super(key: key);
+  SavingScreen(this.isLoading, {super.key});
+
+  bool isLoading;
 
   @override
   Widget build(BuildContext context) {

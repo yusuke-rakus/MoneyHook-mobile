@@ -41,11 +41,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   void setScreenItems() {
     _screens = [
-      const HomeScreen(),
-      const TimelineScreen(),
-      const AnalysisScreen(),
-      const SavingScreen(),
-      const SettingsScreen(),
+      HomeScreen(isLoading),
+      TimelineScreen(isLoading),
+      AnalysisScreen(isLoading),
+      SavingScreen(isLoading),
+      SettingsScreen(isLoading),
     ];
     isLogin = true;
   }

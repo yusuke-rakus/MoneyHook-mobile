@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class HomeAccordion extends StatelessWidget {
   const HomeAccordion({Key? key, required this.homeTransactionList})
       : super(key: key);
-  final List<Map<String, dynamic>> homeTransactionList;
+  final List<dynamic> homeTransactionList;
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +17,9 @@ class HomeAccordion extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${homeTransactionList[index]['categoryName']}'),
-              Text('${homeTransactionList[index]['categoryTotalAmount']}'),
+              Text(homeTransactionList[index]['categoryName']),
+              Text(
+                  homeTransactionList[index]['categoryTotalAmount'].toString()),
             ],
           ),
           children: homeTransactionList[index]['subCategoryList']
@@ -27,7 +28,7 @@ class HomeAccordion extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(value['subCategoryName']),
-                      Text(value['subCategoryTotalAmount']),
+                      Text(value['subCategoryTotalAmount'].toString()),
                     ],
                   )))
               .toList(),

@@ -1,10 +1,12 @@
 import 'package:money_hooks/src/class/response/response.dart';
 
 class homeTransaction extends response {
-  late int balance;
-  late List<Map<String, dynamic>> categoryList;
+  late int balance = 0;
+  late List<dynamic> categoryList = [];
 
-  homeTransaction(this.balance, this.categoryList) : super('', '');
+  homeTransaction.init(this.balance, this.categoryList) : super('', '');
+
+  homeTransaction() : super('', '');
 
   homeTransaction.setResponse(
       super.status, super.message, this.balance, this.categoryList);

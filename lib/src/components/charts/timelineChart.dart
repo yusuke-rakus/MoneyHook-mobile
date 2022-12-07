@@ -11,6 +11,8 @@ class TimelineChart extends StatelessWidget {
       Sample('2021', 4),
       Sample('2022', 8),
       Sample('2023', 10),
+      Sample('2024', 10),
+      Sample('2025', 10),
     ];
 
     return BarChart(_createSampleData(data));

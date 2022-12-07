@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/homeTransaction.dart';
 import 'package:money_hooks/src/components/charts/homeChart.dart';
@@ -9,7 +10,9 @@ import '../env/env.dart';
 import '../modals/editTransaction.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen(this.isLoading, {super.key});
+
+  bool isLoading;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,8 +20,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late envClass env;
-  late homeTransaction homeTransactionList;
-  bool _isLoading = false;
+  late homeTransaction homeTransactionList = homeTransaction();
+  late bool _isLoading;
 
   void setLoading() {
     setState(() {
@@ -26,54 +29,19 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void setHomeTransaction(int balance, List<dynamic> responseList) {
+    setState(() {
+      homeTransactionList.balance = balance;
+      homeTransactionList.categoryList = responseList;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     env = envClass();
-    homeTransactionList = homeTransaction(100000, [
-      {
-        'categoryName': '食費',
-        'categoryTotalAmount': '-10000',
-        'subCategoryList': [
-          {
-            'subCategoryName': 'スーパー',
-            'subCategoryTotalAmount': '-10000',
-          },
-          {
-            'subCategoryName': 'なし',
-            'subCategoryTotalAmount': '-10000',
-          },
-        ]
-      },
-      {
-        'categoryName': '食費',
-        'categoryTotalAmount': '-10000',
-        'subCategoryList': [
-          {
-            'subCategoryName': 'スーパー',
-            'subCategoryTotalAmount': '-10000',
-          },
-          {
-            'subCategoryName': 'なし',
-            'subCategoryTotalAmount': '-10000',
-          },
-        ]
-      },
-      {
-        'categoryName': '食費',
-        'categoryTotalAmount': '-10000',
-        'subCategoryList': [
-          {
-            'subCategoryName': 'スーパー',
-            'subCategoryTotalAmount': '-10000',
-          },
-          {
-            'subCategoryName': 'なし',
-            'subCategoryTotalAmount': '-10000',
-          },
-        ]
-      },
-    ]);
+    _isLoading = widget.isLoading;
+    transactionApi.getHome(env, setLoading, setHomeTransaction);
   }
 
   @override
@@ -85,10 +53,8 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             IconButton(
                 onPressed: () {
-                  setState(() {
-                    env.subtractMonth();
-                    transactionApi.getHome(env, setLoading);
-                  });
+                  env.subtractMonth();
+                  transactionApi.getHome(env, setLoading, setHomeTransaction);
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
             Text('${env.getMonth()}月'),
@@ -96,6 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onPressed: () {
                   setState(() {
                     env.addMonth();
+                    transactionApi.getHome(env, setLoading, setHomeTransaction);
                   });
                 },
                 icon: const Icon(Icons.arrow_forward_ios)),
@@ -103,7 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator(color: Colors.red))
+          ? Center(
+              child: LoadingAnimationWidget.staggeredDotsWave(
+                  color: const Color(0xFF76D5FF), size: 50))
           : ListView(
               children: [
                 // 円グラフ
@@ -118,30 +87,39 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: const EdgeInsets.only(left: 8),
                   height: 40,
                   child: Row(
-                    children: const [
-                      Text('収支', style: TextStyle(fontSize: 20)),
-                      SizedBox(width: 20),
-                      Text('-12000',
-                          style: TextStyle(fontSize: 20, color: Colors.red)),
+                    children: [
+                      const Text('収支', style: TextStyle(fontSize: 20)),
+                      const SizedBox(width: 20),
+                      Text(homeTransactionList.balance.toString(),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: homeTransactionList.balance < 0
+                                  ? Colors.red
+                                  : Colors.green)),
                     ],
                   ),
                 ),
                 // アコーディオン
                 HomeAccordion(
                   homeTransactionList: homeTransactionList.categoryList,
+                ),
+                const SizedBox(
+                  height: 90,
                 )
               ],
             ),
       floatingActionButton: FloatingActionButton(
+        onPressed: _isLoading
+            ? null
+            : () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EditTransaction(transactionClass()),
+                      fullscreenDialog: true),
+                );
+              },
         child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EditTransaction(transactionClass()),
-                fullscreenDialog: true),
-          );
-        },
       ),
     );
   }
