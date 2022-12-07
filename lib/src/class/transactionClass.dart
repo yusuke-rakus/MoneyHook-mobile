@@ -5,7 +5,7 @@ class transactionClass {
   var transactionId = '';
   var transactionDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var transactionSign = -1;
-  var transactionAmount = '';
+  var transactionAmount;
   var transactionName = '';
   var categoryId = 1;
   var categoryName = '食費';
@@ -37,6 +37,13 @@ class transactionClass {
     this.transactionName,
     this.categoryName,
   );
+
+  transactionClass.setTimelineChart(
+      String transactionDate, int transactionAmount) {
+    this.transactionDate =
+        '${DateFormat('yyyy-MM-dd').parse(transactionDate).month}月';
+    this.transactionAmount = transactionAmount.abs();
+  }
 
   bool hasTransactionId() {
     return transactionId.isNotEmpty ? true : false;

@@ -1,38 +1,29 @@
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../class/transactionClass.dart';
+
 class TimelineChart extends StatelessWidget {
-  const TimelineChart({Key? key}) : super(key: key);
+  TimelineChart(this.data, {super.key});
+
+  List<transactionClass> data;
 
   @override
   Widget build(BuildContext context) {
-    List<Sample> data = [
-      Sample('2020', 1),
-      Sample('2021', 4),
-      Sample('2022', 8),
-      Sample('2023', 10),
-      Sample('2024', 10),
-      Sample('2025', 10),
-    ];
-
-    return BarChart(_createSampleData(data));
+    return BarChart(_createTimelineChart(data));
   }
 }
 
-class Sample {
-  String year;
-  int sales;
-
-  Sample(this.year, this.sales);
-}
-
-List<Series<Sample, String>> _createSampleData(List<Sample> data) {
+List<Series<transactionClass, String>> _createTimelineChart(
+    List<transactionClass> data) {
   return [
-    Series<Sample, String>(
-      id: 'Sales',
+    Series<transactionClass, String>(
+      id: 'TimelineChart',
       colorFn: (_, __) => MaterialPalette.blue.shadeDefault,
-      domainFn: (Sample sales, _) => sales.year,
-      measureFn: (Sample sales, _) => sales.sales,
+      domainFn: (transactionClass transaction, _) =>
+          transaction.transactionDate,
+      measureFn: (transactionClass transaction, _) =>
+          transaction.transactionAmount,
       data: data,
     )
   ];

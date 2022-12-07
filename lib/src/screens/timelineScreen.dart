@@ -20,6 +20,7 @@ class TimelineScreen extends StatefulWidget {
 class _TimelineScreenState extends State<TimelineScreen> {
   late envClass env;
   late timelineTransaction timelineList = timelineTransaction();
+  late List<transactionClass> timelineChart = [];
   late bool _isLoading;
 
   void setLoading() {
@@ -34,12 +35,19 @@ class _TimelineScreenState extends State<TimelineScreen> {
     });
   }
 
+  void setTimelineChart(List<transactionClass> responseList) {
+    setState(() {
+      timelineChart = responseList;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     env = envClass();
     _isLoading = widget.isLoading;
     transactionApi.getTimelineData(env, setLoading, setTimelineData);
+    transactionApi.getTimelineChart(env, setTimelineChart);
   }
 
   @override
@@ -55,6 +63,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     env.subtractMonth();
                     transactionApi.getTimelineData(
                         env, setLoading, setTimelineData);
+                    transactionApi.getTimelineChart(env, setTimelineChart);
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -65,6 +74,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     env.addMonth();
                     transactionApi.getTimelineData(
                         env, setLoading, setTimelineData);
+                    transactionApi.getTimelineChart(env, setTimelineChart);
                   });
                 },
                 icon: const Icon(Icons.arrow_forward_ios)),
@@ -73,9 +83,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
       ),
       body: ListView(
         children: [
-          const SizedBox(
+          SizedBox(
             height: 200,
-            child: TimelineChart(),
+            child: TimelineChart(timelineChart),
           ),
           Center(
             child: _isLoading

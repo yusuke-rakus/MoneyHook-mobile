@@ -59,4 +59,25 @@ class transactionApi {
       setLoading();
     });
   }
+
+  static Future<void> getTimelineChart(
+      envClass env, Function setTimelineChart) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/getMonthlySpendingData', data: {
+        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
+        'month': env.thisMonth
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        List<transactionClass> resultList = [];
+        res.data['monthlyTotalAmountList'].reversed.forEach((value) {
+          resultList.add(transactionClass.setTimelineChart(
+              value['month'], value['totalAmount']));
+        });
+        setTimelineChart(resultList);
+      }
+    });
+  }
 }
