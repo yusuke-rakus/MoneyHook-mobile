@@ -1,5 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/env/env.dart';
+
+import '../class/response/monthlyVariableData.dart';
 
 class VariableAnalysisView extends StatefulWidget {
   const VariableAnalysisView({super.key});
@@ -9,53 +12,29 @@ class VariableAnalysisView extends StatefulWidget {
 }
 
 class _VariableAnalysis extends State<VariableAnalysisView> {
-  late List<Map<String, dynamic>> monthlyVariableList;
+  late monthlyVariableData data = monthlyVariableData();
   late envClass env;
+  late bool _isLoading;
+
+  void setLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  void setMonthlyVariable(
+      int totalVariable, List<dynamic> monthlyVariableList) {
+    setState(() {
+      data.totalVariable = totalVariable;
+      data.monthlyVariableList = monthlyVariableList;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     env = envClass();
-    monthlyVariableList = [
-      {
-        'categoryName': 'コンビニ',
-        'categoryTotalAmount': '-10000',
-        'subCategoryList': [
-          {
-            'subCategoryName': 'なし',
-            'subCategoryTotalAmount': '10000',
-            'transactionList': [
-              {
-                'transactionId': '1',
-                'transactionName': 'タバコ',
-                'transactionAmount': '450',
-              },
-              {
-                'transactionId': '2',
-                'transactionName': 'タバコ',
-                'transactionAmount': '450',
-              }
-            ]
-          },
-          {
-            'subCategoryName': '間食',
-            'subCategoryTotalAmount': '10000',
-            'transactionList': [
-              {
-                'transactionId': '3',
-                'transactionName': 'チョコ',
-                'transactionAmount': '450',
-              },
-              {
-                'transactionId': '4',
-                'transactionName': 'ポテチ',
-                'transactionAmount': '450',
-              }
-            ]
-          },
-        ]
-      }
-    ];
+    transactionApi.getMonthlyVariableData(env, setMonthlyVariable);
   }
 
   @override
@@ -74,6 +53,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
+                        transactionApi.getMonthlyVariableData(
+                            env, setMonthlyVariable);
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -83,6 +64,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.addMonth();
+                        transactionApi.getMonthlyVariableData(
+                            env, setMonthlyVariable);
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),
@@ -97,10 +80,11 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                 margin: const EdgeInsets.only(right: 15, left: 15),
                 height: 60,
                 child: Row(
-                  children: const [
-                    Text('変動費合計', style: TextStyle(fontSize: 17)),
-                    SizedBox(width: 20),
-                    Text('11,111', style: TextStyle(fontSize: 30)),
+                  children: [
+                    const Text('変動費合計', style: TextStyle(fontSize: 17)),
+                    const SizedBox(width: 20),
+                    Text(data.totalVariable.toString(),
+                        style: const TextStyle(fontSize: 30)),
                   ],
                 ),
               ),
@@ -109,10 +93,10 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                itemCount: monthlyVariableList.length,
+                itemCount: data.monthlyVariableList.length,
                 itemBuilder: (BuildContext context, int index) {
                   return _variableAccordion(
-                      context, monthlyVariableList[index]);
+                      context, data.monthlyVariableList[index]);
                 },
                 separatorBuilder: (BuildContext context, int index) {
                   return const Divider();
@@ -133,7 +117,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('${monthlyVariableList['categoryName']}'),
-            Text('${monthlyVariableList['categoryTotalAmount']}'),
+            Text(monthlyVariableList['categoryTotalAmount'].abs().toString()),
           ],
         ),
         children: monthlyVariableList['subCategoryList']
@@ -142,7 +126,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(subCategory['subCategoryName']),
-                      Text(subCategory['subCategoryTotalAmount']),
+                      Text(subCategory['subCategoryTotalAmount'].abs().toString()),
                     ],
                   ),
                   children: subCategory['transactionList']
@@ -151,7 +135,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(tran['transactionName']),
-                              Text(tran['transactionAmount']),
+                              Text(tran['transactionAmount'].abs().toString()),
                             ],
                           )))
                       .toList(),

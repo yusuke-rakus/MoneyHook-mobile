@@ -80,4 +80,63 @@ class transactionApi {
       }
     });
   }
+
+  static Future<void> getMonthlyVariableData(
+      envClass env, Function setMonthlyVariable) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/getMonthlyVariableData', data: {
+        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
+        'month': env.thisMonth
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        List<Map<String, dynamic>> resultList = [];
+        res.data['monthlyVariableList'].forEach((value) {
+          Map<String, dynamic> categoryList = {
+            'categoryName': value['categoryName'],
+            'categoryTotalAmount': value['categoryTotalAmount'],
+            'subCategoryList': value['subCategoryList']
+          };
+          resultList.add(categoryList);
+        });
+        setMonthlyVariable(res.data['totalVariable'].abs(), resultList);
+      }
+    });
+  }
+
+  static Future<void> getMonthlyFixedIncome(
+      envClass env, Function setMonthlyFixedIncome) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/getMonthlyFixedIncome', data: {
+        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
+        'month': env.thisMonth
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        setMonthlyFixedIncome(
+            res.data['disposableIncome'], res.data['monthlyFixedList']);
+      }
+    });
+  }
+
+  static Future<void> getMonthlyFixedSpending(
+      envClass env, Function setMonthlyFixedSpending) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/getMonthlyFixedSpending', data: {
+        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
+        'month': env.thisMonth
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        setMonthlyFixedSpending(
+            res.data['disposableIncome'], res.data['monthlyFixedList']);
+      }
+    });
+  }
 }

@@ -1,4 +1,6 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/components/fixedAnalysisAccodion.dart';
 import 'package:money_hooks/src/env/env.dart';
 
@@ -10,7 +12,32 @@ class FixedAnalysisView extends StatefulWidget {
 }
 
 class _FixedAnalysis extends State<FixedAnalysisView> {
+  late monthlyFixedData monthlyFixedIncome = monthlyFixedData();
+  late monthlyFixedData monthlyFixedSpending = monthlyFixedData();
   late envClass env;
+  late bool _isLoading;
+
+  void setLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  void setMonthlyFixedIncome(
+      int disposableIncome, List<dynamic> monthlyFixedList) {
+    setState(() {
+      monthlyFixedIncome.disposableIncome = disposableIncome;
+      monthlyFixedIncome.monthlyFixedList = monthlyFixedList;
+    });
+  }
+
+  void setMonthlyFixedSpending(
+      int disposableIncome, List<dynamic> monthlyFixedList) {
+    setState(() {
+      monthlyFixedSpending.disposableIncome = disposableIncome;
+      monthlyFixedSpending.monthlyFixedList = monthlyFixedList;
+    });
+  }
 
   @override
   void initState() {
@@ -34,6 +61,10 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
+                        transactionApi.getMonthlyFixedIncome(
+                            env, setMonthlyFixedIncome);
+                        transactionApi.getMonthlyFixedSpending(
+                            env, setMonthlyFixedSpending);
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -43,6 +74,10 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.addMonth();
+                        transactionApi.getMonthlyFixedIncome(
+                            env, setMonthlyFixedIncome);
+                        transactionApi.getMonthlyFixedSpending(
+                            env, setMonthlyFixedSpending);
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),
@@ -57,10 +92,14 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                 margin: const EdgeInsets.only(right: 15, left: 15),
                 height: 60,
                 child: Row(
-                  children: const [
-                    Text('可処分所得額', style: TextStyle(fontSize: 17)),
-                    SizedBox(width: 20),
-                    Text('11,112', style: TextStyle(fontSize: 30)),
+                  children: [
+                    const Text('可処分所得額', style: TextStyle(fontSize: 17)),
+                    const SizedBox(width: 20),
+                    Text(
+                        (monthlyFixedIncome.disposableIncome +
+                                monthlyFixedSpending.disposableIncome)
+                            .toString(),
+                        style: const TextStyle(fontSize: 30)),
                   ],
                 ),
               ),
@@ -74,21 +113,22 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     height: 50,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           '収入',
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          '¥10,000',
-                          style: TextStyle(fontSize: 20),
+                          monthlyFixedIncome.disposableIncome.toString(),
+                          style: const TextStyle(fontSize: 20),
                         )
                       ],
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 5, right: 5),
-                    child: const FixedAnalysisAccordion(),
+                    child: FixedAnalysisAccordion(
+                        monthlyFixedList: monthlyFixedIncome.monthlyFixedList),
                   )
                 ],
               ),
@@ -103,19 +143,20 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     height: 50,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Text(
+                      children: [
+                        const Text(
                           '支出',
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          '¥10,000',
-                          style: TextStyle(fontSize: 20),
+                          monthlyFixedSpending.disposableIncome.toString(),
+                          style: const TextStyle(fontSize: 20),
                         )
                       ],
                     ),
                   ),
-                  const FixedAnalysisAccordion()
+                  FixedAnalysisAccordion(
+                      monthlyFixedList: monthlyFixedSpending.monthlyFixedList),
                 ],
               ),
             ],

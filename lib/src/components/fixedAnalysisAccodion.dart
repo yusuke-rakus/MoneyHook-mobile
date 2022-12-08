@@ -1,33 +1,12 @@
 import 'package:flutter/material.dart';
 
 class FixedAnalysisAccordion extends StatelessWidget {
-  const FixedAnalysisAccordion({Key? key}) : super(key: key);
+  const FixedAnalysisAccordion({Key? key, required this.monthlyFixedList})
+      : super(key: key);
+  final List<dynamic> monthlyFixedList;
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> monthlyFixedList = [
-      {
-        'categoryName': '給与',
-        'totalCategoryAmount': '10000',
-        'transactionList': [
-          {
-            'transactionName': '給与',
-            'transactionAmount': '10000',
-          },
-        ]
-      },
-      {
-        'categoryName': '配当',
-        'totalCategoryAmount': '2000',
-        'transactionList': [
-          {
-            'transactionName': 'S&P500',
-            'transactionAmount': '2000',
-          },
-        ]
-      },
-    ];
-
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -38,8 +17,8 @@ class FixedAnalysisAccordion extends StatelessWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${monthlyFixedList[index]['categoryName']}'),
-              Text('${monthlyFixedList[index]['totalCategoryAmount']}'),
+              Text(monthlyFixedList[index]['categoryName']),
+              Text(monthlyFixedList[index]['totalCategoryAmount'].toString()),
             ],
           ),
           children: monthlyFixedList[index]['transactionList']
@@ -48,7 +27,7 @@ class FixedAnalysisAccordion extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(value['transactionName']),
-                      Text(value['transactionAmount']),
+                      Text(value['transactionAmount'].toString()),
                     ],
                   )))
               .toList(),
