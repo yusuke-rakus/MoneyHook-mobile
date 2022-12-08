@@ -36,7 +36,7 @@ class SavingTimelineList extends StatelessWidget {
                     style: const TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '¥${savingTimelineList[index].savingAmount}',
+                    '¥${savingTimelineList[index].savingAmount.toString()}',
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Icon(Icons.arrow_forward_ios),

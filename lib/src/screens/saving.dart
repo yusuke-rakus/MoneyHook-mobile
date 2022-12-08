@@ -3,8 +3,8 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
 import 'package:money_hooks/src/modals/editSaving.dart';
 import 'package:money_hooks/src/modals/editSavingTarget.dart';
-import 'package:money_hooks/src/screens/savingList.dart';
-import 'package:money_hooks/src/screens/totalSaving.dart';
+import 'package:money_hooks/src/view/savingList.dart';
+import 'package:money_hooks/src/view/totalSaving.dart';
 
 import '../class/savingTargetClass.dart';
 

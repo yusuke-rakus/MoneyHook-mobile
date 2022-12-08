@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/components/savingTimelineList.dart';
 import 'package:money_hooks/src/env/env.dart';
 
@@ -12,18 +13,29 @@ class SavingList extends StatefulWidget {
 }
 
 class _SavingList extends State<SavingList> {
+  late List<savingClass> savingList = [];
+  late var totalSavingAmount = 0;
   late envClass env;
-  late List<savingClass> savingList;
+  late bool _isLoading;
+
+  void setLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  void setSavingList(List<savingClass> resultList, var resultAmount) {
+    setState(() {
+      savingList = resultList;
+      totalSavingAmount = resultAmount;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     env = envClass();
-    savingList = [
-      savingClass.setFields('1', '2022-11-11', '交通費', '1', '200', '1', '旅行'),
-      savingClass.setFields('1', '2022-11-11', '交通費', '1', '200', '1', '旅行'),
-      savingClass.setFields('1', '2022-11-11', '交通費', '1', '200', '1', '旅行')
-    ];
+    savingApi.getMonthlySavingData(env, setSavingList);
   }
 
   @override
@@ -42,6 +54,7 @@ class _SavingList extends State<SavingList> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
+                        savingApi.getMonthlySavingData(env, setSavingList);
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -51,6 +64,7 @@ class _SavingList extends State<SavingList> {
                     onPressed: () {
                       setState(() {
                         env.addMonth();
+                        savingApi.getMonthlySavingData(env, setSavingList);
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),
@@ -64,11 +78,12 @@ class _SavingList extends State<SavingList> {
                 margin: const EdgeInsets.only(right: 15, left: 15),
                 height: 60,
                 child: Row(
-                  children: const [
-                    Text('変動費合計', style: TextStyle(fontSize: 17)),
-                    SizedBox(width: 20),
-                    Text('11,111',
-                        style: TextStyle(fontSize: 30, color: Colors.green)),
+                  children: [
+                    const Text('今月の貯金', style: TextStyle(fontSize: 17)),
+                    const SizedBox(width: 20),
+                    Text(totalSavingAmount.toString(),
+                        style:
+                            const TextStyle(fontSize: 30, color: Colors.green)),
                   ],
                 ),
               ),
