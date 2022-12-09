@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/components/charts/totalSavingChart.dart';
 import 'package:money_hooks/src/components/savingTargetList.dart';
@@ -13,77 +14,72 @@ class TotalSaving extends StatefulWidget {
 
 class _TotalSaving extends State<TotalSaving> {
   late envClass env;
-  late List<savingTargetClass> savingTargetList;
+  late bool _isLoading;
+  late List<savingTargetClass> savingTargetList = [];
+  late int totalSaving = 0;
+  late List<savingTargetClass> totalSavingChart = [];
+
+  void setLoading() {
+    setState(() {
+      _isLoading = !_isLoading;
+    });
+  }
+
+  void setSavingTargetList(List<savingTargetClass> resultList) {
+    setState(() {
+      savingTargetList = resultList;
+    });
+  }
+
+  void setTotalSaving(int resultAmount, List<savingTargetClass> resultList) {
+    totalSaving = resultAmount;
+    totalSavingChart = resultList;
+  }
 
   @override
   void initState() {
     super.initState();
     env = envClass();
-    savingTargetList = [
-      savingTargetClass.setFields('1', '1', '長野旅行', '100000', '10000', '5'),
-      savingTargetClass.setFields('1', '1', '沖縄旅行', '100000', '10000', '5'),
-      savingTargetClass.setFields('1', '1', '目標サンプル3', '100000', '10000', '5')
+    savingApi.getSavingAmountForTarget(setSavingTargetList);
+    // savingApi.getTotalSaving(env, setTotalSaving);
+    totalSavingChart = [
+      savingTargetClass.setChartFields(60000, DateTime(2022, 12, 1)),
+      savingTargetClass.setChartFields(50000, DateTime(2022, 11, 1)),
+      savingTargetClass.setChartFields(35000, DateTime(2022, 10, 1)),
+      savingTargetClass.setChartFields(30000, DateTime(2022, 9, 1)),
+      savingTargetClass.setChartFields(20000, DateTime(2022, 8, 1)),
+      savingTargetClass.setChartFields(10000, DateTime(2022, 7, 1)),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
+        body: ListView(
       children: [
-        // 月選択
+        // 合計値
         Container(
           margin: const EdgeInsets.only(right: 15, left: 15),
           height: 60,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      env.subtractMonth();
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_back_ios)),
-              Text('${env.getMonth()}月', style: const TextStyle(fontSize: 15)),
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      env.addMonth();
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_forward_ios)),
+              const Text('貯金総額', style: TextStyle(fontSize: 17)),
+              const SizedBox(width: 20),
+              Text(totalSaving.toString(),
+                  style: const TextStyle(fontSize: 20, color: Colors.green)),
             ],
           ),
         ),
-        Flexible(
-            child: ListView(
-          children: [
-            // 合計値
-            Container(
-              margin: const EdgeInsets.only(right: 15, left: 15),
-              height: 60,
-              child: Row(
-                children: const [
-                  Text('変動費合計', style: TextStyle(fontSize: 17)),
-                  SizedBox(width: 20),
-                  Text('11,111',
-                      style: TextStyle(fontSize: 20, color: Colors.green)),
-                ],
-              ),
-            ),
-            // グラフ
-            const SizedBox(
-              height: 200,
-              child: TotalSavingChart(),
-            ),
-            // 貯金目標リスト
-            SavingTargetList(env: env, savingTargetList: savingTargetList),
-            const SizedBox(
-              height: 100,
-            )
-          ],
-        )),
+        // グラフ
+        SizedBox(
+          height: 200,
+          child: TotalSavingChart(totalSavingChart),
+        ),
+        // 貯金目標リスト
+        SavingTargetList(env: env, savingTargetList: savingTargetList),
+        const SizedBox(
+          height: 100,
+        )
       ],
     ));
   }

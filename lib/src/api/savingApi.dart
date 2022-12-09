@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
 
 import '../class/savingClass.dart';
+import '../class/savingTargetClass.dart';
 import '../env/env.dart';
 
 class savingApi {
@@ -36,6 +37,54 @@ class savingApi {
         //   resultAmount += int.parse(e.savingAmount);
         // }
         setSavingList(resultList, resultAmount);
+      }
+    });
+  }
+
+  static Future<void> getSavingAmountForTarget(
+      Function setSavingTargetList) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/getSavingAmountForTarget', data: {
+        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        List<savingTargetClass> resultList = [];
+        res.data['savingTargetList'].forEach((value) {
+          resultList.add(savingTargetClass.setFields(
+            value['savingTargetId'],
+            value['savingTargetName'],
+            value['savingTargetAmount'],
+            value['totalSavedAmount'],
+            value['savingCount'],
+          ));
+        });
+        setSavingTargetList(resultList);
+      }
+    });
+  }
+
+  static Future<void> getTotalSaving(
+      envClass env, Function setTotalSaving) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/getTotalSaving', data: {
+        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
+        'month': env.thisMonth
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        List<savingTargetClass> resultList = [];
+        res.data['savingDataList'].forEach((value) {
+          // resultList.add(savingTargetClass.setChartFields(
+          //     value['monthlyTotalSavingAmount'], value['savingMonth']));
+          print(
+              '${value['monthlyTotalSavingAmount']}, ${value['savingMonth']}');
+        });
+        // setTotalSaving(res.data['totalSavingAmount'], resultList);
       }
     });
   }

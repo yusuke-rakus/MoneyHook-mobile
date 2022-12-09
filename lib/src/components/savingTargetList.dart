@@ -63,7 +63,7 @@ class SavingTargetList extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 10, right: 10),
-                              child: Text(savingTarget.targetAmount),
+                              child: Text(savingTarget.targetAmount.toString()),
                             ),
                             const Text('円'),
                           ]),
@@ -72,7 +72,7 @@ class SavingTargetList extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 10, right: 10),
-                              child: Text(savingTarget.savingCount),
+                              child: Text(savingTarget.savingCount.toString()),
                             ),
                             const Text('回'),
                           ]),

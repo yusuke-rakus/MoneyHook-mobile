@@ -1,69 +1,45 @@
 class savingTargetClass {
-  var _userId = '';
-  var _savingTargetId = '';
-  var _savingTargetName = '';
-  var _targetAmount = '';
-  var _savingTotalAmount = '';
-  var _savingCount = '';
+  var userId;
+  var savingTargetId;
+  var savingTargetName;
+  var targetAmount;
+  var savingTotalAmount;
+  var savingCount;
+  var monthlyTotalSavingAmount;
+  var savingMonth;
 
   savingTargetClass();
 
   savingTargetClass.setFields(
-    this._userId,
-    this._savingTargetId,
-    this._savingTargetName,
-    this._targetAmount,
-    this._savingTotalAmount,
-    this._savingCount,
-  );
+    var savingTargetId,
+    var savingTargetName,
+    var targetAmount,
+    var savingTotalAmount,
+    var savingCount,
+  ) {
+    this.savingTargetId = savingTargetId;
+    this.savingTargetName = savingTargetName;
+    this.targetAmount = targetAmount == null ? 0 : targetAmount;
+    this.savingTotalAmount = savingTotalAmount == null ? 0 : savingTotalAmount;
+    this.savingCount = savingCount == null ? 0 : savingCount;
+  }
 
   savingTargetClass.setTargetFields(
-    this._savingTargetId,
-    this._savingTargetName,
+    this.savingTargetId,
+    this.savingTargetName,
+  );
+
+  savingTargetClass.setChartFields(
+    this.monthlyTotalSavingAmount,
+    this.savingMonth,
   );
 
   bool hasTargetId() {
-    return _savingTargetId.isNotEmpty ? true : false;
-  }
-
-  get userId => _userId;
-
-  set userId(value) {
-    _userId = value;
-  }
-
-  get savingTargetId => _savingTargetId;
-
-  set savingTargetId(value) {
-    _savingTargetId = value;
-  }
-
-  get savingTargetName => _savingTargetName;
-
-  set savingTargetName(value) {
-    _savingTargetName = value;
-  }
-
-  get targetAmount => _targetAmount;
-
-  set targetAmount(value) {
-    _targetAmount = value;
-  }
-
-  get savingTotalAmount => _savingTotalAmount;
-
-  set savingTotalAmount(value) {
-    _savingTotalAmount = value;
-  }
-
-  get savingCount => _savingCount;
-
-  set savingCount(value) {
-    _savingCount = value;
+    return savingTargetId.isNotEmpty ? true : false;
   }
 
   @override
   String toString() {
-    return 'ユーザID: $_userId, 貯金目標ID: $_savingTargetId, 貯金目標: $_savingTargetName, 目標金額: $_targetAmount, 貯金額: $_savingTotalAmount, 貯金回数: $_savingCount';
+    return 'savingTargetClass{userId: $userId, savingTargetId: $savingTargetId, savingTargetName: $savingTargetName, targetAmount: $targetAmount, savingTotalAmount: $savingTotalAmount, savingCount: $savingCount, monthlyTotalSavingAmount: $monthlyTotalSavingAmount, savingMonth: $savingMonth}';
   }
 }

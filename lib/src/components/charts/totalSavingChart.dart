@@ -1,38 +1,29 @@
 import 'package:charts_flutter/flutter.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../class/savingTargetClass.dart';
+
 class TotalSavingChart extends StatelessWidget {
-  const TotalSavingChart({Key? key}) : super(key: key);
+  TotalSavingChart(this.data, {super.key});
+
+  List<savingTargetClass> data;
 
   @override
   Widget build(BuildContext context) {
-    List<Sample> data = [
-      Sample(DateTime(2020, 9, 1), 1),
-      Sample(DateTime(2020, 10, 1), 4),
-      Sample(DateTime(2020, 11, 1), 5),
-      Sample(DateTime(2020, 12, 1), 10),
-    ];
-
     return TimeSeriesChart(
-      _createSampleData(data),
-      // defaultRenderer: ArcRendererConfig(arcWidth: 20),
+      _createTotalSavingData(data),
     );
   }
 }
 
-class Sample {
-  DateTime time;
-  int sales;
-
-  Sample(this.time, this.sales);
-}
-
-List<Series<Sample, DateTime>> _createSampleData(List<Sample> data) {
+List<Series<savingTargetClass, DateTime>> _createTotalSavingData(
+    List<savingTargetClass> data) {
   return [
-    Series<Sample, DateTime>(
-      id: 'Sales',
-      domainFn: (Sample sales, _) => sales.time,
-      measureFn: (Sample sales, _) => sales.sales,
+    Series<savingTargetClass, DateTime>(
+      id: 'TotalSavingChart',
+      domainFn: (savingTargetClass savingTarget, _) => savingTarget.savingMonth,
+      measureFn: (savingTargetClass savingTarget, _) =>
+          savingTarget.monthlyTotalSavingAmount,
       data: data,
     )
   ];
