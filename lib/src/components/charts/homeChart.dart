@@ -1,38 +1,39 @@
 import 'package:charts_flutter/flutter.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class HomeChart extends StatelessWidget {
-  const HomeChart({Key? key}) : super(key: key);
+  HomeChart(this.data, {super.key});
+
+  List<dynamic> data;
 
   @override
   Widget build(BuildContext context) {
-    List<Sample> data = [
-      Sample('2020', 1),
-      Sample('2021', 4),
-      Sample('2022', 8),
-      Sample('2023', 10),
-    ];
-
     return PieChart(
-      _createSampleData(data),
-      // defaultRenderer: ArcRendererConfig(arcWidth: 20),
+      _createHomeChart(data),
     );
   }
 }
 
-class Sample {
-  String year;
-  int sales;
+List<Series<dynamic, String>> _createHomeChart(List<dynamic> data) {
+  List<Color> colorList = [
+    ColorUtil.fromDartColor(Colors.redAccent),
+    ColorUtil.fromDartColor(Colors.lightBlue),
+    ColorUtil.fromDartColor(Colors.greenAccent),
+    ColorUtil.fromDartColor(Colors.indigo),
+    ColorUtil.fromDartColor(Colors.amber),
+    ColorUtil.fromDartColor(Colors.teal),
+    ColorUtil.fromDartColor(Colors.deepPurpleAccent),
+    ColorUtil.fromDartColor(Colors.grey),
+  ];
 
-  Sample(this.year, this.sales);
-}
-
-List<Series<Sample, String>> _createSampleData(List<Sample> data) {
   return [
-    Series<Sample, String>(
-      id: 'Sales',
-      domainFn: (Sample sales, _) => sales.year,
-      measureFn: (Sample sales, _) => sales.sales,
+    Series<dynamic, String>(
+      id: 'HomeChart',
+      colorFn: (dynamic, i) => i! < colorList.length
+          ? colorList[i]
+          : colorList[colorList.length - 1],
+      domainFn: (dynamic value, _) => value['categoryName'],
+      measureFn: (dynamic value, _) => value['categoryTotalAmount'].abs(),
       data: data,
     )
   ];

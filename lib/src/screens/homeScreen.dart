@@ -76,10 +76,10 @@ class _HomeScreenState extends State<HomeScreen> {
           : ListView(
               children: [
                 // 円グラフ
-                const Center(
+                Center(
                   child: SizedBox(
                     height: 250,
-                    child: HomeChart(),
+                    child: HomeChart(homeTransactionList.categoryList),
                   ),
                 ),
                 // 収支

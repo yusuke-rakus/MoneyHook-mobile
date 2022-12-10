@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/api.dart';
 
 import '../class/savingClass.dart';
@@ -79,12 +80,11 @@ class savingApi {
         // 成功
         List<savingTargetClass> resultList = [];
         res.data['savingDataList'].forEach((value) {
-          // resultList.add(savingTargetClass.setChartFields(
-          //     value['monthlyTotalSavingAmount'], value['savingMonth']));
-          print(
-              '${value['monthlyTotalSavingAmount']}, ${value['savingMonth']}');
+          resultList.add(savingTargetClass.setChartFields(
+              value['monthlyTotalSavingAmount'],
+              DateFormat('yyyy-MM-dd').parse(value['savingMonth'])));
         });
-        // setTotalSaving(res.data['totalSavingAmount'], resultList);
+        setTotalSaving(res.data['totalSavingAmount'], resultList);
       }
     });
   }
