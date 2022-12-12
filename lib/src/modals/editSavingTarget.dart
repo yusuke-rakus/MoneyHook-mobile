@@ -71,10 +71,10 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                       Flexible(
                         child: TextField(
                           onChanged: (value) {
-                            savingTarget.targetAmount = value;
+                            savingTarget.targetAmount = int.parse(value);
                           },
                           controller: TextEditingController(
-                              text: savingTarget.targetAmount),
+                              text: savingTarget.targetAmount.toString()),
                           decoration: const InputDecoration(
                               hintText: '0',
                               hintStyle:

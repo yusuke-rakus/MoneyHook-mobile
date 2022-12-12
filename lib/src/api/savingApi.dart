@@ -34,9 +34,9 @@ class savingApi {
               value['savingTargetId'],
               value['savingTargetName']));
         });
-        // for (var e in resultList) {
-        //   resultAmount += int.parse(e.savingAmount);
-        // }
+        for (var e in resultList) {
+          resultAmount += e.savingAmount!;
+        }
         setSavingList(resultList, resultAmount);
       }
     });

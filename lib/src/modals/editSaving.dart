@@ -17,9 +17,9 @@ class EditSaving extends StatefulWidget {
 class _EditSaving extends State<EditSaving> {
   late savingClass saving;
   late List<savingTargetClass> savingTargetList = [
-    savingTargetClass.setTargetFields('4', '長野旅行'),
-    savingTargetClass.setTargetFields('12', '沖縄旅行'),
-    savingTargetClass.setTargetFields('92', '長い目標長い目標長い目標長い目標長い目標'),
+    savingTargetClass.setTargetFields(4, '長野旅行'),
+    savingTargetClass.setTargetFields(12, '沖縄旅行'),
+    savingTargetClass.setTargetFields(92, '長い目標長い目標長い目標長い目標長い目標'),
   ];
 
   @override
@@ -27,7 +27,7 @@ class _EditSaving extends State<EditSaving> {
     super.initState();
     saving = widget.saving;
     if (savingTargetList.isNotEmpty) {
-      savingTargetList.insert(0, savingTargetClass.setTargetFields('', 'なし'));
+      savingTargetList.insert(0, savingTargetClass.setTargetFields(null, 'なし'));
     }
   }
 
@@ -109,10 +109,10 @@ class _EditSaving extends State<EditSaving> {
                       Flexible(
                         child: TextField(
                           onChanged: (value) {
-                            saving.savingAmount = value;
+                            saving.savingAmount = int.parse(value);
                           },
-                          controller:
-                              TextEditingController(text: saving.savingAmount),
+                          controller: TextEditingController(
+                              text: saving.savingAmount.toString()),
                           decoration: const InputDecoration(
                               hintText: '0',
                               hintStyle:

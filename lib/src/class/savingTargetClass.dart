@@ -1,27 +1,25 @@
 class savingTargetClass {
-  var userId;
-  var savingTargetId;
-  var savingTargetName;
-  var targetAmount;
-  var savingTotalAmount;
-  var savingCount;
-  var monthlyTotalSavingAmount;
-  var savingMonth;
+  var userId = '';
+  int? savingTargetId;
+  var savingTargetName = '';
+  int? targetAmount = 0;
+  int? savingTotalAmount = 0;
+  int? savingCount = 0;
+  int? monthlyTotalSavingAmount = 0;
+  DateTime savingMonth = DateTime.now();
 
   savingTargetClass();
 
   savingTargetClass.setFields(
-    var savingTargetId,
-    var savingTargetName,
+    var this.savingTargetId,
+    var this.savingTargetName,
     var targetAmount,
     var savingTotalAmount,
     var savingCount,
   ) {
-    this.savingTargetId = savingTargetId;
-    this.savingTargetName = savingTargetName;
-    this.targetAmount = targetAmount == null ? 0 : targetAmount;
-    this.savingTotalAmount = savingTotalAmount == null ? 0 : savingTotalAmount;
-    this.savingCount = savingCount == null ? 0 : savingCount;
+    this.targetAmount = targetAmount ?? 0;
+    this.savingTotalAmount = savingTotalAmount ?? 0;
+    this.savingCount = savingCount ?? 0;
   }
 
   savingTargetClass.setTargetFields(
@@ -32,10 +30,12 @@ class savingTargetClass {
   savingTargetClass.setChartFields(
     this.monthlyTotalSavingAmount,
     this.savingMonth,
-  );
+  ) {
+    savingTargetId = 0;
+  }
 
   bool hasTargetId() {
-    return savingTargetId.isNotEmpty ? true : false;
+    return savingTargetId != null ? true : false;
   }
 
   @override
