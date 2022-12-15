@@ -204,6 +204,7 @@ class _EditTransaction extends State<EditTransaction> {
                 child: ElevatedButton(
                   onPressed: () {
                     print(transaction);
+                    // Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(

@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/api/categorysApi.dart';
 
 import '../class/subCategoryClass.dart';
 
@@ -8,34 +9,27 @@ class SelectSubCategory extends StatefulWidget {
   int categoryId;
   String categoryName;
 
-  List<subCategoryClass> subCategoryList = [
-    subCategoryClass(1, 'サブカテゴリサブカテゴリサブカテゴリサブカテゴリサブカテゴリサブカテゴリサブカテゴリ'),
-    subCategoryClass(2, 'サブスクリプション'),
-    subCategoryClass(3, '食費'),
-    subCategoryClass(4, '趣味'),
-    subCategoryClass(5, '映画'),
-    subCategoryClass(6, 'ラーメン'),
-    subCategoryClass(7, '外食'),
-    subCategoryClass(8, 'エンタメ'),
-    subCategoryClass(9, 'スポーツ'),
-    subCategoryClass(10, 'ショッピング'),
-  ];
-
   @override
   State<StatefulWidget> createState() => _SelectSubCategory();
 }
 
 class _SelectSubCategory extends State<SelectSubCategory> {
-  late List<subCategoryClass> subCategoryList;
+  late List<subCategoryClass> subCategoryList = [];
   late String categoryName;
   late int categoryId;
+
+  void setSubCategoryList(List<subCategoryClass> responseList) {
+    setState(() {
+      subCategoryList = responseList;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    subCategoryList = widget.subCategoryList;
     categoryName = widget.categoryName;
     categoryId = widget.categoryId;
+    categorysApi.getSubCategoryList(categoryId, setSubCategoryList);
   }
 
   @override
@@ -59,7 +53,7 @@ class _SelectSubCategory extends State<SelectSubCategory> {
                   'subCategoryId': subCategoryList[index].subCategoryId,
                 });
               },
-              child: Container(
+              child: SizedBox(
                 height: 60,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

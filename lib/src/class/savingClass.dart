@@ -4,15 +4,14 @@ class savingClass {
   int? savingId;
   var savingDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var savingName = '';
-  int? savingAmount;
+  num? savingAmount;
   int? savingTargetId;
   var savingTargetName = '';
 
   savingClass();
 
   savingClass.setFields(this.savingDate, this.savingName, var savingId,
-      var savingAmount, var savingTargetId, var savingTargetName) {
-    this.savingAmount = savingAmount ?? 0;
+      this.savingAmount, var savingTargetId, var savingTargetName) {
     this.savingId = savingId ?? 0;
     this.savingTargetId = savingTargetId ?? 0;
     this.savingTargetName = savingTargetName ?? '';
@@ -28,5 +27,10 @@ class savingClass {
 
   String getDay() {
     return DateFormat('yyyy-MM-dd').parse(savingDate).day.toString();
+  }
+
+  @override
+  String toString() {
+    return 'savingClass{savingId: $savingId, savingDate: $savingDate, savingName: $savingName, savingAmount: $savingAmount, savingTargetId: $savingTargetId, savingTargetName: $savingTargetName}';
   }
 }

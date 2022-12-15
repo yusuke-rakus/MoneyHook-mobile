@@ -24,7 +24,7 @@ class savingApi {
       } else {
         // 成功
         List<savingClass> resultList = [];
-        int resultAmount = 0;
+        num resultAmount = 0;
         res.data['savingList'].forEach((value) {
           resultList.add(savingClass.setFields(
               value['savingDate'],

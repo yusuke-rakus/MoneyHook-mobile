@@ -2,10 +2,10 @@ class savingTargetClass {
   var userId = '';
   int? savingTargetId;
   var savingTargetName = '';
-  int? targetAmount = 0;
-  int? savingTotalAmount = 0;
-  int? savingCount = 0;
-  int? monthlyTotalSavingAmount = 0;
+  num? targetAmount;
+  num? savingTotalAmount;
+  num? savingCount;
+  num? monthlyTotalSavingAmount;
   DateTime savingMonth = DateTime.now();
 
   savingTargetClass();

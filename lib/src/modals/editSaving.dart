@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:money_hooks/src/api/savingTargetApi.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 
@@ -16,16 +17,19 @@ class EditSaving extends StatefulWidget {
 
 class _EditSaving extends State<EditSaving> {
   late savingClass saving;
-  late List<savingTargetClass> savingTargetList = [
-    savingTargetClass.setTargetFields(4, '長野旅行'),
-    savingTargetClass.setTargetFields(12, '沖縄旅行'),
-    savingTargetClass.setTargetFields(92, '長い目標長い目標長い目標長い目標長い目標'),
-  ];
+  late List<savingTargetClass> savingTargetList = [];
+
+  void setSavingTargetList(List<savingTargetClass> responseList) {
+    setState(() {
+      savingTargetList = responseList;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     saving = widget.saving;
+    savingTargetApi.getSavingTargetList(setSavingTargetList);
     if (savingTargetList.isNotEmpty) {
       savingTargetList.insert(0, savingTargetClass.setTargetFields(null, 'なし'));
     }
@@ -112,7 +116,9 @@ class _EditSaving extends State<EditSaving> {
                             saving.savingAmount = int.parse(value);
                           },
                           controller: TextEditingController(
-                              text: saving.savingAmount.toString()),
+                              text: saving.savingAmount != null
+                                  ? saving.savingAmount.toString()
+                                  : ''),
                           decoration: const InputDecoration(
                               hintText: '0',
                               hintStyle:
@@ -186,7 +192,7 @@ class _EditSaving extends State<EditSaving> {
                       height: 70,
                       child: InputDecorator(
                         decoration: const InputDecoration(
-                          labelText: 'カテゴリ',
+                          labelText: '振り分ける',
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,34 +1,28 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/api/categorysApi.dart';
 import 'package:money_hooks/src/class/categoryClass.dart';
 import 'package:money_hooks/src/modals/selectSubCategory.dart';
 
 class SelectCategory extends StatefulWidget {
   SelectCategory({super.key});
 
-  List<categoryClass> categoryList = [
-    categoryClass(1, 'サブスクリプションサブスクリプションサブスクリプションサブスクリプション'),
-    categoryClass(2, 'サブスクリプション'),
-    categoryClass(3, '食費'),
-    categoryClass(4, '趣味'),
-    categoryClass(5, '映画'),
-    categoryClass(6, 'ラーメン'),
-    categoryClass(7, '外食'),
-    categoryClass(8, 'エンタメ'),
-    categoryClass(9, 'スポーツ'),
-    categoryClass(10, 'ショッピング'),
-  ];
-
   @override
   State<StatefulWidget> createState() => _SelectCategory();
 }
 
 class _SelectCategory extends State<SelectCategory> {
-  late List<categoryClass> categoryList;
+  late List<categoryClass> categoryList = [];
+
+  void setCategoryList(List<categoryClass> responseList) {
+    setState(() {
+      categoryList = responseList;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    categoryList = widget.categoryList;
+    categorysApi.getCategoryList(setCategoryList);
   }
 
   @override

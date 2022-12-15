@@ -74,7 +74,9 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                             savingTarget.targetAmount = int.parse(value);
                           },
                           controller: TextEditingController(
-                              text: savingTarget.targetAmount.toString()),
+                              text: savingTarget.targetAmount != null
+                                  ? savingTarget.targetAmount.toString()
+                                  : ''),
                           decoration: const InputDecoration(
                               hintText: '0',
                               hintStyle:
@@ -101,7 +103,9 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                   height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print(savingTarget);
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25))),
