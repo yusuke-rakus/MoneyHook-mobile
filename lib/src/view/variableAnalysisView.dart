@@ -1,11 +1,13 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/transactionApi.dart';
-import 'package:money_hooks/src/env/env.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
 
 class VariableAnalysisView extends StatefulWidget {
-  const VariableAnalysisView({super.key});
+  VariableAnalysisView(this.env, {super.key});
+
+  envClass env;
 
   @override
   State<VariableAnalysisView> createState() => _VariableAnalysis();
@@ -33,7 +35,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
   @override
   void initState() {
     super.initState();
-    env = envClass();
+    env = widget.env;
+    env.initMonth();
     transactionApi.getMonthlyVariableData(env, setMonthlyVariable);
   }
 
@@ -126,7 +129,9 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(subCategory['subCategoryName']),
-                      Text(subCategory['subCategoryTotalAmount'].abs().toString()),
+                      Text(subCategory['subCategoryTotalAmount']
+                          .abs()
+                          .toString()),
                     ],
                   ),
                   children: subCategory['transactionList']

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
-import 'package:money_hooks/src/env/env.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 class TimelineList extends StatelessWidget {
   const TimelineList({Key? key, required this.env, required this.timelineList})

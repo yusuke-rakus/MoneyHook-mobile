@@ -16,7 +16,9 @@ class savingTargetApi {
         // 失敗
       } else {
         // 成功
-        List<savingTargetClass> resultList = [];
+        List<savingTargetClass> resultList = [
+          savingTargetClass.setTargetFields(null, 'なし')
+        ];
         res.data['savingTarget'].forEach((value) {
           resultList.add(savingTargetClass.setTargetFields(
               value['savingTargetId'], value['savingTargetName']));

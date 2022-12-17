@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/screens/analysis.dart';
 import 'package:money_hooks/src/screens/homeScreen.dart';
 import 'package:money_hooks/src/screens/loading.dart';
@@ -36,16 +37,17 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool isLogin = false;
   bool isLoading = false;
   String? userId;
+  late envClass env;
 
   FlutterSecureStorage storage = const FlutterSecureStorage();
 
   void setScreenItems() {
     _screens = [
-      HomeScreen(isLoading),
-      TimelineScreen(isLoading),
-      AnalysisScreen(isLoading),
-      SavingScreen(isLoading),
-      SettingsScreen(isLoading),
+      HomeScreen(isLoading, env),
+      TimelineScreen(isLoading, env),
+      AnalysisScreen(isLoading, env),
+      SavingScreen(isLoading, env),
+      SettingsScreen(isLoading, env),
     ];
     isLogin = true;
   }
@@ -63,14 +65,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Future(() async {
       userId = await storage.read(key: 'USER_ID');
 
-      print('UserId: $userId');
-
       if (userId == null) {
         setState(() {
           setLoginItem();
         });
       } else {
         setState(() {
+          env = envClass.setUserId(userId);
           setScreenItems();
         });
       }

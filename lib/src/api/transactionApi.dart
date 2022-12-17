@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
-import 'package:money_hooks/src/env/env.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 import 'api.dart';
 
@@ -12,10 +12,7 @@ class transactionApi {
       envClass env, Function setLoading, Function setHomeTransaction) async {
     setLoading();
     await Future(() async {
-      Response res = await dio.post('$rootURI/getHome', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res = await dio.post('$rootURI/getHome', data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {
@@ -30,10 +27,8 @@ class transactionApi {
       envClass env, Function setLoading, Function setTimelineData) async {
     setLoading();
     await Future(() async {
-      Response res = await dio.post('$rootURI/getTimelineData', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res =
+          await dio.post('$rootURI/getTimelineData', data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {
@@ -63,10 +58,8 @@ class transactionApi {
   static Future<void> getTimelineChart(
       envClass env, Function setTimelineChart) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlySpendingData', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res = await dio.post('$rootURI/getMonthlySpendingData',
+          data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {
@@ -84,10 +77,8 @@ class transactionApi {
   static Future<void> getMonthlyVariableData(
       envClass env, Function setMonthlyVariable) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlyVariableData', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res = await dio.post('$rootURI/getMonthlyVariableData',
+          data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {
@@ -109,10 +100,8 @@ class transactionApi {
   static Future<void> getMonthlyFixedIncome(
       envClass env, Function setMonthlyFixedIncome) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlyFixedIncome', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res =
+          await dio.post('$rootURI/getMonthlyFixedIncome', data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {
@@ -126,10 +115,8 @@ class transactionApi {
   static Future<void> getMonthlyFixedSpending(
       envClass env, Function setMonthlyFixedSpending) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlyFixedSpending', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res = await dio.post('$rootURI/getMonthlyFixedSpending',
+          data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {

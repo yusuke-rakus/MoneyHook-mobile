@@ -30,9 +30,6 @@ class _EditSaving extends State<EditSaving> {
     super.initState();
     saving = widget.saving;
     savingTargetApi.getSavingTargetList(setSavingTargetList);
-    if (savingTargetList.isNotEmpty) {
-      savingTargetList.insert(0, savingTargetClass.setTargetFields(null, 'なし'));
-    }
   }
 
   @override
@@ -200,8 +197,8 @@ class _EditSaving extends State<EditSaving> {
                             Expanded(
                               child: Text(
                                 saving.hasTargetId()
-                                    ? saving.savingTargetName
-                                    : 'なし',
+                                    ? 'なし'
+                                    : saving.savingTargetName,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(fontSize: 20),
                               ),

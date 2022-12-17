@@ -1,12 +1,14 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/components/savingTimelineList.dart';
-import 'package:money_hooks/src/env/env.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/savingClass.dart';
 
 class SavingList extends StatefulWidget {
-  const SavingList({super.key});
+  SavingList(this.env, {super.key});
+
+  envClass env;
 
   @override
   State<SavingList> createState() => _SavingList();
@@ -34,7 +36,8 @@ class _SavingList extends State<SavingList> {
   @override
   void initState() {
     super.initState();
-    env = envClass();
+    env = widget.env;
+    env.initMonth();
     savingApi.getMonthlySavingData(env, setSavingList);
   }
 

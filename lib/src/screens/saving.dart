@@ -7,11 +7,13 @@ import 'package:money_hooks/src/view/savingList.dart';
 import 'package:money_hooks/src/view/totalSaving.dart';
 
 import '../class/savingTargetClass.dart';
+import '../env/envClass.dart';
 
 class SavingScreen extends StatelessWidget {
-  SavingScreen(this.isLoading, {super.key});
+  SavingScreen(this.isLoading, this.env, {super.key});
 
   bool isLoading;
+  envClass env;
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +29,9 @@ class SavingScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: const TabBarView(children: <Widget>[
-          SavingList(),
-          TotalSaving(),
+        body: TabBarView(children: <Widget>[
+          SavingList(env),
+          TotalSaving(env),
         ]),
         floatingActionButton: SpeedDial(
           icon: Icons.add,

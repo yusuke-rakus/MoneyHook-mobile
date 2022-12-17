@@ -3,10 +3,12 @@ import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/components/charts/totalSavingChart.dart';
 import 'package:money_hooks/src/components/savingTargetList.dart';
-import 'package:money_hooks/src/env/env.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 class TotalSaving extends StatefulWidget {
-  const TotalSaving({super.key});
+  TotalSaving(this.env, {super.key});
+
+  envClass env;
 
   @override
   State<TotalSaving> createState() => _TotalSaving();
@@ -41,8 +43,9 @@ class _TotalSaving extends State<TotalSaving> {
   @override
   void initState() {
     super.initState();
-    env = envClass();
-    savingApi.getSavingAmountForTarget(setSavingTargetList);
+    env = widget.env;
+    env.initMonth();
+    savingApi.getSavingAmountForTarget(env.userId, setSavingTargetList);
     savingApi.getTotalSaving(env, setTotalSaving);
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
-import 'package:money_hooks/src/env/env.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 class SavingTargetList extends StatelessWidget {
   const SavingTargetList(

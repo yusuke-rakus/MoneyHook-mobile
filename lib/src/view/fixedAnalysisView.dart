@@ -1,11 +1,14 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
-import 'package:money_hooks/src/components/fixedAnalysisAccodion.dart';
-import 'package:money_hooks/src/env/env.dart';
+import 'package:money_hooks/src/env/envClass.dart';
+
+import '../components/fixedAnalysisAccordion.dart';
 
 class FixedAnalysisView extends StatefulWidget {
-  const FixedAnalysisView({super.key});
+  FixedAnalysisView(this.env, {super.key});
+
+  envClass env;
 
   @override
   State<FixedAnalysisView> createState() => _FixedAnalysis();
@@ -42,7 +45,10 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
   @override
   void initState() {
     super.initState();
-    env = envClass();
+    env = widget.env;
+    env.initMonth();
+    transactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+    transactionApi.getMonthlyFixedSpending(env, setMonthlyFixedSpending);
   }
 
   @override

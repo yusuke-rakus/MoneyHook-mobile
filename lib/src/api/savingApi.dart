@@ -5,7 +5,7 @@ import 'package:money_hooks/src/api/api.dart';
 
 import '../class/savingClass.dart';
 import '../class/savingTargetClass.dart';
-import '../env/env.dart';
+import '../env/envClass.dart';
 
 class savingApi {
   static String rootURI = '${Api.rootURI}/saving';
@@ -15,10 +15,8 @@ class savingApi {
   static Future<void> getMonthlySavingData(
       envClass env, Function setSavingList) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlySavingData', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res =
+          await dio.post('$rootURI/getMonthlySavingData', data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {
@@ -43,10 +41,10 @@ class savingApi {
   }
 
   static Future<void> getSavingAmountForTarget(
-      Function setSavingTargetList) async {
+      String userId, Function setSavingTargetList) async {
     await Future(() async {
       Response res = await dio.post('$rootURI/getSavingAmountForTarget', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
+        'userId': userId,
       });
       if (res.data['status'] == 'error') {
         // 失敗
@@ -70,10 +68,8 @@ class savingApi {
   static Future<void> getTotalSaving(
       envClass env, Function setTotalSaving) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getTotalSaving', data: {
-        'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-        'month': env.thisMonth
-      });
+      Response res =
+          await dio.post('$rootURI/getTotalSaving', data: env.getJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {

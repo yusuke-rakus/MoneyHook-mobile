@@ -4,11 +4,13 @@ import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 
 import '../app.dart';
+import '../env/envClass.dart';
 
 class SettingsScreen extends StatelessWidget {
-  SettingsScreen(this.isLoading, {super.key});
+  SettingsScreen(this.isLoading, this.env, {super.key});
 
   bool isLoading;
+  envClass env;
 
   @override
   Widget build(BuildContext context) {

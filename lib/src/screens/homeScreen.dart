@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/homeTransaction.dart';
@@ -6,13 +7,14 @@ import 'package:money_hooks/src/components/charts/homeChart.dart';
 import 'package:money_hooks/src/components/homeAccordion.dart';
 
 import '../class/transactionClass.dart';
-import '../env/env.dart';
+import '../env/envClass.dart';
 import '../modals/editTransaction.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen(this.isLoading, {super.key});
+  HomeScreen(this.isLoading, this.env, {super.key});
 
   bool isLoading;
+  envClass env;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -22,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late envClass env;
   late homeTransaction homeTransactionList = homeTransaction();
   late bool _isLoading;
+  FlutterSecureStorage storage = const FlutterSecureStorage();
 
   void setLoading() {
     setState(() {
@@ -39,7 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    env = envClass();
+    env = widget.env;
+    env.initMonth();
     _isLoading = widget.isLoading;
     transactionApi.getHome(env, setLoading, setHomeTransaction);
   }
@@ -61,8 +65,12 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 onPressed: () {
                   setState(() {
-                    env.addMonth();
-                    transactionApi.getHome(env, setLoading, setHomeTransaction);
+                    // 翌月が未来でなければデータ取得
+                    if (env.isNotCurrentMonth()) {
+                      env.addMonth();
+                      transactionApi.getHome(
+                          env, setLoading, setHomeTransaction);
+                    }
                   });
                 },
                 icon: const Icon(Icons.arrow_forward_ios)),
