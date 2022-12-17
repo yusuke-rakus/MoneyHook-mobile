@@ -66,8 +66,11 @@ class _SavingList extends State<SavingList> {
                 IconButton(
                     onPressed: () {
                       setState(() {
-                        env.addMonth();
-                        savingApi.getMonthlySavingData(env, setSavingList);
+                        // 翌月が未来でなければデータ取得
+                        if (env.isNotCurrentMonth()) {
+                          env.addMonth();
+                          savingApi.getMonthlySavingData(env, setSavingList);
+                        }
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),

@@ -66,9 +66,12 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                 IconButton(
                     onPressed: () {
                       setState(() {
-                        env.addMonth();
-                        transactionApi.getMonthlyVariableData(
-                            env, setMonthlyVariable);
+                        // 翌月が未来でなければデータ取得
+                        if (env.isNotCurrentMonth()) {
+                          env.addMonth();
+                          transactionApi.getMonthlyVariableData(
+                              env, setMonthlyVariable);
+                        }
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),

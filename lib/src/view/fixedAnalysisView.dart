@@ -79,11 +79,14 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                 IconButton(
                     onPressed: () {
                       setState(() {
-                        env.addMonth();
-                        transactionApi.getMonthlyFixedIncome(
-                            env, setMonthlyFixedIncome);
-                        transactionApi.getMonthlyFixedSpending(
-                            env, setMonthlyFixedSpending);
+                        // 翌月が未来でなければデータ取得
+                        if (env.isNotCurrentMonth()) {
+                          env.addMonth();
+                          transactionApi.getMonthlyFixedIncome(
+                              env, setMonthlyFixedIncome);
+                          transactionApi.getMonthlyFixedSpending(
+                              env, setMonthlyFixedSpending);
+                        }
                       });
                     },
                     icon: const Icon(Icons.arrow_forward_ios)),
