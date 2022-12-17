@@ -26,13 +26,10 @@ class categorysApi {
   }
 
   static Future<void> getSubCategoryList(
-      int categoryId, Function setSubCategoryList) async {
+      String userId, int categoryId, Function setSubCategoryList) async {
     await Future(() async {
       Response res = await dio.post('$rootURI/subCategory/getSubCategoryList',
-          data: {
-            'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669',
-            'categoryId': categoryId
-          });
+          data: {'userId': userId, 'categoryId': categoryId});
       if (res.data['status'] == 'error') {
         // 失敗
       } else {

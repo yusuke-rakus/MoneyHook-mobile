@@ -123,7 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EditTransaction(transactionClass()),
+                      builder: (context) =>
+                          EditTransaction(transactionClass(), env),
                       fullscreenDialog: true),
                 );
               },

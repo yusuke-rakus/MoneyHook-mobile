@@ -5,11 +5,13 @@ import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/savingTargetApi.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 class EditSaving extends StatefulWidget {
-  EditSaving(this.saving, {super.key});
+  EditSaving(this.saving, this.env, {super.key});
 
   savingClass saving;
+  envClass env;
 
   @override
   State<EditSaving> createState() => _EditSaving();
@@ -17,6 +19,7 @@ class EditSaving extends StatefulWidget {
 
 class _EditSaving extends State<EditSaving> {
   late savingClass saving;
+  late envClass env;
   late List<savingTargetClass> savingTargetList = [];
 
   void setSavingTargetList(List<savingTargetClass> responseList) {
@@ -29,7 +32,8 @@ class _EditSaving extends State<EditSaving> {
   void initState() {
     super.initState();
     saving = widget.saving;
-    savingTargetApi.getSavingTargetList(setSavingTargetList);
+    env = widget.env;
+    savingTargetApi.getSavingTargetList(setSavingTargetList, env.userId);
   }
 
   @override

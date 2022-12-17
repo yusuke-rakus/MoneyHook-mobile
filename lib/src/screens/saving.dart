@@ -43,7 +43,7 @@ class SavingScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EditSaving(savingClass()),
+                      builder: (context) => EditSaving(savingClass(), env),
                       fullscreenDialog: true),
                 );
               },

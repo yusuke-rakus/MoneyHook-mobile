@@ -1,10 +1,13 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/categorysApi.dart';
 import 'package:money_hooks/src/class/categoryClass.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectSubCategory.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory({super.key});
+  SelectCategory(this.env, {super.key});
+
+  envClass env;
 
   @override
   State<StatefulWidget> createState() => _SelectCategory();
@@ -12,6 +15,7 @@ class SelectCategory extends StatefulWidget {
 
 class _SelectCategory extends State<SelectCategory> {
   late List<categoryClass> categoryList = [];
+  late envClass env;
 
   void setCategoryList(List<categoryClass> responseList) {
     setState(() {
@@ -22,6 +26,7 @@ class _SelectCategory extends State<SelectCategory> {
   @override
   void initState() {
     super.initState();
+    env = widget.env;
     categorysApi.getCategoryList(setCategoryList);
   }
 
@@ -42,6 +47,7 @@ class _SelectCategory extends State<SelectCategory> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => SelectSubCategory(
+                        env,
                         categoryList[index].categoryId,
                         categoryList[index].categoryName),
                   ),

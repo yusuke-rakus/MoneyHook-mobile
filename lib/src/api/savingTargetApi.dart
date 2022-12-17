@@ -8,10 +8,11 @@ class savingTargetApi {
   static Dio dio = Dio();
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  static Future<void> getSavingTargetList(Function setSavingTargetList) async {
+  static Future<void> getSavingTargetList(
+      Function setSavingTargetList, String userId) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getSavingTargetList',
-          data: {'userId': 'a77a6e94-6aa2-47ea-87dd-129f580fb669'});
+      Response res = await dio
+          .post('$rootURI/getSavingTargetList', data: {'userId': userId});
       if (res.data['status'] == 'error') {
         // 失敗
       } else {

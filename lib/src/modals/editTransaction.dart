@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
 import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
@@ -9,9 +10,10 @@ import 'package:switcher/switcher.dart';
 import '../class/transactionClass.dart';
 
 class EditTransaction extends StatefulWidget {
-  EditTransaction(this.transaction, {super.key});
+  EditTransaction(this.transaction, this.env, {super.key});
 
   transactionClass transaction;
+  envClass env;
 
   @override
   State<StatefulWidget> createState() => _EditTransaction();
@@ -19,11 +21,13 @@ class EditTransaction extends StatefulWidget {
 
 class _EditTransaction extends State<EditTransaction> {
   late transactionClass transaction;
+  late envClass env;
 
   @override
   void initState() {
     super.initState();
     transaction = widget.transaction;
+    env = widget.env;
   }
 
   @override
@@ -142,7 +146,7 @@ class _EditTransaction extends State<EditTransaction> {
                   final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SelectCategory(),
+                      builder: (context) => SelectCategory(env),
                     ),
                   );
                   if (result == null) return;
