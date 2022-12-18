@@ -127,6 +127,7 @@ class transactionApi {
     });
   }
 
+  /// 取引の追加
   static Future<void> addTransaction(
       transactionClass transaction, Function backNavigation) async {
     await Future(() async {
@@ -143,11 +144,29 @@ class transactionApi {
     });
   }
 
+  /// 取引の編集
   static Future<void> editTransaction(
       transactionClass transaction, Function backNavigation) async {
     await Future(() async {
       Response res = await dio.post('$rootURI/editTransaction',
           data: transaction.getTransactionJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        backNavigation();
+      }
+    });
+  }
+
+  /// 取引の削除
+  static Future<void> deleteTransaction(envClass env,
+      transactionClass transaction, Function backNavigation) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/deleteTransaction', data: {
+        'userId': env.userId,
+        'transactionId': transaction.transactionId
+      });
       if (res.data['status'] == 'error') {
         // 失敗
       } else {

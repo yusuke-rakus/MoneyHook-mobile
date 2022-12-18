@@ -48,6 +48,10 @@ class _EditTransaction extends State<EditTransaction> {
     }
   }
 
+  void _deleteTransaction(envClass env, transactionClass transaction) {
+    transactionApi.deleteTransaction(env, transaction, backNavigation);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +67,41 @@ class _EditTransaction extends State<EditTransaction> {
                 alignment: Alignment.topRight,
                 child: IconButton(
                     onPressed: () {
-                      // TODO 削除処理の実装
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                                title: const Text('この取引を削除します'),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)))),
+                                    child: const Text(
+                                      '中止',
+                                    ),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      // 削除処理
+                                      _deleteTransaction(env, transaction);
+                                      Navigator.pop(context);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor:
+                                            const Color(0xFFE53935),
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(5)))),
+                                    child: const Text(
+                                      '削除',
+                                    ),
+                                  )
+                                ],
+                              ));
                     },
                     icon: const Icon(
                       Icons.delete_outline,
