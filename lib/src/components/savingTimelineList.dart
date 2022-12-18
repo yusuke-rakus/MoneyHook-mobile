@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../modals/editSaving.dart';
+
 class SavingTimelineList extends StatelessWidget {
   const SavingTimelineList(
       {Key? key, required this.env, required this.savingTimelineList})
@@ -19,8 +21,13 @@ class SavingTimelineList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
             onTap: () {
-              // print(savingTimelineList[index]);
-              print(env.thisMonth);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        EditSaving(savingTimelineList[index], env),
+                    fullscreenDialog: true),
+              );
             },
             child: SizedBox(
               height: 35,

@@ -70,7 +70,7 @@ class _EditTransaction extends State<EditTransaction> {
                       showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                                title: const Text('この取引を削除します'),
+                                content: const Text('この取引を削除します'),
                                 actions: [
                                   ElevatedButton(
                                     onPressed: () {

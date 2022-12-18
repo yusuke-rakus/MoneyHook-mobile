@@ -57,7 +57,7 @@ class SavingScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          EditSavingTarget(savingTargetClass()),
+                          EditSavingTarget(savingTargetClass(), env),
                       fullscreenDialog: true),
                 );
               },

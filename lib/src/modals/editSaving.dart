@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/api/savingTargetApi.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
@@ -36,33 +37,86 @@ class _EditSaving extends State<EditSaving> {
     savingTargetApi.getSavingTargetList(setSavingTargetList, env.userId);
   }
 
+  void backNavigation() {
+    Navigator.pop(context);
+    // widget.setReload();
+  }
+
+  void _editSaving(savingClass saving, envClass env) {
+    saving.userId = env.userId;
+    if (saving.hasSavingId()) {
+      // 編集
+      savingApi.editSaving(saving, backNavigation);
+    } else {
+      //  新規追加
+      savingApi.addSaving(saving, backNavigation);
+    }
+  }
+
+  void _deleteSaving(envClass env, savingClass saving) {
+    savingApi.deleteSaving(env, saving, backNavigation);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: saving.hasSavingId() ? const Text('貯金の編集') : const Text('貯金の追加'),
+        actions: [
+          // 削除アイコン
+          Visibility(
+            visible: saving.hasSavingId(),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                  onPressed: () {
+                    showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => AlertDialog(
+                              content: const Text('この貯金を削除します'),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)))),
+                                  child: const Text(
+                                    '中止',
+                                  ),
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    // 削除処理
+                                    _deleteSaving(env, saving);
+                                    Navigator.pop(context);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color(0xFFE53935),
+                                      shape: const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(5)))),
+                                  child: const Text(
+                                    '削除',
+                                  ),
+                                )
+                              ],
+                            ));
+                  },
+                  icon: const Icon(
+                    Icons.delete_outline,
+                  )),
+            ),
+          ),
+        ],
       ),
       body: Stack(
         children: [
           ListView(
             padding: const EdgeInsets.all(8),
             children: [
-              // 削除アイコン
-              Visibility(
-                visible: saving.hasSavingId(),
-                child: SizedBox(
-                  height: 40,
-                  child: Align(
-                    alignment: Alignment.topRight,
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.delete_outline,
-                          color: Colors.black54,
-                        )),
-                  ),
-                ),
-              ),
               // 日付
               InkWell(
                 onTap: () {
@@ -233,7 +287,7 @@ class _EditSaving extends State<EditSaving> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    print(saving);
+                    _editSaving(saving, env);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(

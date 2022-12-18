@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 class savingClass {
+  var userId;
   int? savingId;
   var savingDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var savingName = '';
@@ -27,6 +28,17 @@ class savingClass {
 
   String getDay() {
     return DateFormat('yyyy-MM-dd').parse(savingDate).day.toString();
+  }
+
+  Map<String, dynamic> getSavingJson() {
+    return {
+      'userId': userId,
+      'savingId': savingId,
+      'savingDate': savingDate,
+      'savingName': savingName,
+      'savingAmount': savingAmount,
+      'savingTargetId': savingTargetId
+    };
   }
 
   @override

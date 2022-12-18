@@ -74,7 +74,7 @@ class _TotalSaving extends State<TotalSaving> {
               child: TotalSavingChart(totalSavingChart),
             ),
             // 貯金目標リスト
-            SavingTargetList(env: env, savingTargetList: savingTargetList),
+            SavingTargetList(context: context, env: env, savingTargetList: savingTargetList),
             const SizedBox(
               height: 100,
             )

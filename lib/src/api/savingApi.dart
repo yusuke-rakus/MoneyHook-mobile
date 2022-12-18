@@ -55,7 +55,7 @@ class savingApi {
           resultList.add(savingTargetClass.setFields(
             value['savingTargetId'],
             value['savingTargetName'],
-            value['savingTargetAmount'],
+            value['targetAmount'],
             value['totalSavedAmount'],
             value['savingCount'],
           ));
@@ -81,6 +81,53 @@ class savingApi {
               DateFormat('yyyy-MM-dd').parse(value['savingMonth'])));
         });
         setTotalSaving(res.data['totalSavingAmount'], resultList);
+      }
+    });
+  }
+
+  /// 貯金の追加
+  static Future<void> addSaving(
+      savingClass saving, Function backNavigation) async {
+    await Future(() async {
+      Response res =
+      await dio.post('$rootURI/addSaving', data: saving.getSavingJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        backNavigation();
+      }
+    });
+  }
+
+  /// 貯金の編集
+  static Future<void> editSaving(
+      savingClass saving, Function backNavigation) async {
+    await Future(() async {
+      Response res =
+      await dio.post('$rootURI/editSaving', data: saving.getSavingJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        backNavigation();
+      }
+    });
+  }
+
+  /// 貯金の削除
+  static Future<void> deleteSaving(envClass env,
+      savingClass saving, Function backNavigation) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/deleteSaving', data: {
+        'userId': env.userId,
+        'savingId': saving.savingId
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        backNavigation();
       }
     });
   }

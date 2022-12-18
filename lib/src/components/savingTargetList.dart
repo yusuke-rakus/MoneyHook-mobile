@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../modals/editSavingTarget.dart';
+
 class SavingTargetList extends StatelessWidget {
   const SavingTargetList(
-      {Key? key, required this.env, required this.savingTargetList})
+      {Key? key,
+      required this.context,
+      required this.env,
+      required this.savingTargetList})
       : super(key: key);
+  final BuildContext context;
   final envClass env;
   final List<savingTargetClass> savingTargetList;
 
@@ -29,7 +35,12 @@ class SavingTargetList extends StatelessWidget {
       child: InkWell(
         splashColor: Colors.blue.withAlpha(30),
         onTap: () {
-          debugPrint('Card tapped.');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => EditSavingTarget(savingTarget, env),
+                fullscreenDialog: true),
+          );
         },
         child: Container(
           padding: const EdgeInsets.all(10),

@@ -38,6 +38,15 @@ class savingTargetClass {
     return savingTargetId != null ? true : false;
   }
 
+  Map<String, dynamic> getSavingTargetJson() {
+    return {
+      'userId': userId,
+      'savingTargetId': savingTargetId,
+      'savingTargetName': savingTargetName,
+      'targetAmount': targetAmount
+    };
+  }
+
   @override
   String toString() {
     return 'savingTargetClass{userId: $userId, savingTargetId: $savingTargetId, savingTargetName: $savingTargetName, targetAmount: $targetAmount, savingTotalAmount: $savingTotalAmount, savingCount: $savingCount, monthlyTotalSavingAmount: $monthlyTotalSavingAmount, savingMonth: $savingMonth}';
