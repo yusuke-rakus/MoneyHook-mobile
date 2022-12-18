@@ -126,4 +126,34 @@ class transactionApi {
       }
     });
   }
+
+  static Future<void> addTransaction(
+      transactionClass transaction, Function backNavigation) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/addTransaction',
+          data: transaction.getTransactionJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
+        print('失敗');
+      } else {
+        // 成功
+        print('成功');
+        backNavigation();
+      }
+    });
+  }
+
+  static Future<void> editTransaction(
+      transactionClass transaction, Function backNavigation) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/editTransaction',
+          data: transaction.getTransactionJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        backNavigation();
+      }
+    });
+  }
 }

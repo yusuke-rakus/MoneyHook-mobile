@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../modals/editTransaction.dart';
+
 class TimelineList extends StatelessWidget {
-  const TimelineList({Key? key, required this.env, required this.timelineList})
+  const TimelineList(
+      {Key? key,
+      required this.env,
+      required this.timelineList,
+      required this.setReload})
       : super(key: key);
   final envClass env;
   final List<transactionClass> timelineList;
+  final Function setReload;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +25,13 @@ class TimelineList extends StatelessWidget {
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
             onTap: () {
-              print(timelineList[index].transactionId.toString());
-              print(env.thisMonth);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        EditTransaction(timelineList[index], env, setReload),
+                    fullscreenDialog: true),
+              );
             },
             child: SizedBox(
               height: 35,

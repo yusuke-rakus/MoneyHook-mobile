@@ -52,6 +52,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
     transactionApi.getTimelineChart(env, setTimelineChart);
   }
 
+  void setReload() {
+    transactionApi.getTimelineData(env, setLoading, setTimelineData);
+    transactionApi.getTimelineChart(env, setTimelineChart);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +104,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 : TimelineList(
                     env: env,
                     timelineList: timelineList.transactionList,
-                  ),
+                    setReload: setReload),
           ),
         ],
       ),

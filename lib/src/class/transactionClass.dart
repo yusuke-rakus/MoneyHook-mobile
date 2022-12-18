@@ -57,6 +57,21 @@ class transactionClass {
     return DateFormat('yyyy-MM-dd').parse(transactionDate).day.toString();
   }
 
+  Map<String, dynamic> getTransactionJson() {
+    return {
+      'userId': userId,
+      'transactionId': transactionId,
+      'transactionDate': transactionDate,
+      'transactionSign': transactionSign,
+      'transactionAmount': transactionAmount,
+      'transactionName': transactionName,
+      'categoryId': categoryId,
+      'subCategoryId': subCategoryId,
+      'subCategoryName': subCategoryName,
+      'fixedFlg': fixedFlg
+    };
+  }
+
   @override
   String toString() {
     return 'ユーザID: $userId, 取引ID: $transactionId, 取引日: $transactionDate, 金額符号: $transactionSign, 金額: $transactionAmount, 取引名: $transactionName, カテゴリID: $categoryId, カテゴリ名: $categoryName, サブカテゴリID: $subCategoryId, サブカテゴリ名: $subCategoryName, 固定費フラグ: $fixedFlg';

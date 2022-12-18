@@ -48,6 +48,10 @@ class _HomeScreenState extends State<HomeScreen> {
     transactionApi.getHome(env, setLoading, setHomeTransaction);
   }
 
+  void setReload(){
+    transactionApi.getHome(env, setLoading, setHomeTransaction);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          EditTransaction(transactionClass(), env),
+                          EditTransaction(transactionClass(), env, setReload),
                       fullscreenDialog: true),
                 );
               },

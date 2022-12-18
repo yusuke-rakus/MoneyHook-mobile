@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
 import 'package:switcher/core/switcher_size.dart';
@@ -10,10 +11,11 @@ import 'package:switcher/switcher.dart';
 import '../class/transactionClass.dart';
 
 class EditTransaction extends StatefulWidget {
-  EditTransaction(this.transaction, this.env, {super.key});
+  EditTransaction(this.transaction, this.env, this.setReload, {super.key});
 
   transactionClass transaction;
   envClass env;
+  Function setReload;
 
   @override
   State<StatefulWidget> createState() => _EditTransaction();
@@ -30,11 +32,45 @@ class _EditTransaction extends State<EditTransaction> {
     env = widget.env;
   }
 
+  void backNavigation() {
+    Navigator.pop(context);
+    widget.setReload();
+  }
+
+  void _editTransaction(transactionClass transaction, envClass env) {
+    transaction.userId = env.userId;
+    if (transaction.hasTransactionId()) {
+      // 編集
+      transactionApi.editTransaction(transaction, backNavigation);
+    } else {
+      // 新規追加
+      transactionApi.addTransaction(transaction, backNavigation);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('支出または収入の入力'),
+          title: transaction.hasTransactionId()
+              ? const Text('収支の編集')
+              : const Text('支出または収入の入力'),
+          actions: [
+            // 削除アイコン
+            Visibility(
+              visible: transaction.hasTransactionId(),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                    onPressed: () {
+                      // TODO 削除処理の実装
+                    },
+                    icon: const Icon(
+                      Icons.delete_outline,
+                    )),
+              ),
+            ),
+          ],
         ),
         body: ListView(
           padding: const EdgeInsets.all(8),
@@ -207,8 +243,7 @@ class _EditTransaction extends State<EditTransaction> {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    print(transaction);
-                    // Navigator.pop(context);
+                    _editTransaction(transaction, env);
                   },
                   style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
