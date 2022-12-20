@@ -6,9 +6,10 @@ import 'package:money_hooks/src/components/savingTargetList.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class TotalSaving extends StatefulWidget {
-  TotalSaving(this.env, {super.key});
+  TotalSaving(this.env, this.changeReload, {super.key});
 
   envClass env;
+  Function changeReload;
 
   @override
   State<TotalSaving> createState() => _TotalSaving();
@@ -40,6 +41,11 @@ class _TotalSaving extends State<TotalSaving> {
     });
   }
 
+  void setReload() {
+    savingApi.getSavingAmountForTarget(env.userId, setSavingTargetList);
+    savingApi.getTotalSaving(env, setTotalSaving);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -47,38 +53,43 @@ class _TotalSaving extends State<TotalSaving> {
     env.initMonth();
     savingApi.getSavingAmountForTarget(env.userId, setSavingTargetList);
     savingApi.getTotalSaving(env, setTotalSaving);
+    widget.changeReload(setReload);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-          children: [
-            // 合計値
-            Container(
-              margin: const EdgeInsets.only(right: 15, left: 15),
-              height: 60,
-              child: Row(
-                children: [
-                  const Text('貯金総額', style: TextStyle(fontSize: 17)),
-                  const SizedBox(width: 20),
-                  Text(totalSaving.toString(),
-                      style: const TextStyle(
-                          fontSize: 20, color: Colors.green)),
-                ],
-              ),
-            ),
-            // グラフ
-            SizedBox(
-              height: 200,
-              child: TotalSavingChart(totalSavingChart),
-            ),
-            // 貯金目標リスト
-            SavingTargetList(context: context, env: env, savingTargetList: savingTargetList),
-            const SizedBox(
-              height: 100,
-            )
-          ],
-        ));
+      children: [
+        // 合計値
+        Container(
+          margin: const EdgeInsets.only(right: 15, left: 15),
+          height: 60,
+          child: Row(
+            children: [
+              const Text('貯金総額', style: TextStyle(fontSize: 17)),
+              const SizedBox(width: 20),
+              Text(totalSaving.toString(),
+                  style: const TextStyle(fontSize: 20, color: Colors.green)),
+            ],
+          ),
+        ),
+        // グラフ
+        SizedBox(
+          height: 200,
+          child: TotalSavingChart(totalSavingChart),
+        ),
+        // 貯金目標リスト
+        SavingTargetList(
+          context: context,
+          env: env,
+          savingTargetList: savingTargetList,
+          setReload: setReload,
+        ),
+        const SizedBox(
+          height: 100,
+        )
+      ],
+    ));
   }
 }

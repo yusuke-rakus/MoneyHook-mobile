@@ -6,15 +6,14 @@ class savingClass {
   var savingDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var savingName = '';
   num? savingAmount;
-  int? savingTargetId;
+  num? savingTargetId;
   var savingTargetName = '';
 
   savingClass();
 
   savingClass.setFields(this.savingDate, this.savingName, var savingId,
-      this.savingAmount, var savingTargetId, var savingTargetName) {
+      this.savingAmount, this.savingTargetId, var savingTargetName) {
     this.savingId = savingId ?? 0;
-    this.savingTargetId = savingTargetId ?? 0;
     this.savingTargetName = savingTargetName ?? '';
   }
 

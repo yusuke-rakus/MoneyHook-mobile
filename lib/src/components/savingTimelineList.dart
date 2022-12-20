@@ -6,10 +6,11 @@ import '../modals/editSaving.dart';
 
 class SavingTimelineList extends StatelessWidget {
   const SavingTimelineList(
-      {Key? key, required this.env, required this.savingTimelineList})
+      {Key? key, required this.env, required this.savingTimelineList, required this.setReload})
       : super(key: key);
   final envClass env;
   final List<savingClass> savingTimelineList;
+  final Function setReload;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +26,7 @@ class SavingTimelineList extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
-                        EditSaving(savingTimelineList[index], env),
+                        EditSaving(savingTimelineList[index], env, setReload),
                     fullscreenDialog: true),
               );
             },

@@ -9,10 +9,11 @@ import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class EditSaving extends StatefulWidget {
-  EditSaving(this.saving, this.env, {super.key});
+  EditSaving(this.saving, this.env, this.setReload, {super.key});
 
   savingClass saving;
   envClass env;
+  Function setReload;
 
   @override
   State<EditSaving> createState() => _EditSaving();
@@ -38,8 +39,8 @@ class _EditSaving extends State<EditSaving> {
   }
 
   void backNavigation() {
+    widget.setReload();
     Navigator.pop(context);
-    // widget.setReload();
   }
 
   void _editSaving(savingClass saving, envClass env) {
@@ -225,7 +226,7 @@ class _EditSaving extends State<EditSaving> {
                                   initialItem: savingTargetList
                                       .map((e) => e.savingTargetId)
                                       .toList()
-                                      .indexOf(saving.savingTargetId)),
+                                      .indexOf(saving.savingTargetId?.toInt())),
                               onSelectedItemChanged: (int i) {
                                 setState(() {
                                   // 貯金目標をセット

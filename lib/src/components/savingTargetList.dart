@@ -9,11 +9,13 @@ class SavingTargetList extends StatelessWidget {
       {Key? key,
       required this.context,
       required this.env,
-      required this.savingTargetList})
+      required this.savingTargetList,
+      required this.setReload})
       : super(key: key);
   final BuildContext context;
   final envClass env;
   final List<savingTargetClass> savingTargetList;
+  final Function setReload;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class SavingTargetList extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EditSavingTarget(savingTarget, env),
+                builder: (context) => EditSavingTarget(savingTarget, env, setReload),
                 fullscreenDialog: true),
           );
         },

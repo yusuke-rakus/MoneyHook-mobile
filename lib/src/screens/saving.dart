@@ -9,11 +9,22 @@ import 'package:money_hooks/src/view/totalSaving.dart';
 import '../class/savingTargetClass.dart';
 import '../env/envClass.dart';
 
-class SavingScreen extends StatelessWidget {
+class SavingScreen extends StatefulWidget {
   SavingScreen(this.isLoading, this.env, {super.key});
 
   bool isLoading;
   envClass env;
+
+  @override
+  State<SavingScreen> createState() => _SavingScreenState();
+}
+
+class _SavingScreenState extends State<SavingScreen> {
+  late Function setReload;
+
+  void changeReload(Function function) {
+    setReload = function;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +41,8 @@ class SavingScreen extends StatelessWidget {
           ),
         ),
         body: TabBarView(children: <Widget>[
-          SavingList(env),
-          TotalSaving(env),
+          SavingList(widget.env, changeReload),
+          TotalSaving(widget.env, changeReload),
         ]),
         floatingActionButton: SpeedDial(
           icon: Icons.add,
@@ -43,7 +54,8 @@ class SavingScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EditSaving(savingClass(), env),
+                      builder: (context) =>
+                          EditSaving(savingClass(), widget.env, setReload),
                       fullscreenDialog: true),
                 );
               },
@@ -56,8 +68,8 @@ class SavingScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          EditSavingTarget(savingTargetClass(), env),
+                      builder: (context) => EditSavingTarget(
+                          savingTargetClass(), widget.env, setReload),
                       fullscreenDialog: true),
                 );
               },

@@ -6,10 +6,11 @@ import 'package:money_hooks/src/env/envClass.dart';
 import '../class/savingTargetClass.dart';
 
 class EditSavingTarget extends StatefulWidget {
-  EditSavingTarget(this.savingTarget, this.env, {super.key});
+  EditSavingTarget(this.savingTarget, this.env, this.setReload, {super.key});
 
   savingTargetClass savingTarget;
   envClass env;
+  Function setReload;
 
   @override
   State<EditSavingTarget> createState() => _EditSavingTarget();
@@ -27,8 +28,8 @@ class _EditSavingTarget extends State<EditSavingTarget> {
   }
 
   void backNavigation() {
+    widget.setReload();
     Navigator.pop(context);
-    // widget.setReload();
   }
 
   void _editSavingTarget(savingTargetClass savingTarget, envClass env) {

@@ -6,9 +6,10 @@ import 'package:money_hooks/src/env/envClass.dart';
 import '../class/savingClass.dart';
 
 class SavingList extends StatefulWidget {
-  SavingList(this.env, {super.key});
+  SavingList(this.env, this.changeReload, {super.key});
 
   envClass env;
+  Function changeReload;
 
   @override
   State<SavingList> createState() => _SavingList();
@@ -33,12 +34,17 @@ class _SavingList extends State<SavingList> {
     });
   }
 
+  void setReload() {
+    savingApi.getMonthlySavingData(env, setSavingList);
+  }
+
   @override
   void initState() {
     super.initState();
     env = widget.env;
     env.initMonth();
     savingApi.getMonthlySavingData(env, setSavingList);
+    widget.changeReload(setReload);
   }
 
   @override
@@ -97,6 +103,7 @@ class _SavingList extends State<SavingList> {
               SavingTimelineList(
                 env: env,
                 savingTimelineList: savingList,
+                setReload: setReload,
               )
             ]),
           ),
