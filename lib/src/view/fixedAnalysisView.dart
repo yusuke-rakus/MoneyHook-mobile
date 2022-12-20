@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/fixedAnalysisAccordion.dart';
@@ -105,9 +106,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     const Text('可処分所得額', style: TextStyle(fontSize: 17)),
                     const SizedBox(width: 20),
                     Text(
-                        (monthlyFixedIncome.disposableIncome +
-                                monthlyFixedSpending.disposableIncome)
-                            .toString(),
+                        transactionClass.formatNum(
+                            (monthlyFixedIncome.disposableIncome +
+                                monthlyFixedSpending.disposableIncome)),
                         style: const TextStyle(fontSize: 30)),
                   ],
                 ),
@@ -128,7 +129,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          monthlyFixedIncome.disposableIncome.toString(),
+                          transactionClass
+                              .formatNum(monthlyFixedIncome.disposableIncome),
                           style: const TextStyle(fontSize: 20),
                         )
                       ],
@@ -158,7 +160,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                           style: TextStyle(fontSize: 20),
                         ),
                         Text(
-                          monthlyFixedSpending.disposableIncome.toString(),
+                          transactionClass
+                              .formatNum(monthlyFixedSpending.disposableIncome),
                           style: const TextStyle(fontSize: 20),
                         )
                       ],

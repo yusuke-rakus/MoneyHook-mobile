@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     transactionApi.getHome(env, setLoading, setHomeTransaction);
   }
 
-  void setReload(){
+  void setReload() {
     transactionApi.getHome(env, setLoading, setHomeTransaction);
   }
 
@@ -102,7 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const Text('収支', style: TextStyle(fontSize: 20)),
                       const SizedBox(width: 20),
-                      Text(homeTransactionList.balance.toString(),
+                      Text(
+                          transactionClass
+                              .formatNum(homeTransactionList.balance),
                           style: TextStyle(
                               fontSize: 20,
                               color: homeTransactionList.balance < 0

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
 
 class FixedAnalysisAccordion extends StatelessWidget {
   const FixedAnalysisAccordion({Key? key, required this.monthlyFixedList})
@@ -18,7 +19,8 @@ class FixedAnalysisAccordion extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(monthlyFixedList[index]['categoryName']),
-              Text(monthlyFixedList[index]['totalCategoryAmount'].toString()),
+              Text(transactionClass
+                  .formatNum(monthlyFixedList[index]['totalCategoryAmount'])),
             ],
           ),
           children: monthlyFixedList[index]['transactionList']
@@ -27,7 +29,8 @@ class FixedAnalysisAccordion extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(value['transactionName']),
-                      Text(value['transactionAmount'].toString()),
+                      Text(transactionClass
+                          .formatNum(value['transactionAmount'])),
                     ],
                   )))
               .toList(),

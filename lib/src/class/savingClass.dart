@@ -17,6 +17,11 @@ class savingClass {
     this.savingTargetName = savingTargetName ?? '';
   }
 
+  static String formatNum(int num) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(num);
+  }
+
   bool hasSavingId() {
     return savingId != null ? true : false;
   }

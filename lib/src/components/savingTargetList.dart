@@ -40,7 +40,8 @@ class SavingTargetList extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => EditSavingTarget(savingTarget, env, setReload),
+                builder: (context) =>
+                    EditSavingTarget(savingTarget, env, setReload),
                 fullscreenDialog: true),
           );
         },
@@ -76,7 +77,10 @@ class SavingTargetList extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 10, right: 10),
-                              child: Text(savingTarget.targetAmount.toString()),
+                              child: Text(savingTarget.targetAmount.toString()
+                                  // TODO num? -> int
+                                  //   savingTargetClass.formatNum(savingTarget.targetAmount)
+                                  ),
                             ),
                             const Text('円'),
                           ]),

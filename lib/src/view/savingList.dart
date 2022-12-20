@@ -93,7 +93,7 @@ class _SavingList extends State<SavingList> {
                   children: [
                     const Text('今月の貯金', style: TextStyle(fontSize: 17)),
                     const SizedBox(width: 20),
-                    Text(totalSavingAmount.toString(),
+                    Text(savingClass.formatNum(totalSavingAmount),
                         style:
                             const TextStyle(fontSize: 30, color: Colors.green)),
                   ],

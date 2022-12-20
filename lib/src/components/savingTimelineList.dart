@@ -6,7 +6,10 @@ import '../modals/editSaving.dart';
 
 class SavingTimelineList extends StatelessWidget {
   const SavingTimelineList(
-      {Key? key, required this.env, required this.savingTimelineList, required this.setReload})
+      {Key? key,
+      required this.env,
+      required this.savingTimelineList,
+      required this.setReload})
       : super(key: key);
   final envClass env;
   final List<savingClass> savingTimelineList;
@@ -44,7 +47,10 @@ class SavingTimelineList extends StatelessWidget {
                     style: const TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '¥${savingTimelineList[index].savingAmount.toString()}',
+                    '¥${savingTimelineList[index].savingAmount}',
+                    // TODO num? -> int
+                    // savingClass.formatNum(
+                    //     savingTimelineList[index].savingAmount),
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Icon(Icons.arrow_forward_ios),

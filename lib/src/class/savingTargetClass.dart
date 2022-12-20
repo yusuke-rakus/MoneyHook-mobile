@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class savingTargetClass {
   var userId = '';
   int? savingTargetId;
@@ -32,6 +34,11 @@ class savingTargetClass {
     this.savingMonth,
   ) {
     savingTargetId = 0;
+  }
+
+  static String formatNum(int num) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(num);
   }
 
   bool hasTargetId() {

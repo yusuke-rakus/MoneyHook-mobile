@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
@@ -89,7 +90,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                   children: [
                     const Text('変動費合計', style: TextStyle(fontSize: 17)),
                     const SizedBox(width: 20),
-                    Text(data.totalVariable.toString(),
+                    Text(transactionClass.formatNum(data.totalVariable),
                         style: const TextStyle(fontSize: 30)),
                   ],
                 ),
@@ -123,7 +124,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('${monthlyVariableList['categoryName']}'),
-            Text(monthlyVariableList['categoryTotalAmount'].abs().toString()),
+            Text(transactionClass
+                .formatNum(monthlyVariableList['categoryTotalAmount'].abs())),
           ],
         ),
         children: monthlyVariableList['subCategoryList']
@@ -132,9 +134,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(subCategory['subCategoryName']),
-                      Text(subCategory['subCategoryTotalAmount']
-                          .abs()
-                          .toString()),
+                      Text(transactionClass.formatNum(
+                          subCategory['subCategoryTotalAmount'].abs())),
                     ],
                   ),
                   children: subCategory['transactionList']
@@ -143,7 +144,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(tran['transactionName']),
-                              Text(tran['transactionAmount'].abs().toString()),
+                              Text(transactionClass
+                                  .formatNum(tran['transactionAmount'].abs())),
                             ],
                           )))
                       .toList(),

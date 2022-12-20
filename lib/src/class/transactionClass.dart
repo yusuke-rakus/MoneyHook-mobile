@@ -45,6 +45,11 @@ class transactionClass {
     this.transactionAmount = transactionAmount.abs();
   }
 
+  static String formatNum(int num) {
+    final formatter = NumberFormat('#,###');
+    return formatter.format(num);
+  }
+
   bool hasTransactionId() {
     return transactionId.isNotEmpty ? true : false;
   }

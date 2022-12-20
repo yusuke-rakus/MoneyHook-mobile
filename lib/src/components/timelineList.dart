@@ -51,7 +51,7 @@ class TimelineList extends StatelessWidget {
                     style: const TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '¥${timelineList[index].transactionAmount.toString()}',
+                    '¥${transactionClass.formatNum(int.parse(timelineList[index].transactionAmount))}',
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Icon(Icons.arrow_forward_ios),
