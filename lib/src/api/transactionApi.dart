@@ -75,7 +75,8 @@ class transactionApi {
   }
 
   static Future<void> getMonthlyVariableData(
-      envClass env, Function setMonthlyVariable) async {
+      envClass env, Function setLoading, Function setMonthlyVariable) async {
+    setLoading();
     await Future(() async {
       Response res = await dio.post('$rootURI/getMonthlyVariableData',
           data: env.getJson());
@@ -95,6 +96,7 @@ class transactionApi {
         setMonthlyVariable(res.data['totalVariable'].abs(), resultList);
       }
     });
+    setLoading();
   }
 
   static Future<void> getMonthlyFixedIncome(
@@ -112,8 +114,9 @@ class transactionApi {
     });
   }
 
-  static Future<void> getMonthlyFixedSpending(
-      envClass env, Function setMonthlyFixedSpending) async {
+  static Future<void> getMonthlyFixedSpending(envClass env, Function setLoading,
+      Function setMonthlyFixedSpending) async {
+    setLoading();
     await Future(() async {
       Response res = await dio.post('$rootURI/getMonthlyFixedSpending',
           data: env.getJson());
@@ -125,6 +128,7 @@ class transactionApi {
             res.data['disposableIncome'], res.data['monthlyFixedList']);
       }
     });
+    setLoading();
   }
 
   /// 取引の追加

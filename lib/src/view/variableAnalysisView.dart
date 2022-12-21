@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
@@ -6,8 +7,9 @@ import 'package:money_hooks/src/env/envClass.dart';
 import '../class/response/monthlyVariableData.dart';
 
 class VariableAnalysisView extends StatefulWidget {
-  VariableAnalysisView(this.env, {super.key});
+  VariableAnalysisView(this.env, this.isLoading, {super.key});
 
+  bool isLoading;
   envClass env;
 
   @override
@@ -36,9 +38,10 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
   @override
   void initState() {
     super.initState();
+    _isLoading = widget.isLoading;
     env = widget.env;
     env.initMonth();
-    transactionApi.getMonthlyVariableData(env, setMonthlyVariable);
+    transactionApi.getMonthlyVariableData(env, setLoading, setMonthlyVariable);
   }
 
   @override
@@ -58,7 +61,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                       setState(() {
                         env.subtractMonth();
                         transactionApi.getMonthlyVariableData(
-                            env, setMonthlyVariable);
+                            env, setLoading, setMonthlyVariable);
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -71,7 +74,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
                           transactionApi.getMonthlyVariableData(
-                              env, setMonthlyVariable);
+                              env, setLoading, setMonthlyVariable);
                         }
                       });
                     },
@@ -79,38 +82,43 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
               ],
             ),
           ),
-          Flexible(
-              child: ListView(
-            children: [
-              // 合計値
-              Container(
-                margin: const EdgeInsets.only(right: 15, left: 15),
-                height: 60,
-                child: Row(
+          _isLoading
+              ? Center(
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                      color: const Color(0xFF76D5FF), size: 50))
+              : Flexible(
+                  child: ListView(
                   children: [
-                    const Text('変動費合計', style: TextStyle(fontSize: 17)),
-                    const SizedBox(width: 20),
-                    Text(transactionClass.formatNum(data.totalVariable),
-                        style: const TextStyle(fontSize: 30)),
+                    // 合計値
+                    Container(
+                      margin: const EdgeInsets.only(right: 15, left: 15),
+                      height: 60,
+                      child: Row(
+                        children: [
+                          const Text('変動費合計', style: TextStyle(fontSize: 17)),
+                          const SizedBox(width: 20),
+                          Text(transactionClass.formatNum(data.totalVariable),
+                              style: const TextStyle(fontSize: 30)),
+                        ],
+                      ),
+                    ),
+                    // 変動費
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 10),
+                      itemCount: data.monthlyVariableList.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _variableAccordion(
+                            context, data.monthlyVariableList[index]);
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return const Divider();
+                      },
+                    ),
                   ],
-                ),
-              ),
-              // 変動費
-              ListView.separated(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                itemCount: data.monthlyVariableList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return _variableAccordion(
-                      context, data.monthlyVariableList[index]);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return const Divider();
-                },
-              ),
-            ],
-          )),
+                )),
         ],
       ),
     );

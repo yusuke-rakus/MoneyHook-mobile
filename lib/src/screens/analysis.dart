@@ -26,8 +26,8 @@ class AnalysisScreen extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            VariableAnalysisView(env),
-            FixedAnalysisView(env),
+            VariableAnalysisView(env, isLoading),
+            FixedAnalysisView(env, isLoading),
           ],
         ),
       ),

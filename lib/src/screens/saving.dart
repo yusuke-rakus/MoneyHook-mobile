@@ -41,8 +41,8 @@ class _SavingScreenState extends State<SavingScreen> {
           ),
         ),
         body: TabBarView(children: <Widget>[
-          SavingList(widget.env, changeReload),
-          TotalSaving(widget.env, changeReload),
+          SavingList(widget.env, widget.isLoading, changeReload),
+          TotalSaving(widget.env, widget.isLoading, changeReload),
         ]),
         floatingActionButton: SpeedDial(
           icon: Icons.add,

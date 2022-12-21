@@ -13,7 +13,8 @@ class savingApi {
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   static Future<void> getMonthlySavingData(
-      envClass env, Function setSavingList) async {
+      envClass env, Function setLoading, Function setSavingList) async {
+    setLoading();
     await Future(() async {
       Response res =
           await dio.post('$rootURI/getMonthlySavingData', data: env.getJson());
@@ -38,10 +39,12 @@ class savingApi {
         setSavingList(resultList, resultAmount);
       }
     });
+    setLoading();
   }
 
   static Future<void> getSavingAmountForTarget(
-      String userId, Function setSavingTargetList) async {
+      String userId, Function setLoading, Function setSavingTargetList) async {
+    setLoading();
     await Future(() async {
       Response res = await dio.post('$rootURI/getSavingAmountForTarget', data: {
         'userId': userId,
@@ -63,6 +66,7 @@ class savingApi {
         setSavingTargetList(resultList);
       }
     });
+    setLoading();
   }
 
   static Future<void> getTotalSaving(
