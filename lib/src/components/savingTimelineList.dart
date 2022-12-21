@@ -47,10 +47,7 @@ class SavingTimelineList extends StatelessWidget {
                     style: const TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '¥${savingTimelineList[index].savingAmount}',
-                    // TODO num? -> int
-                    // savingClass.formatNum(
-                    //     savingTimelineList[index].savingAmount),
+                    '¥${savingClass.formatNum(savingTimelineList[index].savingAmount.toInt())}',
                     style: const TextStyle(fontSize: 15),
                   ),
                   const Icon(Icons.arrow_forward_ios),

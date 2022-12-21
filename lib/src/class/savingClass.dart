@@ -5,7 +5,7 @@ class savingClass {
   int? savingId;
   var savingDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var savingName = '';
-  num? savingAmount;
+  num savingAmount = 0;
   num? savingTargetId;
   var savingTargetName = '';
 

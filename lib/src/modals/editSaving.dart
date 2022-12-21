@@ -172,7 +172,7 @@ class _EditSaving extends State<EditSaving> {
                             saving.savingAmount = int.parse(value);
                           },
                           controller: TextEditingController(
-                              text: saving.savingAmount != null
+                              text: saving.savingAmount != 0
                                   ? saving.savingAmount.toString()
                                   : ''),
                           decoration: const InputDecoration(

@@ -77,10 +77,8 @@ class SavingTargetList extends StatelessWidget {
                             Padding(
                               padding:
                                   const EdgeInsets.only(left: 10, right: 10),
-                              child: Text(savingTarget.targetAmount.toString()
-                                  // TODO num? -> int
-                                  //   savingTargetClass.formatNum(savingTarget.targetAmount)
-                                  ),
+                              child: Text(savingTargetClass.formatNum(
+                                  savingTarget.targetAmount.toInt())),
                             ),
                             const Text('円'),
                           ]),
@@ -100,7 +98,7 @@ class SavingTargetList extends StatelessWidget {
                       children: [
                         const Text('貯金額'),
                         Text(
-                          '¥${savingTarget.savingTotalAmount}',
+                          '¥${savingTargetClass.formatNum(savingTarget.savingTotalAmount.toInt())}',
                           style: const TextStyle(fontSize: 20),
                         ),
                       ],

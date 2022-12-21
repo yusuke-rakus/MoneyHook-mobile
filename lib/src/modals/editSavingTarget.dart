@@ -135,7 +135,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                             savingTarget.targetAmount = int.parse(value);
                           },
                           controller: TextEditingController(
-                              text: savingTarget.targetAmount != null
+                              text: savingTarget.targetAmount != 0
                                   ? savingTarget.targetAmount.toString()
                                   : ''),
                           decoration: const InputDecoration(
