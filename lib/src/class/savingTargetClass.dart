@@ -5,9 +5,9 @@ class savingTargetClass {
   int? savingTargetId;
   var savingTargetName = '';
   num targetAmount = 0;
-  late num savingTotalAmount;
-  late num savingCount;
-  late num monthlyTotalSavingAmount;
+  num savingTotalAmount = 0;
+  num savingCount = 0;
+  num monthlyTotalSavingAmount = 0;
   DateTime savingMonth = DateTime.now();
 
   savingTargetClass();

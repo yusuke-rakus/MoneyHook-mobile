@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
+import 'package:money_hooks/src/api/validation/savingTargetValidation.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 
 import '../env/envClass.dart';
@@ -34,6 +35,11 @@ class savingTargetApi {
   /// 貯金目標の追加
   static Future<void> addSavingTarget(
       savingTargetClass savingTarget, Function backNavigation) async {
+    // バリデーション
+    if (savingTargetValidation.checkSavingTarget(savingTarget)) {
+      return;
+    }
+
     await Future(() async {
       Response res = await dio.post('$rootURI/addSavingTarget',
           data: savingTarget.getSavingTargetJson());
