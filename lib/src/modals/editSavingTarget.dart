@@ -132,7 +132,11 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                       Flexible(
                         child: TextField(
                           onChanged: (value) {
-                            savingTarget.targetAmount = int.parse(value);
+                            if (value.isNotEmpty) {
+                              savingTarget.targetAmount = int.parse(value);
+                            } else {
+                              savingTarget.targetAmount = 0;
+                            }
                           },
                           controller: TextEditingController(
                               text: savingTarget.targetAmount != 0

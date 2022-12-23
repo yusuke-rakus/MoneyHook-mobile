@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/api.dart';
+import 'package:money_hooks/src/api/validation/savingValidation.dart';
 
 import '../class/savingClass.dart';
 import '../class/savingTargetClass.dart';
@@ -92,6 +93,10 @@ class savingApi {
   /// 貯金の追加
   static Future<void> addSaving(
       savingClass saving, Function backNavigation) async {
+    if (savingValidation.checkSaving(saving)) {
+      return;
+    }
+
     await Future(() async {
       Response res =
           await dio.post('$rootURI/addSaving', data: saving.getSavingJson());
@@ -107,6 +112,10 @@ class savingApi {
   /// 貯金の編集
   static Future<void> editSaving(
       savingClass saving, Function backNavigation) async {
+    if (savingValidation.checkSaving(saving)) {
+      return;
+    }
+
     await Future(() async {
       Response res =
           await dio.post('$rootURI/editSaving', data: saving.getSavingJson());

@@ -54,10 +54,15 @@ class savingTargetApi {
 
   /// 貯金目標の編集
   static Future<void> editSavingTarget(
-      savingTargetClass saving, Function backNavigation) async {
+      savingTargetClass savingTarget, Function backNavigation) async {
+    // バリデーション
+    if (savingTargetValidation.checkSavingTarget(savingTarget)) {
+      return;
+    }
+
     await Future(() async {
       Response res = await dio.post('$rootURI/editSavingTarget',
-          data: saving.getSavingTargetJson());
+          data: savingTarget.getSavingTargetJson());
       if (res.data['status'] == 'error') {
         // 失敗
       } else {

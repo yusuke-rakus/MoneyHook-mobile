@@ -9,12 +9,13 @@ class savingTargetValidation {
       return true;
     }
 
-    //文字数チェック
+    // 文字数チェック
     if (savingTarget.savingTargetName.length > 32) {
       print('er');
       return true;
     }
 
+    // 桁数チェック
     if (savingTarget.targetAmount > 99999999) {
       print('er');
       return true;

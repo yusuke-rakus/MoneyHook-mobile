@@ -169,7 +169,11 @@ class _EditSaving extends State<EditSaving> {
                       Flexible(
                         child: TextField(
                           onChanged: (value) {
-                            saving.savingAmount = int.parse(value);
+                            if (value.isNotEmpty) {
+                              saving.savingAmount = int.parse(value);
+                            } else {
+                              saving.savingAmount = 0;
+                            }
                           },
                           controller: TextEditingController(
                               text: saving.savingAmount != 0
