@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:money_hooks/src/api/validation/transactionValidation.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
@@ -45,7 +46,7 @@ class transactionApi {
               transactionId,
               transactionDate,
               transactionSign,
-              transactionAmount,
+              int.parse(transactionAmount),
               transactionName,
               categoryName));
         });
@@ -134,18 +135,22 @@ class transactionApi {
   /// 取引の追加
   static Future<void> addTransaction(
       transactionClass transaction, Function backNavigation) async {
-    await Future(() async {
-      Response res = await dio.post('$rootURI/addTransaction',
-          data: transaction.getTransactionJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-        print('失敗');
-      } else {
-        // 成功
-        print('成功');
-        backNavigation();
-      }
-    });
+    if (transactionValidation.checkTransaction(transaction)) {
+      return;
+    }
+
+    // await Future(() async {
+    //   Response res = await dio.post('$rootURI/addTransaction',
+    //       data: transaction.getTransactionJson());
+    //   if (res.data['status'] == 'error') {
+    //     // 失敗
+    //     print('失敗');
+    //   } else {
+    //     // 成功
+    //     print('成功');
+    //     backNavigation();
+    //   }
+    // });
   }
 
   /// 取引の編集

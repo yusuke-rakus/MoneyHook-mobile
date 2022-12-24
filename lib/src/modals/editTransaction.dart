@@ -182,10 +182,16 @@ class _EditTransaction extends State<EditTransaction> {
                   Flexible(
                     child: TextField(
                       onChanged: (value) {
-                        transaction.transactionAmount = value;
+                        if (value.isNotEmpty) {
+                          transaction.transactionAmount = int.parse(value);
+                        } else {
+                          transaction.transactionAmount = 0;
+                        }
                       },
                       controller: TextEditingController(
-                          text: transaction.transactionAmount),
+                          text: transaction.transactionAmount != 0
+                              ? transaction.transactionAmount.toString()
+                              : ''),
                       decoration: const InputDecoration(
                           hintText: '¥0',
                           hintStyle: TextStyle(fontSize: 20, letterSpacing: 8)),

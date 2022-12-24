@@ -5,7 +5,7 @@ class transactionClass {
   var transactionId = '';
   var transactionDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var transactionSign = -1;
-  var transactionAmount;
+  num transactionAmount = 0;
   var transactionName = '';
   var categoryId = 1;
   var categoryName = '食費';
