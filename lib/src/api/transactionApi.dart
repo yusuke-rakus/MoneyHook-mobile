@@ -159,7 +159,7 @@ class transactionApi {
     if (transactionValidation.checkTransaction(transaction)) {
       return;
     }
-    
+
     await Future(() async {
       Response res = await dio.post('$rootURI/editTransaction',
           data: transaction.getTransactionJson());

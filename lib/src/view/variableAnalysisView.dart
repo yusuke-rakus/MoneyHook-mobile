@@ -90,18 +90,42 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                   child: ListView(
                   children: [
                     // 合計値
-                    Container(
-                      margin: const EdgeInsets.only(right: 15, left: 15),
-                      height: 60,
-                      child: Row(
-                        children: [
-                          const Text('変動費合計', style: TextStyle(fontSize: 17)),
-                          const SizedBox(width: 20),
-                          Text(transactionClass.formatNum(data.totalVariable),
-                              style: const TextStyle(fontSize: 30)),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: RichText(
+                        text: TextSpan(
+                            style: const TextStyle(
+                                color: Colors.black87, fontSize: 17),
+                            children: [
+                              const TextSpan(text: '変動費合計'),
+                              const WidgetSpan(
+                                  child: SizedBox(
+                                width: 10,
+                              )),
+                              TextSpan(
+                                  text: transactionClass
+                                      .formatNum(data.totalVariable),
+                                  style: const TextStyle(fontSize: 30)),
+                              const WidgetSpan(
+                                  child: SizedBox(
+                                width: 5,
+                              )),
+                              const TextSpan(text: '円'),
+                            ]),
                       ),
                     ),
+                    // Container(
+                    //   margin: const EdgeInsets.only(right: 15, left: 15),
+                    //   height: 60,
+                    //   child: Row(
+                    //     children: [
+                    //       const Text('変動費合計', style: TextStyle(fontSize: 17)),
+                    //       const SizedBox(width: 20),
+                    //       Text(transactionClass.formatNum(data.totalVariable), style: const TextStyle(fontSize: 30)),
+                    //       const Text('円', style: TextStyle(fontSize: 17)),
+                    //     ],
+                    //   ),
+                    // ),
                     // 変動費
                     ListView.separated(
                       shrinkWrap: true,
@@ -132,8 +156,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text('${monthlyVariableList['categoryName']}'),
-            Text(transactionClass
-                .formatNum(monthlyVariableList['categoryTotalAmount'].abs())),
+            Text(
+                '¥${transactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
           ],
         ),
         children: monthlyVariableList['subCategoryList']
@@ -142,18 +166,31 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(subCategory['subCategoryName']),
-                      Text(transactionClass.formatNum(
-                          subCategory['subCategoryTotalAmount'].abs())),
+                      Text(
+                          '¥${transactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
                     ],
                   ),
                   children: subCategory['transactionList']
                       .map<Widget>((tran) => ListTile(
                               title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(tran['transactionName']),
-                              Text(transactionClass
-                                  .formatNum(tran['transactionAmount'].abs())),
+                              Expanded(
+                                flex: 7,
+                                child: Text(
+                                  tran['transactionName'],
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Row(
+                                  children: [
+                                    const Expanded(child: SizedBox()),
+                                    Text(
+                                        '¥${transactionClass.formatNum(tran['transactionAmount'].abs())}'),
+                                  ],
+                                ),
+                              ),
                             ],
                           )))
                       .toList(),
