@@ -10,9 +10,17 @@ class transactionValidation {
     }
 
     // 文字数チェック
+    if (transaction.transactionName.length > 32) {
+      print('er');
+      return true;
+    }
 
     // 桁数チェック
-    
+    if (transaction.transactionAmount > 99999999) {
+      print('er');
+      return true;
+    }
+
     print('ok');
     return false;
   }

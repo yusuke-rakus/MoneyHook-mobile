@@ -55,6 +55,7 @@ class savingApi {
       } else {
         // 成功
         List<savingTargetClass> resultList = [];
+        resultList.add(savingTargetClass.setFields(1, 'sample', 1111111111111, 222222222222222, 3333333333333));
         res.data['savingTargetList'].forEach((value) {
           resultList.add(savingTargetClass.setFields(
             value['savingTargetId'],

@@ -54,54 +54,73 @@ class SavingTargetList extends StatelessWidget {
                   decoration: const BoxDecoration(
                       border:
                           Border(bottom: BorderSide(color: Colors.black26))),
-                  child: Text(savingTarget.savingTargetName)),
+                  child: Text(
+                    savingTarget.savingTargetName,
+                    overflow: TextOverflow.ellipsis,
+                  )),
               Container(
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    DefaultTextStyle(
-                      style:
-                          const TextStyle(fontSize: 15, color: Colors.black87),
-                      child: Table(
-                        columnWidths: const <int, TableColumnWidth>{
-                          0: IntrinsicColumnWidth(),
-                          1: IntrinsicColumnWidth(),
-                          2: FixedColumnWidth(10),
-                        },
-                        defaultVerticalAlignment:
-                            TableCellVerticalAlignment.top,
-                        children: [
-                          TableRow(children: [
-                            const Text('目標'),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Text(savingTargetClass.formatNum(
-                                  savingTarget.targetAmount.toInt())),
-                            ),
-                            const Text('円'),
-                          ]),
-                          TableRow(children: [
-                            const Text('貯金回数'),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 10, right: 10),
-                              child: Text(savingTarget.savingCount.toString()),
-                            ),
-                            const Text('回'),
-                          ]),
-                        ],
+                    Expanded(
+                      flex: 6,
+                      child: DefaultTextStyle(
+                        style: const TextStyle(
+                            fontSize: 15, color: Colors.black87),
+                        child: Table(
+                          columnWidths: const <int, TableColumnWidth>{
+                            0: IntrinsicColumnWidth(),
+                            2: IntrinsicColumnWidth()
+                          },
+                          defaultVerticalAlignment:
+                              TableCellVerticalAlignment.top,
+                          children: [
+                            TableRow(children: [
+                              const Text('目標'),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Text(
+                                  savingTargetClass.formatNum(
+                                      savingTarget.targetAmount.toInt()),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const Text('円'),
+                            ]),
+                            TableRow(children: [
+                              const Text('貯金回数'),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Text(
+                                  savingTarget.savingCount.toString(),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                              const Text('回'),
+                            ]),
+                          ],
+                        ),
                       ),
                     ),
-                    Column(
-                      children: [
-                        const Text('貯金額'),
-                        Text(
-                          '¥${savingTargetClass.formatNum(savingTarget.savingTotalAmount.toInt())}',
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ],
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Center(child: Text('貯金額')),
+                          Text(
+                            '¥${savingTargetClass.formatNum(savingTarget.savingTotalAmount.toInt())}',
+                            style: const TextStyle(fontSize: 20),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
