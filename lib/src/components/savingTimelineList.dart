@@ -5,11 +5,10 @@ import 'package:money_hooks/src/env/envClass.dart';
 import '../modals/editSaving.dart';
 
 class SavingTimelineList extends StatelessWidget {
-  const SavingTimelineList(
-      {Key? key,
-      required this.env,
-      required this.savingTimelineList,
-      required this.setReload})
+  const SavingTimelineList({Key? key,
+    required this.env,
+    required this.savingTimelineList,
+    required this.setReload})
       : super(key: key);
   final envClass env;
   final List<savingClass> savingTimelineList;
@@ -38,19 +37,34 @@ class SavingTimelineList extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${savingTimelineList[index].getDay()}日',
-                    style: const TextStyle(fontSize: 15),
+                  Expanded(
+                    flex:1,
+                    child: Text(
+                      '${savingTimelineList[index].getDay()}日',
+                      style: const TextStyle(fontSize: 15),
+                    ),
                   ),
-                  Text(
-                    savingTimelineList[index].savingName,
-                    style: const TextStyle(fontSize: 15),
+                  Expanded(
+                    flex:5,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: Text(
+                        savingTimelineList[index].savingName,
+                        style: const TextStyle(fontSize: 15),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   ),
-                  Text(
-                    '¥${savingClass.formatNum(savingTimelineList[index].savingAmount.toInt())}',
-                    style: const TextStyle(fontSize: 15),
+                  Expanded(
+                    flex:3,
+                    child: Text(
+                      '¥${savingClass.formatNum(
+                          savingTimelineList[index].savingAmount.toInt())}',
+                      style: const TextStyle(fontSize: 15),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  const Icon(Icons.arrow_forward_ios),
+                  const Expanded(flex: 1,child: Icon(Icons.arrow_forward_ios)),
                 ],
               ),
             ));

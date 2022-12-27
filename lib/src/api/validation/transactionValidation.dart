@@ -16,7 +16,7 @@ class transactionValidation {
     }
 
     // 桁数チェック
-    if (transaction.transactionAmount > 99999999) {
+    if (transaction.transactionAmount > 9999999) {
       print('er');
       return true;
     }

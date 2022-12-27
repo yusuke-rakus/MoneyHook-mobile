@@ -24,6 +24,7 @@ class TimelineList extends StatelessWidget {
       itemCount: timelineList.length,
       itemBuilder: (BuildContext context, int index) {
         return InkWell(
+            // タップ処理
             onTap: () {
               Navigator.push(
                 context,
@@ -36,25 +37,40 @@ class TimelineList extends StatelessWidget {
             child: SizedBox(
               height: 35,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '${timelineList[index].getDay()}日',
-                    style: const TextStyle(fontSize: 15),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${timelineList[index].getDay()}日',
+                      style: const TextStyle(fontSize: 15),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  Text(
-                    timelineList[index].categoryName,
-                    style: const TextStyle(fontSize: 15),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      timelineList[index].categoryName,
+                      style: const TextStyle(fontSize: 15),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  Text(
-                    timelineList[index].transactionName,
-                    style: const TextStyle(fontSize: 15),
+                  Expanded(
+                    flex: 3,
+                    child: Text(
+                      timelineList[index].transactionName,
+                      style: const TextStyle(fontSize: 15),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  Text(
-                    '¥${transactionClass.formatNum(timelineList[index].transactionAmount.toInt())}',
-                    style: const TextStyle(fontSize: 15),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      '¥${transactionClass.formatNum(timelineList[index].transactionAmount.toInt())}',
+                      style: const TextStyle(fontSize: 15),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                  const Icon(Icons.arrow_forward_ios),
+                  const Expanded(flex: 1, child: Icon(Icons.arrow_forward_ios)),
                 ],
               ),
             ));

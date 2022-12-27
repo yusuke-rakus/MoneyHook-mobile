@@ -54,6 +54,7 @@ class SavingTargetList extends StatelessWidget {
                   decoration: const BoxDecoration(
                       border:
                           Border(bottom: BorderSide(color: Colors.black26))),
+                  // 貯金目標名称
                   child: Text(
                     savingTarget.savingTargetName,
                     overflow: TextOverflow.ellipsis,
@@ -61,8 +62,8 @@ class SavingTargetList extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    // 目標・貯金回数
                     Expanded(
                       flex: 6,
                       child: DefaultTextStyle(
@@ -76,6 +77,7 @@ class SavingTargetList extends StatelessWidget {
                           defaultVerticalAlignment:
                               TableCellVerticalAlignment.top,
                           children: [
+                            // 目標額
                             TableRow(children: [
                               const Text('目標'),
                               Padding(
@@ -89,6 +91,7 @@ class SavingTargetList extends StatelessWidget {
                               ),
                               const Text('円'),
                             ]),
+                            // 貯金回数
                             TableRow(children: [
                               const Text('貯金回数'),
                               Padding(
@@ -108,6 +111,7 @@ class SavingTargetList extends StatelessWidget {
                     const SizedBox(
                       width: 10,
                     ),
+                    // 貯金額
                     Expanded(
                       flex: 4,
                       child: Column(
