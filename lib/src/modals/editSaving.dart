@@ -169,11 +169,13 @@ class _EditSaving extends State<EditSaving> {
                       Flexible(
                         child: TextField(
                           onChanged: (value) {
-                            if (value.isNotEmpty) {
-                              saving.savingAmount = int.parse(value);
-                            } else {
-                              saving.savingAmount = 0;
-                            }
+                            setState(() {
+                              if (value.isNotEmpty) {
+                                saving.savingAmount = int.parse(value);
+                              } else {
+                                saving.savingAmount = 0;
+                              }
+                            });
                           },
                           controller: TextEditingController(
                               text: saving.savingAmount != 0
@@ -203,7 +205,9 @@ class _EditSaving extends State<EditSaving> {
                 alignment: Alignment.center,
                 child: TextField(
                   onChanged: (value) {
-                    saving.savingName = value;
+                    setState(() {
+                      saving.savingName = value;
+                    });
                   },
                   controller: TextEditingController(text: saving.savingName),
                   decoration: const InputDecoration(labelText: '貯金名'),
@@ -291,9 +295,11 @@ class _EditSaving extends State<EditSaving> {
                 height: 60,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {
-                    _editSaving(saving, env);
-                  },
+                  onPressed: saving.isDisabled()
+                      ? null
+                      : () {
+                          _editSaving(saving, env);
+                        },
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),

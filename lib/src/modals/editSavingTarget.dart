@@ -115,7 +115,9 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                 alignment: Alignment.center,
                 child: TextField(
                   onChanged: (value) {
-                    savingTarget.savingTargetName = value;
+                    setState(() {
+                      savingTarget.savingTargetName = value;
+                    });
                   },
                   controller: TextEditingController(
                       text: savingTarget.savingTargetName),
@@ -132,11 +134,13 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                       Flexible(
                         child: TextField(
                           onChanged: (value) {
-                            if (value.isNotEmpty) {
-                              savingTarget.targetAmount = int.parse(value);
-                            } else {
-                              savingTarget.targetAmount = 0;
-                            }
+                            setState(() {
+                              if (value.isNotEmpty) {
+                                savingTarget.targetAmount = int.parse(value);
+                              } else {
+                                savingTarget.targetAmount = 0;
+                              }
+                            });
                           },
                           controller: TextEditingController(
                               text: savingTarget.targetAmount != 0
@@ -168,9 +172,11 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                   height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {
-                      _editSavingTarget(savingTarget, env);
-                    },
+                    onPressed: savingTarget.isDisabled()
+                        ? null
+                        : () {
+                            _editSavingTarget(savingTarget, env);
+                          },
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25))),

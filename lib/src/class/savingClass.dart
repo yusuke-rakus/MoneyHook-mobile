@@ -26,6 +26,10 @@ class savingClass {
     return savingId != null ? true : false;
   }
 
+  bool isDisabled() {
+    return savingName.isEmpty || savingAmount == 0;
+  }
+
   bool hasTargetId() {
     return savingTargetId != null ? false : true;
   }

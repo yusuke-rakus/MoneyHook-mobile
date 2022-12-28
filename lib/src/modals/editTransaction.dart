@@ -182,11 +182,13 @@ class _EditTransaction extends State<EditTransaction> {
                   Flexible(
                     child: TextField(
                       onChanged: (value) {
-                        if (value.isNotEmpty) {
-                          transaction.transactionAmount = int.parse(value);
-                        } else {
-                          transaction.transactionAmount = 0;
-                        }
+                        setState(() {
+                          if (value.isNotEmpty) {
+                            transaction.transactionAmount = int.parse(value);
+                          } else {
+                            transaction.transactionAmount = 0;
+                          }
+                        });
                       },
                       controller: TextEditingController(
                           text: transaction.transactionAmount != 0
@@ -210,7 +212,9 @@ class _EditTransaction extends State<EditTransaction> {
               alignment: Alignment.center,
               child: TextField(
                 onChanged: (value) {
-                  transaction.transactionName = value;
+                  setState(() {
+                    transaction.transactionName = value;
+                  });
                 },
                 controller:
                     TextEditingController(text: transaction.transactionName),
@@ -286,9 +290,11 @@ class _EditTransaction extends State<EditTransaction> {
             SizedBox(
                 height: 60,
                 child: ElevatedButton(
-                  onPressed: () {
-                    _editTransaction(transaction, env);
-                  },
+                  onPressed: transaction.isDisabled()
+                      ? null
+                      : () {
+                          _editTransaction(transaction, env);
+                        },
                   style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25)))),

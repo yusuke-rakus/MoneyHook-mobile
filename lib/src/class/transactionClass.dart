@@ -54,6 +54,10 @@ class transactionClass {
     return transactionId.isNotEmpty ? true : false;
   }
 
+  bool isDisabled() {
+    return transactionName.isEmpty || transactionAmount == 0;
+  }
+
   String getMonth() {
     return DateFormat('yyyy-MM-dd').parse(transactionDate).month.toString();
   }

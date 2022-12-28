@@ -45,6 +45,10 @@ class savingTargetClass {
     return savingTargetId != null ? true : false;
   }
 
+  bool isDisabled() {
+    return savingTargetName.isEmpty || targetAmount == 0;
+  }
+
   Map<String, dynamic> getSavingTargetJson() {
     return {
       'userId': userId,
