@@ -181,10 +181,13 @@ class _EditSaving extends State<EditSaving> {
                               text: saving.savingAmount != 0
                                   ? saving.savingAmount.toString()
                                   : ''),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               hintText: '0',
-                              hintStyle:
-                                  TextStyle(fontSize: 20, letterSpacing: 8)),
+                              hintStyle: const TextStyle(
+                                  fontSize: 20, letterSpacing: 8),
+                              errorText: saving.savingAmountError.isNotEmpty
+                                  ? saving.savingAmountError
+                                  : null),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -210,7 +213,11 @@ class _EditSaving extends State<EditSaving> {
                     });
                   },
                   controller: TextEditingController(text: saving.savingName),
-                  decoration: const InputDecoration(labelText: '貯金名'),
+                  decoration: InputDecoration(
+                      labelText: '貯金名',
+                      errorText: saving.savingNameError.isNotEmpty
+                          ? saving.savingNameError
+                          : null),
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
@@ -298,7 +305,9 @@ class _EditSaving extends State<EditSaving> {
                   onPressed: saving.isDisabled()
                       ? null
                       : () {
-                          _editSaving(saving, env);
+                          setState(() {
+                            _editSaving(saving, env);
+                          });
                         },
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(

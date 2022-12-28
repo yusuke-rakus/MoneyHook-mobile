@@ -8,6 +8,8 @@ class savingClass {
   num savingAmount = 0;
   num? savingTargetId;
   var savingTargetName = '';
+  String savingNameError = '';
+  String savingAmountError = '';
 
   savingClass();
 

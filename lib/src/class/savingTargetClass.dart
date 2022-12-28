@@ -9,6 +9,8 @@ class savingTargetClass {
   num savingCount = 0;
   num monthlyTotalSavingAmount = 0;
   DateTime savingMonth = DateTime.now();
+  String savingTargetNameError = '';
+  String targetAmountError = '';
 
   savingTargetClass();
 

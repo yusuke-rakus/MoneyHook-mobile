@@ -121,7 +121,11 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                   },
                   controller: TextEditingController(
                       text: savingTarget.savingTargetName),
-                  decoration: const InputDecoration(labelText: '目標名称'),
+                  decoration: InputDecoration(
+                      labelText: '目標名称',
+                      errorText: savingTarget.savingTargetNameError.isNotEmpty
+                          ? savingTarget.savingTargetNameError
+                          : null),
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
@@ -146,10 +150,14 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                               text: savingTarget.targetAmount != 0
                                   ? savingTarget.targetAmount.toString()
                                   : ''),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               hintText: '0',
-                              hintStyle:
-                                  TextStyle(fontSize: 20, letterSpacing: 8)),
+                              hintStyle: const TextStyle(
+                                  fontSize: 20, letterSpacing: 8),
+                              errorText:
+                                  savingTarget.targetAmountError.isNotEmpty
+                                      ? savingTarget.targetAmountError
+                                      : null),
                           keyboardType: TextInputType.number,
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
@@ -175,7 +183,9 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                     onPressed: savingTarget.isDisabled()
                         ? null
                         : () {
-                            _editSavingTarget(savingTarget, env);
+                            setState(() {
+                              _editSavingTarget(savingTarget, env);
+                            });
                           },
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(

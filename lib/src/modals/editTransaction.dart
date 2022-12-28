@@ -194,9 +194,13 @@ class _EditTransaction extends State<EditTransaction> {
                           text: transaction.transactionAmount != 0
                               ? transaction.transactionAmount.toString()
                               : ''),
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                           hintText: '¥0',
-                          hintStyle: TextStyle(fontSize: 20, letterSpacing: 8)),
+                          hintStyle: const TextStyle(fontSize: 20, letterSpacing: 8),
+                          errorText:
+                              transaction.transactionAmountError.isNotEmpty
+                                  ? transaction.transactionAmountError
+                                  : null),
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       style: const TextStyle(fontSize: 20),
@@ -218,7 +222,11 @@ class _EditTransaction extends State<EditTransaction> {
                 },
                 controller:
                     TextEditingController(text: transaction.transactionName),
-                decoration: const InputDecoration(labelText: '取引名'),
+                decoration: InputDecoration(
+                    labelText: '取引名',
+                    errorText: transaction.transactionNameError.isNotEmpty
+                        ? transaction.transactionNameError
+                        : null),
                 style: const TextStyle(fontSize: 20),
               ),
             ),
@@ -293,7 +301,9 @@ class _EditTransaction extends State<EditTransaction> {
                   onPressed: transaction.isDisabled()
                       ? null
                       : () {
-                          _editTransaction(transaction, env);
+                      setState(() {
+                            _editTransaction(transaction, env);
+                          });
                         },
                   style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(

@@ -12,6 +12,8 @@ class transactionClass {
   var subCategoryId = 1;
   var subCategoryName = 'なし';
   var fixedFlg = false;
+  String transactionNameError = '';
+  String transactionAmountError = '';
 
   transactionClass();
 

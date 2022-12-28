@@ -3,24 +3,27 @@ import '../../class/savingClass.dart';
 class savingValidation {
   static bool checkSaving(savingClass saving) {
     // 未入力チェック
-    if (saving.savingName.isEmpty || saving.savingAmount == 0) {
-      print('er');
+    if (saving.savingName.isEmpty) {
+      saving.savingNameError = '未入力';
+      return true;
+    }
+    if (saving.savingAmount == 0) {
+      saving.savingAmountError = '未入力';
       return true;
     }
 
     // 文字数チェック
     if (saving.savingName.length > 32) {
-      print('er');
+      saving.savingNameError = '32文字以内';
       return true;
     }
 
     // 桁数チェック
     if (saving.savingAmount > 9999999) {
-      print('er');
+      saving.savingAmountError = '9999,999以内';
       return true;
     }
 
-    print('ok');
     return false;
   }
 }
