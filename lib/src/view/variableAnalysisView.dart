@@ -114,18 +114,6 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                             ]),
                       ),
                     ),
-                    // Container(
-                    //   margin: const EdgeInsets.only(right: 15, left: 15),
-                    //   height: 60,
-                    //   child: Row(
-                    //     children: [
-                    //       const Text('変動費合計', style: TextStyle(fontSize: 17)),
-                    //       const SizedBox(width: 20),
-                    //       Text(transactionClass.formatNum(data.totalVariable), style: const TextStyle(fontSize: 30)),
-                    //       const Text('円', style: TextStyle(fontSize: 17)),
-                    //     ],
-                    //   ),
-                    // ),
                     // 変動費
                     ListView.separated(
                       shrinkWrap: true,

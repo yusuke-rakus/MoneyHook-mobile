@@ -19,8 +19,8 @@ class FixedAnalysisAccordion extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(monthlyFixedList[index]['categoryName']),
-              Text(transactionClass
-                  .formatNum(monthlyFixedList[index]['totalCategoryAmount'])),
+              Text(
+                  '¥${transactionClass.formatNum(monthlyFixedList[index]['totalCategoryAmount'].abs())}'),
             ],
           ),
           children: monthlyFixedList[index]['transactionList']
@@ -29,8 +29,8 @@ class FixedAnalysisAccordion extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(value['transactionName']),
-                      Text(transactionClass
-                          .formatNum(value['transactionAmount'])),
+                      Text(
+                          '¥${transactionClass.formatNum(value['transactionAmount'].abs())}'),
                     ],
                   )))
               .toList(),
