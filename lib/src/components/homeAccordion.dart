@@ -19,8 +19,8 @@ class HomeAccordion extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(homeTransactionList[index]['categoryName']),
-              Text(transactionClass.formatNum(
-                  homeTransactionList[index]['categoryTotalAmount'])),
+              Text(
+                  '¥${transactionClass.formatNum(homeTransactionList[index]['categoryTotalAmount'].abs())}'),
             ],
           ),
           children: homeTransactionList[index]['subCategoryList']
@@ -29,8 +29,8 @@ class HomeAccordion extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(value['subCategoryName']),
-                      Text(transactionClass
-                          .formatNum(value['subCategoryTotalAmount'])),
+                      Text(
+                          '¥${transactionClass.formatNum(value['subCategoryTotalAmount'].abs())}'),
                     ],
                   )))
               .toList(),

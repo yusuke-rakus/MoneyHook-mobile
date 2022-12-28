@@ -116,7 +116,14 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                               transactionClass.formatNum(
                                   (monthlyFixedIncome.disposableIncome +
                                       monthlyFixedSpending.disposableIncome)),
-                              style: const TextStyle(fontSize: 30)),
+                              style: TextStyle(
+                                  fontSize: 30,
+                                  color: (monthlyFixedIncome.disposableIncome +
+                                              monthlyFixedSpending
+                                                  .disposableIncome) <
+                                          0
+                                      ? Colors.red
+                                      : Colors.green)),
                         ],
                       ),
                     ),

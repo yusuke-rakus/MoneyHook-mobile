@@ -100,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 40,
                   child: Row(
                     children: [
-                      const Text('収支', style: TextStyle(fontSize: 20)),
+                      const Text('支出合計', style: TextStyle(fontSize: 20)),
                       const SizedBox(width: 20),
                       Text(
                           transactionClass
