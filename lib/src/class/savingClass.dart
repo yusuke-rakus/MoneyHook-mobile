@@ -24,6 +24,10 @@ class savingClass {
     return formatter.format(num);
   }
 
+  static int formatInt(String v) {
+    return int.parse(v.replaceAll(',', ''));
+  }
+
   bool hasSavingId() {
     return savingId != null ? true : false;
   }

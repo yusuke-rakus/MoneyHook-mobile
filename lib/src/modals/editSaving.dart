@@ -60,6 +60,17 @@ class _EditSaving extends State<EditSaving> {
 
   @override
   Widget build(BuildContext context) {
+    final amountController = TextEditingController(
+        text: saving.savingAmount != 0
+            ? savingClass.formatNum(saving.savingAmount.toInt())
+            : '');
+    final nameController = TextEditingController(text: saving.savingName);
+
+    amountController.selection = TextSelection.fromPosition(
+        TextPosition(offset: amountController.text.length));
+    nameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: nameController.text.length));
+
     return Scaffold(
       appBar: AppBar(
         title: saving.hasSavingId() ? const Text('貯金の編集') : const Text('貯金の追加'),
@@ -171,16 +182,14 @@ class _EditSaving extends State<EditSaving> {
                           onChanged: (value) {
                             setState(() {
                               if (value.isNotEmpty) {
-                                saving.savingAmount = int.parse(value);
+                                saving.savingAmount =
+                                    savingClass.formatInt(value);
                               } else {
                                 saving.savingAmount = 0;
                               }
                             });
                           },
-                          controller: TextEditingController(
-                              text: saving.savingAmount != 0
-                                  ? saving.savingAmount.toString()
-                                  : ''),
+                          controller: amountController,
                           decoration: InputDecoration(
                               hintText: '0',
                               hintStyle: const TextStyle(
@@ -212,7 +221,7 @@ class _EditSaving extends State<EditSaving> {
                       saving.savingName = value;
                     });
                   },
-                  controller: TextEditingController(text: saving.savingName),
+                  controller: nameController,
                   decoration: InputDecoration(
                       labelText: '貯金名',
                       errorText: saving.savingNameError.isNotEmpty

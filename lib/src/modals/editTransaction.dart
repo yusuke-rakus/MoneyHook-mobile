@@ -54,6 +54,18 @@ class _EditTransaction extends State<EditTransaction> {
 
   @override
   Widget build(BuildContext context) {
+    final amountController = TextEditingController(
+        text: transaction.transactionAmount != 0
+            ? transactionClass.formatNum(transaction.transactionAmount.toInt())
+            : '');
+    final nameController =
+        TextEditingController(text: transaction.transactionName);
+
+    amountController.selection = TextSelection.fromPosition(
+        TextPosition(offset: amountController.text.length));
+    nameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: nameController.text.length));
+
     return Scaffold(
         appBar: AppBar(
           title: transaction.hasTransactionId()
@@ -184,19 +196,18 @@ class _EditTransaction extends State<EditTransaction> {
                       onChanged: (value) {
                         setState(() {
                           if (value.isNotEmpty) {
-                            transaction.transactionAmount = int.parse(value);
+                            transaction.transactionAmount =
+                                transactionClass.formatInt(value);
                           } else {
                             transaction.transactionAmount = 0;
                           }
                         });
                       },
-                      controller: TextEditingController(
-                          text: transaction.transactionAmount != 0
-                              ? transaction.transactionAmount.toString()
-                              : ''),
+                      controller: amountController,
                       decoration: InputDecoration(
                           hintText: '¥0',
-                          hintStyle: const TextStyle(fontSize: 20, letterSpacing: 8),
+                          hintStyle:
+                              const TextStyle(fontSize: 20, letterSpacing: 8),
                           errorText:
                               transaction.transactionAmountError.isNotEmpty
                                   ? transaction.transactionAmountError
@@ -220,8 +231,7 @@ class _EditTransaction extends State<EditTransaction> {
                     transaction.transactionName = value;
                   });
                 },
-                controller:
-                    TextEditingController(text: transaction.transactionName),
+                controller: nameController,
                 decoration: InputDecoration(
                     labelText: '取引名',
                     errorText: transaction.transactionNameError.isNotEmpty
@@ -301,7 +311,7 @@ class _EditTransaction extends State<EditTransaction> {
                   onPressed: transaction.isDisabled()
                       ? null
                       : () {
-                      setState(() {
+                          setState(() {
                             _editTransaction(transaction, env);
                           });
                         },

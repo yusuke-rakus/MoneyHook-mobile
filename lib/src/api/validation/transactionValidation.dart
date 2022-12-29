@@ -20,7 +20,7 @@ class transactionValidation {
 
     // 桁数チェック
     if (transaction.transactionAmount > 9999999) {
-      transaction.transactionAmountError = '9999,999以内';
+      transaction.transactionAmountError = '9,999,999以内';
       return true;
     }
 

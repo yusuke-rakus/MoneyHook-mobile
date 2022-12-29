@@ -49,6 +49,17 @@ class _EditSavingTarget extends State<EditSavingTarget> {
 
   @override
   Widget build(BuildContext context) {
+    final amountController = TextEditingController(
+        text: savingTarget.targetAmount != 0
+            ? savingTargetClass.formatNum(savingTarget.targetAmount.toInt())
+            : '');
+    final nameController =
+        TextEditingController(text: savingTarget.savingTargetName);
+
+    amountController.selection = TextSelection.fromPosition(
+        TextPosition(offset: amountController.text.length));
+    nameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: nameController.text.length));
     return Scaffold(
         appBar: AppBar(
           title: savingTarget.hasTargetId()
@@ -119,8 +130,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                       savingTarget.savingTargetName = value;
                     });
                   },
-                  controller: TextEditingController(
-                      text: savingTarget.savingTargetName),
+                  controller: nameController,
                   decoration: InputDecoration(
                       labelText: '目標名称',
                       errorText: savingTarget.savingTargetNameError.isNotEmpty
@@ -146,10 +156,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                               }
                             });
                           },
-                          controller: TextEditingController(
-                              text: savingTarget.targetAmount != 0
-                                  ? savingTarget.targetAmount.toString()
-                                  : ''),
+                          controller: amountController,
                           decoration: InputDecoration(
                               hintText: '0',
                               hintStyle: const TextStyle(

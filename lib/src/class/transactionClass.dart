@@ -52,6 +52,10 @@ class transactionClass {
     return formatter.format(num);
   }
 
+  static int formatInt(String v) {
+    return int.parse(v.replaceAll(',', ''));
+  }
+
   bool hasTransactionId() {
     return transactionId.isNotEmpty ? true : false;
   }
