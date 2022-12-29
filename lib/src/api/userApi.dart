@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
+import 'package:money_hooks/src/class/changePasswordClass.dart';
 import 'package:money_hooks/src/class/userClass.dart';
 
 import '../app.dart';
@@ -29,6 +30,18 @@ class userApi {
             context,
             MaterialPageRoute(
                 builder: (BuildContext context) => const MyStatefulWidget()));
+      }
+    });
+  }
+
+  static Future<void> changePassword(changePasswordClass passwordClass) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/changePassword',
+          data: passwordClass.toJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
       }
     });
   }

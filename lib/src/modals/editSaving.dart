@@ -89,18 +89,6 @@ class _EditSaving extends State<EditSaving> {
                               actions: [
                                 ElevatedButton(
                                   onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)))),
-                                  child: const Text(
-                                    '中止',
-                                  ),
-                                ),
-                                ElevatedButton(
-                                  onPressed: () {
                                     // 削除処理
                                     _deleteSaving(env, saving);
                                     Navigator.pop(context);
@@ -113,6 +101,12 @@ class _EditSaving extends State<EditSaving> {
                                   child: const Text(
                                     '削除',
                                   ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('閉じる'),
                                 )
                               ],
                             ));

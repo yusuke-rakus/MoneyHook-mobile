@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/api/userApi.dart';
+import 'package:money_hooks/src/class/changePasswordClass.dart';
+
+import '../../env/envClass.dart';
 
 class ChangePassword extends StatefulWidget {
-  const ChangePassword({Key? key}) : super(key: key);
+  ChangePassword({Key? key, required this.env}) : super(key: key);
+  envClass env;
 
   @override
   State<ChangePassword> createState() => _ChangePasswordState();
@@ -12,8 +17,31 @@ class _ChangePasswordState extends State<ChangePassword> {
   bool _showNewPassword = false;
   bool _showNewPassword2 = false;
 
+  late changePasswordClass passwordClass;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordClass = changePasswordClass.init(widget.env.userId);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final passwordController =
+        TextEditingController(text: passwordClass.password);
+    passwordController.selection = TextSelection.fromPosition(
+        TextPosition(offset: passwordController.text.length));
+
+    final newPasswordController =
+        TextEditingController(text: passwordClass.newPassword);
+    newPasswordController.selection = TextSelection.fromPosition(
+        TextPosition(offset: newPasswordController.text.length));
+
+    final newPassword2Controller =
+        TextEditingController(text: passwordClass.newPassword2);
+    newPassword2Controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: newPassword2Controller.text.length));
+
     return Scaffold(
       appBar: AppBar(
         title: (const Text('設定')),
@@ -35,7 +63,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TextField(
                   obscureText: !_showCurrentPassword,
-                  // controller: _passwordTextController,
+                  onChanged: (value) {
+                    setState(() {
+                      passwordClass.password = value;
+                    });
+                  },
+                  controller: passwordController,
                   decoration: InputDecoration(
                       labelText: "現在のパスワード",
                       suffixIcon: IconButton(
@@ -54,7 +87,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TextField(
                   obscureText: !_showNewPassword,
-                  // controller: _passwordTextController,
+                  onChanged: (value) {
+                    setState(() {
+                      passwordClass.newPassword = value;
+                    });
+                  },
+                  controller: newPasswordController,
                   decoration: InputDecoration(
                       labelText: "新しいパスワード",
                       suffixIcon: IconButton(
@@ -73,7 +111,12 @@ class _ChangePasswordState extends State<ChangePassword> {
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: TextField(
                   obscureText: !_showNewPassword2,
-                  // controller: _passwordTextController,
+                  onChanged: (value) {
+                    setState(() {
+                      passwordClass.newPassword2 = value;
+                    });
+                  },
+                  controller: newPassword2Controller,
                   decoration: InputDecoration(
                       labelText: "再入力",
                       suffixIcon: IconButton(
@@ -98,7 +141,11 @@ class _ChangePasswordState extends State<ChangePassword> {
                 height: 60,
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: passwordClass.isDisabled()
+                      ? null
+                      : () {
+                          userApi.changePassword(passwordClass);
+                        },
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25))),

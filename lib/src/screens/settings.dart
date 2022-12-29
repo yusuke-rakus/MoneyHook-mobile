@@ -21,7 +21,7 @@ class SettingsScreen extends StatelessWidget {
         body: ListView(
           children: [
             _menuCard(context, Icons.account_circle_outlined, 'アカウント情報',
-                const AccountInfo()),
+                AccountInfo(env: env)),
             _menuCard(context, Icons.account_tree, '自動入力',
                 const MonthlyTransaction()),
             ElevatedButton(
