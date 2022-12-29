@@ -29,7 +29,7 @@ class AccountInfo extends StatelessWidget {
               child: ListView(
                 children: [
                   _menuCard(context, Icons.email_outlined, 'メールアドレス変更',
-                      const ChangeEmail()),
+                      ChangeEmail(env: env)),
                   _menuCard(context, Icons.vpn_key_outlined, 'パスワード変更',
                       ChangePassword(env: env)),
                 ],

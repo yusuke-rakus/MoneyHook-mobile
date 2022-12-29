@@ -3,6 +3,9 @@ class changePasswordClass {
   late String password = '';
   late String newPassword = '';
   late String newPassword2 = '';
+  String passwordError = '';
+  String newPasswordError = '';
+  String newPassword2Error = '';
 
   changePasswordClass(
       this.userId, this.password, this.newPassword, this.newPassword2);

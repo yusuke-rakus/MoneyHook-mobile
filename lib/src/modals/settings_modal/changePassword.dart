@@ -25,6 +25,14 @@ class _ChangePasswordState extends State<ChangePassword> {
     passwordClass = changePasswordClass.init(widget.env.userId);
   }
 
+  void backNavigation() {
+    Navigator.pop(context);
+  }
+
+  void _changePassword() {
+    userApi.changePassword(passwordClass, backNavigation);
+  }
+
   @override
   Widget build(BuildContext context) {
     final passwordController =
@@ -71,6 +79,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   controller: passwordController,
                   decoration: InputDecoration(
                       labelText: "現在のパスワード",
+                      errorText: passwordClass.passwordError.isNotEmpty
+                          ? passwordClass.passwordError
+                          : null,
                       suffixIcon: IconButton(
                         icon: Icon(_showCurrentPassword
                             ? Icons.visibility_outlined
@@ -95,6 +106,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   controller: newPasswordController,
                   decoration: InputDecoration(
                       labelText: "新しいパスワード",
+                      errorText: passwordClass.newPasswordError.isNotEmpty
+                          ? passwordClass.newPasswordError
+                          : null,
                       suffixIcon: IconButton(
                         icon: Icon(_showNewPassword
                             ? Icons.visibility_outlined
@@ -119,6 +133,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   controller: newPassword2Controller,
                   decoration: InputDecoration(
                       labelText: "再入力",
+                      errorText: passwordClass.newPassword2Error.isNotEmpty
+                          ? passwordClass.newPassword2Error
+                          : null,
                       suffixIcon: IconButton(
                         icon: Icon(_showNewPassword2
                             ? Icons.visibility_outlined
@@ -144,7 +161,9 @@ class _ChangePasswordState extends State<ChangePassword> {
                   onPressed: passwordClass.isDisabled()
                       ? null
                       : () {
-                          userApi.changePassword(passwordClass);
+                          setState(() {
+                            _changePassword();
+                          });
                         },
                   style: ElevatedButton.styleFrom(
                     shape: const RoundedRectangleBorder(
