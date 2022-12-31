@@ -27,8 +27,25 @@ class _ChangeEmailState extends State<ChangeEmail> {
     Navigator.pop(context);
   }
 
-  void _changeEmail() {
-    userApi.changeEmail(emailClass, backNavigation);
+  void _changeEmail() async {
+    await userApi.changeEmail(emailClass, backNavigation);
+
+    if (emailClass.errorMessage.isNotEmpty) {
+      // エラーの場合のメッセージ表示
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                content: Text(emailClass.errorMessage),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('閉じる'),
+                  )
+                ],
+              ));
+    }
   }
 
   @override

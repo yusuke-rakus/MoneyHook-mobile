@@ -2,6 +2,7 @@ class changeEmailClass {
   late String userId = '';
   late String email = '';
   late String password = '';
+  String errorMessage = '';
   String emailError = '';
   String passwordError = '';
 

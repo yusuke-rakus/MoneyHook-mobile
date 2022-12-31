@@ -29,8 +29,25 @@ class _ChangePasswordState extends State<ChangePassword> {
     Navigator.pop(context);
   }
 
-  void _changePassword() {
-    userApi.changePassword(passwordClass, backNavigation);
+  void _changePassword() async {
+    await userApi.changePassword(passwordClass, backNavigation);
+
+    if (passwordClass.errorMessage.isNotEmpty) {
+      // エラーの場合のメッセージ表示
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                content: Text(passwordClass.errorMessage),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('閉じる'),
+                  )
+                ],
+              ));
+    }
   }
 
   @override
@@ -163,6 +180,23 @@ class _ChangePasswordState extends State<ChangePassword> {
                       : () {
                           setState(() {
                             _changePassword();
+                            // if (passwordClass.errorMessage.isNotEmpty) {
+                            //   showDialog(
+                            //       context: context,
+                            //       builder: (BuildContext context) =>
+                            //           AlertDialog(
+                            //             content:
+                            //                 Text(passwordClass.errorMessage),
+                            //             actions: [
+                            //               TextButton(
+                            //                 onPressed: () {
+                            //                   Navigator.pop(context);
+                            //                 },
+                            //                 child: const Text('閉じる'),
+                            //               )
+                            //             ],
+                            //           ));
+                            // }
                           });
                         },
                   style: ElevatedButton.styleFrom(
@@ -177,7 +211,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

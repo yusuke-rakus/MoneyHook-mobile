@@ -40,13 +40,16 @@ class userApi {
   // パスワード変更
   static Future<void> changePassword(
       changePasswordClass passwordClass, Function backNavigation) async {
-
+    if (userValidation.checkChangePassword(passwordClass)) {
+      return;
+    }
 
     await Future(() async {
       Response res = await dio.post('$rootURI/changePassword',
           data: passwordClass.toJson());
       if (res.data['status'] == 'error') {
         // 失敗
+        passwordClass.errorMessage = res.data['message'];
       } else {
         // 成功
         backNavigation();
@@ -66,11 +69,11 @@ class userApi {
           await dio.post('$rootURI/changeEmail', data: emailClass.toJson());
       if (res.data['status'] == 'error') {
         // 失敗
+        emailClass.errorMessage = res.data['message'];
       } else {
         // 成功
         backNavigation();
       }
-      print('hej');
     });
   }
 }

@@ -3,6 +3,7 @@ class changePasswordClass {
   late String password = '';
   late String newPassword = '';
   late String newPassword2 = '';
+  String errorMessage = '';
   String passwordError = '';
   String newPasswordError = '';
   String newPassword2Error = '';

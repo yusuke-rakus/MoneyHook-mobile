@@ -31,16 +31,28 @@ class userValidation {
       passwordClass.passwordError = '未入力';
       return true;
     }
-    if (passwordClass.newPasswordError.isEmpty) {
+    if (passwordClass.newPassword.isEmpty) {
       passwordClass.newPasswordError = '未入力';
       return true;
     }
-    if (passwordClass.newPassword2Error.isEmpty) {
+    if (passwordClass.newPassword2.isEmpty) {
       passwordClass.newPassword2Error = '未入力';
       return true;
     }
 
     // 文字チェック
+    if (passwordClass.newPassword.length < 8 ||
+        passwordClass.newPassword2.length < 8) {
+      passwordClass.newPasswordError = '8文字以上';
+      passwordClass.newPassword2Error = '8文字以上';
+      return true;
+    }
+    if (passwordClass.newPassword.length > 32 ||
+        passwordClass.newPassword2.length > 32) {
+      passwordClass.newPasswordError = '32文字以下';
+      passwordClass.newPassword2Error = '32文字以下';
+      return true;
+    }
 
     return false;
   }
