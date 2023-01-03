@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/savingApi.dart';
+import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/savingTimelineList.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
@@ -107,12 +108,15 @@ class _SavingList extends State<SavingList> {
                         ],
                       ),
                     ),
-                    // タイムライン
-                    SavingTimelineList(
-                      env: env,
-                      savingTimelineList: savingList,
-                      setReload: setReload,
-                    )
+                    savingList.isNotEmpty
+                        ?
+                        // タイムライン
+                        SavingTimelineList(
+                            env: env,
+                            savingTimelineList: savingList,
+                            setReload: setReload,
+                          )
+                        : dataNotRegisteredBox(message: '貯金履歴が存在しません')
                   ]),
                 ),
         ],

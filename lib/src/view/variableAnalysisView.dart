@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
@@ -115,20 +116,23 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                       ),
                     ),
                     // 変動費
-                    ListView.separated(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding:
-                          const EdgeInsets.only(left: 10, right: 10, top: 10),
-                      itemCount: data.monthlyVariableList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _variableAccordion(
-                            context, data.monthlyVariableList[index]);
-                      },
-                      separatorBuilder: (BuildContext context, int index) {
-                        return const Divider();
-                      },
-                    ),
+                    data.monthlyVariableList.isNotEmpty
+                        ? ListView.separated(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: const EdgeInsets.only(
+                                left: 10, right: 10, top: 10),
+                            itemCount: data.monthlyVariableList.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return _variableAccordion(
+                                  context, data.monthlyVariableList[index]);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return const Divider();
+                            },
+                          )
+                        : dataNotRegisteredBox(message: '取引履歴が存在しません'),
                   ],
                 )),
         ],

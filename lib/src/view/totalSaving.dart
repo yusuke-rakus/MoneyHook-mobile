@@ -3,6 +3,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/components/charts/totalSavingChart.dart';
+import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/savingTargetList.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
@@ -90,16 +91,16 @@ class _TotalSaving extends State<TotalSaving> {
                     height: 200,
                     child: TotalSavingChart(totalSavingChart),
                   ),
-                  // 貯金目標リスト
-                  SavingTargetList(
-                    context: context,
-                    env: env,
-                    savingTargetList: savingTargetList,
-                    setReload: setReload,
-                  ),
-                  const SizedBox(
-                    height: 100,
-                  )
+                  savingTargetList.isNotEmpty
+                      ?
+                      // 貯金目標リスト
+                      SavingTargetList(
+                          context: context,
+                          env: env,
+                          savingTargetList: savingTargetList,
+                          setReload: setReload,
+                        )
+                      : dataNotRegisteredBox(message: '貯金目標が存在しません'),
                 ],
               ));
   }

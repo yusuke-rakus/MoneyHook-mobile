@@ -22,7 +22,7 @@ class SavingTargetList extends StatelessWidget {
     return ListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 100),
       itemCount: savingTargetList.length,
       itemBuilder: (BuildContext context, int index) {
         return _savingTargetCard(savingTargetList[index]);
