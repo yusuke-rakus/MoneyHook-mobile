@@ -23,6 +23,7 @@ class userApi {
           await dio.post('$rootURI/login', data: loginInfo.loginJson());
       if (res.data['status'] == 'error') {
         // ログイン失敗
+        loginInfo.errorMessage = res.data['message'];
         setLoading();
       } else {
         // ログイン成功

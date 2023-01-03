@@ -17,8 +17,9 @@ class changeEmailClass {
   bool isDisabled() {
     if (email.isEmpty || password.isEmpty) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   @override

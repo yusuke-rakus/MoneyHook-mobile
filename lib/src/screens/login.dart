@@ -35,11 +35,38 @@ class _LoginState extends State<Login> {
 
   // ログイン処理
   void _login(BuildContext context, userClass loginInfo) async {
+    // エラーメッセージをクリア
+    loginInfo.errorMessage = '';
     await userApi.login(context, loginInfo, setLoading);
+
+    if (loginInfo.errorMessage.isNotEmpty) {
+      // エラーの場合のメッセージ表示
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                content: Text(loginInfo.errorMessage),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('閉じる'),
+                  )
+                ],
+              ));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final emailController = TextEditingController(text: loginInfo.email);
+    emailController.selection = TextSelection.fromPosition(
+        TextPosition(offset: emailController.text.length));
+
+    final passwordController = TextEditingController(text: loginInfo.password);
+    passwordController.selection = TextSelection.fromPosition(
+        TextPosition(offset: passwordController.text.length));
+
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: Center(
@@ -58,9 +85,11 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: TextField(
                     onChanged: (value) {
-                      loginInfo.email = value;
+                      setState(() {
+                        loginInfo.email = value;
+                      });
                     },
-                    controller: TextEditingController(text: loginInfo.email),
+                    controller: emailController,
                     decoration: const InputDecoration(
                       labelText: 'メールアドレス',
                       icon: Icon(Icons.email_outlined),
@@ -71,9 +100,11 @@ class _LoginState extends State<Login> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: TextField(
                     onChanged: (value) {
-                      loginInfo.password = value;
+                      setState(() {
+                        loginInfo.password = value;
+                      });
                     },
-                    controller: TextEditingController(text: loginInfo.password),
+                    controller: passwordController,
                     obscureText: !_showPassword,
                     decoration: InputDecoration(
                         labelText: "パスワード",
@@ -100,11 +131,15 @@ class _LoginState extends State<Login> {
                   height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _isLoading
+                    onPressed: loginInfo.isDisabled()
                         ? null
-                        : () {
-                            _login(context, loginInfo);
-                          },
+                        : _isLoading
+                            ? null
+                            : () {
+                                setState(() {
+                                  _login(context, loginInfo);
+                                });
+                              },
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25))),

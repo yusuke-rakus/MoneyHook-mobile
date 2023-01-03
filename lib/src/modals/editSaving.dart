@@ -64,10 +64,10 @@ class _EditSaving extends State<EditSaving> {
         text: saving.savingAmount != 0
             ? savingClass.formatNum(saving.savingAmount.toInt())
             : '');
-    final nameController = TextEditingController(text: saving.savingName);
-
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
+
+    final nameController = TextEditingController(text: saving.savingName);
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
 
@@ -211,6 +211,7 @@ class _EditSaving extends State<EditSaving> {
                 alignment: Alignment.center,
                 child: TextField(
                   onChanged: (value) {
+                    print(value);
                     setState(() {
                       saving.savingName = value;
                     });

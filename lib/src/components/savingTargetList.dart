@@ -115,7 +115,7 @@ class SavingTargetList extends StatelessWidget {
                     Expanded(
                       flex: 4,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           const Center(child: Text('貯金額')),
                           Text(
