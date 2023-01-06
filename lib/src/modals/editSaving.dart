@@ -24,6 +24,8 @@ class _EditSaving extends State<EditSaving> {
   late envClass env;
   late List<savingTargetClass> savingTargetList = [];
 
+  final TextEditingController nameController = TextEditingController();
+
   void setSavingTargetList(List<savingTargetClass> responseList) {
     setState(() {
       savingTargetList = responseList;
@@ -36,6 +38,11 @@ class _EditSaving extends State<EditSaving> {
     saving = widget.saving;
     env = widget.env;
     savingTargetApi.getSavingTargetList(setSavingTargetList, env.userId);
+
+    nameController.value =
+        nameController.value.copyWith(text: saving.savingName);
+    nameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: nameController.text.length));
   }
 
   void backNavigation() {
@@ -66,10 +73,6 @@ class _EditSaving extends State<EditSaving> {
             : '');
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
-
-    final nameController = TextEditingController(text: saving.savingName);
-    nameController.selection = TextSelection.fromPosition(
-        TextPosition(offset: nameController.text.length));
 
     return Scaffold(
       appBar: AppBar(

@@ -20,11 +20,18 @@ class _EditSavingTarget extends State<EditSavingTarget> {
   late savingTargetClass savingTarget;
   late envClass env;
 
+  final TextEditingController nameController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     savingTarget = widget.savingTarget;
     env = widget.env;
+
+    nameController.value =
+        nameController.value.copyWith(text: savingTarget.savingTargetName);
+    nameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: nameController.text.length));
   }
 
   void backNavigation() {
@@ -53,13 +60,9 @@ class _EditSavingTarget extends State<EditSavingTarget> {
         text: savingTarget.targetAmount != 0
             ? savingTargetClass.formatNum(savingTarget.targetAmount.toInt())
             : '');
-    final nameController =
-        TextEditingController(text: savingTarget.savingTargetName);
-
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
-    nameController.selection = TextSelection.fromPosition(
-        TextPosition(offset: nameController.text.length));
+
     return Scaffold(
         appBar: AppBar(
           title: savingTarget.hasTargetId()

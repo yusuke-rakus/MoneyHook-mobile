@@ -25,11 +25,18 @@ class _EditTransaction extends State<EditTransaction> {
   late transactionClass transaction;
   late envClass env;
 
+  final TextEditingController nameController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     transaction = widget.transaction;
     env = widget.env;
+
+    nameController.value =
+        nameController.value.copyWith(text: transaction.transactionName);
+    nameController.selection = TextSelection.fromPosition(
+        TextPosition(offset: nameController.text.length));
   }
 
   void backNavigation() {
@@ -54,17 +61,12 @@ class _EditTransaction extends State<EditTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    final amountController = TextEditingController(
+    final TextEditingController amountController = TextEditingController(
         text: transaction.transactionAmount != 0
             ? transactionClass.formatNum(transaction.transactionAmount.toInt())
             : '');
-    final nameController =
-        TextEditingController(text: transaction.transactionName);
-
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
-    nameController.selection = TextSelection.fromPosition(
-        TextPosition(offset: nameController.text.length));
 
     return Scaffold(
         appBar: AppBar(
