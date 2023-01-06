@@ -16,11 +16,17 @@ class _ChangeEmailState extends State<ChangeEmail> {
   bool _showPassword = false;
 
   late changeEmailClass emailClass;
+  final TextEditingController emailController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     emailClass = changeEmailClass.init(widget.env.userId);
+
+    emailController.value =
+        emailController.value.copyWith(text: emailClass.email);
+    emailController.selection = TextSelection.fromPosition(
+        TextPosition(offset: emailController.text.length));
   }
 
   void backNavigation() {
@@ -50,10 +56,6 @@ class _ChangeEmailState extends State<ChangeEmail> {
 
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController(text: emailClass.email);
-    emailController.selection = TextSelection.fromPosition(
-        TextPosition(offset: emailController.text.length));
-
     final passwordController = TextEditingController(text: emailClass.password);
     passwordController.selection = TextSelection.fromPosition(
         TextPosition(offset: passwordController.text.length));
@@ -85,7 +87,7 @@ class _ChangeEmailState extends State<ChangeEmail> {
                   },
                   controller: emailController,
                   decoration: InputDecoration(
-                      labelText: 'メールアドレス',
+                      labelText: '新しいメールアドレス',
                       icon: const Icon(Icons.email_outlined),
                       errorText: emailClass.emailError.isNotEmpty
                           ? emailClass.emailError
