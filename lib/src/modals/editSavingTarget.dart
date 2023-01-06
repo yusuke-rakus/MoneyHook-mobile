@@ -177,7 +177,8 @@ class _EditSavingTarget extends State<EditSavingTarget> {
               padding: const EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: SizedBox(
+                child: Container(
+                  color: Colors.white,
                   height: 60,
                   width: double.infinity,
                   child: ElevatedButton(
