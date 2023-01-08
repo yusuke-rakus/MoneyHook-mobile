@@ -147,7 +147,6 @@ class transactionApi {
         print('失敗');
       } else {
         // 成功
-        print('成功');
         backNavigation();
       }
     });

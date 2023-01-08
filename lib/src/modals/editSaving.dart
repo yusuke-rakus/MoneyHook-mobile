@@ -214,7 +214,6 @@ class _EditSaving extends State<EditSaving> {
                 alignment: Alignment.center,
                 child: TextField(
                   onChanged: (value) {
-                    print(value);
                     setState(() {
                       saving.savingName = value;
                     });
