@@ -187,4 +187,25 @@ class transactionApi {
       }
     });
   }
+
+  /// レコメンドリストの取得
+  static Future<void> getFrequentTransactionName(
+      envClass env, Function setRecommendList) async {
+    await Future(() async {
+      Response res =
+          await dio.post('$rootURI/getFrequentTransactionName', data: {
+        'userId': env.userId,
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        List<String> resultList = [];
+        res.data['transactionList'].forEach((value) {
+          resultList.add(value['transactionName']);
+        });
+        setRecommendList(resultList);
+      }
+    });
+  }
 }
