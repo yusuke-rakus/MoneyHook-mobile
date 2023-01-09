@@ -100,7 +100,7 @@ class _TotalSaving extends State<TotalSaving> {
                           savingTargetList: savingTargetList,
                           setReload: setReload,
                         )
-                      : dataNotRegisteredBox(message: '貯金目標が存在しません'),
+                      : const dataNotRegisteredBox(message: '貯金目標が存在しません'),
                 ],
               ));
   }

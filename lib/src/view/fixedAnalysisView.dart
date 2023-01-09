@@ -203,7 +203,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                             ),
                           ],
                         )
-                      :  dataNotRegisteredBox(message: '取引履歴が存在しません')),
+                      : const dataNotRegisteredBox(message: '取引履歴が存在しません')),
         ],
       ),
     );

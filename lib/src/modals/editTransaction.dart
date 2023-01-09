@@ -184,7 +184,6 @@ class _EditTransaction extends State<EditTransaction> {
                   Container(
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 100,
-                    // color: Colors.cyanAccent,
                     child: Row(
                       children: [
                         Switcher(

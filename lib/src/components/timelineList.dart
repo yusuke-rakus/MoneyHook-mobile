@@ -82,6 +82,6 @@ class TimelineList extends StatelessWidget {
               return const Divider();
             },
           )
-        : dataNotRegisteredBox(message: '取引履歴が存在しません');
+        : const dataNotRegisteredBox(message: '取引履歴が存在しません');
   }
 }

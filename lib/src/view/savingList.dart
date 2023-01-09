@@ -116,7 +116,7 @@ class _SavingList extends State<SavingList> {
                             savingTimelineList: savingList,
                             setReload: setReload,
                           )
-                        : dataNotRegisteredBox(message: '貯金履歴が存在しません')
+                        : const dataNotRegisteredBox(message: '貯金履歴が存在しません')
                   ]),
                 ),
         ],

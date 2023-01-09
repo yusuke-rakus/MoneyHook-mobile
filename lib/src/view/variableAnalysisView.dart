@@ -132,7 +132,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                               return const Divider();
                             },
                           )
-                        : dataNotRegisteredBox(message: '取引履歴が存在しません'),
+                        : const dataNotRegisteredBox(message: '取引履歴が存在しません'),
                   ],
                 )),
         ],
