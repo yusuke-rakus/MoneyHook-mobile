@@ -67,6 +67,7 @@ class _EditSaving extends State<EditSaving> {
 
   @override
   Widget build(BuildContext context) {
+    final focusNode = FocusNode();
     final amountController = TextEditingController(
         text: saving.savingAmount != 0
             ? savingClass.formatNum(saving.savingAmount.toInt())
@@ -74,262 +75,274 @@ class _EditSaving extends State<EditSaving> {
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
 
-    return Scaffold(
-      appBar: AppBar(
-        title: saving.hasSavingId() ? const Text('貯金の編集') : const Text('貯金の追加'),
-        actions: [
-          // 削除アイコン
-          Visibility(
-            visible: saving.hasSavingId(),
-            child: Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                  onPressed: () {
-                    showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                              content: const Text('この貯金を削除します'),
-                              actions: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // 削除処理
-                                    _deleteSaving(env, saving);
-                                    Navigator.pop(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: const Color(0xFFE53935),
-                                      shape: const RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(5)))),
-                                  child: const Text(
-                                    '削除',
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('閉じる'),
-                                )
-                              ],
-                            ));
-                  },
-                  icon: const Icon(
-                    Icons.delete_outline,
-                  )),
-            ),
-          ),
-        ],
-      ),
-      body: Stack(
-        children: [
-          ListView(
-            padding: const EdgeInsets.all(8),
-            children: [
-              // 日付
-              InkWell(
-                onTap: () {
-                  showCupertinoModalPopup(
-                    context: context,
-                    builder: (_) => Container(
-                      height: 250,
-                      color: Colors.white,
-                      child: CupertinoDatePicker(
-                        initialDateTime:
-                            DateFormat('yyyy-MM-dd').parse(saving.savingDate),
-                        onDateTimeChanged: (value) {
-                          setState(() {
-                            saving.savingDate =
-                                DateFormat('yyyy-MM-dd').format(value);
-                          });
-                        },
-                        minimumYear: DateTime.now().year - 1,
-                        maximumYear: DateTime.now().year,
-                        maximumDate: DateTime.now(),
-                        dateOrder: DatePickerDateOrder.ymd,
-                        mode: CupertinoDatePickerMode.date,
-                      ),
-                    ),
-                  );
-                },
-                child: SizedBox(
-                  height: 60,
-                  child: Center(
-                      child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${saving.savingDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      const Icon(Icons.edit),
-                    ],
-                  )),
-                ),
-              ),
-              // 金額
-              Container(
-                  padding: const EdgeInsets.only(left: 40, right: 40),
-                  height: 100,
-                  child: Row(
-                    children: [
-                      Flexible(
-                        child: TextField(
-                          onChanged: (value) {
-                            setState(() {
-                              if (value.isNotEmpty) {
-                                saving.savingAmount =
-                                    savingClass.formatInt(value);
-                              } else {
-                                saving.savingAmount = 0;
-                              }
-                            });
-                          },
-                          controller: amountController,
-                          decoration: InputDecoration(
-                              hintText: '0',
-                              hintStyle: const TextStyle(
-                                  fontSize: 20, letterSpacing: 8),
-                              errorText: saving.savingAmountError.isNotEmpty
-                                  ? saving.savingAmountError
-                                  : null),
-                          keyboardType: TextInputType.number,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          style: const TextStyle(fontSize: 20),
-                        ),
-                      ),
-                      const Text(
-                        '円',
-                        style: TextStyle(fontSize: 20),
-                      )
-                    ],
-                  )),
-              // 貯金名
-              Container(
-                padding: const EdgeInsets.only(left: 40, right: 40),
-                height: 100,
-                alignment: Alignment.center,
-                child: TextField(
-                  onChanged: (value) {
-                    setState(() {
-                      saving.savingName = value;
-                    });
-                  },
-                  controller: nameController,
-                  decoration: InputDecoration(
-                      labelText: '貯金名',
-                      errorText: saving.savingNameError.isNotEmpty
-                          ? saving.savingNameError
-                          : null),
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ),
-              // 貯金目標
+    return Focus(
+      focusNode: focusNode,
+      child: GestureDetector(
+        onTap: focusNode.requestFocus,
+        child: Scaffold(
+          appBar: AppBar(
+            title: saving.hasSavingId()
+                ? const Text('貯金の編集')
+                : const Text('貯金の追加'),
+            actions: [
+              // 削除アイコン
               Visibility(
-                visible: savingTargetList.isNotEmpty,
-                child: Container(
-                  margin: const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
-                  child: InkWell(
-                    onTap: () {
-                      showCupertinoModalPopup(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height / 3,
-                            child: CupertinoPicker(
-                              backgroundColor: Colors.white,
-                              diameterRatio: 1.0,
-                              itemExtent: 30.0,
-                              scrollController: FixedExtentScrollController(
-                                  initialItem: savingTargetList
-                                      .map((e) => e.savingTargetId)
-                                      .toList()
-                                      .indexOf(saving.savingTargetId?.toInt())),
-                              onSelectedItemChanged: (int i) {
-                                setState(() {
-                                  // 貯金目標をセット
-                                  saving.savingTargetName =
-                                      savingTargetList[i].savingTargetName;
-                                  saving.savingTargetId =
-                                      savingTargetList[i].savingTargetId;
-                                });
-                              },
-                              children: savingTargetList
-                                  .map((e) => Text(e.savingTargetName))
-                                  .toList(),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: SizedBox(
-                      height: 70,
-                      child: InputDecorator(
-                        decoration: const InputDecoration(
-                          labelText: '振り分ける',
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                saving.hasTargetId()
-                                    ? 'なし'
-                                    : saving.savingTargetName,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 20),
-                              ),
-                            ),
-                            const Align(
-                              alignment: Alignment.centerRight,
-                              child: Icon(
-                                Icons.keyboard_arrow_down,
-                                size: 30,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                visible: saving.hasSavingId(),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                      onPressed: () {
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                                  content: const Text('この貯金を削除します'),
+                                  actions: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        // 削除処理
+                                        _deleteSaving(env, saving);
+                                        Navigator.pop(context);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor:
+                                              const Color(0xFFE53935),
+                                          shape: const RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(5)))),
+                                      child: const Text(
+                                        '削除',
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text('閉じる'),
+                                    )
+                                  ],
+                                ));
+                      },
+                      icon: const Icon(
+                        Icons.delete_outline,
+                      )),
                 ),
               ),
             ],
           ),
-          // 登録ボタン
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                color: Colors.white,
-                height: 60,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: saving.isDisabled()
-                      ? null
-                      : () {
-                          setState(() {
-                            _editSaving(saving, env);
-                          });
-                        },
-                  style: ElevatedButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    fixedSize: const Size(double.infinity, 50),
+          body: Stack(
+            children: [
+              ListView(
+                padding: const EdgeInsets.all(8),
+                children: [
+                  // 日付
+                  InkWell(
+                    onTap: () {
+                      showCupertinoModalPopup(
+                        context: context,
+                        builder: (_) => Container(
+                          height: 250,
+                          color: Colors.white,
+                          child: CupertinoDatePicker(
+                            initialDateTime: DateFormat('yyyy-MM-dd')
+                                .parse(saving.savingDate),
+                            onDateTimeChanged: (value) {
+                              setState(() {
+                                saving.savingDate =
+                                    DateFormat('yyyy-MM-dd').format(value);
+                              });
+                            },
+                            minimumYear: DateTime.now().year - 1,
+                            maximumYear: DateTime.now().year,
+                            maximumDate: DateTime.now(),
+                            dateOrder: DatePickerDateOrder.ymd,
+                            mode: CupertinoDatePickerMode.date,
+                          ),
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      height: 60,
+                      child: Center(
+                          child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${saving.savingDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          const Icon(Icons.edit),
+                        ],
+                      )),
+                    ),
                   ),
-                  child: const Text(
-                    '登録',
-                    style: TextStyle(fontSize: 23, letterSpacing: 20),
+                  // 金額
+                  Container(
+                      padding: const EdgeInsets.only(left: 40, right: 40),
+                      height: 100,
+                      child: Row(
+                        children: [
+                          Flexible(
+                            child: TextField(
+                              onChanged: (value) {
+                                setState(() {
+                                  if (value.isNotEmpty) {
+                                    saving.savingAmount =
+                                        savingClass.formatInt(value);
+                                  } else {
+                                    saving.savingAmount = 0;
+                                  }
+                                });
+                              },
+                              controller: amountController,
+                              decoration: InputDecoration(
+                                  hintText: '0',
+                                  hintStyle: const TextStyle(
+                                      fontSize: 20, letterSpacing: 8),
+                                  errorText: saving.savingAmountError.isNotEmpty
+                                      ? saving.savingAmountError
+                                      : null),
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly
+                              ],
+                              style: const TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          const Text(
+                            '円',
+                            style: TextStyle(fontSize: 20),
+                          )
+                        ],
+                      )),
+                  // 貯金名
+                  Container(
+                    padding: const EdgeInsets.only(left: 40, right: 40),
+                    height: 100,
+                    alignment: Alignment.center,
+                    child: TextField(
+                      onChanged: (value) {
+                        setState(() {
+                          saving.savingName = value;
+                        });
+                      },
+                      controller: nameController,
+                      decoration: InputDecoration(
+                          labelText: '貯金名',
+                          errorText: saving.savingNameError.isNotEmpty
+                              ? saving.savingNameError
+                              : null),
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  // 貯金目標
+                  Visibility(
+                    visible: savingTargetList.isNotEmpty,
+                    child: Container(
+                      margin:
+                          const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
+                      child: InkWell(
+                        onTap: () {
+                          showCupertinoModalPopup(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SizedBox(
+                                height: MediaQuery.of(context).size.height / 3,
+                                child: CupertinoPicker(
+                                  backgroundColor: Colors.white,
+                                  diameterRatio: 1.0,
+                                  itemExtent: 30.0,
+                                  scrollController: FixedExtentScrollController(
+                                      initialItem: savingTargetList
+                                          .map((e) => e.savingTargetId)
+                                          .toList()
+                                          .indexOf(
+                                              saving.savingTargetId?.toInt())),
+                                  onSelectedItemChanged: (int i) {
+                                    setState(() {
+                                      // 貯金目標をセット
+                                      saving.savingTargetName =
+                                          savingTargetList[i].savingTargetName;
+                                      saving.savingTargetId =
+                                          savingTargetList[i].savingTargetId;
+                                    });
+                                  },
+                                  children: savingTargetList
+                                      .map((e) => Text(e.savingTargetName))
+                                      .toList(),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: SizedBox(
+                          height: 70,
+                          child: InputDecorator(
+                            decoration: const InputDecoration(
+                              labelText: '振り分ける',
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    saving.hasTargetId()
+                                        ? 'なし'
+                                        : saving.savingTargetName,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                                const Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Icon(
+                                    Icons.keyboard_arrow_down,
+                                    size: 30,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              // 登録ボタン
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    color: Colors.white,
+                    height: 60,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: saving.isDisabled()
+                          ? null
+                          : () {
+                              setState(() {
+                                _editSaving(saving, env);
+                              });
+                            },
+                      style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(25))),
+                        fixedSize: const Size(double.infinity, 50),
+                      ),
+                      child: const Text(
+                        '登録',
+                        style: TextStyle(fontSize: 23, letterSpacing: 20),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          )
-        ],
+              )
+            ],
+          ),
+        ),
       ),
     );
   }
