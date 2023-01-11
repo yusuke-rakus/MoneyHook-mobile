@@ -23,7 +23,7 @@ class SettingsScreen extends StatelessWidget {
             _menuCard(context, Icons.account_circle_outlined, 'アカウント情報',
                 AccountInfo(env: env)),
             _menuCard(context, Icons.account_tree, '自動入力',
-                const MonthlyTransaction()),
+                MonthlyTransaction(env: env)),
             ElevatedButton(
                 onPressed: () async {
                   const storage = FlutterSecureStorage();

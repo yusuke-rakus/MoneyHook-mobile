@@ -50,6 +50,10 @@ class envClass {
     return {'month': thisMonth, 'userId': userId};
   }
 
+  Map<String, String> getUserJson() {
+    return {'userId': userId};
+  }
+
   @override
   String toString() {
     return 'envClass{thisMonth: $thisMonth, userId: $userId}';
