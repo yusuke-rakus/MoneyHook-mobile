@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/monthlyTransactionApi.dart';
+import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
 
 import '../../class/monthlyTransactionClass.dart';
 import '../../env/envClass.dart';
@@ -29,66 +30,58 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
     monthlyTransactionApi.getFixed(env, setMonthlyTransactionList);
   }
 
+  void setReload() {
+    // transactionApi.getHome(env, setLoading, setHomeTransaction);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: (const Text('設定')),
       ),
-      body: Stack(
+      body: ListView(
         children: [
-          ListView(
-            children: [
-              Container(
-                  padding: const EdgeInsets.only(left: 10, bottom: 20),
-                  height: 55,
-                  child: const Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        '収支の自動入力',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ))),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: monthlyTransactionList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                      onTap: () {
-                        print(
-                            monthlyTransactionList[index].monthlyTransactionId);
-                        // TODO 個別編集
-                      },
-                      child: _monthlyTransactionData(
-                          monthlyTransactionList[index]),
-                    );
-                  })
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // TODO 登録処理
+          Container(
+              padding: const EdgeInsets.only(left: 10, bottom: 20),
+              height: 55,
+              child: const Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    '収支の自動入力',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ))),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: monthlyTransactionList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return InkWell(
+                  onTap: () {
+                    print(monthlyTransactionList[index].monthlyTransactionId);
+                    // TODO 個別編集
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EditMonthlyTransaction(
+                                monthlyTransactionList[index], env, setReload),
+                            fullscreenDialog: true));
                   },
-                  style: ElevatedButton.styleFrom(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25))),
-                    fixedSize: const Size(double.infinity, 50),
-                  ),
-                  child: const Text(
-                    '登録',
-                    style: TextStyle(fontSize: 23, letterSpacing: 20),
-                  ),
-                ),
-              ),
-            ),
-          )
+                  child: _monthlyTransactionData(monthlyTransactionList[index]),
+                );
+              }),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO 新規追加
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditMonthlyTransaction(
+                      monthlyTransactionClass(), env, setReload),
+                  fullscreenDialog: true));
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -115,7 +108,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              flex: 1,
+              flex: 3,
               child: TextField(
                 enabled: false,
                 controller: TextEditingController(
@@ -141,7 +134,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
             ),
             const SizedBox(width: 10),
             Expanded(
-              flex: 1,
+              flex: 2,
               child: TextField(
                 enabled: false,
                 controller: TextEditingController(

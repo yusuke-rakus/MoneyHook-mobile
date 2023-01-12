@@ -14,6 +14,7 @@ class monthlyTransactionClass {
   bool includeFlg = true;
   String monthlyTransactionNameError = '';
   String monthlyTransactionAmountError = '';
+  String monthlyTransactionDateError = '';
 
   monthlyTransactionClass();
 
@@ -40,5 +41,9 @@ class monthlyTransactionClass {
 
   bool hasMonthlyTransactionId() {
     return monthlyTransactionId.isNotEmpty ? true : false;
+  }
+
+  bool isDisabled() {
+    return monthlyTransactionName.isEmpty || monthlyTransactionAmount == 0;
   }
 }
