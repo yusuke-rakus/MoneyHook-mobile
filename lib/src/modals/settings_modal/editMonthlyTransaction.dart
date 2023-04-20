@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
+import 'package:money_hooks/src/api/monthlyTransactionApi.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
 import 'package:switcher/core/switcher_size.dart';
@@ -62,13 +63,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   void _editTransaction(
       monthlyTransactionClass monthlyTransaction, envClass env) {
     monthlyTransaction.userId = env.userId;
-    // if (monthlyTransaction.hasMonthlyTransactionId()) {
-    //   // 編集
-    //   transactionApi.editTransaction(monthlyTransaction, backNavigation);
-    // } else {
-    //   // 新規追加
-    //   transactionApi.addTransaction(monthlyTransaction, backNavigation);
-    // }
+    monthlyTransactionApi.editTransaction(monthlyTransaction, backNavigation);
   }
 
   // 削除処理
@@ -95,8 +90,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
         child: Scaffold(
             appBar: AppBar(
               title: monthlyTransaction.hasMonthlyTransactionId()
-                  ? const Text('収支の編集')
-                  : const Text('支出または収入の入力'),
+                  ? const Text('月次収支の編集')
+                  : const Text('月次収支の追加'),
               actions: [
                 // 削除アイコン
                 Visibility(

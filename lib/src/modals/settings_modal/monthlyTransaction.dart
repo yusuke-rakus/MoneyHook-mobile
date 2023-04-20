@@ -40,7 +40,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
       appBar: AppBar(
         title: (const Text('設定')),
       ),
-      body: ListView(
+      body: Column(
         children: [
           Container(
               padding: const EdgeInsets.only(left: 10, bottom: 20),
@@ -51,29 +51,30 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                     '収支の自動入力',
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ))),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: monthlyTransactionList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    print(monthlyTransactionList[index].monthlyTransactionId);
-                    // TODO 個別編集
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditMonthlyTransaction(
-                                monthlyTransactionList[index], env, setReload),
-                            fullscreenDialog: true));
-                  },
-                  child: _monthlyTransactionData(monthlyTransactionList[index]),
-                );
-              }),
+          Flexible(
+            child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: monthlyTransactionList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      // 収支の編集画面へ遷移
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => EditMonthlyTransaction(
+                                  monthlyTransactionList[index], env, setReload),
+                              fullscreenDialog: true));
+                    },
+                    child: _monthlyTransactionData(monthlyTransactionList[index]),
+                  );
+                }),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO 新規追加
+          // 収支の編集画面へ遷移
           Navigator.push(
               context,
               MaterialPageRoute(

@@ -46,4 +46,22 @@ class monthlyTransactionClass {
   bool isDisabled() {
     return monthlyTransactionName.isEmpty || monthlyTransactionAmount == 0;
   }
+
+  Map<String, dynamic> getMonthlyTransactionJson() {
+    return {
+      'userId': userId,
+      'monthlyTransaction':
+      {
+        'monthlyTransactionId':monthlyTransactionId,
+        'monthlyTransactionName':monthlyTransactionName,
+        'monthlyTransactionAmount':monthlyTransactionAmount,
+        'monthlyTransactionSign':monthlyTransactionSign,
+        'monthlyTransactionDate':monthlyTransactionDate,
+        'categoryId':categoryId,
+        'subCategoryId':subCategoryId,
+        'subCategoryName':subCategoryName,
+        'includeFlg':includeFlg
+      }
+    };
+  }
 }

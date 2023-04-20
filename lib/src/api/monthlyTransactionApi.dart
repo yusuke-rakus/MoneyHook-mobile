@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:money_hooks/src/api/validation/transactionValidation.dart';
+import 'package:money_hooks/src/api/validation/monthlyTransactionValidation.dart';
 import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
-import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import 'api.dart';
@@ -41,15 +40,16 @@ class monthlyTransactionApi {
   }
 
   /// 月次取引の追加
-  static Future<void> addTransaction(
-      transactionClass transaction, Function backNavigation) async {
-    if (transactionValidation.checkTransaction(transaction)) {
+  static Future<void> editTransaction(
+      monthlyTransactionClass monthlyTransaction, Function backNavigation) async {
+    print(monthlyTransaction.getMonthlyTransactionJson());
+    if (monthlyTransactionValidation.checkMonthlyTransaction(monthlyTransaction)) {
       return;
     }
 
     await Future(() async {
-      Response res = await dio.post('$rootURI/addTransaction',
-          data: transaction.getTransactionJson());
+      Response res = await dio.post('$rootURI/editOneFixed',
+          data: monthlyTransaction.getMonthlyTransactionJson());
       if (res.data['status'] == 'error') {
         // 失敗
         print('失敗');
