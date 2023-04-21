@@ -47,21 +47,24 @@ class monthlyTransactionClass {
     return monthlyTransactionName.isEmpty || monthlyTransactionAmount == 0;
   }
 
-  Map<String, dynamic> getMonthlyTransactionJson() {
+  Map<String, dynamic> convertEditMonthlyTranJson() {
     return {
       'userId': userId,
-      'monthlyTransaction':
-      {
-        'monthlyTransactionId':monthlyTransactionId,
-        'monthlyTransactionName':monthlyTransactionName,
-        'monthlyTransactionAmount':monthlyTransactionAmount,
-        'monthlyTransactionSign':monthlyTransactionSign,
-        'monthlyTransactionDate':monthlyTransactionDate,
-        'categoryId':categoryId,
-        'subCategoryId':subCategoryId,
-        'subCategoryName':subCategoryName,
-        'includeFlg':includeFlg
+      'monthlyTransaction': {
+        'monthlyTransactionId': monthlyTransactionId,
+        'monthlyTransactionName': monthlyTransactionName,
+        'monthlyTransactionAmount': monthlyTransactionAmount,
+        'monthlyTransactionSign': monthlyTransactionSign,
+        'monthlyTransactionDate': monthlyTransactionDate,
+        'categoryId': categoryId,
+        'subCategoryId': subCategoryId,
+        'subCategoryName': subCategoryName,
+        'includeFlg': includeFlg
       }
     };
+  }
+
+  Map<String, dynamic> convertDeleteMonthlyTranJson() {
+    return {'userId': userId, 'monthlyTransactionId': monthlyTransactionId};
   }
 }

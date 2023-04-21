@@ -31,7 +31,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
   }
 
   void setReload() {
-    // transactionApi.getHome(env, setLoading, setHomeTransaction);
+    monthlyTransactionApi.getFixed(env, setMonthlyTransactionList);
   }
 
   @override
@@ -63,10 +63,13 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => EditMonthlyTransaction(
-                                  monthlyTransactionList[index], env, setReload),
+                                  monthlyTransactionList[index],
+                                  env,
+                                  setReload),
                               fullscreenDialog: true));
                     },
-                    child: _monthlyTransactionData(monthlyTransactionList[index]),
+                    child:
+                        _monthlyTransactionData(monthlyTransactionList[index]),
                   );
                 }),
           ),

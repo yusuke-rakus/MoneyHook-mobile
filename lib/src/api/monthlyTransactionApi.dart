@@ -41,15 +41,33 @@ class monthlyTransactionApi {
 
   /// 月次取引の追加
   static Future<void> editTransaction(
-      monthlyTransactionClass monthlyTransaction, Function backNavigation) async {
-    print(monthlyTransaction.getMonthlyTransactionJson());
-    if (monthlyTransactionValidation.checkMonthlyTransaction(monthlyTransaction)) {
+      monthlyTransactionClass monthlyTransaction,
+      Function backNavigation) async {
+    if (monthlyTransactionValidation
+        .checkMonthlyTransaction(monthlyTransaction)) {
       return;
     }
 
     await Future(() async {
       Response res = await dio.post('$rootURI/editOneFixed',
-          data: monthlyTransaction.getMonthlyTransactionJson());
+          data: monthlyTransaction.convertEditMonthlyTranJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
+        print('失敗');
+      } else {
+        // 成功
+        backNavigation();
+      }
+    });
+  }
+
+  /// 月次取引の削除
+  static Future<void> deleteMonthlyTransaction(
+      monthlyTransactionClass monthlyTransaction,
+      Function backNavigation) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/deleteFixed',
+          data: monthlyTransaction.convertDeleteMonthlyTranJson());
       if (res.data['status'] == 'error') {
         // 失敗
         print('失敗');

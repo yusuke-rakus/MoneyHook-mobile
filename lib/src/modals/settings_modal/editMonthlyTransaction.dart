@@ -69,7 +69,9 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   // 削除処理
   void _deleteTransaction(
       envClass env, monthlyTransactionClass monthlyTransaction) {
-    // transactionApi.deleteTransaction(env, monthlyTransaction, backNavigation);
+    monthlyTransaction.userId = env.userId;
+    monthlyTransactionApi.deleteMonthlyTransaction(
+        monthlyTransaction, backNavigation);
   }
 
   @override
@@ -275,11 +277,12 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                         setState(() {
                           monthlyTransaction.categoryName =
                               result['categoryName'];
-                          monthlyTransaction.categoryId = result['categoryId'];
+                          monthlyTransaction.categoryId =
+                              result['categoryId'].toString();
                           monthlyTransaction.subCategoryName =
                               result['subCategoryName'];
                           monthlyTransaction.subCategoryId =
-                              result['subCategoryId'];
+                              result['subCategoryId'].toString();
                         });
                       },
                       child: SizedBox(
@@ -293,7 +296,9 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${monthlyTransaction.categoryName} / ${widget.monthlyTransaction.subCategoryName}',
+                                  monthlyTransaction.categoryName.isNotEmpty
+                                      ? '${monthlyTransaction.categoryName} / ${widget.monthlyTransaction.subCategoryName}'
+                                      : '',
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(fontSize: 20),
                                 ),
