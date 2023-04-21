@@ -24,7 +24,7 @@ class SettingsScreen extends StatelessWidget {
                 AccountInfo(env: env)),
             _menuCard(context, Icons.account_tree, '自動入力',
                 MonthlyTransaction(env: env)),
-            ElevatedButton(
+            TextButton(
                 onPressed: () async {
                   const storage = FlutterSecureStorage();
                   await storage.deleteAll();
@@ -36,7 +36,10 @@ class SettingsScreen extends StatelessWidget {
                           builder: (BuildContext context) =>
                               const MyStatefulWidget()));
                 },
-                child: const Text('ログアウト')),
+                child: const Text(
+                  'ログアウト',
+                  style: TextStyle(color: Colors.black54),
+                )),
           ],
         ));
   }
