@@ -15,7 +15,6 @@ class monthlyTransactionClass {
   String monthlyTransactionNameError = '';
   String monthlyTransactionAmountError = '';
   String monthlyTransactionDateError = '';
-  String monthlyTransactionError = 'aa';
 
   monthlyTransactionClass();
 
@@ -30,8 +29,6 @@ class monthlyTransactionClass {
       this.monthlyTransactionSign,
       this.categoryName,
       this.subCategoryName);
-
-  monthlyTransactionClass.setError(this.monthlyTransactionError);
 
   static String formatNum(int num) {
     final formatter = NumberFormat('#,###');
