@@ -163,9 +163,9 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                             hintStyle:
                                 const TextStyle(fontSize: 20, letterSpacing: 8),
                             errorText: monthlyTransaction
-                                    .monthlyTransactionAmountError.isNotEmpty
+                                    .monthlyTransactionDateError.isNotEmpty
                                 ? monthlyTransaction
-                                    .monthlyTransactionAmountError
+                                    .monthlyTransactionDateError
                                 : null),
                         keyboardType: TextInputType.number,
                         inputFormatters: [

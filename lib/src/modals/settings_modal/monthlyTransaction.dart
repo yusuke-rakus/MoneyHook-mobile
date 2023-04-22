@@ -16,6 +16,7 @@ class MonthlyTransaction extends StatefulWidget {
 class _MonthlyTransactionState extends State<MonthlyTransaction> {
   late envClass env;
   late List<monthlyTransactionClass> monthlyTransactionList = [];
+  late String ErrorMessage = '';
 
   void setMonthlyTransactionList(List<monthlyTransactionClass> resultList) {
     setState(() {
@@ -23,15 +24,23 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
     });
   }
 
+  void setErrorMessage(String message) {
+    setState(() {
+      ErrorMessage = message;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     env = widget.env;
-    monthlyTransactionApi.getFixed(env, setMonthlyTransactionList);
+    monthlyTransactionApi.getFixed(
+        env, setMonthlyTransactionList, setErrorMessage);
   }
 
   void setReload() {
-    monthlyTransactionApi.getFixed(env, setMonthlyTransactionList);
+    monthlyTransactionApi.getFixed(
+        env, setMonthlyTransactionList, setErrorMessage);
   }
 
   @override
@@ -40,39 +49,77 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
       appBar: AppBar(
         title: (const Text('設定')),
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Container(
-              padding: const EdgeInsets.only(left: 10, bottom: 20),
-              height: 55,
-              child: const Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    '収支の自動入力',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ))),
-          Flexible(
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: monthlyTransactionList.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return InkWell(
-                    onTap: () {
-                      // 収支の編集画面へ遷移
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EditMonthlyTransaction(
-                                  monthlyTransactionList[index],
-                                  env,
-                                  setReload),
-                              fullscreenDialog: true));
-                    },
-                    child:
-                        _monthlyTransactionData(monthlyTransactionList[index]),
-                  );
-                }),
+          Column(
+            children: [
+              Container(
+                  padding: const EdgeInsets.only(left: 10, bottom: 20),
+                  height: 55,
+                  child: const Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text(
+                        '収支の自動入力',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ))),
+              Flexible(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: monthlyTransactionList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return InkWell(
+                        onTap: () {
+                          // 収支の編集画面へ遷移
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditMonthlyTransaction(
+                                      monthlyTransactionList[index],
+                                      env,
+                                      setReload),
+                                  fullscreenDialog: true));
+                        },
+                        child: _monthlyTransactionData(
+                            monthlyTransactionList[index]),
+                      );
+                    }),
+              )
+            ],
           ),
+
+          // エラーメッセージ
+          Visibility(
+              visible: ErrorMessage.isNotEmpty,
+              child: Container(
+                alignment: Alignment.bottomLeft,
+                margin: const EdgeInsets.all(5),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      ErrorMessage = '';
+                    });
+                  },
+                  child: Card(
+                    color: Colors.black54,
+                    child: Padding(
+                      padding: const EdgeInsets.all(7),
+                      child: RichText(
+                        text: TextSpan(children: [
+                          TextSpan(
+                            text: ErrorMessage,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 15),
+                          ),
+                          const WidgetSpan(
+                            child: Icon(Icons.close_outlined,
+                                size: 22, color: Colors.white),
+                          )
+                        ]),
+                      ),
+                    ),
+                  ),
+                ),
+              ))
         ],
       ),
       floatingActionButton: FloatingActionButton(

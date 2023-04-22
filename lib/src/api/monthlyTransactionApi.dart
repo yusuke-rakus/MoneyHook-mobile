@@ -11,12 +11,13 @@ class monthlyTransactionApi {
 
   /// 月次取引の取得
   static Future<void> getFixed(
-      envClass env, Function setMonthlyTransactionList) async {
+      envClass env, Function setMonthlyTransactionList, Function setErrorMessage) async {
     await Future(() async {
       Response res =
           await dio.post('$rootURI/getFixed', data: env.getUserJson());
       if (res.data['status'] == 'error') {
         // 失敗
+        setErrorMessage(res.data['message']);
       } else {
         // 成功
         List<monthlyTransactionClass> resultList = [];

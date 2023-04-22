@@ -3,7 +3,8 @@ import 'package:money_hooks/src/class/transactionClass.dart';
 import '../../class/monthlyTransactionClass.dart';
 
 class monthlyTransactionValidation {
-  static bool checkMonthlyTransaction(monthlyTransactionClass monthlyTransaction) {
+  static bool checkMonthlyTransaction(
+      monthlyTransactionClass monthlyTransaction) {
     // 未入力チェック
     if (monthlyTransaction.monthlyTransactionName.isEmpty) {
       monthlyTransaction.monthlyTransactionNameError = '未入力';
@@ -13,16 +14,26 @@ class monthlyTransactionValidation {
       monthlyTransaction.monthlyTransactionAmountError = '未入力';
       return true;
     }
+    if (monthlyTransaction.monthlyTransactionDate == 0) {
+      monthlyTransaction.monthlyTransactionDateError = '未入力';
+      return true;
+    }
 
-    // 文字数チェック
-    if (monthlyTransaction.monthlyTransactionName.length > 32) {
-      monthlyTransaction.monthlyTransactionNameError = '32文字以内';
+    // 日付チェック
+    if (monthlyTransaction.monthlyTransactionDate > 31) {
+      monthlyTransaction.monthlyTransactionDateError = '31以内';
       return true;
     }
 
     // 桁数チェック
     if (monthlyTransaction.monthlyTransactionAmount > 9999999) {
       monthlyTransaction.monthlyTransactionAmountError = '9,999,999以内';
+      return true;
+    }
+
+    // 文字数チェック
+    if (monthlyTransaction.monthlyTransactionName.length > 33) {
+      monthlyTransaction.monthlyTransactionNameError = '32文字以内';
       return true;
     }
 
