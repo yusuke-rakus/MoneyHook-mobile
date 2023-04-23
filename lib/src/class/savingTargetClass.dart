@@ -9,6 +9,7 @@ class savingTargetClass {
   num savingCount = 0;
   num monthlyTotalSavingAmount = 0;
   DateTime savingMonth = DateTime.now();
+  bool isDisable = false;
   String savingTargetNameError = '';
   String targetAmountError = '';
 
@@ -48,7 +49,7 @@ class savingTargetClass {
   }
 
   bool isDisabled() {
-    return savingTargetName.isEmpty || targetAmount == 0;
+    return savingTargetName.isEmpty || targetAmount == 0 || isDisable;
   }
 
   Map<String, dynamic> getSavingTargetJson() {

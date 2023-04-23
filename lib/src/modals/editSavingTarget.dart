@@ -19,6 +19,7 @@ class EditSavingTarget extends StatefulWidget {
 class _EditSavingTarget extends State<EditSavingTarget> {
   late savingTargetClass savingTarget;
   late envClass env;
+  late String errorMessage = '';
 
   final TextEditingController nameController = TextEditingController();
 
@@ -39,19 +40,38 @@ class _EditSavingTarget extends State<EditSavingTarget> {
     Navigator.pop(context);
   }
 
+  // ボタン非表示処理
+  void setDisable() {
+    setState(() {
+      savingTarget.isDisable = !savingTarget.isDisable;
+    });
+  }
+
+  // エラーメッセージ
+  void setErrorMessage(String message) {
+    setState(() {
+      errorMessage = message;
+    });
+  }
+
+  // 登録処理
   void _editSavingTarget(savingTargetClass savingTarget, envClass env) {
     savingTarget.userId = env.userId;
     if (savingTarget.hasTargetId()) {
       // 編集
-      savingTargetApi.editSavingTarget(savingTarget, backNavigation);
+      savingTargetApi.editSavingTarget(
+          savingTarget, backNavigation, setDisable, setErrorMessage);
     } else {
       //  新規追加
-      savingTargetApi.addSavingTarget(savingTarget, backNavigation);
+      savingTargetApi.addSavingTarget(
+          savingTarget, backNavigation, setDisable, setErrorMessage);
     }
   }
 
+  // 削除処理
   void _deleteSavingTarget(envClass env, savingTargetClass savingTarget) {
-    savingTargetApi.deleteSavingTarget(env, savingTarget, backNavigation);
+    savingTargetApi.deleteSavingTarget(
+        env, savingTarget, backNavigation, setDisable, setErrorMessage);
   }
 
   @override
@@ -80,38 +100,45 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
-                        onPressed: () {
-                          showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    content: const Text('この目標を削除します'),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          // 削除処理
-                                          _deleteSavingTarget(
-                                              env, savingTarget);
-                                          Navigator.pop(context);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFFE53935),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5)))),
-                                        child: const Text(
-                                          '削除',
-                                        ),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('閉じる'),
-                                      )
-                                    ],
-                                  ));
-                        },
+                        onPressed: savingTarget.isDisabled()
+                            ? null
+                            : () {
+                                showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                          content: const Text('この目標を削除します'),
+                                          actions: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                // 削除処理
+                                                _deleteSavingTarget(
+                                                    env, savingTarget);
+                                                Navigator.pop(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xFFE53935),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5)))),
+                                              child: const Text(
+                                                '削除',
+                                              ),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('閉じる'),
+                                            )
+                                          ],
+                                        ));
+                              },
                         icon: const Icon(
                           Icons.delete_outline,
                         )),
@@ -121,6 +148,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
             ),
             body: Stack(
               children: [
+                // 項目リスト
                 ListView(padding: const EdgeInsets.all(8), children: [
                   // 目標名称
                   Container(
@@ -184,6 +212,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                         ],
                       )),
                 ]),
+                // 登録
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Align(
@@ -213,7 +242,39 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                       ),
                     ),
                   ),
-                )
+                ),
+                // エラーメッセージ
+                Visibility(
+                    visible: errorMessage.isNotEmpty,
+                    child: Container(
+                      margin: const EdgeInsets.all(5),
+                      child: InkWell(
+                        onTap: () {
+                          setState(() {
+                            errorMessage = '';
+                          });
+                        },
+                        child: Card(
+                          color: Colors.black54,
+                          child: Padding(
+                            padding: const EdgeInsets.all(7),
+                            child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: errorMessage,
+                                  style: const TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                                const WidgetSpan(
+                                  child: Icon(Icons.close_outlined,
+                                      size: 22, color: Colors.white),
+                                )
+                              ]),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ))
               ],
             )),
       ),

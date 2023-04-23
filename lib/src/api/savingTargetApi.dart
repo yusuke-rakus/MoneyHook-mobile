@@ -34,7 +34,12 @@ class savingTargetApi {
 
   /// 貯金目標の追加
   static Future<void> addSavingTarget(
-      savingTargetClass savingTarget, Function backNavigation) async {
+      savingTargetClass savingTarget,
+      Function backNavigation,
+      Function setDisable,
+      Function setErrorMessage) async {
+    setDisable();
+    setErrorMessage('');
     // バリデーション
     if (savingTargetValidation.checkSavingTarget(savingTarget)) {
       return;
@@ -45,8 +50,12 @@ class savingTargetApi {
           data: savingTarget.getSavingTargetJson());
       if (res.data['status'] == 'error') {
         // 失敗
+        print('失敗');
+        setDisable();
+        setErrorMessage(res.data['message']);
       } else {
         // 成功
+        print('成功');
         backNavigation();
       }
     });
@@ -54,7 +63,12 @@ class savingTargetApi {
 
   /// 貯金目標の編集
   static Future<void> editSavingTarget(
-      savingTargetClass savingTarget, Function backNavigation) async {
+      savingTargetClass savingTarget,
+      Function backNavigation,
+      Function setDisable,
+      Function setErrorMessage) async {
+    setDisable();
+    setErrorMessage('');
     // バリデーション
     if (savingTargetValidation.checkSavingTarget(savingTarget)) {
       return;
@@ -65,6 +79,8 @@ class savingTargetApi {
           data: savingTarget.getSavingTargetJson());
       if (res.data['status'] == 'error') {
         // 失敗
+        setDisable();
+        setErrorMessage(res.data['message']);
       } else {
         // 成功
         backNavigation();
@@ -73,8 +89,14 @@ class savingTargetApi {
   }
 
   /// 貯金目標の削除
-  static Future<void> deleteSavingTarget(envClass env,
-      savingTargetClass savingTarget, Function backNavigation) async {
+  static Future<void> deleteSavingTarget(
+      envClass env,
+      savingTargetClass savingTarget,
+      Function backNavigation,
+      Function setDisable,
+      Function setErrorMessage) async {
+    setDisable();
+    setErrorMessage('');
     await Future(() async {
       Response res = await dio.post('$rootURI/deleteSavingTarget', data: {
         'userId': env.userId,
@@ -82,6 +104,8 @@ class savingTargetApi {
       });
       if (res.data['status'] == 'error') {
         // 失敗
+        setDisable();
+        setErrorMessage(res.data['message']);
       } else {
         // 成功
         backNavigation();
