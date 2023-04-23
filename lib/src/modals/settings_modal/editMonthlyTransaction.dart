@@ -10,12 +10,14 @@ import 'package:switcher/switcher.dart';
 import '../../class/monthlyTransactionClass.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
-  EditMonthlyTransaction(this.monthlyTransaction, this.env, this.setReload,
+  EditMonthlyTransaction(
+      this.monthlyTransaction, this.env, this.setReload, this.setErrorMessage,
       {super.key});
 
   monthlyTransactionClass monthlyTransaction;
   envClass env;
   Function setReload;
+  Function setErrorMessage;
 
   @override
   State<StatefulWidget> createState() => _EditTransaction();
@@ -24,7 +26,6 @@ class EditMonthlyTransaction extends StatefulWidget {
 class _EditTransaction extends State<EditMonthlyTransaction> {
   late monthlyTransactionClass monthlyTransaction;
   late envClass env;
-  late List<String> recommendList = [];
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
@@ -46,13 +47,6 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
         TextPosition(offset: dateController.text.length));
   }
 
-  // 取引候補
-  void setRecommendList(List<String> resultList) {
-    setState(() {
-      recommendList = resultList;
-    });
-  }
-
   // 戻る・更新処理
   void backNavigation() {
     Navigator.pop(context);
@@ -63,7 +57,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   void _editTransaction(
       monthlyTransactionClass monthlyTransaction, envClass env) {
     monthlyTransaction.userId = env.userId;
-    monthlyTransactionApi.editTransaction(monthlyTransaction, backNavigation);
+    monthlyTransactionApi.editTransaction(
+        monthlyTransaction, backNavigation, widget.setErrorMessage, setDisable);
   }
 
   // 削除処理
@@ -71,7 +66,14 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
       envClass env, monthlyTransactionClass monthlyTransaction) {
     monthlyTransaction.userId = env.userId;
     monthlyTransactionApi.deleteMonthlyTransaction(
-        monthlyTransaction, backNavigation);
+        monthlyTransaction, backNavigation, widget.setErrorMessage, setDisable);
+  }
+
+  // ボタン非表示処理
+  void setDisable() {
+    setState(() {
+      monthlyTransaction.isDisable = !monthlyTransaction.isDisable;
+    });
   }
 
   @override
@@ -101,36 +103,43 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
-                        onPressed: () {
-                          showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    content: const Text('この取引を削除します'),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          // 削除処理
-                                          _deleteTransaction(
-                                              env, monthlyTransaction);
-                                          Navigator.pop(context);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFFE53935),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5)))),
-                                        child: const Text('削除'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('閉じる'),
-                                      )
-                                    ],
-                                  ));
-                        },
+                        onPressed: monthlyTransaction.isDisabled()
+                            ? null
+                            : () {
+                                showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                          content: const Text('この取引を削除します'),
+                                          actions: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                // 削除処理
+                                                _deleteTransaction(
+                                                    env, monthlyTransaction);
+                                                Navigator.pop(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xFFE53935),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5)))),
+                                              child: const Text('削除'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('閉じる'),
+                                            )
+                                          ],
+                                        ));
+                              },
                         icon: const Icon(
                           Icons.delete_outline,
                         )),
@@ -164,8 +173,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                 const TextStyle(fontSize: 20, letterSpacing: 8),
                             errorText: monthlyTransaction
                                     .monthlyTransactionDateError.isNotEmpty
-                                ? monthlyTransaction
-                                    .monthlyTransactionDateError
+                                ? monthlyTransaction.monthlyTransactionDateError
                                 : null),
                         keyboardType: TextInputType.number,
                         inputFormatters: [

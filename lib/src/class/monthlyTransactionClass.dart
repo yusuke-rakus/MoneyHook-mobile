@@ -12,6 +12,7 @@ class monthlyTransactionClass {
   var subCategoryId = '';
   var subCategoryName = '';
   bool includeFlg = true;
+  bool isDisable = false;
   String monthlyTransactionNameError = '';
   String monthlyTransactionAmountError = '';
   String monthlyTransactionDateError = '';
@@ -44,7 +45,10 @@ class monthlyTransactionClass {
   }
 
   bool isDisabled() {
-    return monthlyTransactionName.isEmpty || monthlyTransactionAmount == 0;
+    return monthlyTransactionName.isEmpty ||
+        monthlyTransactionAmount == 0 ||
+        subCategoryId.isEmpty ||
+        isDisable;
   }
 
   Map<String, dynamic> convertEditMonthlyTranJson() {

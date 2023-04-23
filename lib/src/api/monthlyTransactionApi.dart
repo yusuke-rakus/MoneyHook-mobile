@@ -11,7 +11,7 @@ class monthlyTransactionApi {
 
   /// 月次取引の取得
   static Future<void> getFixed(
-      envClass env, Function setMonthlyTransactionList, Function setErrorMessage) async {
+      envClass env, Function setMonthlyTransactionList, Function setLoading, Function setErrorMessage) async {
     await Future(() async {
       Response res =
           await dio.post('$rootURI/getFixed', data: env.getUserJson());
@@ -37,13 +37,15 @@ class monthlyTransactionApi {
         });
         setMonthlyTransactionList(resultList);
       }
+      setLoading();
     });
   }
 
   /// 月次取引の追加
   static Future<void> editTransaction(
       monthlyTransactionClass monthlyTransaction,
-      Function backNavigation) async {
+      Function backNavigation, Function setErrorMessage, Function setDisable) async {
+    setDisable();
     if (monthlyTransactionValidation
         .checkMonthlyTransaction(monthlyTransaction)) {
       return;
@@ -54,28 +56,29 @@ class monthlyTransactionApi {
           data: monthlyTransaction.convertEditMonthlyTranJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        print('失敗');
+        setErrorMessage(res.data['message']);
       } else {
         // 成功
-        backNavigation();
       }
+      backNavigation();
     });
   }
 
   /// 月次取引の削除
   static Future<void> deleteMonthlyTransaction(
       monthlyTransactionClass monthlyTransaction,
-      Function backNavigation) async {
+      Function backNavigation, Function setErrorMessage, Function setDisable) async {
+    setDisable();
     await Future(() async {
       Response res = await dio.post('$rootURI/deleteFixed',
           data: monthlyTransaction.convertDeleteMonthlyTranJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        print('失敗');
+        setErrorMessage(res.data['message']);
       } else {
         // 成功
-        backNavigation();
       }
+      backNavigation();
     });
   }
 }
