@@ -12,6 +12,7 @@ class transactionClass {
   var subCategoryId = 1;
   var subCategoryName = 'なし';
   var fixedFlg = false;
+  bool isDisable = false;
   String transactionNameError = '';
   String transactionAmountError = '';
 
@@ -61,7 +62,7 @@ class transactionClass {
   }
 
   bool isDisabled() {
-    return transactionName.isEmpty || transactionAmount == 0;
+    return transactionName.isEmpty || transactionAmount == 0 || isDisable;
   }
 
   String getMonth() {

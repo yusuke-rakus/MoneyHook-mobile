@@ -134,7 +134,12 @@ class transactionApi {
 
   /// 取引の追加
   static Future<void> addTransaction(
-      transactionClass transaction, Function backNavigation) async {
+      transactionClass transaction,
+      Function backNavigation,
+      Function setDisable,
+      Function setErrorMessage) async {
+    setDisable();
+    setErrorMessage('');
     if (transactionValidation.checkTransaction(transaction)) {
       return;
     }
@@ -144,7 +149,8 @@ class transactionApi {
           data: transaction.getTransactionJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        print('失敗');
+        setErrorMessage(res.data['message']);
+        setDisable();
       } else {
         // 成功
         backNavigation();
@@ -154,7 +160,12 @@ class transactionApi {
 
   /// 取引の編集
   static Future<void> editTransaction(
-      transactionClass transaction, Function backNavigation) async {
+      transactionClass transaction,
+      Function backNavigation,
+      Function setDisable,
+      Function setErrorMessage) async {
+    setDisable();
+    setErrorMessage('');
     if (transactionValidation.checkTransaction(transaction)) {
       return;
     }
@@ -164,6 +175,8 @@ class transactionApi {
           data: transaction.getTransactionJson());
       if (res.data['status'] == 'error') {
         // 失敗
+        setErrorMessage(res.data['message']);
+        setDisable();
       } else {
         // 成功
         backNavigation();
@@ -172,15 +185,23 @@ class transactionApi {
   }
 
   /// 取引の削除
-  static Future<void> deleteTransaction(envClass env,
-      transactionClass transaction, Function backNavigation) async {
+  static Future<void> deleteTransaction(
+      envClass env,
+      transactionClass transaction,
+      Function backNavigation,
+      Function setDisable,
+      Function setErrorMessage) async {
     await Future(() async {
+      setDisable();
+      setErrorMessage('');
       Response res = await dio.post('$rootURI/deleteTransaction', data: {
         'userId': env.userId,
         'transactionId': transaction.transactionId
       });
       if (res.data['status'] == 'error') {
         // 失敗
+        setErrorMessage(res.data['message']);
+        setDisable();
       } else {
         // 成功
         backNavigation();

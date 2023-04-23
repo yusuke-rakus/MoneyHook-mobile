@@ -25,6 +25,7 @@ class _EditTransaction extends State<EditTransaction> {
   late transactionClass transaction;
   late envClass env;
   late List<String> recommendList = [];
+  late String errorMessage = '';
 
   final TextEditingController nameController = TextEditingController();
 
@@ -60,16 +61,31 @@ class _EditTransaction extends State<EditTransaction> {
     transaction.userId = env.userId;
     if (transaction.hasTransactionId()) {
       // 編集
-      transactionApi.editTransaction(transaction, backNavigation);
+      transactionApi.editTransaction(transaction, backNavigation, setDisable, setErrorMessage);
     } else {
       // 新規追加
-      transactionApi.addTransaction(transaction, backNavigation);
+      transactionApi.addTransaction(transaction, backNavigation, setDisable, setErrorMessage);
     }
   }
 
   // 削除処理
   void _deleteTransaction(envClass env, transactionClass transaction) {
-    transactionApi.deleteTransaction(env, transaction, backNavigation);
+    transactionApi.deleteTransaction(
+        env, transaction, backNavigation, setDisable, setErrorMessage);
+  }
+
+  // ボタン非表示処理
+  void setDisable() {
+    setState(() {
+      transaction.isDisable = !transaction.isDisable;
+    });
+  }
+
+  // エラーメッセージ
+  void setErrorMessage(String message) {
+    setState(() {
+      errorMessage = message;
+    });
   }
 
   @override
@@ -98,35 +114,43 @@ class _EditTransaction extends State<EditTransaction> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
-                        onPressed: () {
-                          showDialog<String>(
-                              context: context,
-                              builder: (BuildContext context) => AlertDialog(
-                                    content: const Text('この取引を削除します'),
-                                    actions: [
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          // 削除処理
-                                          _deleteTransaction(env, transaction);
-                                          Navigator.pop(context);
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                            backgroundColor:
-                                                const Color(0xFFE53935),
-                                            shape: const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(5)))),
-                                        child: const Text('削除'),
-                                      ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text('閉じる'),
-                                      )
-                                    ],
-                                  ));
-                        },
+                        onPressed: transaction.isDisabled()
+                            ? null
+                            : () {
+                                showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                          content: const Text('この取引を削除します'),
+                                          actions: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                // 削除処理
+                                                _deleteTransaction(
+                                                    env, transaction);
+                                                Navigator.pop(context);
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  backgroundColor:
+                                                      const Color(0xFFE53935),
+                                                  shape:
+                                                      const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          5)))),
+                                              child: const Text('削除'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.pop(context);
+                                              },
+                                              child: const Text('閉じる'),
+                                            )
+                                          ],
+                                        ));
+                              },
                         icon: const Icon(
                           Icons.delete_outline,
                         )),
@@ -385,7 +409,40 @@ class _EditTransaction extends State<EditTransaction> {
                         ),
                       ),
                     )),
-              )
+              ),
+
+              // エラーメッセージ
+              Visibility(
+                  visible: errorMessage.isNotEmpty,
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          errorMessage = '';
+                        });
+                      },
+                      child: Card(
+                        color: Colors.black54,
+                        child: Padding(
+                          padding: const EdgeInsets.all(7),
+                          child: RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text: errorMessage,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                              const WidgetSpan(
+                                child: Icon(Icons.close_outlined,
+                                    size: 22, color: Colors.white),
+                              )
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))
             ])),
       ),
     );
