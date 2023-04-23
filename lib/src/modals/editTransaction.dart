@@ -410,7 +410,6 @@ class _EditTransaction extends State<EditTransaction> {
                       ),
                     )),
               ),
-
               // エラーメッセージ
               Visibility(
                   visible: errorMessage.isNotEmpty,

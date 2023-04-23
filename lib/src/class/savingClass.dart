@@ -8,6 +8,7 @@ class savingClass {
   num savingAmount = 0;
   num? savingTargetId;
   var savingTargetName = '';
+  bool isDisable = false;
   String savingNameError = '';
   String savingAmountError = '';
 
@@ -33,7 +34,7 @@ class savingClass {
   }
 
   bool isDisabled() {
-    return savingName.isEmpty || savingAmount == 0;
+    return savingName.isEmpty || savingAmount == 0 || isDisable;
   }
 
   bool hasTargetId() {

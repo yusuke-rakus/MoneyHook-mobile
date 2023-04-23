@@ -23,6 +23,7 @@ class _EditSaving extends State<EditSaving> {
   late savingClass saving;
   late envClass env;
   late List<savingTargetClass> savingTargetList = [];
+  late String errorMessage = '';
 
   final TextEditingController nameController = TextEditingController();
 
@@ -50,19 +51,36 @@ class _EditSaving extends State<EditSaving> {
     Navigator.pop(context);
   }
 
+  // 貯金編集
   void _editSaving(savingClass saving, envClass env) {
     saving.userId = env.userId;
     if (saving.hasSavingId()) {
       // 編集
-      savingApi.editSaving(saving, backNavigation);
+      savingApi.editSaving(saving, backNavigation, setDisable, setErrorMessage);
     } else {
-      //  新規追加
-      savingApi.addSaving(saving, backNavigation);
+      // 新規追加
+      savingApi.addSaving(saving, backNavigation, setDisable, setErrorMessage);
     }
   }
 
+  // 貯金削除
   void _deleteSaving(envClass env, savingClass saving) {
-    savingApi.deleteSaving(env, saving, backNavigation);
+    savingApi.deleteSaving(
+        env, saving, backNavigation, setDisable, setErrorMessage);
+  }
+
+  // エラーメッセージ
+  void setErrorMessage(String message) {
+    setState(() {
+      errorMessage = message;
+    });
+  }
+
+  // ボタン非表示処理
+  void setDisable() {
+    setState(() {
+      saving.isDisable = !saving.isDisable;
+    });
   }
 
   @override
@@ -91,37 +109,42 @@ class _EditSaving extends State<EditSaving> {
                 child: Align(
                   alignment: Alignment.topRight,
                   child: IconButton(
-                      onPressed: () {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) => AlertDialog(
-                                  content: const Text('この貯金を削除します'),
-                                  actions: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        // 削除処理
-                                        _deleteSaving(env, saving);
-                                        Navigator.pop(context);
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                          backgroundColor:
-                                              const Color(0xFFE53935),
-                                          shape: const RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5)))),
-                                      child: const Text(
-                                        '削除',
-                                      ),
-                                    ),
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text('閉じる'),
-                                    )
-                                  ],
-                                ));
-                      },
+                      onPressed: saving.isDisabled()
+                          ? null
+                          : () {
+                              showDialog<String>(
+                                  context: context,
+                                  builder:
+                                      (BuildContext context) => AlertDialog(
+                                            content: const Text('この貯金を削除します'),
+                                            actions: [
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  // 削除処理
+                                                  _deleteSaving(env, saving);
+                                                  Navigator.pop(context);
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                    backgroundColor:
+                                                        const Color(0xFFE53935),
+                                                    shape: const RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    5)))),
+                                                child: const Text(
+                                                  '削除',
+                                                ),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('閉じる'),
+                                              )
+                                            ],
+                                          ));
+                            },
                       icon: const Icon(
                         Icons.delete_outline,
                       )),
@@ -339,7 +362,39 @@ class _EditSaving extends State<EditSaving> {
                     ),
                   ),
                 ),
-              )
+              ),
+              // エラーメッセージ
+              Visibility(
+                  visible: errorMessage.isNotEmpty,
+                  child: Container(
+                    margin: const EdgeInsets.all(5),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          errorMessage = '';
+                        });
+                      },
+                      child: Card(
+                        color: Colors.black54,
+                        child: Padding(
+                          padding: const EdgeInsets.all(7),
+                          child: RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text: errorMessage,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 15),
+                              ),
+                              const WidgetSpan(
+                                child: Icon(Icons.close_outlined,
+                                    size: 22, color: Colors.white),
+                              )
+                            ]),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ))
             ],
           ),
         ),
