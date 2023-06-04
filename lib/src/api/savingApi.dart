@@ -158,4 +158,25 @@ class savingApi {
       }
     });
   }
+
+  /// レコメンドリストの取得
+  static Future<void> getFrequentSavingName(
+      envClass env, Function setRecommendList) async {
+    await Future(() async {
+      Response res =
+      await dio.post('$rootURI/getFrequentSavingName', data: {
+        'userId': env.userId,
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        List<String> resultList = [];
+        res.data['savingList'].forEach((value) {
+          resultList.add(value['savingName']);
+        });
+        setRecommendList(resultList);
+      }
+    });
+  }
 }

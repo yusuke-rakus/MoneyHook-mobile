@@ -11,6 +11,7 @@ class savingTargetApi {
   static Dio dio = Dio();
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
+  /// 貯金目標の取得
   static Future<void> getSavingTargetList(
       Function setSavingTargetList, String userId) async {
     await Future(() async {

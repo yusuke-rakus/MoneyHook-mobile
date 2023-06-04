@@ -22,6 +22,7 @@ class EditSaving extends StatefulWidget {
 class _EditSaving extends State<EditSaving> {
   late savingClass saving;
   late envClass env;
+  late List<String> recommendList = [];
   late List<savingTargetClass> savingTargetList = [];
   late String errorMessage = '';
 
@@ -44,11 +45,21 @@ class _EditSaving extends State<EditSaving> {
         nameController.value.copyWith(text: saving.savingName);
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
+    if (!saving.hasSavingId()) {
+      savingApi.getFrequentSavingName(env, setRecommendList);
+    }
   }
 
   void backNavigation() {
     widget.setReload();
     Navigator.pop(context);
+  }
+
+  // 取引候補
+  void setRecommendList(List<String> resultList) {
+    setState(() {
+      recommendList = resultList;
+    });
   }
 
   // 貯金編集
@@ -257,6 +268,38 @@ class _EditSaving extends State<EditSaving> {
                               : null),
                       style: const TextStyle(fontSize: 20),
                     ),
+                  ),
+                  // 候補リスト
+                  Container(
+                    padding: const EdgeInsets.only(left: 40, right: 10),
+                    alignment: Alignment.centerLeft,
+                    child: Wrap(
+                        children: recommendList
+                            .map<Widget>(
+                              (savingName) => Container(
+                                height: 23,
+                                margin: const EdgeInsets.only(top: 3, right: 5),
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      nameController.text = savingName;
+                                      saving.savingName = savingName;
+                                    });
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(18.0),
+                                      ),
+                                      foregroundColor: Colors.black87,
+                                      backgroundColor: Colors.black12,
+                                      side: const BorderSide(
+                                          color: Colors.white)),
+                                  child: Text(savingName),
+                                ),
+                              ),
+                            )
+                            .toList()),
                   ),
                   // 貯金目標
                   Visibility(
