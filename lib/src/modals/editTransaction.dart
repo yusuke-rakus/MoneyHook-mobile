@@ -40,7 +40,9 @@ class _EditTransaction extends State<EditTransaction> {
         nameController.value.copyWith(text: transaction.transactionName);
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
-    transactionApi.getFrequentTransactionName(env, setRecommendList);
+    if (!transaction.hasTransactionId()) {
+      transactionApi.getFrequentTransactionName(env, setRecommendList);
+    }
   }
 
   // 取引候補
@@ -61,10 +63,12 @@ class _EditTransaction extends State<EditTransaction> {
     transaction.userId = env.userId;
     if (transaction.hasTransactionId()) {
       // 編集
-      transactionApi.editTransaction(transaction, backNavigation, setDisable, setErrorMessage);
+      transactionApi.editTransaction(
+          transaction, backNavigation, setDisable, setErrorMessage);
     } else {
       // 新規追加
-      transactionApi.addTransaction(transaction, backNavigation, setDisable, setErrorMessage);
+      transactionApi.addTransaction(
+          transaction, backNavigation, setDisable, setErrorMessage);
     }
   }
 
