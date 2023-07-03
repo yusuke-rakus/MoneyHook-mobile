@@ -24,7 +24,7 @@ class EditTransaction extends StatefulWidget {
 class _EditTransaction extends State<EditTransaction> {
   late transactionClass transaction;
   late envClass env;
-  late List<String> recommendList = [];
+  late List<transactionClass> recommendList = [];
   late String errorMessage = '';
 
   final TextEditingController nameController = TextEditingController();
@@ -46,7 +46,7 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   // 取引候補
-  void setRecommendList(List<String> resultList) {
+  void setRecommendList(List<transactionClass> resultList) {
     setState(() {
       recommendList = resultList;
     });
@@ -110,7 +110,7 @@ class _EditTransaction extends State<EditTransaction> {
             appBar: AppBar(
               title: transaction.hasTransactionId()
                   ? const Text('収支の編集')
-                  : const Text('支出または収入の入力'),
+                  : const Text('収支の入力'),
               actions: [
                 // 削除アイコン
                 Visibility(
@@ -289,15 +289,24 @@ class _EditTransaction extends State<EditTransaction> {
                     child: Wrap(
                         children: recommendList
                             .map<Widget>(
-                              (transactionName) => Container(
+                              (tran) => Container(
                                 height: 23,
                                 margin: const EdgeInsets.only(top: 3, right: 5),
                                 child: OutlinedButton(
                                   onPressed: () {
                                     setState(() {
-                                      nameController.text = transactionName;
+                                      nameController.text =
+                                          tran.transactionName;
                                       transaction.transactionName =
-                                          transactionName;
+                                          tran.transactionName;
+                                      transaction.categoryId = tran.categoryId;
+                                      transaction.categoryName =
+                                          tran.categoryName;
+                                      transaction.subCategoryId =
+                                          tran.subCategoryId;
+                                      transaction.subCategoryName =
+                                          tran.subCategoryName;
+                                      transaction.fixedFlg = tran.fixedFlg;
                                     });
                                   },
                                   style: OutlinedButton.styleFrom(
@@ -309,7 +318,7 @@ class _EditTransaction extends State<EditTransaction> {
                                       backgroundColor: Colors.black12,
                                       side: const BorderSide(
                                           color: Colors.white)),
-                                  child: Text(transactionName),
+                                  child: Text(tran.transactionName),
                                 ),
                               ),
                             )

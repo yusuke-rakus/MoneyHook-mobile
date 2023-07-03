@@ -41,6 +41,15 @@ class transactionClass {
     this.categoryName,
   );
 
+  transactionClass.setFrequentFields(
+    this.transactionName,
+    this.categoryId,
+    this.categoryName,
+    this.subCategoryId,
+    this.subCategoryName,
+    this.fixedFlg,
+  );
+
   transactionClass.setTimelineChart(
       String transactionDate, int transactionAmount) {
     this.transactionDate =

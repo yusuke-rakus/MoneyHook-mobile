@@ -221,9 +221,16 @@ class transactionApi {
         // 失敗
       } else {
         // 成功
-        List<String> resultList = [];
+        List<transactionClass> resultList = [];
         res.data['transactionList'].forEach((value) {
-          resultList.add(value['transactionName']);
+          transactionClass tran = transactionClass.setFrequentFields(
+              value['transactionName'],
+              value['categoryId'],
+              value['categoryName'],
+              value['subCategoryId'],
+              value['subCategoryName'],
+              value['fixedFlg']);
+          resultList.add(tran);
         });
         setRecommendList(resultList);
       }
