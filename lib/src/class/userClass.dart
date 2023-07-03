@@ -1,7 +1,7 @@
 class userClass {
   late String userId = '';
   late String email = 'sample@sample.com';
-  late String password = 'matumoto223';
+  late String password = 'password';
   String errorMessage = '';
 
   userClass(this.userId, this.email, this.password);
