@@ -39,6 +39,7 @@ class transactionClass {
     this.transactionAmount,
     this.transactionName,
     this.categoryName,
+    this.fixedFlg,
   );
 
   transactionClass.setFrequentFields(

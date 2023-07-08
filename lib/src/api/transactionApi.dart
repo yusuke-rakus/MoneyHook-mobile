@@ -42,13 +42,15 @@ class transactionApi {
           String transactionAmount = value['transactionAmount'].toString();
           String transactionName = value['transactionName'];
           String categoryName = value['categoryName'];
+          bool fixedFlg = value['fixedFlg'];
           resultList.add(transactionClass.setTimelineFields(
               transactionId,
               transactionDate,
               transactionSign,
               int.parse(transactionAmount),
               transactionName,
-              categoryName));
+              categoryName,
+              fixedFlg));
         });
         setTimelineData(resultList);
       }
