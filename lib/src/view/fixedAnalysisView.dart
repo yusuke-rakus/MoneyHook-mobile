@@ -103,7 +103,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
               ? LoadingAnimationWidget.staggeredDotsWave(
                   color: const Color(0xFF76D5FF), size: 50)
               : Flexible(
-                  child: monthlyFixedIncome.monthlyFixedList.isNotEmpty &&
+                  child: monthlyFixedIncome.monthlyFixedList.isNotEmpty ||
                           monthlyFixedSpending.monthlyFixedList.isNotEmpty
                       ? ListView(
                           children: [
