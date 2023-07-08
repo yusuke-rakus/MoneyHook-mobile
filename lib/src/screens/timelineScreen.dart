@@ -91,22 +91,29 @@ class _TimelineScreenState extends State<TimelineScreen> {
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          SizedBox(
-            height: 200,
-            child: TimelineChart(timelineChart),
-          ),
-          Center(
-            child: _isLoading
-                ? LoadingAnimationWidget.staggeredDotsWave(
-                    color: const Color(0xFF76D5FF), size: 50)
-                : TimelineList(
-                    env: env,
-                    timelineList: timelineList.transactionList,
-                    setReload: setReload),
-          ),
-        ],
+      body: RefreshIndicator(
+        color: Colors.grey,
+        onRefresh: () async {
+          transactionApi.getTimelineData(env, setLoading, setTimelineData);
+          transactionApi.getTimelineChart(env, setTimelineChart);
+        },
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 200,
+              child: TimelineChart(timelineChart),
+            ),
+            Center(
+              child: _isLoading
+                  ? LoadingAnimationWidget.staggeredDotsWave(
+                      color: const Color(0xFF76D5FF), size: 50)
+                  : TimelineList(
+                      env: env,
+                      timelineList: timelineList.transactionList,
+                      setReload: setReload),
+            ),
+          ],
+        ),
       ),
     );
   }

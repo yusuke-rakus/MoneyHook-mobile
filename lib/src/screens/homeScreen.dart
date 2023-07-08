@@ -85,42 +85,48 @@ class _HomeScreenState extends State<HomeScreen> {
           ? Center(
               child: LoadingAnimationWidget.staggeredDotsWave(
                   color: const Color(0xFF76D5FF), size: 50))
-          : ListView(
-              children: [
-                // 円グラフ
-                Center(
-                  child: SizedBox(
-                    height: 250,
-                    child: HomeChart(homeTransactionList.categoryList),
+          : RefreshIndicator(
+              color: Colors.grey,
+              onRefresh: () async {
+                transactionApi.getHome(env, setLoading, setHomeTransaction);
+              },
+              child: ListView(
+                children: [
+                  // 円グラフ
+                  Center(
+                    child: SizedBox(
+                      height: 250,
+                      child: HomeChart(homeTransactionList.categoryList),
+                    ),
                   ),
-                ),
-                // 収支
-                Container(
-                  margin: const EdgeInsets.only(left: 8),
-                  height: 40,
-                  child: Row(
-                    children: [
-                      const Text('支出合計', style: TextStyle(fontSize: 20)),
-                      const SizedBox(width: 20),
-                      Text(
-                          transactionClass
-                              .formatNum(homeTransactionList.balance),
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: homeTransactionList.balance < 0
-                                  ? Colors.red
-                                  : Colors.green)),
-                    ],
+                  // 収支
+                  Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    height: 40,
+                    child: Row(
+                      children: [
+                        const Text('支出合計', style: TextStyle(fontSize: 20)),
+                        const SizedBox(width: 20),
+                        Text(
+                            transactionClass
+                                .formatNum(homeTransactionList.balance),
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: homeTransactionList.balance < 0
+                                    ? Colors.red
+                                    : Colors.green)),
+                      ],
+                    ),
                   ),
-                ),
-                // アコーディオン
-                HomeAccordion(
-                  homeTransactionList: homeTransactionList.categoryList,
-                ),
-                const SizedBox(
-                  height: 90,
-                )
-              ],
+                  // アコーディオン
+                  HomeAccordion(
+                    homeTransactionList: homeTransactionList.categoryList,
+                  ),
+                  const SizedBox(
+                    height: 90,
+                  )
+                ],
+              ),
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _isLoading
