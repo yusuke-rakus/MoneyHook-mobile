@@ -109,36 +109,26 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                 showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        AlertDialog(
-                                          content: const Text('この取引を削除します'),
-                                          actions: [
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                // 削除処理
-                                                _deleteTransaction(
-                                                    env, monthlyTransaction);
-                                                Navigator.pop(context);
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                  backgroundColor:
-                                                      const Color(0xFFE53935),
-                                                  shape:
-                                                      const RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius
-                                                                      .circular(
-                                                                          5)))),
-                                              child: const Text('削除'),
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text('閉じる'),
-                                            )
-                                          ],
-                                        ));
+                                        CupertinoAlertDialog(
+                                            title: const Text('目標を削除しますか'),
+                                            actions: [
+                                              CupertinoDialogAction(
+                                                  isDefaultAction: true,
+                                                  onPressed: () {
+                                                    // キャンセル処理
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('キャンセル')),
+                                              CupertinoDialogAction(
+                                                  isDestructiveAction: true,
+                                                  onPressed: () {
+                                                    // 削除処理
+                                                    _deleteTransaction(env,
+                                                        monthlyTransaction);
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: const Text('削除'))
+                                            ]));
                               },
                         icon: const Icon(
                           Icons.delete_outline,
