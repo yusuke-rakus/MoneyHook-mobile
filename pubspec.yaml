@@ -28,6 +28,7 @@ dependencies:
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
   sign_in_button: ^3.2.0
+  shared_preferences: ^2.2.0
 
 flutter_icons:
   android: "launcher_icon"
