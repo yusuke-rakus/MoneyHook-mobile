@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app.dart';
 import '../env/envClass.dart';
@@ -26,8 +26,9 @@ class SettingsScreen extends StatelessWidget {
                 MonthlyTransaction(env: env)),
             TextButton(
                 onPressed: () async {
-                  const storage = FlutterSecureStorage();
-                  await storage.deleteAll();
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  await prefs.remove('USER_ID');
 
                   // ignore: use_build_context_synchronously
                   Navigator.pushReplacement(

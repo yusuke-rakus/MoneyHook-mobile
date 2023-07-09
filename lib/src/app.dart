@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/screens/analysis.dart';
 import 'package:money_hooks/src/screens/homeScreen.dart';
@@ -9,6 +8,7 @@ import 'package:money_hooks/src/screens/login.dart';
 import 'package:money_hooks/src/screens/saving.dart';
 import 'package:money_hooks/src/screens/settings.dart';
 import 'package:money_hooks/src/screens/timelineScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -49,7 +49,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   String? userId;
   late envClass env;
 
-  FlutterSecureStorage storage = const FlutterSecureStorage();
+  // FlutterSecureStorage storage = const FlutterSecureStorage();
 
   void setScreenItems() {
     _screens = [
@@ -73,7 +73,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
     // ここで認証
     Future(() async {
-      userId = await storage.read(key: 'USER_ID');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      userId = prefs.getString('USER_ID');
 
       if (userId == null) {
         setState(() {

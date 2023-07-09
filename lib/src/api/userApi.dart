@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/userValidation.dart';
 import 'package:money_hooks/src/class/changePasswordClass.dart';
 import 'package:money_hooks/src/class/userClass.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app.dart';
 import '../class/changeEmailClass.dart';
@@ -12,7 +12,6 @@ import '../class/changeEmailClass.dart';
 class userApi {
   static String rootURI = '${Api.rootURI}/user';
   static Dio dio = Dio();
-  static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   // ログイン
   static Future<void> login(
@@ -28,7 +27,9 @@ class userApi {
       } else {
         // ログイン成功
         setLoading();
-        await storage.write(key: 'USER_ID', value: res.data['user']['userId']);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        await prefs.setString('USER_ID', res.data['user']['userId']);
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
             context,
