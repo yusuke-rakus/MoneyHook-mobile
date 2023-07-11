@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -39,6 +40,15 @@ class SettingsScreen extends StatelessWidget {
                 },
                 child: const Text(
                   'ログアウト',
+                  style: TextStyle(color: Colors.black54),
+                )),
+            TextButton(
+                onPressed: () async {
+                  final db = Localstore.instance;
+                  db.collection('').delete();
+                },
+                child: const Text(
+                  'キャッシュ全削除',
                   style: TextStyle(color: Colors.black54),
                 )),
           ],

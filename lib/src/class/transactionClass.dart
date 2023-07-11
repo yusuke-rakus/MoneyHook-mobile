@@ -92,6 +92,7 @@ class transactionClass {
       'transactionAmount': transactionAmount,
       'transactionName': transactionName,
       'categoryId': categoryId,
+      'categoryName': categoryName,
       'subCategoryId': subCategoryId,
       'subCategoryName': subCategoryName,
       'fixedFlg': fixedFlg
