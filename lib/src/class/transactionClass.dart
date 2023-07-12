@@ -53,8 +53,12 @@ class transactionClass {
 
   transactionClass.setTimelineChart(
       String transactionDate, int transactionAmount) {
-    this.transactionDate =
-        '${DateFormat('yyyy-MM-dd').parse(transactionDate).month}月';
+    if (RegExp(r'^[0-9]{1,2}月').hasMatch(transactionDate)) {
+      this.transactionDate = transactionDate;
+    } else {
+      this.transactionDate =
+          '${DateFormat('yyyy-MM-dd').parse(transactionDate).month}月';
+    }
     this.transactionAmount = transactionAmount.abs();
   }
 

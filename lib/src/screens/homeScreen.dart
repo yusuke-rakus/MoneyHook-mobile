@@ -5,6 +5,7 @@ import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/homeTransaction.dart';
 import 'package:money_hooks/src/components/charts/homeChart.dart';
 import 'package:money_hooks/src/components/homeAccordion.dart';
+import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
 import '../class/transactionClass.dart';
 import '../env/envClass.dart';
@@ -45,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     env = widget.env;
     env.initMonth();
     _isLoading = widget.isLoading;
-    transactionApi.getHome(env, setLoading, setHomeTransaction);
+    transactionLoad.getHome(env, setLoading, setHomeTransaction);
   }
 
   void setReload() {
@@ -62,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 onPressed: () {
                   env.subtractMonth();
-                  transactionApi.getHome(env, setLoading, setHomeTransaction);
+                  transactionLoad.getHome(env, setLoading, setHomeTransaction);
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
             Text('${env.getMonth()}月'),
@@ -72,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // 翌月が未来でなければデータ取得
                     if (env.isNotCurrentMonth()) {
                       env.addMonth();
-                      transactionApi.getHome(
+                      transactionLoad.getHome(
                           env, setLoading, setHomeTransaction);
                     }
                   });

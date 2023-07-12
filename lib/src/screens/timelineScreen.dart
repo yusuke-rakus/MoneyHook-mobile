@@ -6,6 +6,7 @@ import 'package:money_hooks/src/components/charts/timelineChart.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
 
 import '../class/transactionClass.dart';
+import '../dataLoader/transactionLoad.dart';
 import '../env/envClass.dart';
 
 class TimelineScreen extends StatefulWidget {
@@ -48,8 +49,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
     env = widget.env;
     env.initMonth();
     _isLoading = widget.isLoading;
-    transactionApi.getTimelineData(env, setLoading, setTimelineData);
-    transactionApi.getTimelineChart(env, setTimelineChart);
+    transactionLoad.getTimelineData(env, setLoading, setTimelineData);
+    transactionLoad.getTimelineChart(env, setTimelineChart);
   }
 
   void setReload() {
@@ -68,9 +69,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 onPressed: () {
                   setState(() {
                     env.subtractMonth();
-                    transactionApi.getTimelineData(
+                    transactionLoad.getTimelineData(
                         env, setLoading, setTimelineData);
-                    transactionApi.getTimelineChart(env, setTimelineChart);
+                    transactionLoad.getTimelineChart(env, setTimelineChart);
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -81,9 +82,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     // 翌月が未来でなければデータ取得
                     if (env.isNotCurrentMonth()) {
                       env.addMonth();
-                      transactionApi.getTimelineData(
+                      transactionLoad.getTimelineData(
                           env, setLoading, setTimelineData);
-                      transactionApi.getTimelineChart(env, setTimelineChart);
+                      transactionLoad.getTimelineChart(env, setTimelineChart);
                     }
                   });
                 },

@@ -20,6 +20,8 @@ class transactionApi {
       } else {
         // 成功
         setHomeTransaction(res.data['balance'], res.data['categoryList']);
+        transactionStorage.saveStorageHomeData(res.data['balance'],
+            res.data['categoryList'], env.getJson().toString());
       }
       setLoading();
     });
@@ -29,40 +31,34 @@ class transactionApi {
       envClass env, Function setLoading, Function setTimelineData) async {
     setLoading();
 
-    transactionStorage
-        .searchTimelineData(env.getJson().toString())
-        .then((value) async {
-      if (value.isEmpty) {
-        Response res =
-            await dio.post('$rootURI/getTimelineData', data: env.getJson());
-        if (res.data['status'] == 'error') {
-          // 失敗
-        } else {
-          // 成功
-          List<transactionClass> resultList = [];
-          res.data['transactionList'].forEach((value) {
-            String transactionId = value['transactionId'].toString();
-            String transactionDate = value['transactionDate'];
-            int transactionSign = value['transactionSign'];
-            String transactionAmount = value['transactionAmount'].toString();
-            String transactionName = value['transactionName'];
-            String categoryName = value['categoryName'];
-            bool fixedFlg = value['fixedFlg'];
-            resultList.add(transactionClass.setTimelineFields(
-                transactionId,
-                transactionDate,
-                transactionSign,
-                int.parse(transactionAmount),
-                transactionName,
-                categoryName,
-                fixedFlg));
-          });
-          setTimelineData(resultList);
-          transactionStorage.saveStorageTimelineData(
-              resultList, env.getJson().toString());
-        }
+    await Future(() async {
+      Response res =
+          await dio.post('$rootURI/getTimelineData', data: env.getJson());
+      if (res.data['status'] == 'error') {
+        // 失敗
       } else {
-        setTimelineData(value);
+        // 成功
+        List<transactionClass> resultList = [];
+        res.data['transactionList'].forEach((value) {
+          String transactionId = value['transactionId'].toString();
+          String transactionDate = value['transactionDate'];
+          int transactionSign = value['transactionSign'];
+          String transactionAmount = value['transactionAmount'].toString();
+          String transactionName = value['transactionName'];
+          String categoryName = value['categoryName'];
+          bool fixedFlg = value['fixedFlg'];
+          resultList.add(transactionClass.setTimelineFields(
+              transactionId,
+              transactionDate,
+              transactionSign,
+              int.parse(transactionAmount),
+              transactionName,
+              categoryName,
+              fixedFlg));
+        });
+        setTimelineData(resultList);
+        transactionStorage.saveStorageTimelineData(
+            resultList, env.getJson().toString());
       }
     }).then((value) => setLoading());
   }
@@ -82,6 +78,8 @@ class transactionApi {
               value['month'], value['totalAmount']));
         });
         setTimelineChart(resultList);
+        transactionStorage.saveStorageTimelineChart(
+            resultList, env.getJson().toString());
       }
     });
   }
