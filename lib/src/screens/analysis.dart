@@ -17,9 +17,9 @@ class AnalysisScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: Column(
+          flexibleSpace: const Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
+            children: [
               TabBar(tabs: [Tab(text: '月別変動費'), Tab(text: '月別固定費')]),
             ],
           ),

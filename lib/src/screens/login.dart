@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/userApi.dart';
-import 'package:sign_in_button/sign_in_button.dart';
 
 import '../class/userClass.dart';
 

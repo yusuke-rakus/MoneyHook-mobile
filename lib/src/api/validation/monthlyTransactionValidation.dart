@@ -1,5 +1,3 @@
-import 'package:money_hooks/src/class/transactionClass.dart';
-
 import '../../class/monthlyTransactionClass.dart';
 
 class monthlyTransactionValidation {
