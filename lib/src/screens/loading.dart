@@ -8,7 +8,7 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: LoadingAnimationWidget.staggeredDotsWave(
+        child: LoadingAnimationWidget.waveDots(
             color: const Color(0xFF76D5FF), size: 50));
   }
 }

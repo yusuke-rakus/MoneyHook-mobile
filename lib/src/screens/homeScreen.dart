@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: _isLoading
           ? Center(
-              child: LoadingAnimationWidget.staggeredDotsWave(
+              child: LoadingAnimationWidget.waveDots(
                   color: const Color(0xFF76D5FF), size: 50))
           : RefreshIndicator(
               color: Colors.grey,

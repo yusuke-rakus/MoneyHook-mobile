@@ -63,7 +63,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
         children: [
           _isLoading
               ? Center(
-                  child: LoadingAnimationWidget.staggeredDotsWave(
+                  child: LoadingAnimationWidget.waveDots(
                       color: const Color(0xFF76D5FF), size: 50))
               : Column(
                   children: [
@@ -91,7 +91,8 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                                             EditMonthlyTransaction(
                                                 monthlyTransactionList[index],
                                                 env,
-                                                setReload, setErrorMessage),
+                                                setReload,
+                                                setErrorMessage),
                                         fullscreenDialog: true));
                               },
                               child: _monthlyTransactionData(
@@ -144,7 +145,10 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
               context,
               MaterialPageRoute(
                   builder: (context) => EditMonthlyTransaction(
-                      monthlyTransactionClass(), env, setReload, setErrorMessage),
+                      monthlyTransactionClass(),
+                      env,
+                      setReload,
+                      setErrorMessage),
                   fullscreenDialog: true));
         },
         child: const Icon(Icons.add),

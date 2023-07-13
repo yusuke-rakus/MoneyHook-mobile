@@ -49,8 +49,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   String? userId;
   late envClass env;
 
-  // FlutterSecureStorage storage = const FlutterSecureStorage();
-
   void setScreenItems() {
     _screens = [
       HomeScreen(isLoading, env),

@@ -46,14 +46,17 @@ class SettingsScreen extends StatelessWidget {
                 onPressed: () async {
                   print('start');
                   final db = Localstore.instance;
-                  await db.collection('homeData').get().then((value) async {
-                    print(value);
-                    await db.collection('').delete().then((value) async {
-                      // final data = await db.collection('timelineData').get();
-                      // print(data);
-                      print('end');
+                  Future(() async {
+                    await db
+                        .collection('timelineData')
+                        .get()
+                        .then((value) async {
+                      print(value);
+                      await db.collection('timelineData').delete();
+                      await db.collection('timelineChart').delete();
+                      await db.collection('homeData').delete();
                     });
-                  });
+                  }).then((value) => print('end'));
                 },
                 child: const Text(
                   'キャッシュ全削除',

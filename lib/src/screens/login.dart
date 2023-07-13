@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: Center(
-        child: LoadingAnimationWidget.staggeredDotsWave(
+        child: LoadingAnimationWidget.waveDots(
             color: Colors.lightBlueAccent, size: 50),
       ),
       child: Scaffold(

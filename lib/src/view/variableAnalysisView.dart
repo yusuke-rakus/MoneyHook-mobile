@@ -85,7 +85,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
           ),
           _isLoading
               ? Center(
-                  child: LoadingAnimationWidget.staggeredDotsWave(
+                  child: LoadingAnimationWidget.waveDots(
                       color: const Color(0xFF76D5FF), size: 50))
               : Flexible(
                   child: ListView(

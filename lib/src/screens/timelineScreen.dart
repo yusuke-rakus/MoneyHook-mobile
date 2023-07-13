@@ -106,7 +106,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
             ),
             Center(
               child: _isLoading
-                  ? LoadingAnimationWidget.staggeredDotsWave(
+                  ? LoadingAnimationWidget.waveDots(
                       color: const Color(0xFF76D5FF), size: 50)
                   : TimelineList(
                       env: env,
