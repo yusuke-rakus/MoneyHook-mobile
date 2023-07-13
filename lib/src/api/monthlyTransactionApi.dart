@@ -10,8 +10,8 @@ class monthlyTransactionApi {
   static Dio dio = Dio();
 
   /// 月次取引の取得
-  static Future<void> getFixed(
-      envClass env, Function setMonthlyTransactionList, Function setLoading, Function setErrorMessage) async {
+  static Future<void> getFixed(envClass env, Function setMonthlyTransactionList,
+      Function setLoading, Function setErrorMessage) async {
     await Future(() async {
       Response res =
           await dio.post('$rootURI/getFixed', data: env.getUserJson());
@@ -44,7 +44,9 @@ class monthlyTransactionApi {
   /// 月次取引の追加
   static Future<void> editTransaction(
       monthlyTransactionClass monthlyTransaction,
-      Function backNavigation, Function setErrorMessage, Function setDisable) async {
+      Function backNavigation,
+      Function setErrorMessage,
+      Function setDisable) async {
     setDisable();
     if (monthlyTransactionValidation
         .checkMonthlyTransaction(monthlyTransaction)) {
@@ -67,10 +69,12 @@ class monthlyTransactionApi {
   /// 月次取引の削除
   static Future<void> deleteMonthlyTransaction(
       monthlyTransactionClass monthlyTransaction,
-      Function backNavigation, Function setErrorMessage, Function setDisable) async {
+      Function backNavigation,
+      Function setErrorMessage,
+      Function setDisable) async {
     setDisable();
     await Future(() async {
-      Response res = await dio.post('$rootURI/deleteFixed',
+      Response res = await dio.post('$rootURI/deleteFixedFromTable',
           data: monthlyTransaction.convertDeleteMonthlyTranJson());
       if (res.data['status'] == 'error') {
         // 失敗

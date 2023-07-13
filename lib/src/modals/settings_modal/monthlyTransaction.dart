@@ -76,7 +76,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                               '収支の自動入力',
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
-                    Flexible(
+                    Expanded(
                       child: ListView.builder(
                           shrinkWrap: true,
                           itemCount: monthlyTransactionList.length,
@@ -99,7 +99,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                                   monthlyTransactionList[index]),
                             );
                           }),
-                    )
+                    ),
                   ],
                 ),
 
