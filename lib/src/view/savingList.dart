@@ -93,31 +93,38 @@ class _SavingList extends State<SavingList> {
           _isLoading
               ? CommonLoadingAnimation.build()
               : Flexible(
-                  child: ListView(children: [
-                    // 合計値
-                    Container(
-                      margin: const EdgeInsets.only(right: 15, left: 15),
-                      height: 60,
-                      child: Row(
-                        children: [
-                          const Text('今月の貯金', style: TextStyle(fontSize: 17)),
-                          const SizedBox(width: 20),
-                          Text(savingClass.formatNum(totalSavingAmount),
-                              style: const TextStyle(
-                                  fontSize: 30, color: Colors.green)),
-                        ],
+                  child: RefreshIndicator(
+                    color: Colors.grey,
+                    onRefresh: () async {
+                      SavingApi.getMonthlySavingData(
+                          env, setLoading, setSavingList);
+                    },
+                    child: ListView(children: [
+                      // 合計値
+                      Container(
+                        margin: const EdgeInsets.only(right: 15, left: 15),
+                        height: 60,
+                        child: Row(
+                          children: [
+                            const Text('今月の貯金', style: TextStyle(fontSize: 17)),
+                            const SizedBox(width: 20),
+                            Text(savingClass.formatNum(totalSavingAmount),
+                                style: const TextStyle(
+                                    fontSize: 30, color: Colors.green)),
+                          ],
+                        ),
                       ),
-                    ),
-                    savingList.isNotEmpty
-                        ?
-                        // タイムライン
-                        SavingTimelineList(
-                            env: env,
-                            savingTimelineList: savingList,
-                            setReload: setReload,
-                          )
-                        : const dataNotRegisteredBox(message: '貯金履歴が存在しません')
-                  ]),
+                      savingList.isNotEmpty
+                          ?
+                          // タイムライン
+                          SavingTimelineList(
+                              env: env,
+                              savingTimelineList: savingList,
+                              setReload: setReload,
+                            )
+                          : const dataNotRegisteredBox(message: '貯金履歴が存在しません')
+                    ]),
+                  ),
                 ),
         ],
       ),

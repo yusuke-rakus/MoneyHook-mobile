@@ -51,12 +51,10 @@ class SavingTargetApi {
           data: savingTarget.getSavingTargetJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        print('失敗');
         setDisable();
         setErrorMessage(res.data['message']);
       } else {
         // 成功
-        print('成功');
         backNavigation();
       }
     });
