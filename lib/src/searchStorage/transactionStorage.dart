@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../class/transactionClass.dart';
 
-class transactionStorage {
+class TransactionStorage {
   static final db = Localstore.instance;
 
   /// ストレージ全削除
@@ -17,7 +17,7 @@ class transactionStorage {
   }
 
   /// 【タイムライン画面】データ
-  static Future<List<transactionClass>> searchTimelineData(
+  static Future<List<transactionClass>> getTimelineData(
       String param, Function setLoading) async {
     setLoading();
 

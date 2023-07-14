@@ -6,7 +6,7 @@ import 'package:money_hooks/src/class/savingTargetClass.dart';
 
 import '../env/envClass.dart';
 
-class savingTargetApi {
+class SavingTargetApi {
   static String rootURI = '${Api.rootURI}/savingTarget';
   static Dio dio = Dio();
   static FlutterSecureStorage storage = const FlutterSecureStorage();

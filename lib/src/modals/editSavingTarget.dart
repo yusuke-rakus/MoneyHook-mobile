@@ -60,18 +60,18 @@ class _EditSavingTarget extends State<EditSavingTarget> {
     savingTarget.userId = env.userId;
     if (savingTarget.hasTargetId()) {
       // 編集
-      savingTargetApi.editSavingTarget(
+      SavingTargetApi.editSavingTarget(
           savingTarget, backNavigation, setDisable, setErrorMessage);
     } else {
       //  新規追加
-      savingTargetApi.addSavingTarget(
+      SavingTargetApi.addSavingTarget(
           savingTarget, backNavigation, setDisable, setErrorMessage);
     }
   }
 
   // 削除処理
   void _deleteSavingTarget(envClass env, savingTargetClass savingTarget) {
-    savingTargetApi.deleteSavingTarget(
+    SavingTargetApi.deleteSavingTarget(
         env, savingTarget, backNavigation, setDisable, setErrorMessage);
   }
 

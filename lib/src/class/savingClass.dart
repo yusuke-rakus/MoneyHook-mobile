@@ -52,7 +52,8 @@ class savingClass {
       'savingDate': savingDate,
       'savingName': savingName,
       'savingAmount': savingAmount,
-      'savingTargetId': savingTargetId
+      'savingTargetId': savingTargetId,
+      'savingTargetName': savingTargetName
     };
   }
 

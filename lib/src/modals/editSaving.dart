@@ -39,14 +39,14 @@ class _EditSaving extends State<EditSaving> {
     super.initState();
     saving = widget.saving;
     env = widget.env;
-    savingTargetApi.getSavingTargetList(setSavingTargetList, env.userId);
+    SavingTargetApi.getSavingTargetList(setSavingTargetList, env.userId);
 
     nameController.value =
         nameController.value.copyWith(text: saving.savingName);
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
     if (!saving.hasSavingId()) {
-      savingApi.getFrequentSavingName(env, setRecommendList);
+      SavingApi.getFrequentSavingName(env, setRecommendList);
     }
   }
 
@@ -67,16 +67,16 @@ class _EditSaving extends State<EditSaving> {
     saving.userId = env.userId;
     if (saving.hasSavingId()) {
       // 編集
-      savingApi.editSaving(saving, backNavigation, setDisable, setErrorMessage);
+      SavingApi.editSaving(saving, backNavigation, setDisable, setErrorMessage);
     } else {
       // 新規追加
-      savingApi.addSaving(saving, backNavigation, setDisable, setErrorMessage);
+      SavingApi.addSaving(saving, backNavigation, setDisable, setErrorMessage);
     }
   }
 
   // 貯金削除
   void _deleteSaving(envClass env, savingClass saving) {
-    savingApi.deleteSaving(
+    SavingApi.deleteSaving(
         env, saving, backNavigation, setDisable, setErrorMessage);
   }
 

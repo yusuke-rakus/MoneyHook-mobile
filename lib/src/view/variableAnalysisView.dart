@@ -42,7 +42,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
     _isLoading = widget.isLoading;
     env = widget.env;
     env.initMonth();
-    transactionLoad.getMonthlyVariableData(env, setLoading, setMonthlyVariable);
+    TransactionLoad.getMonthlyVariableData(env, setLoading, setMonthlyVariable);
   }
 
   @override
@@ -61,7 +61,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
-                        transactionLoad.getMonthlyVariableData(
+                        TransactionLoad.getMonthlyVariableData(
                             env, setLoading, setMonthlyVariable);
                       });
                     },
@@ -74,7 +74,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                         // 翌月が未来でなければデータ取得
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
-                          transactionLoad.getMonthlyVariableData(
+                          TransactionLoad.getMonthlyVariableData(
                               env, setLoading, setMonthlyVariable);
                         }
                       });

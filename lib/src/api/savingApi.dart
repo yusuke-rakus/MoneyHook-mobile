@@ -3,12 +3,13 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/savingValidation.dart';
+import 'package:money_hooks/src/searchStorage/savingStorage.dart';
 
 import '../class/savingClass.dart';
 import '../class/savingTargetClass.dart';
 import '../env/envClass.dart';
 
-class savingApi {
+class SavingApi {
   static String rootURI = '${Api.rootURI}/saving';
   static Dio dio = Dio();
   static FlutterSecureStorage storage = const FlutterSecureStorage();
@@ -38,6 +39,8 @@ class savingApi {
           resultAmount += e.savingAmount;
         }
         setSavingList(resultList, resultAmount);
+        SavingStorage.saveMonthlySavingData(
+            resultList, env.getJson().toString());
       }
     });
     setLoading();
@@ -65,6 +68,7 @@ class savingApi {
           ));
         });
         setSavingTargetList(resultList);
+        SavingStorage.saveSavingAmountForTarget(resultList, userId);
       }
     });
     setLoading();
@@ -86,6 +90,8 @@ class savingApi {
               DateFormat('yyyy-MM-dd').parse(value['savingMonth'])));
         });
         setTotalSaving(res.data['totalSavingAmount'], resultList);
+        SavingStorage.saveTotalSaving(res.data['totalSavingAmount'], resultList,
+            env.getJson().toString());
       }
     });
   }
@@ -163,8 +169,7 @@ class savingApi {
   static Future<void> getFrequentSavingName(
       envClass env, Function setRecommendList) async {
     await Future(() async {
-      Response res =
-      await dio.post('$rootURI/getFrequentSavingName', data: {
+      Response res = await dio.post('$rootURI/getFrequentSavingName', data: {
         'userId': env.userId,
       });
       if (res.data['status'] == 'error') {

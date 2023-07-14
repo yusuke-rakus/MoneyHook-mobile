@@ -57,7 +57,23 @@ class savingTargetClass {
       'userId': userId,
       'savingTargetId': savingTargetId,
       'savingTargetName': savingTargetName,
-      'targetAmount': targetAmount
+    };
+  }
+
+  Map<String, dynamic> getSavingAmountForTargetJson() {
+    return {
+      'savingTargetId': savingTargetId,
+      'savingTargetName': savingTargetName,
+      'targetAmount': targetAmount,
+      'totalSavedAmount': savingTotalAmount,
+      'savingCount': savingCount
+    };
+  }
+
+  Map<String, dynamic> getTotalSavingJson() {
+    return {
+      'savingMonth': savingMonth.toString(),
+      'monthlyTotalSavingAmount': monthlyTotalSavingAmount
     };
   }
 

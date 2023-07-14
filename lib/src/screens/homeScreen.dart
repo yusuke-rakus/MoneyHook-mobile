@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     env = widget.env;
     env.initMonth();
     _isLoading = widget.isLoading;
-    transactionLoad.getHome(env, setLoading, setHomeTransaction);
+    TransactionLoad.getHome(env, setLoading, setHomeTransaction);
   }
 
   void setReload() {
@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 onPressed: () {
                   env.subtractMonth();
-                  transactionLoad.getHome(env, setLoading, setHomeTransaction);
+                  TransactionLoad.getHome(env, setLoading, setHomeTransaction);
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
             Text('${env.getMonth()}月'),
@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     // 翌月が未来でなければデータ取得
                     if (env.isNotCurrentMonth()) {
                       env.addMonth();
-                      transactionLoad.getHome(
+                      TransactionLoad.getHome(
                           env, setLoading, setHomeTransaction);
                     }
                   });

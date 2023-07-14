@@ -20,7 +20,7 @@ class transactionApi {
       } else {
         // 成功
         setHomeTransaction(res.data['balance'], res.data['categoryList']);
-        transactionStorage.saveStorageHomeData(res.data['balance'],
+        TransactionStorage.saveStorageHomeData(res.data['balance'],
             res.data['categoryList'], env.getJson().toString());
       }
       setLoading();
@@ -57,7 +57,7 @@ class transactionApi {
               fixedFlg));
         });
         setTimelineData(resultList);
-        transactionStorage.saveStorageTimelineData(
+        TransactionStorage.saveStorageTimelineData(
             resultList, env.getJson().toString());
       }
     }).then((value) => setLoading());
@@ -78,7 +78,7 @@ class transactionApi {
               value['month'], value['totalAmount']));
         });
         setTimelineChart(resultList);
-        transactionStorage.saveStorageTimelineChart(
+        TransactionStorage.saveStorageTimelineChart(
             resultList, env.getJson().toString());
       }
     });
@@ -104,7 +104,7 @@ class transactionApi {
           resultList.add(categoryList);
         });
         setMonthlyVariable(res.data['totalVariable'].abs(), resultList);
-        transactionStorage.saveMonthlyVariableData(
+        TransactionStorage.saveMonthlyVariableData(
             res.data['totalVariable'].abs(),
             resultList,
             env.getJson().toString());
@@ -124,7 +124,7 @@ class transactionApi {
         // 成功
         setMonthlyFixedIncome(
             res.data['disposableIncome'], res.data['monthlyFixedList']);
-        transactionStorage.saveMonthlyFixedIncome(res.data['disposableIncome'],
+        TransactionStorage.saveMonthlyFixedIncome(res.data['disposableIncome'],
             res.data['monthlyFixedList'], env.getJson().toString());
       }
     });
@@ -142,7 +142,7 @@ class transactionApi {
         // 成功
         setMonthlyFixedSpending(
             res.data['disposableIncome'], res.data['monthlyFixedList']);
-        transactionStorage.saveMonthlyFixedSpending(
+        TransactionStorage.saveMonthlyFixedSpending(
             res.data['disposableIncome'],
             res.data['monthlyFixedList'],
             env.getJson().toString());

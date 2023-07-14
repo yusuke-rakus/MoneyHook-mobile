@@ -42,7 +42,7 @@ class _EditTransaction extends State<EditTransaction> {
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
     if (!transaction.hasTransactionId()) {
-      transactionLoad.getFrequentTransactionName(env, setRecommendList);
+      TransactionLoad.getFrequentTransactionName(env, setRecommendList);
     }
   }
 

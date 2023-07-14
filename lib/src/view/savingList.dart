@@ -3,6 +3,7 @@ import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/savingTimelineList.dart';
+import 'package:money_hooks/src/dataLoader/savingLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/savingClass.dart';
@@ -38,7 +39,7 @@ class _SavingList extends State<SavingList> {
   }
 
   void setReload() {
-    savingApi.getMonthlySavingData(env, setLoading, setSavingList);
+    SavingApi.getMonthlySavingData(env, setLoading, setSavingList);
   }
 
   @override
@@ -47,7 +48,7 @@ class _SavingList extends State<SavingList> {
     env = widget.env;
     _isLoading = widget.isLoading;
     env.initMonth();
-    savingApi.getMonthlySavingData(env, setLoading, setSavingList);
+    SavingLoad.getMonthlySavingData(env, setLoading, setSavingList);
     widget.changeReload(setReload);
   }
 
@@ -67,7 +68,7 @@ class _SavingList extends State<SavingList> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
-                        savingApi.getMonthlySavingData(
+                        SavingLoad.getMonthlySavingData(
                             env, setLoading, setSavingList);
                       });
                     },
@@ -80,7 +81,7 @@ class _SavingList extends State<SavingList> {
                         // 翌月が未来でなければデータ取得
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
-                          savingApi.getMonthlySavingData(
+                          SavingLoad.getMonthlySavingData(
                               env, setLoading, setSavingList);
                         }
                       });

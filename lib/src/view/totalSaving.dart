@@ -4,6 +4,7 @@ import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/components/charts/totalSavingChart.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/savingTargetList.dart';
+import 'package:money_hooks/src/dataLoader/savingLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/commonLoadingAnimation.dart';
@@ -46,9 +47,9 @@ class _TotalSaving extends State<TotalSaving> {
   }
 
   void setReload() {
-    savingApi.getSavingAmountForTarget(
+    SavingApi.getSavingAmountForTarget(
         env.userId, setLoading, setSavingTargetList);
-    savingApi.getTotalSaving(env, setTotalSaving);
+    SavingApi.getTotalSaving(env, setTotalSaving);
   }
 
   @override
@@ -57,9 +58,9 @@ class _TotalSaving extends State<TotalSaving> {
     env = widget.env;
     _isLoading = widget.isLoading;
     env.initMonth();
-    savingApi.getSavingAmountForTarget(
+    SavingLoad.getSavingAmountForTarget(
         env.userId, setLoading, setSavingTargetList);
-    savingApi.getTotalSaving(env, setTotalSaving);
+    SavingLoad.getTotalSaving(env, setTotalSaving);
     widget.changeReload(setReload);
   }
 

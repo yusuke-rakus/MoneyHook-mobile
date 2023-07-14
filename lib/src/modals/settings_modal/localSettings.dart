@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
+import '../../searchStorage/savingStorage.dart';
+
 class LocalSettings extends StatefulWidget {
   const LocalSettings({super.key});
 
@@ -15,7 +17,7 @@ class _LocalSettingsState extends State<LocalSettings> {
 
   @override
   void initState() {
-    transactionStorage.getTransactionRecommendState().then((value) {
+    TransactionStorage.getTransactionRecommendState().then((value) {
       setState(() {
         _transactionRecommendState = value;
       });
@@ -26,7 +28,7 @@ class _LocalSettingsState extends State<LocalSettings> {
   void _changeRecommendState(bool state) {
     setState(() {
       _transactionRecommendState = state;
-      transactionStorage.setTransactionRecommendState(state);
+      TransactionStorage.setTransactionRecommendState(state);
     });
   }
 
@@ -59,7 +61,8 @@ class _LocalSettingsState extends State<LocalSettings> {
                   TextButton(
                       onPressed: () async {
                         Future(() async {
-                          transactionStorage.allDelete();
+                          TransactionStorage.allDelete();
+                          SavingStorage.allDelete();
                         }).then((value) => CommonSnackBar.build(
                             context: context, text: '削除完了'));
                       },

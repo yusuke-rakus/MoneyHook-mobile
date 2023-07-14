@@ -52,8 +52,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
     env = widget.env;
     _isLoading = widget.isLoading;
     env.initMonth();
-    transactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
-    transactionLoad.getMonthlyFixedSpending(
+    TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+    TransactionLoad.getMonthlyFixedSpending(
         env, setLoading, setMonthlyFixedSpending);
   }
 
@@ -73,9 +73,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
-                        transactionLoad.getMonthlyFixedIncome(
+                        TransactionLoad.getMonthlyFixedIncome(
                             env, setMonthlyFixedIncome);
-                        transactionLoad.getMonthlyFixedSpending(
+                        TransactionLoad.getMonthlyFixedSpending(
                             env, setLoading, setMonthlyFixedSpending);
                       });
                     },
@@ -88,9 +88,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                         // 翌月が未来でなければデータ取得
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
-                          transactionLoad.getMonthlyFixedIncome(
+                          TransactionLoad.getMonthlyFixedIncome(
                               env, setMonthlyFixedIncome);
-                          transactionLoad.getMonthlyFixedSpending(
+                          TransactionLoad.getMonthlyFixedSpending(
                               env, setLoading, setMonthlyFixedSpending);
                         }
                       });
