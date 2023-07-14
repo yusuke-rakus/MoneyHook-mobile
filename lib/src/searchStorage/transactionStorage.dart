@@ -45,6 +45,10 @@ class transactionStorage {
         .set({'data': resultList.map((e) => e.getTransactionJson()).toList()});
   }
 
+  static void deleteTimelineData() async {
+    await db.collection('timelineData').delete();
+  }
+
   /// 【タイムライン画面】グラフ
   static Future<List<transactionClass>> getTimelineChart(String param) async {
     final id = 'timelineChart$param';
@@ -69,6 +73,10 @@ class transactionStorage {
         .set({'data': resultList.map((e) => e.getTransactionJson()).toList()});
   }
 
+  static void deleteTimelineChart() async {
+    await db.collection('timelineChart').delete();
+  }
+
   /// 【ホーム画面】データ
   static Future<Map<String, dynamic>> getHome(String param) async {
     final id = 'homeData$param';
@@ -89,5 +97,9 @@ class transactionStorage {
         .collection('homeData')
         .doc('homeData$param')
         .set({'balance': balance, 'categoryList': resultList});
+  }
+
+  static void deleteHomeData() async {
+    await db.collection('homeData').delete();
   }
 }

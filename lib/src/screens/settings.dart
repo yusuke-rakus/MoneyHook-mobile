@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:localstore/localstore.dart';
+import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
+import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -25,6 +27,8 @@ class SettingsScreen extends StatelessWidget {
                 AccountInfo(env: env)),
             _menuCard(context, Icons.account_tree, '自動入力',
                 MonthlyTransaction(env: env)),
+            _menuCard(context, Icons.account_circle_outlined, 'ローカル設定',
+                LocalSettings()),
             TextButton(
                 onPressed: () async {
                   SharedPreferences prefs =
@@ -56,10 +60,11 @@ class SettingsScreen extends StatelessWidget {
                       await db.collection('timelineChart').delete();
                       await db.collection('homeData').delete();
                     });
-                  }).then((value) => print('end'));
+                  }).then((value) =>
+                      CommonSnackBar.build(context: context, text: '削除完了'));
                 },
                 child: const Text(
-                  'キャッシュ全削除',
+                  'デバッグ用キャッシュ全削除',
                   style: TextStyle(color: Colors.black54),
                 )),
           ],
