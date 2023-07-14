@@ -1,4 +1,5 @@
 import 'package:localstore/localstore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../class/transactionClass.dart';
 
@@ -101,5 +102,23 @@ class transactionStorage {
 
   static void deleteHomeData() async {
     await db.collection('homeData').delete();
+  }
+
+  /// 取引名レコメンド
+  static Future<bool> getTransactionRecommendState() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? activeState = prefs.getBool('IS_TRANSACTION_RECOMMEND_ACTIVE');
+    if (activeState == null) {
+      await prefs.setBool('IS_TRANSACTION_RECOMMEND_ACTIVE', true);
+      return true;
+    } else {
+      return activeState;
+    }
+  }
+
+  /// 取引名レコメンド
+  static void setTransactionRecommendState(bool activeState) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('IS_TRANSACTION_RECOMMEND_ACTIVE', activeState);
   }
 }

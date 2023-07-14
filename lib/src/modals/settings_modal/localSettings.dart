@@ -11,6 +11,25 @@ class LocalSettings extends StatefulWidget {
 }
 
 class _LocalSettingsState extends State<LocalSettings> {
+  late bool _transactionRecommendState = false;
+
+  @override
+  void initState() {
+    transactionStorage.getTransactionRecommendState().then((value) {
+      setState(() {
+        _transactionRecommendState = value;
+      });
+    });
+    super.initState();
+  }
+
+  void _changeRecommendState(bool state) {
+    setState(() {
+      _transactionRecommendState = state;
+      transactionStorage.setTransactionRecommendState(state);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,9 +44,9 @@ class _LocalSettingsState extends State<LocalSettings> {
                 children: [
                   const Text('取引名候補を表示する'),
                   CupertinoSwitch(
-                      value: true,
-                      onChanged: (bool value) {
-                        value = !value;
+                      value: _transactionRecommendState,
+                      onChanged: (activeState) {
+                        _changeRecommendState(activeState);
                       })
                 ],
               ),

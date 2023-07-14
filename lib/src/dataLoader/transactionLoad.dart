@@ -48,4 +48,14 @@ class transactionLoad {
       }
     });
   }
+
+  /// 取引名レコメンド
+  static void getFrequentTransactionName(
+      envClass env, Function setRecommendList) async {
+    transactionStorage.getTransactionRecommendState().then((activeState) {
+      if (activeState) {
+        transactionApi.getFrequentTransactionName(env, setRecommendList);
+      }
+    });
+  }
 }

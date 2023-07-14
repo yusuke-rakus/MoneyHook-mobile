@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
 import 'package:switcher/core/switcher_size.dart';
@@ -41,7 +42,7 @@ class _EditTransaction extends State<EditTransaction> {
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
     if (!transaction.hasTransactionId()) {
-      transactionApi.getFrequentTransactionName(env, setRecommendList);
+      transactionLoad.getFrequentTransactionName(env, setRecommendList);
     }
   }
 

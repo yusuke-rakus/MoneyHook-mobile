@@ -28,7 +28,7 @@ class SettingsScreen extends StatelessWidget {
             _menuCard(context, Icons.account_tree, '自動入力',
                 MonthlyTransaction(env: env)),
             _menuCard(context, Icons.account_circle_outlined, 'ローカル設定',
-                LocalSettings()),
+                const LocalSettings()),
             TextButton(
                 onPressed: () async {
                   SharedPreferences prefs =
