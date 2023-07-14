@@ -4,6 +4,7 @@ import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
+import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app.dart';
@@ -48,7 +49,6 @@ class SettingsScreen extends StatelessWidget {
                 )),
             TextButton(
                 onPressed: () async {
-                  print('start');
                   final db = Localstore.instance;
                   Future(() async {
                     await db
@@ -56,9 +56,7 @@ class SettingsScreen extends StatelessWidget {
                         .get()
                         .then((value) async {
                       print(value);
-                      await db.collection('timelineData').delete();
-                      await db.collection('timelineChart').delete();
-                      await db.collection('homeData').delete();
+                      transactionStorage.allDelete();
                     });
                   }).then((value) =>
                       CommonSnackBar.build(context: context, text: '削除完了'));

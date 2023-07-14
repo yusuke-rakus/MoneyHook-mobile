@@ -1,9 +1,9 @@
 import "package:flutter/material.dart";
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/fixedAnalysisAccordion.dart';
@@ -52,8 +52,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
     env = widget.env;
     _isLoading = widget.isLoading;
     env.initMonth();
-    transactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
-    transactionApi.getMonthlyFixedSpending(
+    transactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+    transactionLoad.getMonthlyFixedSpending(
         env, setLoading, setMonthlyFixedSpending);
   }
 
@@ -73,9 +73,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
-                        transactionApi.getMonthlyFixedIncome(
+                        transactionLoad.getMonthlyFixedIncome(
                             env, setMonthlyFixedIncome);
-                        transactionApi.getMonthlyFixedSpending(
+                        transactionLoad.getMonthlyFixedSpending(
                             env, setLoading, setMonthlyFixedSpending);
                       });
                     },
@@ -88,9 +88,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                         // 翌月が未来でなければデータ取得
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
-                          transactionApi.getMonthlyFixedIncome(
+                          transactionLoad.getMonthlyFixedIncome(
                               env, setMonthlyFixedIncome);
-                          transactionApi.getMonthlyFixedSpending(
+                          transactionLoad.getMonthlyFixedSpending(
                               env, setLoading, setMonthlyFixedSpending);
                         }
                       });

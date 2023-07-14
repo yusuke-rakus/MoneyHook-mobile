@@ -59,9 +59,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                   TextButton(
                       onPressed: () async {
                         Future(() async {
-                          transactionStorage.deleteTimelineData();
-                          transactionStorage.deleteTimelineChart();
-                          transactionStorage.deleteHomeData();
+                          transactionStorage.allDelete();
                         }).then((value) => CommonSnackBar.build(
                             context: context, text: '削除完了'));
                       },

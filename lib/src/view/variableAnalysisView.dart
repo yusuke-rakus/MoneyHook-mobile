@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
@@ -42,7 +42,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
     _isLoading = widget.isLoading;
     env = widget.env;
     env.initMonth();
-    transactionApi.getMonthlyVariableData(env, setLoading, setMonthlyVariable);
+    transactionLoad.getMonthlyVariableData(env, setLoading, setMonthlyVariable);
   }
 
   @override
@@ -61,7 +61,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
-                        transactionApi.getMonthlyVariableData(
+                        transactionLoad.getMonthlyVariableData(
                             env, setLoading, setMonthlyVariable);
                       });
                     },
@@ -74,7 +74,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                         // 翌月が未来でなければデータ取得
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
-                          transactionApi.getMonthlyVariableData(
+                          transactionLoad.getMonthlyVariableData(
                               env, setLoading, setMonthlyVariable);
                         }
                       });

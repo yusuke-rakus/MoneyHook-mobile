@@ -58,4 +58,51 @@ class transactionLoad {
       }
     });
   }
+
+  /// 【月別変動費画面】データ
+  static void getMonthlyVariableData(
+      envClass env, Function setLoading, Function setMonthlyVariable) async {
+    transactionStorage
+        .getMonthlyVariableData(env.getJson().toString())
+        .then((value) {
+      if (value.isEmpty) {
+        transactionApi.getMonthlyVariableData(
+            env, setLoading, setMonthlyVariable);
+      } else {
+        setMonthlyVariable(
+            value['totalVariable'], value['monthlyVariableList']);
+      }
+    });
+  }
+
+  /// 【月別固定費画面】収入データ
+  static void getMonthlyFixedIncome(
+      envClass env, Function setMonthlyFixedIncome) async {
+    transactionStorage
+        .getMonthlyFixedIncome(env.getJson().toString())
+        .then((value) {
+      if (value.isEmpty) {
+        transactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+      } else {
+        setMonthlyFixedIncome(
+            value['disposableIncome'], value['monthlyFixedList']);
+      }
+    });
+  }
+
+  /// 【月別固定費画面】支出データ
+  static void getMonthlyFixedSpending(envClass env, Function setLoading,
+      Function setMonthlyFixedSpending) async {
+    transactionStorage
+        .getMonthlyFixedSpending(env.getJson().toString())
+        .then((value) {
+      if (value.isEmpty) {
+        transactionApi.getMonthlyFixedSpending(
+            env, setLoading, setMonthlyFixedSpending);
+      } else {
+        setMonthlyFixedSpending(
+            value['disposableIncome'], value['monthlyFixedList']);
+      }
+    });
+  }
 }

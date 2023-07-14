@@ -6,6 +6,16 @@ import '../class/transactionClass.dart';
 class transactionStorage {
   static final db = Localstore.instance;
 
+  /// ストレージ全削除
+  static void allDelete() {
+    deleteTimelineData();
+    deleteTimelineChart();
+    deleteHomeData();
+    deleteMonthlyVariableData();
+    deleteMonthlyFixedIncome();
+    deleteMonthlyFixedSpending();
+  }
+
   /// 【タイムライン画面】データ
   static Future<List<transactionClass>> searchTimelineData(
       String param, Function setLoading) async {
@@ -120,5 +130,89 @@ class transactionStorage {
   static void setTransactionRecommendState(bool activeState) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('IS_TRANSACTION_RECOMMEND_ACTIVE', activeState);
+  }
+
+  /// 【月別変動費画面】データ
+  static Future<Map<String, dynamic>> getMonthlyVariableData(
+      String param) async {
+    final id = 'monthlyVariableData$param';
+    Map<String, dynamic> resultMap = <String, dynamic>{};
+
+    await db.collection('monthlyVariableData').doc(id).get().then((value) {
+      if (value != null) {
+        resultMap['totalVariable'] = value['totalVariable'];
+        resultMap['monthlyVariableList'] = value['monthlyVariableList'];
+      }
+    });
+    return resultMap;
+  }
+
+  static void saveMonthlyVariableData(
+      int balance, List<dynamic> resultList, String param) async {
+    await db
+        .collection('monthlyVariableData')
+        .doc('monthlyVariableData$param')
+        .set({'totalVariable': balance, 'monthlyVariableList': resultList});
+  }
+
+  static void deleteMonthlyVariableData() async {
+    await db.collection('monthlyVariableData').delete();
+  }
+
+  /// 【月別固定費画面】収入データ
+  static Future<Map<String, dynamic>> getMonthlyFixedIncome(
+      String param) async {
+    final id = 'monthlyFixedIncomeData$param';
+    Map<String, dynamic> resultMap = <String, dynamic>{};
+
+    await db.collection('monthlyFixedIncomeData').doc(id).get().then((value) {
+      if (value != null) {
+        resultMap['disposableIncome'] = value['disposableIncome'];
+        resultMap['monthlyFixedList'] = value['monthlyFixedList'];
+      }
+    });
+    return resultMap;
+  }
+
+  static void saveMonthlyFixedIncome(
+      int disposableIncome, List<dynamic> resultList, String param) async {
+    await db
+        .collection('monthlyFixedIncomeData')
+        .doc('monthlyFixedIncomeData$param')
+        .set({
+      'disposableIncome': disposableIncome,
+      'monthlyFixedList': resultList
+    });
+  }
+
+  static void deleteMonthlyFixedIncome() async {
+    await db.collection('monthlyFixedIncomeData').delete();
+  }
+
+  /// 【月別固定費画面】支出データ
+  static Future<Map<String, dynamic>> getMonthlyFixedSpending(
+      String param) async {
+    final id = 'monthlyFixedSpendingData$param';
+    Map<String, dynamic> resultMap = <String, dynamic>{};
+
+    await db.collection('monthlyFixedSpendingData').doc(id).get().then((value) {
+      if (value != null) {
+        resultMap['disposableIncome'] = value['disposableIncome'];
+        resultMap['monthlyFixedList'] = value['monthlyFixedList'];
+      }
+    });
+    return resultMap;
+  }
+
+  static void saveMonthlyFixedSpending(
+      int balance, List<dynamic> resultList, String param) async {
+    await db
+        .collection('monthlyFixedSpendingData')
+        .doc('monthlyFixedSpendingData$param')
+        .set({'disposableIncome': balance, 'monthlyFixedList': resultList});
+  }
+
+  static void deleteMonthlyFixedSpending() async {
+    await db.collection('monthlyFixedSpendingData').delete();
   }
 }

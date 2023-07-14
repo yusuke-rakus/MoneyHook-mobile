@@ -104,6 +104,10 @@ class transactionApi {
           resultList.add(categoryList);
         });
         setMonthlyVariable(res.data['totalVariable'].abs(), resultList);
+        transactionStorage.saveMonthlyVariableData(
+            res.data['totalVariable'].abs(),
+            resultList,
+            env.getJson().toString());
       }
     });
     setLoading();
@@ -120,6 +124,8 @@ class transactionApi {
         // 成功
         setMonthlyFixedIncome(
             res.data['disposableIncome'], res.data['monthlyFixedList']);
+        transactionStorage.saveMonthlyFixedIncome(res.data['disposableIncome'],
+            res.data['monthlyFixedList'], env.getJson().toString());
       }
     });
   }
@@ -136,6 +142,10 @@ class transactionApi {
         // 成功
         setMonthlyFixedSpending(
             res.data['disposableIncome'], res.data['monthlyFixedList']);
+        transactionStorage.saveMonthlyFixedSpending(
+            res.data['disposableIncome'],
+            res.data['monthlyFixedList'],
+            env.getJson().toString());
       }
     });
     setLoading();
