@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/homeTransaction.dart';
 import 'package:money_hooks/src/components/charts/homeChart.dart';
@@ -8,6 +7,7 @@ import 'package:money_hooks/src/components/homeAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
 import '../class/transactionClass.dart';
+import '../components/commonLoadingAnimation.dart';
 import '../env/envClass.dart';
 import '../modals/editTransaction.dart';
 
@@ -83,9 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: _isLoading
-          ? Center(
-              child: LoadingAnimationWidget.waveDots(
-                  color: const Color(0xFF76D5FF), size: 50))
+          ? Center(child: CommonLoadingAnimation.build())
           : RefreshIndicator(
               color: Colors.grey,
               onRefresh: () async {

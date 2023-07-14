@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/timelineTransaction.dart';
 import 'package:money_hooks/src/components/charts/timelineChart.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
 
 import '../class/transactionClass.dart';
+import '../components/commonLoadingAnimation.dart';
 import '../dataLoader/transactionLoad.dart';
 import '../env/envClass.dart';
 
@@ -106,8 +106,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
             ),
             Center(
               child: _isLoading
-                  ? LoadingAnimationWidget.waveDots(
-                      color: const Color(0xFF76D5FF), size: 50)
+                  ? CommonLoadingAnimation.build()
                   : TimelineList(
                       env: env,
                       timelineList: timelineList.transactionList,

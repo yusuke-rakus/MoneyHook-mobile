@@ -1,11 +1,12 @@
 import "package:flutter/material.dart";
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/components/charts/totalSavingChart.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/savingTargetList.dart';
 import 'package:money_hooks/src/env/envClass.dart';
+
+import '../components/commonLoadingAnimation.dart';
 
 class TotalSaving extends StatefulWidget {
   TotalSaving(this.env, this.isLoading, this.changeReload, {super.key});
@@ -66,9 +67,7 @@ class _TotalSaving extends State<TotalSaving> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: _isLoading
-            ? Center(
-                child: LoadingAnimationWidget.waveDots(
-                    color: const Color(0xFF76D5FF), size: 50))
+            ? Center(child: CommonLoadingAnimation.build())
             : ListView(
                 children: [
                   // 合計値

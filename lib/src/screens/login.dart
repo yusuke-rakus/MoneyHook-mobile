@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/userApi.dart';
+import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 
 import '../class/userClass.dart';
 
@@ -70,8 +70,7 @@ class _LoginState extends State<Login> {
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidget: Center(
-        child: LoadingAnimationWidget.waveDots(
-            color: Colors.lightBlueAccent, size: 50),
+        child: CommonLoadingAnimation.build(),
       ),
       child: Scaffold(
         appBar: AppBar(

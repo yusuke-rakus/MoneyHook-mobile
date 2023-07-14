@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/api/monthlyTransactionApi.dart';
+import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
 
 import '../../class/monthlyTransactionClass.dart';
@@ -62,9 +62,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
       body: Stack(
         children: [
           _isLoading
-              ? Center(
-                  child: LoadingAnimationWidget.waveDots(
-                      color: const Color(0xFF76D5FF), size: 50))
+              ? Center(child: CommonLoadingAnimation.build())
               : Column(
                   children: [
                     Container(

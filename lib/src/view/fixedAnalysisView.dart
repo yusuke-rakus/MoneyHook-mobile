@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
@@ -100,8 +100,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
             ),
           ),
           _isLoading
-              ? LoadingAnimationWidget.waveDots(
-                  color: const Color(0xFF76D5FF), size: 50)
+              ? CommonLoadingAnimation.build()
               : Flexible(
                   child: monthlyFixedIncome.monthlyFixedList.isNotEmpty ||
                           monthlyFixedSpending.monthlyFixedList.isNotEmpty
