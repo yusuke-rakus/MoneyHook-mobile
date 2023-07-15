@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
+import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 import '../../searchStorage/savingStorage.dart';
@@ -63,6 +64,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                         Future(() async {
                           TransactionStorage.allDelete();
                           SavingStorage.allDelete();
+                          MonthlyTransactionStorage.allDelete();
                         }).then((value) => CommonSnackBar.build(
                             context: context, text: '削除完了'));
                       },

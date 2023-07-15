@@ -2,10 +2,11 @@ import 'package:dio/dio.dart';
 import 'package:money_hooks/src/api/validation/monthlyTransactionValidation.dart';
 import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 
 import 'api.dart';
 
-class monthlyTransactionApi {
+class MonthlyTransactionApi {
   static String rootURI = '${Api.rootURI}/fixed';
   static Dio dio = Dio();
 
@@ -36,6 +37,8 @@ class monthlyTransactionApi {
           ));
         });
         setMonthlyTransactionList(resultList);
+        MonthlyTransactionStorage.saveFixed(
+            res.data['monthlyTransactionList'], env.getUserJson().toString());
       }
       setLoading();
     });

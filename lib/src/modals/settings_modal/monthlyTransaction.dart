@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/monthlyTransactionApi.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
+import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
 import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
 
 import '../../class/monthlyTransactionClass.dart';
@@ -43,13 +44,13 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
     super.initState();
     env = widget.env;
     _isLoading = true;
-    monthlyTransactionApi.getFixed(
+    MonthlyTransactionLoad.getFixed(
         env, setMonthlyTransactionList, setLoading, setErrorMessage);
   }
 
   void setReload() {
     setLoading();
-    monthlyTransactionApi.getFixed(
+    MonthlyTransactionApi.getFixed(
         env, setMonthlyTransactionList, setLoading, setErrorMessage);
   }
 

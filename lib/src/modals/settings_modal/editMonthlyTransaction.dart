@@ -57,7 +57,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   void _editTransaction(
       monthlyTransactionClass monthlyTransaction, envClass env) {
     monthlyTransaction.userId = env.userId;
-    monthlyTransactionApi.editTransaction(
+    MonthlyTransactionApi.editTransaction(
         monthlyTransaction, backNavigation, widget.setErrorMessage, setDisable);
   }
 
@@ -65,7 +65,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   void _deleteTransaction(
       envClass env, monthlyTransactionClass monthlyTransaction) {
     monthlyTransaction.userId = env.userId;
-    monthlyTransactionApi.deleteMonthlyTransaction(
+    MonthlyTransactionApi.deleteMonthlyTransaction(
         monthlyTransaction, backNavigation, widget.setErrorMessage, setDisable);
   }
 
