@@ -6,6 +6,7 @@ import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 import 'package:money_hooks/src/searchStorage/savingStorage.dart';
+import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,13 +55,14 @@ class SettingsScreen extends StatelessWidget {
                   final db = Localstore.instance;
                   Future(() async {
                     await db
-                        .collection('monthlyTransactionData')
+                        .collection('savingTargetData')
                         .get()
                         .then((value) async {
                       print(value);
                       TransactionStorage.allDelete();
                       SavingStorage.allDelete();
                       MonthlyTransactionStorage.allDelete();
+                      SavingTargetStorage.allDelete();
                     });
                   }).then((value) =>
                       CommonSnackBar.build(context: context, text: '削除完了'));

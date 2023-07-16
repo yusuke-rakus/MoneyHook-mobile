@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/savingTargetValidation.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
+import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 
 import '../env/envClass.dart';
 
@@ -29,6 +30,7 @@ class SavingTargetApi {
               value['savingTargetId'], value['savingTargetName']));
         });
         setSavingTargetList(resultList);
+        SavingTargetStorage.saveSavingTargetData(resultList, userId);
       }
     });
   }
@@ -56,6 +58,7 @@ class SavingTargetApi {
       } else {
         // 成功
         backNavigation();
+        SavingTargetStorage.allDelete();
       }
     });
   }
@@ -83,6 +86,7 @@ class SavingTargetApi {
       } else {
         // 成功
         backNavigation();
+        SavingTargetStorage.allDelete();
       }
     });
   }
@@ -108,6 +112,7 @@ class SavingTargetApi {
       } else {
         // 成功
         backNavigation();
+        SavingTargetStorage.allDelete();
       }
     });
   }

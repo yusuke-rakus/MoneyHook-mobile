@@ -3,9 +3,9 @@ import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/savingApi.dart';
-import 'package:money_hooks/src/api/savingTargetApi.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
+import 'package:money_hooks/src/dataLoader/savingTargetLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class EditSaving extends StatefulWidget {
@@ -39,7 +39,7 @@ class _EditSaving extends State<EditSaving> {
     super.initState();
     saving = widget.saving;
     env = widget.env;
-    SavingTargetApi.getSavingTargetList(setSavingTargetList, env.userId);
+    SavingTargetLoad.getSavingTargetList(setSavingTargetList, env.userId);
 
     nameController.value =
         nameController.value.copyWith(text: saving.savingName);
@@ -123,29 +123,29 @@ class _EditSaving extends State<EditSaving> {
                       onPressed: saving.isDisabled()
                           ? null
                           : () {
-                              showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      CupertinoAlertDialog(
-                                          title: const Text('貯金を削除しますか'),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                                isDefaultAction: true,
-                                                onPressed: () {
-                                                  // キャンセル処理
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('キャンセル')),
-                                            CupertinoDialogAction(
-                                                isDestructiveAction: true,
-                                                onPressed: () {
-                                                  // 削除処理
-                                                  _deleteSaving(env, saving);
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('削除'))
-                                          ]));
-                            },
+                        showDialog<String>(
+                            context: context,
+                            builder: (BuildContext context) =>
+                                CupertinoAlertDialog(
+                                    title: const Text('貯金を削除しますか'),
+                                    actions: [
+                                      CupertinoDialogAction(
+                                          isDefaultAction: true,
+                                          onPressed: () {
+                                            // キャンセル処理
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('キャンセル')),
+                                      CupertinoDialogAction(
+                                          isDestructiveAction: true,
+                                          onPressed: () {
+                                            // 削除処理
+                                            _deleteSaving(env, saving);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text('削除'))
+                                    ]));
+                      },
                       icon: const Icon(
                         Icons.delete_outline,
                       )),
@@ -163,41 +163,47 @@ class _EditSaving extends State<EditSaving> {
                     onTap: () {
                       showCupertinoModalPopup(
                         context: context,
-                        builder: (_) => Container(
-                          height: 250,
-                          color: Colors.white,
-                          child: CupertinoDatePicker(
-                            initialDateTime: DateFormat('yyyy-MM-dd')
-                                .parse(saving.savingDate),
-                            onDateTimeChanged: (value) {
-                              setState(() {
-                                saving.savingDate =
-                                    DateFormat('yyyy-MM-dd').format(value);
-                              });
-                            },
-                            minimumYear: DateTime.now().year - 1,
-                            maximumYear: DateTime.now().year,
-                            maximumDate: DateTime.now(),
-                            dateOrder: DatePickerDateOrder.ymd,
-                            mode: CupertinoDatePickerMode.date,
-                          ),
-                        ),
+                        builder: (_) =>
+                            Container(
+                              height: 250,
+                              color: Colors.white,
+                              child: CupertinoDatePicker(
+                                initialDateTime: DateFormat('yyyy-MM-dd')
+                                    .parse(saving.savingDate),
+                                onDateTimeChanged: (value) {
+                                  setState(() {
+                                    saving.savingDate =
+                                        DateFormat('yyyy-MM-dd').format(value);
+                                  });
+                                },
+                                minimumYear: DateTime
+                                    .now()
+                                    .year - 1,
+                                maximumYear: DateTime
+                                    .now()
+                                    .year,
+                                maximumDate: DateTime.now(),
+                                dateOrder: DatePickerDateOrder.ymd,
+                                mode: CupertinoDatePickerMode.date,
+                              ),
+                            ),
                       );
                     },
                     child: SizedBox(
                       height: 60,
                       child: Center(
                           child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${saving.savingDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          const Icon(Icons.edit),
-                        ],
-                      )),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                '${saving.savingDate.replaceAll('-', '月')
+                                    .replaceFirst('月', '年')}日',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              const Icon(Icons.edit),
+                            ],
+                          )),
                     ),
                   ),
                   // 金額
@@ -266,7 +272,8 @@ class _EditSaving extends State<EditSaving> {
                     child: Wrap(
                         children: recommendList
                             .map<Widget>(
-                              (savingName) => Container(
+                              (savingName) =>
+                              Container(
                                 height: 23,
                                 margin: const EdgeInsets.only(top: 3, right: 5),
                                 child: OutlinedButton(
@@ -279,7 +286,7 @@ class _EditSaving extends State<EditSaving> {
                                   style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                            BorderRadius.circular(18.0),
+                                        BorderRadius.circular(18.0),
                                       ),
                                       foregroundColor: Colors.black87,
                                       backgroundColor: Colors.black12,
@@ -288,7 +295,7 @@ class _EditSaving extends State<EditSaving> {
                                   child: Text(savingName),
                                 ),
                               ),
-                            )
+                        )
                             .toList()),
                   ),
                   // 貯金目標
@@ -296,14 +303,17 @@ class _EditSaving extends State<EditSaving> {
                     visible: savingTargetList.isNotEmpty,
                     child: Container(
                       margin:
-                          const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
+                      const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
                       child: InkWell(
                         onTap: () {
                           showCupertinoModalPopup(
                             context: context,
                             builder: (BuildContext context) {
                               return SizedBox(
-                                height: MediaQuery.of(context).size.height / 3,
+                                height: MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height / 3,
                                 child: CupertinoPicker(
                                   backgroundColor: Colors.white,
                                   diameterRatio: 1.0,
@@ -313,7 +323,7 @@ class _EditSaving extends State<EditSaving> {
                                           .map((e) => e.savingTargetId)
                                           .toList()
                                           .indexOf(
-                                              saving.savingTargetId?.toInt())),
+                                          saving.savingTargetId?.toInt())),
                                   onSelectedItemChanged: (int i) {
                                     setState(() {
                                       // 貯金目標をセット
@@ -378,14 +388,14 @@ class _EditSaving extends State<EditSaving> {
                       onPressed: saving.isDisabled()
                           ? null
                           : () {
-                              setState(() {
-                                _editSaving(saving, env);
-                              });
-                            },
+                        setState(() {
+                          _editSaving(saving, env);
+                        });
+                      },
                       style: ElevatedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
                             borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
+                            BorderRadius.all(Radius.circular(25))),
                         fixedSize: const Size(double.infinity, 50),
                       ),
                       child: const Text(
