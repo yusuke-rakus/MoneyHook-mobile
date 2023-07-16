@@ -114,6 +114,7 @@ class SavingApi {
         setDisable();
       } else {
         // 成功
+        SavingStorage.allDelete();
         backNavigation();
       }
     });
@@ -137,6 +138,7 @@ class SavingApi {
         setDisable();
       } else {
         // 成功
+        SavingStorage.allDelete();
         backNavigation();
       }
     });
@@ -160,6 +162,7 @@ class SavingApi {
         setDisable();
       } else {
         // 成功
+        SavingStorage.allDelete();
         backNavigation();
       }
     });

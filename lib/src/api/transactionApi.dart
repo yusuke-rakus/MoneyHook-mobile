@@ -172,6 +172,7 @@ class transactionApi {
         setDisable();
       } else {
         // 成功
+        TransactionStorage.allDelete();
         backNavigation();
       }
     });
@@ -198,6 +199,7 @@ class transactionApi {
         setDisable();
       } else {
         // 成功
+        TransactionStorage.allDelete();
         backNavigation();
       }
     });
@@ -223,6 +225,7 @@ class transactionApi {
         setDisable();
       } else {
         // 成功
+        TransactionStorage.allDelete();
         backNavigation();
       }
     });
