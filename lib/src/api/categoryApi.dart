@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:money_hooks/src/class/categoryClass.dart';
 import 'package:money_hooks/src/class/subCategoryClass.dart';
+import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
 import 'api.dart';
 
-class categorysApi {
+class CategoryApi {
   static String rootURI = Api.rootURI;
   static Dio dio = Dio();
 
@@ -21,6 +22,7 @@ class categorysApi {
               .add(categoryClass(value['categoryId'], value['categoryName']));
         });
         setCategoryList(categoryList);
+        CategoryStorage.saveCategoryList(categoryList);
       }
     });
   }

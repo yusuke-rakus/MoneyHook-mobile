@@ -16,6 +16,13 @@ class categoryClass {
     _categoryId = value;
   }
 
+  Map<String, dynamic> getCategoryJson() {
+    return {
+      'categoryId': categoryId,
+      'categoryName': categoryName,
+    };
+  }
+
   @override
   String toString() {
     return 'カテゴリId: $_categoryId, カテゴリ名: $_categoryName';
