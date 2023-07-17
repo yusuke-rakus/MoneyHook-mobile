@@ -9,6 +9,12 @@ class envClass {
 
   envClass.setUserId(this.userId);
 
+  envClass.initNew(this.userId, String month) {
+    DateTime date = DateFormat('yyyy-MM-dd').parse(month);
+    month = DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
+    thisMonth = month;
+  }
+
   String getMonth() {
     return DateFormat('yyyy-MM-dd').parse(thisMonth).month.toString();
   }

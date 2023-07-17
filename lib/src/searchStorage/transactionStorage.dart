@@ -1,4 +1,5 @@
 import 'package:localstore/localstore.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../class/transactionClass.dart';
@@ -14,6 +15,16 @@ class TransactionStorage {
     deleteMonthlyVariableData();
     deleteMonthlyFixedIncome();
     deleteMonthlyFixedSpending();
+  }
+
+  /// ストレージ全削除(月指定)
+  static void allDeleteWithParam(String userId, String transactionDate) {
+    deleteTimelineDataWithParam(userId, transactionDate);
+    deleteTimelineChartWithParam(userId, transactionDate);
+    deleteHomeDataWithParam(userId, transactionDate);
+    deleteMonthlyVariableDataWithParam(userId, transactionDate);
+    deleteMonthlyFixedIncomeWithParam(userId, transactionDate);
+    deleteMonthlyFixedSpendingWithParam(userId, transactionDate);
   }
 
   /// 【タイムライン画面】データ
@@ -60,6 +71,13 @@ class TransactionStorage {
     await db.collection('timelineData').delete();
   }
 
+  static void deleteTimelineDataWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'timelineData${env.getJson()}';
+    await db.collection('timelineData').doc(id).delete();
+  }
+
   /// 【タイムライン画面】グラフ
   static Future<List<transactionClass>> getTimelineChart(String param) async {
     final id = 'timelineChart$param';
@@ -88,6 +106,13 @@ class TransactionStorage {
     await db.collection('timelineChart').delete();
   }
 
+  static void deleteTimelineChartWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'timelineChart${env.getJson()}';
+    await db.collection('timelineChart').doc(id).delete();
+  }
+
   /// 【ホーム画面】データ
   static Future<Map<String, dynamic>> getHome(String param) async {
     final id = 'homeData$param';
@@ -112,6 +137,13 @@ class TransactionStorage {
 
   static void deleteHomeData() async {
     await db.collection('homeData').delete();
+  }
+
+  static void deleteHomeDataWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'homeData${env.getJson()}';
+    await db.collection('homeData').doc(id).delete();
   }
 
   /// 取引名レコメンド
@@ -159,6 +191,13 @@ class TransactionStorage {
     await db.collection('monthlyVariableData').delete();
   }
 
+  static void deleteMonthlyVariableDataWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'monthlyVariableData${env.getJson()}';
+    await db.collection('monthlyVariableData').doc(id).delete();
+  }
+
   /// 【月別固定費画面】収入データ
   static Future<Map<String, dynamic>> getMonthlyFixedIncome(
       String param) async {
@@ -189,6 +228,13 @@ class TransactionStorage {
     await db.collection('monthlyFixedIncomeData').delete();
   }
 
+  static void deleteMonthlyFixedIncomeWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'monthlyFixedIncomeData${env.getJson()}';
+    await db.collection('monthlyFixedIncomeData').doc(id).delete();
+  }
+
   /// 【月別固定費画面】支出データ
   static Future<Map<String, dynamic>> getMonthlyFixedSpending(
       String param) async {
@@ -214,5 +260,12 @@ class TransactionStorage {
 
   static void deleteMonthlyFixedSpending() async {
     await db.collection('monthlyFixedSpendingData').delete();
+  }
+
+  static void deleteMonthlyFixedSpendingWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'monthlyFixedSpendingData${env.getJson()}';
+    await db.collection('monthlyFixedSpendingData').doc(id).delete();
   }
 }

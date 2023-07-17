@@ -172,7 +172,8 @@ class transactionApi {
         setDisable();
       } else {
         // 成功
-        TransactionStorage.allDelete();
+        TransactionStorage.allDeleteWithParam(
+            transaction.userId, transaction.transactionDate);
         backNavigation();
       }
     });
@@ -199,7 +200,8 @@ class transactionApi {
         setDisable();
       } else {
         // 成功
-        TransactionStorage.allDelete();
+        TransactionStorage.allDeleteWithParam(
+            transaction.userId, transaction.transactionDate);
         backNavigation();
       }
     });
@@ -225,7 +227,8 @@ class transactionApi {
         setDisable();
       } else {
         // 成功
-        TransactionStorage.allDelete();
+        TransactionStorage.allDeleteWithParam(
+            transaction.userId, transaction.transactionDate);
         backNavigation();
       }
     });
