@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:money_hooks/src/api/categoryApi.dart';
+import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/subCategoryClass.dart';
@@ -33,7 +33,7 @@ class _SelectSubCategory extends State<SelectSubCategory> {
     env = widget.env;
     categoryName = widget.categoryName;
     categoryId = widget.categoryId;
-    CategoryApi.getSubCategoryList(env.userId, categoryId, setSubCategoryList);
+    CategoryLoad.getSubCategoryList(env.userId, categoryId, setSubCategoryList);
   }
 
   @override

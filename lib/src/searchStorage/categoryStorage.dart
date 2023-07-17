@@ -1,6 +1,7 @@
 import 'package:localstore/localstore.dart';
 
 import '../class/categoryClass.dart';
+import '../class/subCategoryClass.dart';
 
 class CategoryStorage {
   static final db = Localstore.instance;
@@ -8,11 +9,11 @@ class CategoryStorage {
   /// ストレージ全削除
   static void allDelete() {
     deleteCategoryList();
+    deleteSubCategoryList();
   }
 
   /// 【カテゴリ一覧取得】データ
-  static Future<List<categoryClass>> getCategoryListData(
-      Function setCategoryList) async {
+  static Future<List<categoryClass>> getCategoryListData() async {
     List<categoryClass> resultList = [];
     const id = 'categoryData';
 
@@ -37,16 +38,17 @@ class CategoryStorage {
     await db.collection('categoryData').delete();
   }
 
-  /// 【カテゴリ一覧取得】データ
-  static Future<List<categoryClass>> getSubCategoryListData(
-      Function setCategoryList) async {
-    List<categoryClass> resultList = [];
-    const id = 'categoryData';
+  /// 【サブカテゴリ一覧取得】データ
+  static Future<List<subCategoryClass>> getSubCategoryListData(
+      String param) async {
+    List<subCategoryClass> resultList = [];
+    final id = 'subCategoryData$param';
 
-    await db.collection('categoryData').doc(id).get().then((value) {
+    await db.collection('subCategoryData').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(categoryClass(e['categoryId'], e['categoryName']));
+          resultList
+              .add(subCategoryClass(e['subCategoryId'], e['subCategoryName']));
         });
       }
     });
@@ -54,14 +56,14 @@ class CategoryStorage {
   }
 
   static void saveSubCategoryList(
-      List<categoryClass> resultList, String param) async {
+      List<subCategoryClass> resultList, String param) async {
     await db
         .collection('subCategoryData')
-        .doc('categoryData$param')
-        .set({'data': resultList.map((e) => e.getCategoryJson()).toList()});
+        .doc('subCategoryData$param')
+        .set({'data': resultList.map((e) => e.getSubCategoryJson()).toList()});
   }
 
   static void deleteSubCategoryList() async {
-    await db.collection('subCcategoryData').delete();
+    await db.collection('subCategoryData').delete();
   }
 }

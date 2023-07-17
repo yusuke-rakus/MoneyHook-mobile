@@ -16,6 +16,13 @@ class subCategoryClass {
     _subCategoryName = value;
   }
 
+  Map<String, dynamic> getSubCategoryJson() {
+    return {
+      'subCategoryId': subCategoryId,
+      'subCategoryName': subCategoryName,
+    };
+  }
+
   @override
   String toString() {
     return 'カテゴリId: $_subCategoryId, カテゴリ名: $_subCategoryName';

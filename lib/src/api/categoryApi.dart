@@ -42,6 +42,8 @@ class CategoryApi {
               value['subCategoryId'], value['subCategoryName']));
         });
         setSubCategoryList(subCategoryList);
+        CategoryStorage.saveSubCategoryList(
+            subCategoryList, categoryId.toString());
       }
     });
   }
