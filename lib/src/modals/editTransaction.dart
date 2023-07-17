@@ -54,9 +54,49 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   // 戻る・更新処理
-  void backNavigation() {
-    Navigator.pop(context);
-    widget.setReload();
+  void backNavigation({required bool isUpdate}) {
+    if (isUpdate) {
+      Navigator.pop(context);
+      widget.setReload();
+    } else {
+      showDialog<String>(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => AlertDialog(
+                title: const Text('入力が完了しました'),
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          setState(() {
+                            nameController.text = '';
+                            transaction.transactionName = '';
+                            transaction.transactionAmount = 0;
+                            transaction.categoryId = 1;
+                            transaction.categoryName = '食費';
+                            transaction.subCategoryId = 1;
+                            transaction.subCategoryName = 'なし';
+                            transaction.fixedFlg = false;
+                            transaction.isDisable=false;
+                          });
+                        },
+                        child: const Text('連続入力')),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                        widget.setReload();
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey),
+                      child: const Text('完了'),
+                    )
+                  ],
+                ),
+              ));
+    }
   }
 
   // 登録処理

@@ -174,7 +174,7 @@ class transactionApi {
         // 成功
         TransactionStorage.allDeleteWithParam(
             transaction.userId, transaction.transactionDate);
-        backNavigation();
+        backNavigation(isUpdate: false);
       }
     });
   }
@@ -202,7 +202,7 @@ class transactionApi {
         // 成功
         TransactionStorage.allDeleteWithParam(
             transaction.userId, transaction.transactionDate);
-        backNavigation();
+        backNavigation(isUpdate: true);
       }
     });
   }
@@ -228,8 +228,8 @@ class transactionApi {
       } else {
         // 成功
         TransactionStorage.allDeleteWithParam(
-            transaction.userId, transaction.transactionDate);
-        backNavigation();
+            env.userId, transaction.transactionDate);
+        backNavigation(isUpdate: true);
       }
     });
   }
