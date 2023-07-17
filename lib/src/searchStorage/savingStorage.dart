@@ -2,6 +2,8 @@ import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/class/savingClass.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 
+import '../env/envClass.dart';
+
 class SavingStorage {
   static final db = Localstore.instance;
 
@@ -10,6 +12,13 @@ class SavingStorage {
     deleteMonthlySavingData();
     deleteSavingAmountForTarget();
     deleteTotalSaving();
+  }
+
+  /// ストレージ全削除(月指定)
+  static void allDeleteWithParam(String userId, String savingDate) {
+    deleteMonthlySavingDataWithParam(userId, savingDate);
+    deleteSavingAmountForTargetWithParam(userId);
+    deleteTotalSavingWithParam(userId, savingDate);
   }
 
   /// 【貯金一覧画面】データ
@@ -46,6 +55,13 @@ class SavingStorage {
 
   static void deleteMonthlySavingData() async {
     await db.collection('monthlySavingData').delete();
+  }
+
+  static void deleteMonthlySavingDataWithParam(
+      String userId, String savingDate) async {
+    envClass env = envClass.initNew(userId, savingDate);
+    final id = 'monthlySavingData${env.getJson()}';
+    await db.collection('monthlySavingData').doc(id).delete();
   }
 
   /// 【貯金総額画面】貯金目標毎の総額データ
@@ -90,6 +106,11 @@ class SavingStorage {
     await db.collection('savingAmountForTargetData').delete();
   }
 
+  static void deleteSavingAmountForTargetWithParam(String userId) async {
+    final id = 'savingAmountForTargetData$userId';
+    await db.collection('savingAmountForTargetData').doc(id).delete();
+  }
+
   /// 【貯金総額画面】貯金総額データ
   static Future<Map<String, dynamic>> getTotalSaving(
       String param, Function setTotalSaving) async {
@@ -121,5 +142,12 @@ class SavingStorage {
 
   static void deleteTotalSaving() async {
     await db.collection('totalSavingData').delete();
+  }
+
+  static void deleteTotalSavingWithParam(
+      String userId, String savingDate) async {
+    envClass env = envClass.initNew(userId, savingDate);
+    final id = 'totalSavingData${env.getJson()}';
+    await db.collection('totalSavingData').doc(id).delete();
   }
 }

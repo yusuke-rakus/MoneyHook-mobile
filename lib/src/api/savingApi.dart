@@ -114,7 +114,7 @@ class SavingApi {
         setDisable();
       } else {
         // 成功
-        SavingStorage.allDelete();
+        SavingStorage.allDeleteWithParam(saving.userId, saving.savingDate);
         backNavigation();
       }
     });
@@ -138,7 +138,7 @@ class SavingApi {
         setDisable();
       } else {
         // 成功
-        SavingStorage.allDelete();
+        SavingStorage.allDeleteWithParam(saving.userId, saving.savingDate);
         backNavigation();
       }
     });
@@ -162,7 +162,7 @@ class SavingApi {
         setDisable();
       } else {
         // 成功
-        SavingStorage.allDelete();
+        SavingStorage.allDeleteWithParam(env.userId, saving.savingDate);
         backNavigation();
       }
     });
