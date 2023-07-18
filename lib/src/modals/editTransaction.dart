@@ -79,7 +79,7 @@ class _EditTransaction extends State<EditTransaction> {
                             transaction.subCategoryId = 1;
                             transaction.subCategoryName = 'なし';
                             transaction.fixedFlg = false;
-                            transaction.isDisable=false;
+                            transaction.isDisable = false;
                           });
                         },
                         child: const Text('連続入力')),

@@ -44,6 +44,7 @@ class TransactionStorage {
           String transactionAmount = e['transactionAmount'].toString();
           String transactionName = e['transactionName'];
           String categoryName = e['categoryName'];
+          String subCategoryName = e['subCategoryName'];
           bool fixedFlg = e['fixedFlg'];
           resultList.add(transactionClass.setTimelineFields(
               transactionId,
@@ -52,6 +53,7 @@ class TransactionStorage {
               int.parse(transactionAmount),
               transactionName,
               categoryName,
+              subCategoryName,
               fixedFlg));
         });
       }

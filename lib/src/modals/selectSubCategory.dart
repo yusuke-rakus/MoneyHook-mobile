@@ -42,47 +42,73 @@ class _SelectSubCategory extends State<SelectSubCategory> {
       appBar: AppBar(
         title: const Text('カテゴリ'),
       ),
-      body: ListView.builder(
-          padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-          itemCount: subCategoryList.length,
-          itemBuilder: (BuildContext context, int index) {
-            return InkWell(
-              onTap: () {
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 10, bottom: 10),
+                itemCount: subCategoryList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context, {
+                        'categoryName': categoryName,
+                        'categoryId': categoryId,
+                        'subCategoryName':
+                            subCategoryList[index].subCategoryName,
+                        'subCategoryId': subCategoryList[index].subCategoryId,
+                      });
+                    },
+                    child: SizedBox(
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              subCategoryList[index].subCategoryName,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 20.0,
+                              ),
+                            ),
+                          ),
+                          const Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(
+                              Icons.keyboard_arrow_right,
+                              size: 30,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 40, right: 40),
+            height: 100,
+            alignment: Alignment.center,
+            child: TextField(
+              decoration: const InputDecoration(
+                labelText: 'サブカテゴリを作成',
+              ),
+              style: const TextStyle(fontSize: 20),
+              onSubmitted: (value) {
                 Navigator.pop(context);
                 Navigator.pop(context, {
                   'categoryName': categoryName,
                   'categoryId': categoryId,
-                  'subCategoryName': subCategoryList[index].subCategoryName,
-                  'subCategoryId': subCategoryList[index].subCategoryId,
+                  'subCategoryName': value,
                 });
               },
-              child: SizedBox(
-                height: 60,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        subCategoryList[index].subCategoryName,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.keyboard_arrow_right,
-                        size: 30,
-                      ),
-                    )
-                  ],
-                ),
-              ),
-            );
-          }),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

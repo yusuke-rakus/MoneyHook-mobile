@@ -57,6 +57,7 @@ class savingTargetClass {
       'userId': userId,
       'savingTargetId': savingTargetId,
       'savingTargetName': savingTargetName,
+      'targetAmount': targetAmount,
     };
   }
 

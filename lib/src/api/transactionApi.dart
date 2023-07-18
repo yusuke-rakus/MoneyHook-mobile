@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:money_hooks/src/api/validation/transactionValidation.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 import 'api.dart';
@@ -46,6 +47,7 @@ class transactionApi {
           String transactionAmount = value['transactionAmount'].toString();
           String transactionName = value['transactionName'];
           String categoryName = value['categoryName'];
+          String subCategoryName = value['subCategoryName'];
           bool fixedFlg = value['fixedFlg'];
           resultList.add(transactionClass.setTimelineFields(
               transactionId,
@@ -54,6 +56,7 @@ class transactionApi {
               int.parse(transactionAmount),
               transactionName,
               categoryName,
+              subCategoryName,
               fixedFlg));
         });
         setTimelineData(resultList);
@@ -174,6 +177,8 @@ class transactionApi {
         // 成功
         TransactionStorage.allDeleteWithParam(
             transaction.userId, transaction.transactionDate);
+        CategoryStorage.deleteSubCategoryListWithParam(
+            transaction.categoryId.toString());
         backNavigation(isUpdate: false);
       }
     });
@@ -202,6 +207,8 @@ class transactionApi {
         // 成功
         TransactionStorage.allDeleteWithParam(
             transaction.userId, transaction.transactionDate);
+        CategoryStorage.deleteSubCategoryListWithParam(
+            transaction.categoryId.toString());
         backNavigation(isUpdate: true);
       }
     });

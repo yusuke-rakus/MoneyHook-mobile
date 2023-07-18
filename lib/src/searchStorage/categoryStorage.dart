@@ -66,4 +66,9 @@ class CategoryStorage {
   static void deleteSubCategoryList() async {
     await db.collection('subCategoryData').delete();
   }
+
+  static void deleteSubCategoryListWithParam(String param) async {
+    final id = 'subCategoryData$param';
+    await db.collection('subCategoryData').doc(id).delete();
+  }
 }

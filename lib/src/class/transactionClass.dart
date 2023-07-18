@@ -9,7 +9,7 @@ class transactionClass {
   var transactionName = '';
   var categoryId = 1;
   var categoryName = '食費';
-  var subCategoryId = 1;
+  int? subCategoryId = 1;
   var subCategoryName = 'なし';
   var fixedFlg = false;
   bool isDisable = false;
@@ -39,6 +39,7 @@ class transactionClass {
     this.transactionAmount,
     this.transactionName,
     this.categoryName,
+    this.subCategoryName,
     this.fixedFlg,
   );
 
