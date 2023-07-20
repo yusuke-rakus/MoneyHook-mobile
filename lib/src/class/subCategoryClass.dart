@@ -1,8 +1,12 @@
 class subCategoryClass {
   var _subCategoryId;
   var _subCategoryName;
+  var _enable;
 
   subCategoryClass(this._subCategoryId, this._subCategoryName);
+
+  subCategoryClass.setFullFields(this._subCategoryId, this._subCategoryName,
+      this._enable);
 
   get subCategoryId => _subCategoryId;
 
@@ -16,15 +20,22 @@ class subCategoryClass {
     _subCategoryName = value;
   }
 
+  get enable => _enable;
+
+  set enable(value) {
+    _enable = value;
+  }
+
   Map<String, dynamic> getSubCategoryJson() {
     return {
       'subCategoryId': subCategoryId,
       'subCategoryName': subCategoryName,
+      'enable': enable,
     };
   }
 
   @override
   String toString() {
-    return 'カテゴリId: $_subCategoryId, カテゴリ名: $_subCategoryName';
+    return 'subCategoryClass{_subCategoryId: $_subCategoryId, _subCategoryName: $_subCategoryName, _enable: $_enable}';
   }
 }

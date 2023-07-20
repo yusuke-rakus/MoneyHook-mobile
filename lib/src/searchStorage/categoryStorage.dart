@@ -10,14 +10,14 @@ class CategoryStorage {
   static void allDelete() {
     deleteCategoryList();
     deleteSubCategoryList();
+    deleteCategoryWithSubCategoryList();
   }
 
   /// 【カテゴリ一覧取得】データ
   static Future<List<categoryClass>> getCategoryListData() async {
     List<categoryClass> resultList = [];
-    const id = 'categoryData';
 
-    await db.collection('categoryData').doc(id).get().then((value) {
+    await db.collection('categoryData').doc('categoryData').get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
           resultList.add(categoryClass(e['categoryId'], e['categoryName']));
@@ -70,5 +70,69 @@ class CategoryStorage {
   static void deleteSubCategoryListWithParam(String param) async {
     final id = 'subCategoryData$param';
     await db.collection('subCategoryData').doc(id).delete();
+  }
+
+  /// 【カテゴリ・サブカテゴリ一覧取得】データ
+  static Future<List<categoryClass>>
+      getCategoryWithSubCategoryListData() async {
+    List<categoryClass> resultList = [];
+
+    await db
+        .collection('categoryWithSubCategoryData')
+        .doc('categoryWithSubCategoryData')
+        .get()
+        .then((value) {
+      if (value != null) {
+        value['data'].forEach((e) {
+          List<subCategoryClass> subCategoryList = [];
+          e['subCategoryList'].forEach((subCategory) {
+            subCategoryList.add(subCategoryClass.setFullFields(
+                subCategory['subCategoryId'],
+                subCategory['subCategoryName'],
+                subCategory['enable']));
+          });
+
+          resultList.add(categoryClass.setCategoryWithSubCategory(
+              e['categoryId'], e['categoryName'], subCategoryList));
+        });
+      }
+    });
+    return resultList;
+  }
+
+  static void saveCategoryWithSubCategoryList(
+      List<categoryClass> resultList) async {
+    await db
+        .collection('categoryWithSubCategoryData')
+        .doc('categoryWithSubCategoryData')
+        .set({
+      'data': resultList.map((e) => e.getCategoryWithSubCategoryJson()).toList()
+    });
+  }
+
+  static void deleteCategoryWithSubCategoryList() async {
+    await db.collection('categoryWithSubCategoryData').delete();
+  }
+
+  static Future<categoryClass> getDefaultValue() async {
+    categoryClass category = categoryClass.setDefaultValue(1, '食費', 1, 'なし');
+    await db.collection('defaultValue').doc('defaultValue').get().then((value) {
+      if (value != null) {
+        category.categoryId = value['categoryId'];
+        category.categoryName = value['categoryName'];
+        category.subCategoryId = value['subCategoryId'];
+        category.subCategoryName = value['subCategoryName'];
+      }
+    });
+    return category;
+  }
+
+  static Future<void> saveDefaultValue(categoryClass category) async {
+    await db.collection('defaultValue').doc('defaultValue').set({
+      'categoryId': category.categoryId,
+      'categoryName': category.categoryName,
+      'subCategoryId': category.subCategoryId,
+      'subCategoryName': category.subCategoryName,
+    });
   }
 }

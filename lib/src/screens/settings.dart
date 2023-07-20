@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
+import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
@@ -30,10 +31,12 @@ class SettingsScreen extends StatelessWidget {
           children: [
             _menuCard(context, Icons.account_circle_outlined, 'アカウント情報',
                 AccountInfo(env: env)),
-            _menuCard(context, Icons.account_tree, '自動入力',
-                MonthlyTransaction(env: env)),
             _menuCard(context, Icons.account_circle_outlined, 'ローカル設定',
                 const LocalSettings()),
+            _menuCard(context, Icons.account_tree, '自動入力',
+                MonthlyTransaction(env: env)),
+            _menuCard(context, Icons.checklist_sharp, 'サブカテゴリの表示',
+                HideSubCategory(env: env)),
             TextButton(
                 onPressed: () async {
                   SharedPreferences prefs =
