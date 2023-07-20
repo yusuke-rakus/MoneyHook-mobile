@@ -179,6 +179,9 @@ class transactionApi {
             transaction.userId, transaction.transactionDate);
         CategoryStorage.deleteSubCategoryListWithParam(
             transaction.categoryId.toString());
+        if (transaction.subCategoryId == null) {
+          CategoryStorage.deleteCategoryWithSubCategoryList();
+        }
         backNavigation(isUpdate: false);
       }
     });
@@ -209,6 +212,9 @@ class transactionApi {
             transaction.userId, transaction.transactionDate);
         CategoryStorage.deleteSubCategoryListWithParam(
             transaction.categoryId.toString());
+        if (transaction.subCategoryId == null) {
+          CategoryStorage.deleteCategoryWithSubCategoryList();
+        }
         backNavigation(isUpdate: true);
       }
     });
