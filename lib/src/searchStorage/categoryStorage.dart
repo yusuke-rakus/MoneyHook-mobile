@@ -135,4 +135,8 @@ class CategoryStorage {
       'subCategoryName': category.subCategoryName,
     });
   }
+
+  static void deleteDefaultValue() async {
+    await db.collection('defaultValue').delete();
+  }
 }

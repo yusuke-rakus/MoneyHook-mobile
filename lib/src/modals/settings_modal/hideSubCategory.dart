@@ -37,22 +37,29 @@ class _HideSubCategoryState extends State<HideSubCategory> {
     });
   }
 
+  /// ラジオボタンのステータス
   void changeEditMode() {
     setState(() {
       _editMode = !_editMode;
     });
   }
 
+  /// サブカテゴリの表示・非表示を処理
   void _changeEnable(bool status, int categoryNo, int subCategoryNo) {
-    setState(() {
-      subCategoryClass subCategory =
-          categoryList[categoryNo].subCategoryList[subCategoryNo];
-      subCategory.enable = status;
-      CategoryApi.editSubCategory(
-          env, subCategory, categoryList[categoryNo].categoryId);
-    });
+    if (defaultIndex == '$categoryNo,$subCategoryNo') {
+      CommonSnackBar.build(context: context, text: 'デフォルトのため非表示にできません');
+    } else {
+      setState(() {
+        subCategoryClass subCategory =
+            categoryList[categoryNo].subCategoryList[subCategoryNo];
+        subCategory.enable = status;
+        CategoryApi.editSubCategory(
+            env, subCategory, categoryList[categoryNo].categoryId);
+      });
+    }
   }
 
+  /// サブカテゴリの表示・非表示を処理
   void setDefaultCategory(
       int categoryIndex, int subCategoryIndex, bool isInit) {
     categoryClass category = categoryList[categoryIndex];
@@ -71,15 +78,22 @@ class _HideSubCategoryState extends State<HideSubCategory> {
     });
   }
 
+  /// インデックス番号を取得
   void _changeDefaultIndex(String value, bool isInit) {
     int index = int.parse(value.split(',')[0]);
     int subCategoryKey = int.parse(value.split(',')[1]);
-    setDefaultCategory(index, subCategoryKey, isInit);
-    setState(() {
-      defaultIndex = '$index,$subCategoryKey';
-    });
+
+    if (categoryList[index].subCategoryList[subCategoryKey].enable) {
+      setDefaultCategory(index, subCategoryKey, isInit);
+      setState(() {
+        defaultIndex = '$index,$subCategoryKey';
+      });
+    } else {
+      CommonSnackBar.build(context: context, text: '非表示のためデフォルトにできません');
+    }
   }
 
+  /// デフォルトのカテゴリから、インデックス番号を取得
   void _setDefaultValue(categoryClass defaultCategory, bool isInit) {
     categoryList.asMap().forEach((i, category) {
       if (defaultCategory.categoryName == category.categoryName) {
@@ -167,7 +181,22 @@ class _HideSubCategoryState extends State<HideSubCategory> {
                                       const SizedBox(
                                         width: 20,
                                       ),
-                                      Text(subCategory.value.subCategoryName),
+                                      Text.rich(TextSpan(children: [
+                                        TextSpan(
+                                            text: subCategory
+                                                .value.subCategoryName),
+                                        WidgetSpan(
+                                            alignment: PlaceholderAlignment.top,
+                                            child: Visibility(
+                                                visible:
+                                                    '$index,${subCategory.key}' ==
+                                                        defaultIndex,
+                                                child: const Icon(
+                                                  Icons.circle,
+                                                  color: Colors.blue,
+                                                  size: 10,
+                                                ))),
+                                      ])),
                                       const Spacer(),
                                       CupertinoSwitch(
                                           value: subCategory.value.enable,

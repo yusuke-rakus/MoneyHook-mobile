@@ -10,6 +10,7 @@ import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
 
 import '../class/transactionClass.dart';
+import '../searchStorage/categoryStorage.dart';
 
 class EditTransaction extends StatefulWidget {
   EditTransaction(this.transaction, this.env, this.setReload, {super.key});
@@ -43,7 +44,19 @@ class _EditTransaction extends State<EditTransaction> {
         TextPosition(offset: nameController.text.length));
     if (!transaction.hasTransactionId()) {
       TransactionLoad.getFrequentTransactionName(env, setRecommendList);
+      _setDefaultCategory(transaction);
     }
+  }
+
+  void _setDefaultCategory(transactionClass transaction) {
+    CategoryStorage.getDefaultValue().then((category) {
+      setState(() {
+        transaction.categoryId = category.categoryId;
+        transaction.categoryName = category.categoryName;
+        transaction.subCategoryId = category.subCategoryId;
+        transaction.subCategoryName = category.subCategoryName;
+      });
+    });
   }
 
   // 取引候補
@@ -74,12 +87,9 @@ class _EditTransaction extends State<EditTransaction> {
                             nameController.text = '';
                             transaction.transactionName = '';
                             transaction.transactionAmount = 0;
-                            transaction.categoryId = 1;
-                            transaction.categoryName = '食費';
-                            transaction.subCategoryId = 1;
-                            transaction.subCategoryName = 'なし';
                             transaction.fixedFlg = false;
                             transaction.isDisable = false;
+                            _setDefaultCategory(transaction);
                           });
                         },
                         child: const Text('連続入力')),

@@ -59,7 +59,7 @@ class SettingsScreen extends StatelessWidget {
                   final db = Localstore.instance;
                   Future(() async {
                     await db
-                        .collection('categoryData')
+                        .collection('defaultValue')
                         .get()
                         .then((value) async {
                       print(value);
@@ -68,6 +68,7 @@ class SettingsScreen extends StatelessWidget {
                       MonthlyTransactionStorage.allDelete();
                       SavingTargetStorage.allDelete();
                       CategoryStorage.allDelete();
+                      CategoryStorage.deleteDefaultValue();
                     });
                   }).then((value) =>
                       CommonSnackBar.build(context: context, text: '削除完了'));

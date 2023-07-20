@@ -7,10 +7,10 @@ class transactionClass {
   var transactionSign = -1;
   num transactionAmount = 0;
   var transactionName = '';
-  var categoryId = 1;
-  var categoryName = '食費';
-  int? subCategoryId = 1;
-  var subCategoryName = 'なし';
+  late int categoryId = 1;
+  var categoryName = '';
+  late int? subCategoryId = 1;
+  var subCategoryName = '';
   var fixedFlg = false;
   bool isDisable = false;
   String transactionNameError = '';
