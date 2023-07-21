@@ -199,6 +199,7 @@ class _HideSubCategoryState extends State<HideSubCategory> {
                                       ])),
                                       const Spacer(),
                                       CupertinoSwitch(
+                                          activeColor: Colors.blue,
                                           value: subCategory.value.enable,
                                           onChanged: (activeState) {
                                             _changeEnable(activeState, index,
