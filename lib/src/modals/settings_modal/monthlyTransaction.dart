@@ -5,6 +5,7 @@ import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
 import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
 
 import '../../class/monthlyTransactionClass.dart';
+import '../../components/commonSnackBar.dart';
 import '../../env/envClass.dart';
 
 class MonthlyTransaction extends StatefulWidget {
@@ -19,7 +20,6 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
   late envClass env;
   late List<monthlyTransactionClass> monthlyTransactionList = [];
   late bool _isLoading;
-  late String errorMessage = '';
 
   void setMonthlyTransactionList(List<monthlyTransactionClass> resultList) {
     setState(() {
@@ -33,9 +33,10 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
     });
   }
 
-  void setErrorMessage(String message) {
+  // メッセージの設定
+  void setSnackBar(String message) {
     setState(() {
-      errorMessage = message;
+      CommonSnackBar.build(context: context, text: message);
     });
   }
 
@@ -45,13 +46,13 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
     env = widget.env;
     _isLoading = true;
     MonthlyTransactionLoad.getFixed(
-        env, setMonthlyTransactionList, setLoading, setErrorMessage);
+        env, setMonthlyTransactionList, setLoading, setSnackBar);
   }
 
   void setReload() {
     setLoading();
     MonthlyTransactionApi.getFixed(
-        env, setMonthlyTransactionList, setLoading, setErrorMessage);
+        env, setMonthlyTransactionList, setLoading, setSnackBar);
   }
 
   @override
@@ -91,7 +92,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                                                 monthlyTransactionList[index],
                                                 env,
                                                 setReload,
-                                                setErrorMessage),
+                                                setSnackBar),
                                         fullscreenDialog: true));
                               },
                               child: _monthlyTransactionData(
@@ -101,40 +102,6 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                     ),
                   ],
                 ),
-
-          // エラーメッセージ
-          Visibility(
-              visible: errorMessage.isNotEmpty,
-              child: Container(
-                alignment: Alignment.bottomLeft,
-                margin: const EdgeInsets.all(5),
-                child: InkWell(
-                  onTap: () {
-                    setState(() {
-                      errorMessage = '';
-                    });
-                  },
-                  child: Card(
-                    color: Colors.black54,
-                    child: Padding(
-                      padding: const EdgeInsets.all(7),
-                      child: RichText(
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text: errorMessage,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 15),
-                          ),
-                          const WidgetSpan(
-                            child: Icon(Icons.close_outlined,
-                                size: 22, color: Colors.white),
-                          )
-                        ]),
-                      ),
-                    ),
-                  ),
-                ),
-              ))
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -144,10 +111,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
               context,
               MaterialPageRoute(
                   builder: (context) => EditMonthlyTransaction(
-                      monthlyTransactionClass(),
-                      env,
-                      setReload,
-                      setErrorMessage),
+                      monthlyTransactionClass(), env, setReload, setSnackBar),
                   fullscreenDialog: true));
         },
         child: const Icon(Icons.add),

@@ -41,9 +41,8 @@ class SavingTargetApi {
       savingTargetClass savingTarget,
       Function backNavigation,
       Function setDisable,
-      Function setErrorMessage) async {
+      Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     // バリデーション
     if (savingTargetValidation.checkSavingTarget(savingTarget)) {
       return;
@@ -55,7 +54,7 @@ class SavingTargetApi {
       if (res.data['status'] == 'error') {
         // 失敗
         setDisable();
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
       } else {
         // 成功
         backNavigation();
@@ -69,9 +68,8 @@ class SavingTargetApi {
       savingTargetClass savingTarget,
       Function backNavigation,
       Function setDisable,
-      Function setErrorMessage) async {
+      Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     // バリデーション
     if (savingTargetValidation.checkSavingTarget(savingTarget)) {
       return;
@@ -83,7 +81,7 @@ class SavingTargetApi {
       if (res.data['status'] == 'error') {
         // 失敗
         setDisable();
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
       } else {
         // 成功
         backNavigation();
@@ -98,9 +96,8 @@ class SavingTargetApi {
       savingTargetClass savingTarget,
       Function backNavigation,
       Function setDisable,
-      Function setErrorMessage) async {
+      Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     await Future(() async {
       Response res = await dio.post('$rootURI/deleteSavingTarget', data: {
         'userId': env.userId,
@@ -109,7 +106,7 @@ class SavingTargetApi {
       if (res.data['status'] == 'error') {
         // 失敗
         setDisable();
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
       } else {
         // 成功
         backNavigation();
@@ -143,7 +140,7 @@ class SavingTargetApi {
   static Future<void> deleteSavingTargetFromTable(
       envClass env,
       savingTargetClass savingTarget,
-      Function setMessage,
+      Function setSnackBar,
       Function reloadList) async {
     await Future(() async {
       Response res = await dio.post('$rootURI/deleteSavingTargetFromTable',
@@ -158,7 +155,7 @@ class SavingTargetApi {
         reloadList(savingTarget);
         SavingTargetStorage.deleteDeletedSavingTargetData();
       }
-      setMessage(res.data['message']);
+      setSnackBar(res.data['message']);
     });
   }
 
@@ -166,7 +163,7 @@ class SavingTargetApi {
   static Future<void> returnSavingTarget(
       envClass env,
       savingTargetClass savingTarget,
-      Function setMessage,
+      Function setSnackBar,
       Function reloadList) async {
     await Future(() async {
       Response res = await dio.post('$rootURI/returnSavingTarget', data: {
@@ -181,7 +178,7 @@ class SavingTargetApi {
         SavingTargetStorage.allDelete();
         SavingStorage.deleteSavingAmountForTarget();
       }
-      setMessage(res.data['message']);
+      setSnackBar(res.data['message']);
     });
   }
 }

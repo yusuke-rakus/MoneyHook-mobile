@@ -8,6 +8,8 @@ import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/dataLoader/savingTargetLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../components/commonSnackBar.dart';
+
 class EditSaving extends StatefulWidget {
   EditSaving(this.saving, this.env, this.setReload, {super.key});
 
@@ -24,7 +26,6 @@ class _EditSaving extends State<EditSaving> {
   late envClass env;
   late List<String> recommendList = [];
   late List<savingTargetClass> savingTargetList = [];
-  late String errorMessage = '';
 
   final TextEditingController nameController = TextEditingController();
 
@@ -67,23 +68,23 @@ class _EditSaving extends State<EditSaving> {
     saving.userId = env.userId;
     if (saving.hasSavingId()) {
       // 編集
-      SavingApi.editSaving(saving, backNavigation, setDisable, setErrorMessage);
+      SavingApi.editSaving(saving, backNavigation, setDisable, setSnackBar);
     } else {
       // 新規追加
-      SavingApi.addSaving(saving, backNavigation, setDisable, setErrorMessage);
+      SavingApi.addSaving(saving, backNavigation, setDisable, setSnackBar);
     }
   }
 
   // 貯金削除
   void _deleteSaving(envClass env, savingClass saving) {
     SavingApi.deleteSaving(
-        env, saving, backNavigation, setDisable, setErrorMessage);
+        env, saving, backNavigation, setDisable, setSnackBar);
   }
 
-  // エラーメッセージ
-  void setErrorMessage(String message) {
+  // メッセージの設定
+  void setSnackBar(String message) {
     setState(() {
-      errorMessage = message;
+      CommonSnackBar.build(context: context, text: message);
     });
   }
 
@@ -123,29 +124,29 @@ class _EditSaving extends State<EditSaving> {
                       onPressed: saving.isDisabled()
                           ? null
                           : () {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                CupertinoAlertDialog(
-                                    title: const Text('貯金を削除しますか'),
-                                    actions: [
-                                      CupertinoDialogAction(
-                                          isDefaultAction: true,
-                                          onPressed: () {
-                                            // キャンセル処理
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('キャンセル')),
-                                      CupertinoDialogAction(
-                                          isDestructiveAction: true,
-                                          onPressed: () {
-                                            // 削除処理
-                                            _deleteSaving(env, saving);
-                                            Navigator.pop(context);
-                                          },
-                                          child: const Text('削除'))
-                                    ]));
-                      },
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      CupertinoAlertDialog(
+                                          title: const Text('貯金を削除しますか'),
+                                          actions: [
+                                            CupertinoDialogAction(
+                                                isDefaultAction: true,
+                                                onPressed: () {
+                                                  // キャンセル処理
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('キャンセル')),
+                                            CupertinoDialogAction(
+                                                isDestructiveAction: true,
+                                                onPressed: () {
+                                                  // 削除処理
+                                                  _deleteSaving(env, saving);
+                                                  Navigator.pop(context);
+                                                },
+                                                child: const Text('削除'))
+                                          ]));
+                            },
                       icon: const Icon(
                         Icons.delete_outline,
                       )),
@@ -163,47 +164,41 @@ class _EditSaving extends State<EditSaving> {
                     onTap: () {
                       showCupertinoModalPopup(
                         context: context,
-                        builder: (_) =>
-                            Container(
-                              height: 250,
-                              color: Colors.white,
-                              child: CupertinoDatePicker(
-                                initialDateTime: DateFormat('yyyy-MM-dd')
-                                    .parse(saving.savingDate),
-                                onDateTimeChanged: (value) {
-                                  setState(() {
-                                    saving.savingDate =
-                                        DateFormat('yyyy-MM-dd').format(value);
-                                  });
-                                },
-                                minimumYear: DateTime
-                                    .now()
-                                    .year - 1,
-                                maximumYear: DateTime
-                                    .now()
-                                    .year,
-                                maximumDate: DateTime.now(),
-                                dateOrder: DatePickerDateOrder.ymd,
-                                mode: CupertinoDatePickerMode.date,
-                              ),
-                            ),
+                        builder: (_) => Container(
+                          height: 250,
+                          color: Colors.white,
+                          child: CupertinoDatePicker(
+                            initialDateTime: DateFormat('yyyy-MM-dd')
+                                .parse(saving.savingDate),
+                            onDateTimeChanged: (value) {
+                              setState(() {
+                                saving.savingDate =
+                                    DateFormat('yyyy-MM-dd').format(value);
+                              });
+                            },
+                            minimumYear: DateTime.now().year - 1,
+                            maximumYear: DateTime.now().year,
+                            maximumDate: DateTime.now(),
+                            dateOrder: DatePickerDateOrder.ymd,
+                            mode: CupertinoDatePickerMode.date,
+                          ),
+                        ),
                       );
                     },
                     child: SizedBox(
                       height: 60,
                       child: Center(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${saving.savingDate.replaceAll('-', '月')
-                                    .replaceFirst('月', '年')}日',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                              const Icon(Icons.edit),
-                            ],
-                          )),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${saving.savingDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          const Icon(Icons.edit),
+                        ],
+                      )),
                     ),
                   ),
                   // 金額
@@ -272,8 +267,7 @@ class _EditSaving extends State<EditSaving> {
                     child: Wrap(
                         children: recommendList
                             .map<Widget>(
-                              (savingName) =>
-                              Container(
+                              (savingName) => Container(
                                 height: 23,
                                 margin: const EdgeInsets.only(top: 3, right: 5),
                                 child: OutlinedButton(
@@ -286,7 +280,7 @@ class _EditSaving extends State<EditSaving> {
                                   style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(18.0),
+                                            BorderRadius.circular(18.0),
                                       ),
                                       foregroundColor: Colors.black87,
                                       backgroundColor: Colors.black12,
@@ -295,7 +289,7 @@ class _EditSaving extends State<EditSaving> {
                                   child: Text(savingName),
                                 ),
                               ),
-                        )
+                            )
                             .toList()),
                   ),
                   // 貯金目標
@@ -303,17 +297,14 @@ class _EditSaving extends State<EditSaving> {
                     visible: savingTargetList.isNotEmpty,
                     child: Container(
                       margin:
-                      const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
+                          const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
                       child: InkWell(
                         onTap: () {
                           showCupertinoModalPopup(
                             context: context,
                             builder: (BuildContext context) {
                               return SizedBox(
-                                height: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height / 3,
+                                height: MediaQuery.of(context).size.height / 3,
                                 child: CupertinoPicker(
                                   backgroundColor: Colors.white,
                                   diameterRatio: 1.0,
@@ -323,7 +314,7 @@ class _EditSaving extends State<EditSaving> {
                                           .map((e) => e.savingTargetId)
                                           .toList()
                                           .indexOf(
-                                          saving.savingTargetId?.toInt())),
+                                              saving.savingTargetId?.toInt())),
                                   onSelectedItemChanged: (int i) {
                                     setState(() {
                                       // 貯金目標をセット
@@ -388,14 +379,14 @@ class _EditSaving extends State<EditSaving> {
                       onPressed: saving.isDisabled()
                           ? null
                           : () {
-                        setState(() {
-                          _editSaving(saving, env);
-                        });
-                      },
+                              setState(() {
+                                _editSaving(saving, env);
+                              });
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(25))),
+                                BorderRadius.all(Radius.circular(25))),
                         fixedSize: const Size(double.infinity, 50),
                       ),
                       child: const Text(
@@ -406,38 +397,6 @@ class _EditSaving extends State<EditSaving> {
                   ),
                 ),
               ),
-              // エラーメッセージ
-              Visibility(
-                  visible: errorMessage.isNotEmpty,
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          errorMessage = '';
-                        });
-                      },
-                      child: Card(
-                        color: Colors.black54,
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: errorMessage,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 15),
-                              ),
-                              const WidgetSpan(
-                                child: Icon(Icons.close_outlined,
-                                    size: 22, color: Colors.white),
-                              )
-                            ]),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ))
             ],
           ),
         ),

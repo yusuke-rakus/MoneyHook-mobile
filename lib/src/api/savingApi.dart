@@ -98,9 +98,8 @@ class SavingApi {
 
   /// 貯金の追加
   static Future<void> addSaving(savingClass saving, Function backNavigation,
-      Function setDisable, Function setErrorMessage) async {
+      Function setDisable, Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     if (savingValidation.checkSaving(saving)) {
       return;
     }
@@ -110,7 +109,7 @@ class SavingApi {
           await dio.post('$rootURI/addSaving', data: saving.getSavingJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
         setDisable();
       } else {
         // 成功
@@ -122,9 +121,8 @@ class SavingApi {
 
   /// 貯金の編集
   static Future<void> editSaving(savingClass saving, Function backNavigation,
-      Function setDisable, Function setErrorMessage) async {
+      Function setDisable, Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     if (savingValidation.checkSaving(saving)) {
       return;
     }
@@ -134,7 +132,7 @@ class SavingApi {
           await dio.post('$rootURI/editSaving', data: saving.getSavingJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
         setDisable();
       } else {
         // 成功
@@ -150,15 +148,14 @@ class SavingApi {
       savingClass saving,
       Function backNavigation,
       Function setDisable,
-      Function setErrorMessage) async {
+      Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     await Future(() async {
       Response res = await dio.post('$rootURI/deleteSaving',
           data: {'userId': env.userId, 'savingId': saving.savingId});
       if (res.data['status'] == 'error') {
         // 失敗
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
         setDisable();
       } else {
         // 成功

@@ -33,7 +33,7 @@ class _DeletedSavingTarget extends State<DeletedSavingTarget> {
     });
   }
 
-  void setMessage(String message) {
+  void setSnackBar(String message) {
     setState(() {
       CommonSnackBar.build(context: context, text: message);
     });
@@ -48,13 +48,13 @@ class _DeletedSavingTarget extends State<DeletedSavingTarget> {
   /// 戻す処理
   void _returnSavingTarget(savingTargetClass savingTarget) {
     SavingTargetApi.returnSavingTarget(
-        env, savingTarget, setMessage, reloadList);
+        env, savingTarget, setSnackBar, reloadList);
   }
 
   /// 削除処理
   void _deleteSavingTargetFromTable(savingTargetClass savingTarget) {
     SavingTargetApi.deleteSavingTargetFromTable(
-        env, savingTarget, setMessage, reloadList);
+        env, savingTarget, setSnackBar, reloadList);
   }
 
   @override

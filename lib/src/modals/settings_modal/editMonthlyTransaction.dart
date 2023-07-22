@@ -11,13 +11,13 @@ import '../../class/monthlyTransactionClass.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
   EditMonthlyTransaction(
-      this.monthlyTransaction, this.env, this.setReload, this.setErrorMessage,
+      this.monthlyTransaction, this.env, this.setReload, this.setSnackBar,
       {super.key});
 
   monthlyTransactionClass monthlyTransaction;
   envClass env;
   Function setReload;
-  Function setErrorMessage;
+  Function setSnackBar;
 
   @override
   State<StatefulWidget> createState() => _EditTransaction();
@@ -58,7 +58,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
       monthlyTransactionClass monthlyTransaction, envClass env) {
     monthlyTransaction.userId = env.userId;
     MonthlyTransactionApi.editTransaction(
-        monthlyTransaction, backNavigation, widget.setErrorMessage, setDisable);
+        monthlyTransaction, backNavigation, widget.setSnackBar, setDisable);
   }
 
   // 削除処理
@@ -66,7 +66,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
       envClass env, monthlyTransactionClass monthlyTransaction) {
     monthlyTransaction.userId = env.userId;
     MonthlyTransactionApi.deleteMonthlyTransaction(
-        monthlyTransaction, backNavigation, widget.setErrorMessage, setDisable);
+        monthlyTransaction, backNavigation, widget.setSnackBar, setDisable);
   }
 
   // ボタン非表示処理

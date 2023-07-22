@@ -10,6 +10,7 @@ import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
 
 import '../class/transactionClass.dart';
+import '../components/commonSnackBar.dart';
 import '../searchStorage/categoryStorage.dart';
 
 class EditTransaction extends StatefulWidget {
@@ -27,7 +28,6 @@ class _EditTransaction extends State<EditTransaction> {
   late transactionClass transaction;
   late envClass env;
   late List<transactionClass> recommendList = [];
-  late String errorMessage = '';
 
   final TextEditingController nameController = TextEditingController();
 
@@ -66,6 +66,13 @@ class _EditTransaction extends State<EditTransaction> {
     });
   }
 
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
   // 戻る・更新処理
   void backNavigation({required bool isUpdate}) {
     if (isUpdate) {
@@ -75,42 +82,7 @@ class _EditTransaction extends State<EditTransaction> {
       showDialog<String>(
           context: context,
           barrierDismissible: false,
-          builder: (BuildContext context) => AlertDialog(
-                title: const Text('入力が完了しました'),
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            textStyle: const TextStyle(fontSize: 20),
-                            shape: const StadiumBorder()),
-                        onPressed: () {
-                          Navigator.pop(context);
-                          setState(() {
-                            nameController.text = '';
-                            transaction.transactionName = '';
-                            transaction.transactionAmount = 0;
-                            transaction.fixedFlg = false;
-                            transaction.isDisable = false;
-                            _setDefaultCategory(transaction);
-                          });
-                        },
-                        child: const Text('連続入力')),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          textStyle: const TextStyle(fontSize: 20),
-                          shape: const StadiumBorder(),
-                          backgroundColor: Colors.grey),
-                      onPressed: () {
-                        Navigator.pop(context);
-                        Navigator.pop(context);
-                        widget.setReload();
-                      },
-                      child: const Text('完了'),
-                    )
-                  ],
-                ),
-              ));
+          builder: (BuildContext context) => _alertDialog());
     }
   }
 
@@ -120,31 +92,24 @@ class _EditTransaction extends State<EditTransaction> {
     if (transaction.hasTransactionId()) {
       // 編集
       transactionApi.editTransaction(
-          transaction, backNavigation, setDisable, setErrorMessage);
+          transaction, backNavigation, setDisable, setSnackBar);
     } else {
       // 新規追加
       transactionApi.addTransaction(
-          transaction, backNavigation, setDisable, setErrorMessage);
+          transaction, backNavigation, setDisable, setSnackBar);
     }
   }
 
   // 削除処理
   void _deleteTransaction(envClass env, transactionClass transaction) {
     transactionApi.deleteTransaction(
-        env, transaction, backNavigation, setDisable, setErrorMessage);
+        env, transaction, backNavigation, setDisable, setSnackBar);
   }
 
   // ボタン非表示処理
   void setDisable() {
     setState(() {
       transaction.isDisable = !transaction.isDisable;
-    });
-  }
-
-  // エラーメッセージ
-  void setErrorMessage(String message) {
-    setState(() {
-      errorMessage = message;
     });
   }
 
@@ -469,39 +434,47 @@ class _EditTransaction extends State<EditTransaction> {
                       ),
                     )),
               ),
-              // エラーメッセージ
-              Visibility(
-                  visible: errorMessage.isNotEmpty,
-                  child: Container(
-                    margin: const EdgeInsets.all(5),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          errorMessage = '';
-                        });
-                      },
-                      child: Card(
-                        color: Colors.black54,
-                        child: Padding(
-                          padding: const EdgeInsets.all(7),
-                          child: RichText(
-                            text: TextSpan(children: [
-                              TextSpan(
-                                text: errorMessage,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 15),
-                              ),
-                              const WidgetSpan(
-                                child: Icon(Icons.close_outlined,
-                                    size: 22, color: Colors.white),
-                              )
-                            ]),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ))
             ])),
+      ),
+    );
+  }
+
+  /// 登録ボタン押下後のダイアログ
+  AlertDialog _alertDialog() {
+    return AlertDialog(
+      title: const Text('入力が完了しました'),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 20),
+                  shape: const StadiumBorder()),
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  nameController.text = '';
+                  transaction.transactionName = '';
+                  transaction.transactionAmount = 0;
+                  transaction.fixedFlg = false;
+                  transaction.isDisable = false;
+                  _setDefaultCategory(transaction);
+                });
+              },
+              child: const Text('連続入力')),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                textStyle: const TextStyle(fontSize: 20),
+                shape: const StadiumBorder(),
+                backgroundColor: Colors.grey),
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+              widget.setReload();
+            },
+            child: const Text('完了'),
+          )
+        ],
       ),
     );
   }

@@ -159,9 +159,8 @@ class transactionApi {
       transactionClass transaction,
       Function backNavigation,
       Function setDisable,
-      Function setErrorMessage) async {
+      Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     if (transactionValidation.checkTransaction(transaction)) {
       return;
     }
@@ -171,7 +170,7 @@ class transactionApi {
           data: transaction.getTransactionJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
         setDisable();
       } else {
         // 成功
@@ -192,9 +191,8 @@ class transactionApi {
       transactionClass transaction,
       Function backNavigation,
       Function setDisable,
-      Function setErrorMessage) async {
+      Function setSnackBar) async {
     setDisable();
-    setErrorMessage('');
     if (transactionValidation.checkTransaction(transaction)) {
       return;
     }
@@ -204,7 +202,7 @@ class transactionApi {
           data: transaction.getTransactionJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
         setDisable();
       } else {
         // 成功
@@ -226,17 +224,16 @@ class transactionApi {
       transactionClass transaction,
       Function backNavigation,
       Function setDisable,
-      Function setErrorMessage) async {
+      Function setSnackBar) async {
     await Future(() async {
       setDisable();
-      setErrorMessage('');
       Response res = await dio.post('$rootURI/deleteTransaction', data: {
         'userId': env.userId,
         'transactionId': transaction.transactionId
       });
       if (res.data['status'] == 'error') {
         // 失敗
-        setErrorMessage(res.data['message']);
+        setSnackBar(res.data['message']);
         setDisable();
       } else {
         // 成功

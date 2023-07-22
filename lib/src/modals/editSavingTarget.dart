@@ -5,6 +5,7 @@ import 'package:money_hooks/src/api/savingTargetApi.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/savingTargetClass.dart';
+import '../components/commonSnackBar.dart';
 
 class EditSavingTarget extends StatefulWidget {
   EditSavingTarget(this.savingTarget, this.env, this.setReload, {super.key});
@@ -20,7 +21,6 @@ class EditSavingTarget extends StatefulWidget {
 class _EditSavingTarget extends State<EditSavingTarget> {
   late savingTargetClass savingTarget;
   late envClass env;
-  late String errorMessage = '';
 
   final TextEditingController nameController = TextEditingController();
 
@@ -48,10 +48,10 @@ class _EditSavingTarget extends State<EditSavingTarget> {
     });
   }
 
-  // エラーメッセージ
-  void setErrorMessage(String message) {
+  // メッセージの設定
+  void setSnackBar(String message) {
     setState(() {
-      errorMessage = message;
+      CommonSnackBar.build(context: context, text: message);
     });
   }
 
@@ -61,18 +61,18 @@ class _EditSavingTarget extends State<EditSavingTarget> {
     if (savingTarget.hasTargetId()) {
       // 編集
       SavingTargetApi.editSavingTarget(
-          savingTarget, backNavigation, setDisable, setErrorMessage);
+          savingTarget, backNavigation, setDisable, setSnackBar);
     } else {
       //  新規追加
       SavingTargetApi.addSavingTarget(
-          savingTarget, backNavigation, setDisable, setErrorMessage);
+          savingTarget, backNavigation, setDisable, setSnackBar);
     }
   }
 
   // 削除処理
   void _deleteSavingTarget(envClass env, savingTargetClass savingTarget) {
     SavingTargetApi.deleteSavingTarget(
-        env, savingTarget, backNavigation, setDisable, setErrorMessage);
+        env, savingTarget, backNavigation, setDisable, setSnackBar);
   }
 
   @override
@@ -232,38 +232,6 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                     ),
                   ),
                 ),
-                // エラーメッセージ
-                Visibility(
-                    visible: errorMessage.isNotEmpty,
-                    child: Container(
-                      margin: const EdgeInsets.all(5),
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            errorMessage = '';
-                          });
-                        },
-                        child: Card(
-                          color: Colors.black54,
-                          child: Padding(
-                            padding: const EdgeInsets.all(7),
-                            child: RichText(
-                              text: TextSpan(children: [
-                                TextSpan(
-                                  text: errorMessage,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                ),
-                                const WidgetSpan(
-                                  child: Icon(Icons.close_outlined,
-                                      size: 22, color: Colors.white),
-                                )
-                              ]),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ))
               ],
             )),
       ),
