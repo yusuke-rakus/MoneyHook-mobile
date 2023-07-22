@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/savingTargetValidation.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
+import 'package:money_hooks/src/searchStorage/savingStorage.dart';
 import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 
 import '../env/envClass.dart';
@@ -114,6 +115,73 @@ class SavingTargetApi {
         backNavigation();
         SavingTargetStorage.allDelete();
       }
+    });
+  }
+
+  /// 削除済み貯金目標を取得
+  static Future<void> getDeletedSavingTarget(
+      Function setSavingTargetList, String userId) async {
+    await Future(() async {
+      Response res = await dio
+          .post('$rootURI/getDeletedSavingTarget', data: {'userId': userId});
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        List<savingTargetClass> resultList = [];
+        res.data['savingTarget'].forEach((value) {
+          resultList.add(savingTargetClass.setTargetFields(
+              value['savingTargetId'], value['savingTargetName']));
+        });
+        setSavingTargetList(resultList);
+        SavingTargetStorage.saveDeletedSavingTargetData(resultList, userId);
+      }
+    });
+  }
+
+  /// 貯金目標を削除(物理)
+  static Future<void> deleteSavingTargetFromTable(
+      envClass env,
+      savingTargetClass savingTarget,
+      Function setMessage,
+      Function reloadList) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/deleteSavingTargetFromTable',
+          data: {
+            'userId': env.userId,
+            'savingTargetId': savingTarget.savingTargetId
+          });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        reloadList(savingTarget);
+        SavingTargetStorage.deleteDeletedSavingTargetData();
+      }
+      setMessage(res.data['message']);
+    });
+  }
+
+  /// 貯金目標を戻す
+  static Future<void> returnSavingTarget(
+      envClass env,
+      savingTargetClass savingTarget,
+      Function setMessage,
+      Function reloadList) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/returnSavingTarget', data: {
+        'userId': env.userId,
+        'savingTargetId': savingTarget.savingTargetId
+      });
+      if (res.data['status'] == 'error') {
+        // 失敗
+      } else {
+        // 成功
+        reloadList(savingTarget);
+        SavingTargetStorage.allDelete();
+        SavingStorage.deleteSavingAmountForTarget();
+      }
+      setMessage(res.data['message']);
     });
   }
 }

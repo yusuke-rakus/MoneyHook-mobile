@@ -14,4 +14,19 @@ class SavingTargetLoad {
       }
     });
   }
+
+  /// 【削除済み貯金目標取得】データ
+  static Future<void> getDeletedSavingTarget(
+      Function setSavingTargetList, String userId) async {
+    await SavingTargetStorage.getDeletedSavingTargetData(
+            setSavingTargetList, userId)
+        .then((value) async {
+      if (value.isEmpty) {
+        await SavingTargetApi.getDeletedSavingTarget(
+            setSavingTargetList, userId);
+      } else {
+        setSavingTargetList(value);
+      }
+    });
+  }
 }

@@ -81,6 +81,9 @@ class _EditTransaction extends State<EditTransaction> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            textStyle: const TextStyle(fontSize: 20),
+                            shape: const StadiumBorder()),
                         onPressed: () {
                           Navigator.pop(context);
                           setState(() {
@@ -94,13 +97,15 @@ class _EditTransaction extends State<EditTransaction> {
                         },
                         child: const Text('連続入力')),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 20),
+                          shape: const StadiumBorder(),
+                          backgroundColor: Colors.grey),
                       onPressed: () {
                         Navigator.pop(context);
                         Navigator.pop(context);
                         widget.setReload();
                       },
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey),
                       child: const Text('完了'),
                     )
                   ],

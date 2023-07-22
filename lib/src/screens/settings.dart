@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
+import 'package:money_hooks/src/modals/settings_modal/deletedSavingTarget.dart';
 import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
@@ -37,6 +38,8 @@ class SettingsScreen extends StatelessWidget {
                 MonthlyTransaction(env: env)),
             _menuCard(context, Icons.checklist_sharp, 'サブカテゴリの表示',
                 HideSubCategory(env: env)),
+            _menuCard(context, Icons.savings_outlined, '削除した貯金目標',
+                DeletedSavingTarget(env: env)),
             TextButton(
                 onPressed: () async {
                   SharedPreferences prefs =
@@ -59,7 +62,7 @@ class SettingsScreen extends StatelessWidget {
                   final db = Localstore.instance;
                   Future(() async {
                     await db
-                        .collection('defaultValue')
+                        .collection('DeletedSavingTargetData')
                         .get()
                         .then((value) async {
                       print(value);
