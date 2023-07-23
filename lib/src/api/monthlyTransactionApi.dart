@@ -4,6 +4,7 @@ import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 
+import '../searchStorage/categoryStorage.dart';
 import 'api.dart';
 
 class MonthlyTransactionApi {
@@ -28,8 +29,8 @@ class MonthlyTransactionApi {
             value['monthlyTransactionName'],
             value['monthlyTransactionAmount'],
             value['monthlyTransactionDate'],
-            value['categoryId'].toString(),
-            value['subCategoryId'].toString(),
+            value['categoryId'],
+            value['subCategoryId'],
             value['includeFlg'],
             value['monthlyTransactionSign'],
             value['categoryName'],
@@ -64,6 +65,10 @@ class MonthlyTransactionApi {
         setSnackBar(res.data['message']);
       } else {
         // 成功
+        if (monthlyTransaction.subCategoryId == null) {
+          CategoryStorage.deleteSubCategoryListWithParam(
+              monthlyTransaction.categoryId.toString());
+        }
       }
       backNavigation();
     });
@@ -81,10 +86,10 @@ class MonthlyTransactionApi {
           data: monthlyTransaction.convertDeleteMonthlyTranJson());
       if (res.data['status'] == 'error') {
         // 失敗
-        setSnackBar(res.data['message']);
       } else {
         // 成功
       }
+      setSnackBar(res.data['message']);
       backNavigation();
     });
   }

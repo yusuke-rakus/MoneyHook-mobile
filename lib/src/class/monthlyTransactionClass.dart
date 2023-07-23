@@ -7,9 +7,9 @@ class monthlyTransactionClass {
   num monthlyTransactionSign = -1;
   num monthlyTransactionAmount = 0;
   num monthlyTransactionDate = 31;
-  var categoryId = '';
+  num? categoryId;
   var categoryName = '';
-  var subCategoryId = '';
+  num? subCategoryId;
   var subCategoryName = '';
   bool includeFlg = true;
   bool isDisable = false;
@@ -47,7 +47,7 @@ class monthlyTransactionClass {
   bool isDisabled() {
     return monthlyTransactionName.isEmpty ||
         monthlyTransactionAmount == 0 ||
-        subCategoryId.isEmpty ||
+        subCategoryName.isEmpty ||
         isDisable;
   }
 

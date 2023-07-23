@@ -275,12 +275,11 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                         setState(() {
                           monthlyTransaction.categoryName =
                               result['categoryName'];
-                          monthlyTransaction.categoryId =
-                              result['categoryId'].toString();
+                          monthlyTransaction.categoryId = result['categoryId'];
                           monthlyTransaction.subCategoryName =
                               result['subCategoryName'];
                           monthlyTransaction.subCategoryId =
-                              result['subCategoryId'].toString();
+                              result['subCategoryId'];
                         });
                       },
                       child: SizedBox(
