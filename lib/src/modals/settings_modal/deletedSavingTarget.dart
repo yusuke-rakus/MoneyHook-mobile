@@ -88,7 +88,7 @@ class _DeletedSavingTarget extends State<DeletedSavingTarget> {
                     child: const Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
-                          '削除した貯金目標',
+                          '完了した貯金目標',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ))),
                 savingTargetList.isNotEmpty

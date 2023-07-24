@@ -38,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
                 MonthlyTransaction(env: env)),
             _menuCard(context, Icons.checklist_sharp, 'サブカテゴリの表示',
                 HideSubCategory(env: env)),
-            _menuCard(context, Icons.savings_outlined, '削除した貯金目標',
+            _menuCard(context, Icons.savings_outlined, '完了した貯金目標',
                 DeletedSavingTarget(env: env)),
             TextButton(
                 onPressed: () async {

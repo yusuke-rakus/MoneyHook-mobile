@@ -3,6 +3,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/components/deleteConfirmDialog.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
@@ -152,26 +153,18 @@ class _EditTransaction extends State<EditTransaction> {
                                 showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        CupertinoAlertDialog(
-                                            title: const Text('取引を削除しますか'),
-                                            actions: [
-                                              CupertinoDialogAction(
-                                                  isDefaultAction: true,
-                                                  onPressed: () {
-                                                    // キャンセル処理
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('キャンセル')),
-                                              CupertinoDialogAction(
-                                                  isDestructiveAction: true,
-                                                  onPressed: () {
-                                                    // 削除処理
-                                                    Navigator.pop(context);
-                                                    _deleteTransaction(
-                                                        env, transaction);
-                                                  },
-                                                  child: const Text('削除'))
-                                            ]));
+                                        deleteConfirmDialog(
+                                            context: context,
+                                            title: '取引を削除しますか',
+                                            leftText: 'キャンセル',
+                                            rightText: '削除',
+                                            isDestructiveAction: true,
+                                            function: () {
+                                              // 削除処理
+                                              Navigator.pop(context);
+                                              _deleteTransaction(
+                                                  env, transaction);
+                                            }));
                               },
                         icon: const Icon(
                           Icons.delete_outline,
@@ -456,6 +449,7 @@ class _EditTransaction extends State<EditTransaction> {
           ElevatedButton(
               style: ElevatedButton.styleFrom(
                   textStyle: const TextStyle(fontSize: 20),
+                  fixedSize: const Size(120, 50),
                   shape: const StadiumBorder()),
               onPressed: () {
                 Navigator.pop(context);
@@ -469,9 +463,11 @@ class _EditTransaction extends State<EditTransaction> {
                 });
               },
               child: const Text('連続入力')),
+          const SizedBox(width: 10),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
                 textStyle: const TextStyle(fontSize: 20),
+                fixedSize: const Size(120, 50),
                 shape: const StadiumBorder(),
                 backgroundColor: Colors.grey),
             onPressed: () {

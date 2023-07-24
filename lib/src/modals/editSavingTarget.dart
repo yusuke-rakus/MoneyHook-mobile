@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:money_hooks/src/api/savingTargetApi.dart';
@@ -7,6 +6,7 @@ import 'package:money_hooks/src/env/envClass.dart';
 import '../class/savingTargetClass.dart';
 import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
+import '../components/deleteConfirmDialog.dart';
 
 class EditSavingTarget extends StatefulWidget {
   EditSavingTarget(this.savingTarget, this.env, this.setReload, {super.key});
@@ -108,36 +108,29 @@ class _EditSavingTarget extends State<EditSavingTarget> {
                   child: Align(
                     alignment: Alignment.topRight,
                     child: IconButton(
+                        icon: const Icon(
+                          Icons.check_rounded,
+                        ),
                         onPressed: savingTarget.isDisabled()
                             ? null
                             : () {
                                 showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        CupertinoAlertDialog(
-                                            title: const Text('目標を削除しますか'),
-                                            actions: [
-                                              CupertinoDialogAction(
-                                                  isDefaultAction: true,
-                                                  onPressed: () {
-                                                    // キャンセル処理
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('キャンセル')),
-                                              CupertinoDialogAction(
-                                                  isDestructiveAction: true,
-                                                  onPressed: () {
-                                                    // 削除処理
-                                                    _deleteSavingTarget(
-                                                        env, savingTarget);
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('削除'))
-                                            ]));
-                              },
-                        icon: const Icon(
-                          Icons.delete_outline,
-                        )),
+                                        deleteConfirmDialog(
+                                            context: context,
+                                            title: '完了しますか',
+                                            subTitle: '目標を完了とし、非表示に設定します',
+                                            leftText: 'キャンセル',
+                                            rightText: '完了',
+                                            isDefaultAction: true,
+                                            function: () {
+                                              // 削除処理
+                                              Navigator.pop(context);
+                                              _deleteSavingTarget(
+                                                  env, savingTarget);
+                                            }));
+                              }),
                   ),
                 ),
               ],

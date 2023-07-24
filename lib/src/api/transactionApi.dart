@@ -176,10 +176,10 @@ class transactionApi {
         // 成功
         TransactionStorage.allDeleteWithParam(
             transaction.userId, transaction.transactionDate);
-        CategoryStorage.deleteSubCategoryListWithParam(
-            transaction.categoryId.toString());
         if (transaction.subCategoryId == null) {
           CategoryStorage.deleteCategoryWithSubCategoryList();
+          CategoryStorage.deleteSubCategoryListWithParam(
+              transaction.categoryId.toString());
         }
         backNavigation(isUpdate: false);
       }
@@ -208,10 +208,10 @@ class transactionApi {
         // 成功
         TransactionStorage.allDeleteWithParam(
             transaction.userId, transaction.transactionDate);
-        CategoryStorage.deleteSubCategoryListWithParam(
-            transaction.categoryId.toString());
         if (transaction.subCategoryId == null) {
           CategoryStorage.deleteCategoryWithSubCategoryList();
+          CategoryStorage.deleteSubCategoryListWithParam(
+              transaction.categoryId.toString());
         }
         backNavigation(isUpdate: true);
       }

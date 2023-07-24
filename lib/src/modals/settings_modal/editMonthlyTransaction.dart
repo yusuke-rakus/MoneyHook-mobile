@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:money_hooks/src/api/monthlyTransactionApi.dart';
@@ -9,6 +8,7 @@ import 'package:switcher/switcher.dart';
 
 import '../../class/monthlyTransactionClass.dart';
 import '../../components/commonLoadingDialog.dart';
+import '../../components/deleteConfirmDialog.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
   EditMonthlyTransaction(
@@ -116,26 +116,18 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                 showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        CupertinoAlertDialog(
-                                            title: const Text('目標を削除しますか'),
-                                            actions: [
-                                              CupertinoDialogAction(
-                                                  isDefaultAction: true,
-                                                  onPressed: () {
-                                                    // キャンセル処理
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: const Text('キャンセル')),
-                                              CupertinoDialogAction(
-                                                  isDestructiveAction: true,
-                                                  onPressed: () {
-                                                    // 削除処理
-                                                    Navigator.pop(context);
-                                                    _deleteTransaction(env,
-                                                        monthlyTransaction);
-                                                  },
-                                                  child: const Text('削除'))
-                                            ]));
+                                        deleteConfirmDialog(
+                                            context: context,
+                                            title: '目標を削除しますか',
+                                            leftText: 'キャンセル',
+                                            rightText: '削除',
+                                            isDestructiveAction: true,
+                                            function: () {
+                                              // 削除処理
+                                              Navigator.pop(context);
+                                              _deleteTransaction(
+                                                  env, monthlyTransaction);
+                                            }));
                               },
                         icon: const Icon(
                           Icons.delete_outline,

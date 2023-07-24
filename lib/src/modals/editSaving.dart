@@ -10,6 +10,7 @@ import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
+import '../components/deleteConfirmDialog.dart';
 
 class EditSaving extends StatefulWidget {
   EditSaving(this.saving, this.env, this.setReload, {super.key});
@@ -134,25 +135,17 @@ class _EditSaving extends State<EditSaving> {
                               showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      CupertinoAlertDialog(
-                                          title: const Text('貯金を削除しますか'),
-                                          actions: [
-                                            CupertinoDialogAction(
-                                                isDefaultAction: true,
-                                                onPressed: () {
-                                                  // キャンセル処理
-                                                  Navigator.pop(context);
-                                                },
-                                                child: const Text('キャンセル')),
-                                            CupertinoDialogAction(
-                                                isDestructiveAction: true,
-                                                onPressed: () {
-                                                  // 削除処理
-                                                  Navigator.pop(context);
-                                                  _deleteSaving(env, saving);
-                                                },
-                                                child: const Text('削除'))
-                                          ]));
+                                      deleteConfirmDialog(
+                                          context: context,
+                                          title: '貯金を削除しますか',
+                                          leftText: 'キャンセル',
+                                          rightText: '削除',
+                                          isDestructiveAction: true,
+                                          function: () {
+                                            // 削除処理
+                                            Navigator.pop(context);
+                                            _deleteSaving(env, saving);
+                                          }));
                             },
                       icon: const Icon(
                         Icons.delete_outline,
