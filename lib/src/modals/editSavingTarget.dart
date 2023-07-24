@@ -5,6 +5,7 @@ import 'package:money_hooks/src/api/savingTargetApi.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/savingTargetClass.dart';
+import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
 
 class EditSavingTarget extends StatefulWidget {
@@ -39,12 +40,16 @@ class _EditSavingTarget extends State<EditSavingTarget> {
   void backNavigation() {
     widget.setReload();
     Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   // ボタン非表示処理
   void setDisable() {
     setState(() {
       savingTarget.isDisable = !savingTarget.isDisable;
+      if (!savingTarget.isDisable) {
+        Navigator.pop(context);
+      }
     });
   }
 
@@ -57,6 +62,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
 
   // 登録処理
   void _editSavingTarget(savingTargetClass savingTarget, envClass env) {
+    commonLoadingDialog(context: context);
     savingTarget.userId = env.userId;
     if (savingTarget.hasTargetId()) {
       // 編集
@@ -71,6 +77,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
 
   // 削除処理
   void _deleteSavingTarget(envClass env, savingTargetClass savingTarget) {
+    commonLoadingDialog(context: context);
     SavingTargetApi.deleteSavingTarget(
         env, savingTarget, backNavigation, setDisable, setSnackBar);
   }

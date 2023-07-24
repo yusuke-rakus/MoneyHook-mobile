@@ -10,6 +10,7 @@ import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
 
 import '../class/transactionClass.dart';
+import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
 import '../searchStorage/categoryStorage.dart';
 
@@ -75,6 +76,7 @@ class _EditTransaction extends State<EditTransaction> {
 
   // 戻る・更新処理
   void backNavigation({required bool isUpdate}) {
+    Navigator.pop(context);
     if (isUpdate) {
       Navigator.pop(context);
       widget.setReload();
@@ -82,12 +84,13 @@ class _EditTransaction extends State<EditTransaction> {
       showDialog<String>(
           context: context,
           barrierDismissible: false,
-          builder: (BuildContext context) => _alertDialog());
+          builder: (BuildContext context) => _confirmDialog());
     }
   }
 
   // 登録処理
   void _editTransaction(transactionClass transaction, envClass env) {
+    commonLoadingDialog(context: context);
     transaction.userId = env.userId;
     if (transaction.hasTransactionId()) {
       // 編集
@@ -102,6 +105,7 @@ class _EditTransaction extends State<EditTransaction> {
 
   // 削除処理
   void _deleteTransaction(envClass env, transactionClass transaction) {
+    commonLoadingDialog(context: context);
     transactionApi.deleteTransaction(
         env, transaction, backNavigation, setDisable, setSnackBar);
   }
@@ -110,6 +114,9 @@ class _EditTransaction extends State<EditTransaction> {
   void setDisable() {
     setState(() {
       transaction.isDisable = !transaction.isDisable;
+      if (!transaction.isDisable) {
+        Navigator.pop(context);
+      }
     });
   }
 
@@ -159,9 +166,9 @@ class _EditTransaction extends State<EditTransaction> {
                                                   isDestructiveAction: true,
                                                   onPressed: () {
                                                     // 削除処理
+                                                    Navigator.pop(context);
                                                     _deleteTransaction(
                                                         env, transaction);
-                                                    Navigator.pop(context);
                                                   },
                                                   child: const Text('削除'))
                                             ]));
@@ -440,7 +447,7 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   /// 登録ボタン押下後のダイアログ
-  AlertDialog _alertDialog() {
+  AlertDialog _confirmDialog() {
     return AlertDialog(
       title: const Text('入力が完了しました'),
       content: Row(

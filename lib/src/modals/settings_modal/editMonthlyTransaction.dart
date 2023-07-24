@@ -8,6 +8,7 @@ import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
 
 import '../../class/monthlyTransactionClass.dart';
+import '../../components/commonLoadingDialog.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
   EditMonthlyTransaction(
@@ -50,12 +51,14 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   // 戻る・更新処理
   void backNavigation() {
     Navigator.pop(context);
+    Navigator.pop(context);
     widget.setReload();
   }
 
   // 登録処理
   void _editTransaction(
       monthlyTransactionClass monthlyTransaction, envClass env) {
+    commonLoadingDialog(context: context);
     monthlyTransaction.userId = env.userId;
     MonthlyTransactionApi.editTransaction(
         monthlyTransaction, backNavigation, widget.setSnackBar, setDisable);
@@ -64,6 +67,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   // 削除処理
   void _deleteTransaction(
       envClass env, monthlyTransactionClass monthlyTransaction) {
+    commonLoadingDialog(context: context);
     monthlyTransaction.userId = env.userId;
     MonthlyTransactionApi.deleteMonthlyTransaction(
         monthlyTransaction, backNavigation, widget.setSnackBar, setDisable);
@@ -73,6 +77,9 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
   void setDisable() {
     setState(() {
       monthlyTransaction.isDisable = !monthlyTransaction.isDisable;
+      if (!monthlyTransaction.isDisable) {
+        Navigator.pop(context);
+      }
     });
   }
 
@@ -123,9 +130,9 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                                   isDestructiveAction: true,
                                                   onPressed: () {
                                                     // 削除処理
+                                                    Navigator.pop(context);
                                                     _deleteTransaction(env,
                                                         monthlyTransaction);
-                                                    Navigator.pop(context);
                                                   },
                                                   child: const Text('削除'))
                                             ]));

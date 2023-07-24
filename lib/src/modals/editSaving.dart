@@ -8,6 +8,7 @@ import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/dataLoader/savingTargetLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
 
 class EditSaving extends StatefulWidget {
@@ -54,6 +55,7 @@ class _EditSaving extends State<EditSaving> {
   void backNavigation() {
     widget.setReload();
     Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   // 取引候補
@@ -65,6 +67,7 @@ class _EditSaving extends State<EditSaving> {
 
   // 貯金編集
   void _editSaving(savingClass saving, envClass env) {
+    commonLoadingDialog(context: context);
     saving.userId = env.userId;
     if (saving.hasSavingId()) {
       // 編集
@@ -77,6 +80,7 @@ class _EditSaving extends State<EditSaving> {
 
   // 貯金削除
   void _deleteSaving(envClass env, savingClass saving) {
+    commonLoadingDialog(context: context);
     SavingApi.deleteSaving(
         env, saving, backNavigation, setDisable, setSnackBar);
   }
@@ -92,6 +96,9 @@ class _EditSaving extends State<EditSaving> {
   void setDisable() {
     setState(() {
       saving.isDisable = !saving.isDisable;
+      if (!saving.isDisable) {
+        Navigator.pop(context);
+      }
     });
   }
 
@@ -141,8 +148,8 @@ class _EditSaving extends State<EditSaving> {
                                                 isDestructiveAction: true,
                                                 onPressed: () {
                                                   // 削除処理
-                                                  _deleteSaving(env, saving);
                                                   Navigator.pop(context);
+                                                  _deleteSaving(env, saving);
                                                 },
                                                 child: const Text('削除'))
                                           ]));
