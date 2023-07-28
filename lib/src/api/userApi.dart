@@ -13,6 +13,23 @@ class userApi {
   static String rootURI = '${Api.rootURI}/user';
   static Dio dio = Dio();
 
+  // Googleサインイン
+  static Future<void> googleSignIn(
+      BuildContext context, String email, String token) async {
+    await Future(() async {
+      Response res = await dio.post('$rootURI/googleSignIn',
+          data: {'userId': email, 'token': token});
+      if (res.data['status'] == 'error') {
+        // ログイン失敗
+      } else {
+        // ログイン成功
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+
+        await prefs.setString('USER_ID', res.data['user']['userId']);
+      }
+    });
+  }
+
   // ログイン
   static Future<void> login(
       BuildContext context, userClass loginInfo, Function setLoading) async {

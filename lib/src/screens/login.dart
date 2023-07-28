@@ -1,8 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
+import 'package:money_hooks/src/env/googleSignIn.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
+import '../app.dart';
 import '../class/userClass.dart';
 
 class Login extends StatefulWidget {
@@ -120,6 +124,20 @@ class _LoginState extends State<Login> {
                         )),
                   ),
                 ),
+                // Googleサインイン
+                SignInButton(
+                  Buttons.google,
+                  onPressed: () async {
+                    Future<UserCredential> user = signInWithGoogle();
+                    print(user);
+                    userApi.googleSignIn(context, 'email', 'token').then(
+                        (value) => Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    const MyStatefulWidget())));
+                  },
+                ),
               ],
             ),
             Padding(
@@ -149,13 +167,6 @@ class _LoginState extends State<Login> {
                       style: TextStyle(fontSize: 20, letterSpacing: 15),
                     ),
                   ),
-                  // Googleサインイン
-                  // child: SignInButton(
-                  //   Buttons.google,
-                  //   onPressed: (){
-                  //
-                  //   },
-                  // ),
                 ),
               ),
             )
