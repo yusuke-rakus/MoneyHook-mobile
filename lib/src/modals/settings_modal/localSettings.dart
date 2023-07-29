@@ -49,6 +49,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                 children: [
                   const Text('取引名候補を表示する'),
                   CupertinoSwitch(
+                      activeColor: Colors.blue,
                       value: _transactionRecommendState,
                       onChanged: (activeState) {
                         _changeRecommendState(activeState);
