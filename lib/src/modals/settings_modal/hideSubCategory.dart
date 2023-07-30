@@ -37,6 +37,13 @@ class _HideSubCategoryState extends State<HideSubCategory> {
     });
   }
 
+  /// メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
   /// ラジオボタンのステータス
   void changeEditMode() {
     setState(() {
@@ -113,7 +120,7 @@ class _HideSubCategoryState extends State<HideSubCategory> {
     _isLoading = true;
     _editMode = false;
     CategoryLoad.getCategoryWithSubCategoryList(
-            env, setLoading, setCategoryList)
+            env, setLoading, setSnackBar, setCategoryList)
         .then((value) {
       CategoryStorage.getDefaultValue()
           .then((value) => _setDefaultValue(value, true));

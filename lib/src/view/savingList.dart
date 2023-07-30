@@ -7,6 +7,7 @@ import 'package:money_hooks/src/dataLoader/savingLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/savingClass.dart';
+import '../components/commonSnackBar.dart';
 
 class SavingList extends StatefulWidget {
   SavingList(this.env, this.isLoading, this.changeReload, {super.key});
@@ -31,6 +32,13 @@ class _SavingList extends State<SavingList> {
     });
   }
 
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
   void setSavingList(List<savingClass> resultList, var resultAmount) {
     setState(() {
       savingList = resultList;
@@ -39,7 +47,7 @@ class _SavingList extends State<SavingList> {
   }
 
   void setReload() {
-    SavingApi.getMonthlySavingData(env, setLoading, setSavingList);
+    SavingApi.getMonthlySavingData(env, setLoading, setSnackBar, setSavingList);
   }
 
   @override
@@ -48,7 +56,8 @@ class _SavingList extends State<SavingList> {
     env = widget.env;
     _isLoading = widget.isLoading;
     env.initMonth();
-    SavingLoad.getMonthlySavingData(env, setLoading, setSavingList);
+    SavingLoad.getMonthlySavingData(
+        env, setLoading, setSnackBar, setSavingList);
     widget.changeReload(setReload);
   }
 
@@ -69,7 +78,7 @@ class _SavingList extends State<SavingList> {
                       setState(() {
                         env.subtractMonth();
                         SavingLoad.getMonthlySavingData(
-                            env, setLoading, setSavingList);
+                            env, setLoading, setSnackBar, setSavingList);
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -82,7 +91,7 @@ class _SavingList extends State<SavingList> {
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
                           SavingLoad.getMonthlySavingData(
-                              env, setLoading, setSavingList);
+                              env, setLoading, setSnackBar, setSavingList);
                         }
                       });
                     },
@@ -97,7 +106,7 @@ class _SavingList extends State<SavingList> {
                     color: Colors.grey,
                     onRefresh: () async {
                       SavingApi.getMonthlySavingData(
-                          env, setLoading, setSavingList);
+                          env, setLoading, setSnackBar, setSavingList);
                     },
                     child: ListView(children: [
                       // 合計値

@@ -5,12 +5,13 @@ import '../env/envClass.dart';
 
 class SavingLoad {
   /// 【貯金一覧画面】データ
-  static void getMonthlySavingData(
-      envClass env, Function setLoading, Function setSavingList) async {
+  static void getMonthlySavingData(envClass env, Function setLoading,
+      Function setSnackBar, Function setSavingList) async {
     SavingStorage.getMonthlySavingData(env.getJson().toString(), setLoading)
         .then((value) async {
       if (value.isEmpty) {
-        SavingApi.getMonthlySavingData(env, setLoading, setSavingList);
+        SavingApi.getMonthlySavingData(
+            env, setLoading, setSnackBar, setSavingList);
       } else {
         num resultAmount = 0;
         for (var e in value) {
@@ -22,13 +23,13 @@ class SavingLoad {
   }
 
   /// 【貯金総額画面】貯金目標毎の総額データ
-  static void getSavingAmountForTarget(
-      String userId, Function setLoading, Function setSavingTargetList) async {
+  static void getSavingAmountForTarget(String userId, Function setLoading,
+      Function setSnackBar, Function setSavingTargetList) async {
     SavingStorage.getSavingAmountForTarget(userId, setLoading)
         .then((value) async {
       if (value.isEmpty) {
         SavingApi.getSavingAmountForTarget(
-            userId, setLoading, setSavingTargetList);
+            userId, setLoading, setSnackBar, setSavingTargetList);
       } else {
         setSavingTargetList(value);
       }

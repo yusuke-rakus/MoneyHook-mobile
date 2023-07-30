@@ -8,6 +8,7 @@ import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
 import '../class/transactionClass.dart';
 import '../components/commonLoadingAnimation.dart';
+import '../components/commonSnackBar.dart';
 import '../env/envClass.dart';
 import '../modals/editTransaction.dart';
 
@@ -33,6 +34,13 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
   void setHomeTransaction(int balance, List<dynamic> responseList) {
     setState(() {
       homeTransactionList.balance = balance;
@@ -46,11 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
     env = widget.env;
     env.initMonth();
     _isLoading = widget.isLoading;
-    TransactionLoad.getHome(env, setLoading, setHomeTransaction);
+    TransactionLoad.getHome(env, setLoading, setSnackBar, setHomeTransaction);
   }
 
   void setReload() {
-    transactionApi.getHome(env, setLoading, setHomeTransaction);
+    transactionApi.getHome(env, setLoading, setSnackBar, setHomeTransaction);
   }
 
   @override
@@ -63,7 +71,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
                 onPressed: () {
                   env.subtractMonth();
-                  TransactionLoad.getHome(env, setLoading, setHomeTransaction);
+                  TransactionLoad.getHome(
+                      env, setLoading, setSnackBar, setHomeTransaction);
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
             Text('${env.getMonth()}月'),
@@ -74,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     if (env.isNotCurrentMonth()) {
                       env.addMonth();
                       TransactionLoad.getHome(
-                          env, setLoading, setHomeTransaction);
+                          env, setLoading, setSnackBar, setHomeTransaction);
                     }
                   });
                 },

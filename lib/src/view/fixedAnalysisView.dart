@@ -6,6 +6,7 @@ import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../components/commonSnackBar.dart';
 import '../components/fixedAnalysisAccordion.dart';
 
 class FixedAnalysisView extends StatefulWidget {
@@ -27,6 +28,13 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
   void setLoading() {
     setState(() {
       _isLoading = !_isLoading;
+    });
+  }
+
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
     });
   }
 
@@ -54,7 +62,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
     env.initMonth();
     TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
     TransactionLoad.getMonthlyFixedSpending(
-        env, setLoading, setMonthlyFixedSpending);
+        env, setLoading, setSnackBar, setMonthlyFixedSpending);
   }
 
   @override
@@ -75,8 +83,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                         env.subtractMonth();
                         TransactionLoad.getMonthlyFixedIncome(
                             env, setMonthlyFixedIncome);
-                        TransactionLoad.getMonthlyFixedSpending(
-                            env, setLoading, setMonthlyFixedSpending);
+                        TransactionLoad.getMonthlyFixedSpending(env, setLoading,
+                            setSnackBar, setMonthlyFixedSpending);
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -90,8 +98,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                           env.addMonth();
                           TransactionLoad.getMonthlyFixedIncome(
                               env, setMonthlyFixedIncome);
-                          TransactionLoad.getMonthlyFixedSpending(
-                              env, setLoading, setMonthlyFixedSpending);
+                          TransactionLoad.getMonthlyFixedSpending(env,
+                              setLoading, setSnackBar, setMonthlyFixedSpending);
                         }
                       });
                     },

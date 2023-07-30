@@ -30,12 +30,15 @@ class CategoryLoad {
 
   /// 【サブカテゴリ一覧取得】データ
   static Future<void> getCategoryWithSubCategoryList(
-      envClass env, Function setLoading, Function setCategoryList) async {
+      envClass env,
+      Function setLoading,
+      Function setSnackBar,
+      Function setCategoryList) async {
     await CategoryStorage.getCategoryWithSubCategoryListData()
         .then((value) async {
       if (value.isEmpty) {
         await CategoryApi.getCategoryWithSubCategoryList(
-            env, setLoading, setCategoryList);
+            env, setLoading, setSnackBar, setCategoryList);
       } else {
         setCategoryList(value);
         setLoading();

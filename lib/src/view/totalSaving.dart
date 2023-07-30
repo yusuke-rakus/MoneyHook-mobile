@@ -8,6 +8,7 @@ import 'package:money_hooks/src/dataLoader/savingLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/commonLoadingAnimation.dart';
+import '../components/commonSnackBar.dart';
 
 class TotalSaving extends StatefulWidget {
   TotalSaving(this.env, this.isLoading, this.changeReload, {super.key});
@@ -33,6 +34,13 @@ class _TotalSaving extends State<TotalSaving> {
     });
   }
 
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
   void setSavingTargetList(List<savingTargetClass> resultList) {
     setState(() {
       savingTargetList = resultList;
@@ -48,7 +56,7 @@ class _TotalSaving extends State<TotalSaving> {
 
   void setReload() {
     SavingApi.getSavingAmountForTarget(
-        env.userId, setLoading, setSavingTargetList);
+        env.userId, setLoading, setSnackBar, setSavingTargetList);
     SavingApi.getTotalSaving(env, setTotalSaving);
   }
 
@@ -59,7 +67,7 @@ class _TotalSaving extends State<TotalSaving> {
     _isLoading = widget.isLoading;
     env.initMonth();
     SavingLoad.getSavingAmountForTarget(
-        env.userId, setLoading, setSavingTargetList);
+        env.userId, setLoading, setSnackBar, setSavingTargetList);
     SavingLoad.getTotalSaving(env, setTotalSaving);
     widget.changeReload(setReload);
   }

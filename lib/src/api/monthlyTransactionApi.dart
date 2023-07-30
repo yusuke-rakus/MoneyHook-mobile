@@ -42,7 +42,7 @@ class MonthlyTransactionApi {
               res.data['monthlyTransactionList'], env.getUserJson().toString());
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }
@@ -67,6 +67,7 @@ class MonthlyTransactionApi {
             data: monthlyTransaction.convertEditMonthlyTranJson());
         if (res.data['status'] == 'error') {
           // 失敗
+          setDisable();
           setSnackBar(res.data['message']);
         } else {
           // 成功
@@ -77,7 +78,8 @@ class MonthlyTransactionApi {
         }
         backNavigation();
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setDisable();
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -95,13 +97,16 @@ class MonthlyTransactionApi {
             data: monthlyTransaction.convertDeleteMonthlyTranJson());
         if (res.data['status'] == 'error') {
           // 失敗
+          setDisable();
+          setSnackBar(res.data['message']);
         } else {
           // 成功
         }
         setSnackBar(res.data['message']);
         backNavigation();
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setDisable();
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }

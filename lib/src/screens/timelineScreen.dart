@@ -6,6 +6,7 @@ import 'package:money_hooks/src/components/timelineList.dart';
 
 import '../class/transactionClass.dart';
 import '../components/commonLoadingAnimation.dart';
+import '../components/commonSnackBar.dart';
 import '../dataLoader/transactionLoad.dart';
 import '../env/envClass.dart';
 
@@ -31,6 +32,13 @@ class _TimelineScreenState extends State<TimelineScreen> {
     });
   }
 
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
   void setTimelineData(List<transactionClass> responseList) {
     setState(() {
       timelineList = timelineTransaction.init(responseList);
@@ -49,12 +57,14 @@ class _TimelineScreenState extends State<TimelineScreen> {
     env = widget.env;
     env.initMonth();
     _isLoading = widget.isLoading;
-    TransactionLoad.getTimelineData(env, setLoading, setTimelineData);
+    TransactionLoad.getTimelineData(
+        env, setLoading, setSnackBar, setTimelineData);
     TransactionLoad.getTimelineChart(env, setTimelineChart);
   }
 
   void setReload() {
-    transactionApi.getTimelineData(env, setLoading, setTimelineData);
+    transactionApi.getTimelineData(
+        env, setLoading, setSnackBar, setTimelineData);
     transactionApi.getTimelineChart(env, setTimelineChart);
   }
 
@@ -70,7 +80,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   setState(() {
                     env.subtractMonth();
                     TransactionLoad.getTimelineData(
-                        env, setLoading, setTimelineData);
+                        env, setLoading, setSnackBar, setTimelineData);
                     TransactionLoad.getTimelineChart(env, setTimelineChart);
                   });
                 },
@@ -83,7 +93,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     if (env.isNotCurrentMonth()) {
                       env.addMonth();
                       TransactionLoad.getTimelineData(
-                          env, setLoading, setTimelineData);
+                          env, setLoading, setSnackBar, setTimelineData);
                       TransactionLoad.getTimelineChart(env, setTimelineChart);
                     }
                   });
@@ -95,7 +105,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
       body: RefreshIndicator(
         color: Colors.grey,
         onRefresh: () async {
-          transactionApi.getTimelineData(env, setLoading, setTimelineData);
+          transactionApi.getTimelineData(
+              env, setLoading, setSnackBar, setTimelineData);
           transactionApi.getTimelineChart(env, setTimelineChart);
         },
         child: ListView(

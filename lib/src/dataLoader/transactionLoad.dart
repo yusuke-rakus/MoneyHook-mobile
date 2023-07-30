@@ -5,12 +5,13 @@ import '../env/envClass.dart';
 
 class TransactionLoad {
   /// 【タイムライン画面】データ
-  static Future<void> getTimelineData(
-      envClass env, Function setLoading, Function setTimelineData) async {
+  static Future<void> getTimelineData(envClass env, Function setLoading,
+      Function setSnackBar, Function setTimelineData) async {
     TransactionStorage.getTimelineData(env.getJson().toString(), setLoading)
         .then((value) async {
       if (value.isEmpty) {
-        transactionApi.getTimelineData(env, setLoading, setTimelineData);
+        transactionApi.getTimelineData(
+            env, setLoading, setSnackBar, setTimelineData);
       } else {
         setTimelineData(value);
       }
@@ -31,11 +32,12 @@ class TransactionLoad {
   }
 
   /// 【ホーム画面】データ
-  static Future<void> getHome(
-      envClass env, Function setLoading, Function setHomeTransaction) async {
+  static Future<void> getHome(envClass env, Function setLoading,
+      Function setSnackBar, Function setHomeTransaction) async {
     TransactionStorage.getHome(env.getJson().toString()).then((value) {
       if (value.isEmpty) {
-        transactionApi.getHome(env, setLoading, setHomeTransaction);
+        transactionApi.getHome(
+            env, setLoading, setSnackBar, setHomeTransaction);
       } else {
         setHomeTransaction(value['balance'], value['categoryList']);
       }
@@ -53,13 +55,13 @@ class TransactionLoad {
   }
 
   /// 【月別変動費画面】データ
-  static void getMonthlyVariableData(
-      envClass env, Function setLoading, Function setMonthlyVariable) async {
+  static void getMonthlyVariableData(envClass env, Function setLoading,
+      Function setSnackBar, Function setMonthlyVariable) async {
     TransactionStorage.getMonthlyVariableData(env.getJson().toString())
         .then((value) {
       if (value.isEmpty) {
         transactionApi.getMonthlyVariableData(
-            env, setLoading, setMonthlyVariable);
+            env, setLoading, setSnackBar, setMonthlyVariable);
       } else {
         setMonthlyVariable(
             value['totalVariable'], value['monthlyVariableList']);
@@ -83,12 +85,12 @@ class TransactionLoad {
 
   /// 【月別固定費画面】支出データ
   static void getMonthlyFixedSpending(envClass env, Function setLoading,
-      Function setMonthlyFixedSpending) async {
+      Function setSnackBar, Function setMonthlyFixedSpending) async {
     TransactionStorage.getMonthlyFixedSpending(env.getJson().toString())
         .then((value) {
       if (value.isEmpty) {
         transactionApi.getMonthlyFixedSpending(
-            env, setLoading, setMonthlyFixedSpending);
+            env, setLoading, setSnackBar, setMonthlyFixedSpending);
       } else {
         setMonthlyFixedSpending(
             value['disposableIncome'], value['monthlyFixedList']);

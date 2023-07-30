@@ -135,7 +135,7 @@ class SavingTargetApi {
 
   /// 削除済み貯金目標を取得
   static Future<void> getDeletedSavingTarget(
-      Function setSavingTargetList, String userId) async {
+      Function setSavingTargetList, Function setSnackBar, String userId) async {
     await Future(() async {
       try {
         Response res = await Api.dio
@@ -153,7 +153,7 @@ class SavingTargetApi {
           SavingTargetStorage.saveDeletedSavingTargetData(resultList, userId);
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -180,7 +180,7 @@ class SavingTargetApi {
         }
         setSnackBar(res.data['message']);
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -207,7 +207,7 @@ class SavingTargetApi {
         }
         setSnackBar(res.data['message']);
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }

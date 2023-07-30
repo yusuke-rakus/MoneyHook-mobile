@@ -9,6 +9,7 @@ import 'api.dart';
 class CategoryApi {
   static String rootURI = Api.rootURI;
 
+  /// カテゴリ一覧の取得
   static Future<void> getCategoryList(Function setCategoryList) async {
     await Future(() async {
       try {
@@ -31,6 +32,7 @@ class CategoryApi {
     });
   }
 
+  /// サブカテゴリ一覧の取得
   static Future<void> getSubCategoryList(
       String userId, int categoryId, Function setSubCategoryList) async {
     await Future(() async {
@@ -57,8 +59,9 @@ class CategoryApi {
     });
   }
 
-  static Future<void> getCategoryWithSubCategoryList(
-      envClass env, Function setLoading, Function setCategoryList) async {
+  /// カテゴリ一覧の取得(サブカテゴリ含む)
+  static Future<void> getCategoryWithSubCategoryList(envClass env,
+      Function setLoading, setSnackBar, Function setCategoryList) async {
     await Future(() async {
       try {
         Response res = await Api.dio.post(
@@ -85,7 +88,7 @@ class CategoryApi {
           CategoryStorage.saveCategoryWithSubCategoryList(categoryList);
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }

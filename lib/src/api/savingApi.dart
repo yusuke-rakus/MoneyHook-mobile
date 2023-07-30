@@ -13,8 +13,8 @@ class SavingApi {
   static String rootURI = '${Api.rootURI}/saving';
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
-  static Future<void> getMonthlySavingData(
-      envClass env, Function setLoading, Function setSavingList) async {
+  static Future<void> getMonthlySavingData(envClass env, Function setLoading,
+      Function setSnackBar, Function setSavingList) async {
     setLoading();
     await Future(() async {
       try {
@@ -43,15 +43,15 @@ class SavingApi {
               resultList, env.getJson().toString());
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }
     });
   }
 
-  static Future<void> getSavingAmountForTarget(
-      String userId, Function setLoading, Function setSavingTargetList) async {
+  static Future<void> getSavingAmountForTarget(String userId,
+      Function setLoading, setSnackBar, Function setSavingTargetList) async {
     setLoading();
     await Future(() async {
       try {
@@ -77,7 +77,7 @@ class SavingApi {
           SavingStorage.saveSavingAmountForTarget(resultList, userId);
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }

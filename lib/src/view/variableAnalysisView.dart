@@ -6,6 +6,7 @@ import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
+import '../components/commonSnackBar.dart';
 
 class VariableAnalysisView extends StatefulWidget {
   VariableAnalysisView(this.env, this.isLoading, {super.key});
@@ -28,6 +29,13 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
     });
   }
 
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
   void setMonthlyVariable(
       int totalVariable, List<dynamic> monthlyVariableList) {
     setState(() {
@@ -42,7 +50,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
     _isLoading = widget.isLoading;
     env = widget.env;
     env.initMonth();
-    TransactionLoad.getMonthlyVariableData(env, setLoading, setMonthlyVariable);
+    TransactionLoad.getMonthlyVariableData(
+        env, setLoading, setSnackBar, setMonthlyVariable);
   }
 
   @override
@@ -62,7 +71,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                       setState(() {
                         env.subtractMonth();
                         TransactionLoad.getMonthlyVariableData(
-                            env, setLoading, setMonthlyVariable);
+                            env, setLoading, setSnackBar, setMonthlyVariable);
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -75,7 +84,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
                           TransactionLoad.getMonthlyVariableData(
-                              env, setLoading, setMonthlyVariable);
+                              env, setLoading, setSnackBar, setMonthlyVariable);
                         }
                       });
                     },

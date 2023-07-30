@@ -68,7 +68,8 @@ class _DeletedSavingTarget extends State<DeletedSavingTarget> {
     super.initState();
     env = widget.env;
     _isLoading = true;
-    SavingTargetLoad.getDeletedSavingTarget(setSavingTargetList, env.userId)
+    SavingTargetLoad.getDeletedSavingTarget(
+            setSavingTargetList, setSnackBar, env.userId)
         .then((value) => setLoading());
   }
 

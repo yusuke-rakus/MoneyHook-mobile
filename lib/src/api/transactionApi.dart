@@ -10,8 +10,8 @@ import 'api.dart';
 class transactionApi {
   static String rootURI = '${Api.rootURI}/transaction';
 
-  static Future<void> getHome(
-      envClass env, Function setLoading, Function setHomeTransaction) async {
+  static Future<void> getHome(envClass env, Function setLoading,
+      Function setSnackBar, Function setHomeTransaction) async {
     setLoading();
     await Future(() async {
       try {
@@ -26,15 +26,15 @@ class transactionApi {
               res.data['categoryList'], env.getJson().toString());
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }
     });
   }
 
-  static Future<void> getTimelineData(
-      envClass env, Function setLoading, Function setTimelineData) async {
+  static Future<void> getTimelineData(envClass env, Function setLoading,
+      Function setSnackBar, Function setTimelineData) async {
     setLoading();
 
     await Future(() async {
@@ -70,7 +70,7 @@ class transactionApi {
               resultList, env.getJson().toString());
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }
@@ -102,8 +102,8 @@ class transactionApi {
     });
   }
 
-  static Future<void> getMonthlyVariableData(
-      envClass env, Function setLoading, Function setMonthlyVariable) async {
+  static Future<void> getMonthlyVariableData(envClass env, Function setLoading,
+      setSnackBar, Function setMonthlyVariable) async {
     setLoading();
     await Future(() async {
       try {
@@ -129,7 +129,7 @@ class transactionApi {
               env.getJson().toString());
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }
@@ -160,7 +160,7 @@ class transactionApi {
   }
 
   static Future<void> getMonthlyFixedSpending(envClass env, Function setLoading,
-      Function setMonthlyFixedSpending) async {
+      Function setSnackBar, Function setMonthlyFixedSpending) async {
     setLoading();
     await Future(() async {
       try {
@@ -178,7 +178,7 @@ class transactionApi {
               env.getJson().toString());
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
       }
