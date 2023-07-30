@@ -41,7 +41,7 @@ class _LocalSettingsState extends State<LocalSettings> {
         appBar: AppBar(
           title: (const Text('設定')),
         ),
-        body: Column(
+        body: ListView(
           children: [
             _settingsGroup(context, '収支画面', [
               Row(
@@ -99,8 +99,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                 ))),
         Container(
           padding: const EdgeInsets.only(left: 20, right: 20),
-          child: ListView(
-            shrinkWrap: true,
+          child: Column(
             children: list,
           ),
         ),
