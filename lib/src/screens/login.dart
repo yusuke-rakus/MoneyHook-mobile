@@ -1,13 +1,13 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:money_hooks/src/api/userApi.dart';
+import 'package:money_hooks/src/app.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/env/googleSignIn.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
-import '../app.dart';
 import '../class/userClass.dart';
+import '../components/commonSnackBar.dart';
 
 class Login extends StatefulWidget {
   Login(this.isLoading, {super.key});
@@ -30,6 +30,19 @@ class _LoginState extends State<Login> {
     });
   }
 
+  // アプリケーションの再読み込み
+  void reload() {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => const MyStatefulWidget()));
+  }
+
+  // スナックバー表示
+  void setSnackBar(String message) {
+    CommonSnackBar.build(context: context, text: message);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -39,26 +52,7 @@ class _LoginState extends State<Login> {
 
   // ログイン処理
   void _login(BuildContext context, userClass loginInfo) async {
-    // エラーメッセージをクリア
-    loginInfo.errorMessage = '';
-    await userApi.login(context, loginInfo, setLoading);
-
-    if (loginInfo.errorMessage.isNotEmpty) {
-      // エラーの場合のメッセージ表示
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-                content: Text(loginInfo.errorMessage),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('閉じる'),
-                  )
-                ],
-              ));
-    }
+    await userApi.login(loginInfo, setLoading, reload, setSnackBar);
   }
 
   @override
@@ -128,14 +122,15 @@ class _LoginState extends State<Login> {
                 SignInButton(
                   Buttons.google,
                   onPressed: () async {
-                    Future<UserCredential> user = signInWithGoogle();
-                    print(user);
-                    userApi.googleSignIn(context, 'email', 'token').then(
-                        (value) => Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    const MyStatefulWidget())));
+                    signInWithGoogle().then((value) {
+                      print(value.user?.email);
+                    });
+                    // userApi.googleSignIn(context, 'email', 'token').then(
+                    //     (value) => Navigator.pushReplacement(
+                    //         context,
+                    //         MaterialPageRoute(
+                    //             builder: (BuildContext context) =>
+                    //                 const MyStatefulWidget())));
                   },
                 ),
               ],
@@ -151,12 +146,12 @@ class _LoginState extends State<Login> {
                     onPressed: loginInfo.isDisabled()
                         ? null
                         : _isLoading
-                            ? null
-                            : () {
-                                setState(() {
-                                  _login(context, loginInfo);
-                                });
-                              },
+                        ? null
+                        : () {
+                      setState(() {
+                        _login(context, loginInfo);
+                      });
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: const RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(25))),

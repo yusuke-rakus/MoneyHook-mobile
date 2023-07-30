@@ -6,18 +6,16 @@ import 'package:money_hooks/src/class/changePasswordClass.dart';
 import 'package:money_hooks/src/class/userClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../app.dart';
 import '../class/changeEmailClass.dart';
 
 class userApi {
   static String rootURI = '${Api.rootURI}/user';
-  static Dio dio = Dio();
 
   // Googleサインイン
   static Future<void> googleSignIn(
       BuildContext context, String email, String token) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/googleSignIn',
+      Response res = await Api.dio.post('$rootURI/googleSignIn',
           data: {'userId': email, 'token': token});
       if (res.data['status'] == 'error') {
         // ログイン失敗
@@ -31,27 +29,26 @@ class userApi {
   }
 
   // ログイン
-  static Future<void> login(
-      BuildContext context, userClass loginInfo, Function setLoading) async {
+  static Future<void> login(userClass loginInfo, Function setLoading,
+      Function reload, Function setSnackBar) async {
     setLoading();
     await Future(() async {
-      Response res =
-          await dio.post('$rootURI/login', data: loginInfo.loginJson());
-      if (res.data['status'] == 'error') {
-        // ログイン失敗
-        loginInfo.errorMessage = res.data['message'];
-        setLoading();
-      } else {
-        // ログイン成功
-        setLoading();
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+      try {
+        Response res =
+            await Api.dio.post('$rootURI/login', data: loginInfo.loginJson());
+        if (res.data['status'] == 'error') {
+          // ログイン失敗
+        } else {
+          // ログイン成功
+          SharedPreferences prefs = await SharedPreferences.getInstance();
 
-        await prefs.setString('USER_ID', res.data['user']['userId']);
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (BuildContext context) => const MyStatefulWidget()));
+          await prefs.setString('USER_ID', res.data['user']['userId']);
+          reload();
+        }
+      } on DioError catch (e) {
+        setSnackBar(Api.errorMessage(e));
+      } finally {
+        setLoading();
       }
     });
   }
@@ -64,8 +61,8 @@ class userApi {
     }
 
     await Future(() async {
-      Response res = await dio.post('$rootURI/changePassword',
-          data: passwordClass.toJson());
+      Response res = await Api.dio
+          .post('$rootURI/changePassword', data: passwordClass.toJson());
       if (res.data['status'] == 'error') {
         // 失敗
         passwordClass.errorMessage = res.data['message'];
@@ -85,7 +82,7 @@ class userApi {
 
     await Future(() async {
       Response res =
-          await dio.post('$rootURI/changeEmail', data: emailClass.toJson());
+          await Api.dio.post('$rootURI/changeEmail', data: emailClass.toJson());
       if (res.data['status'] == 'error') {
         // 失敗
         emailClass.errorMessage = res.data['message'];

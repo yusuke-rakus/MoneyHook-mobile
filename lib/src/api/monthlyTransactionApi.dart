@@ -9,39 +9,43 @@ import 'api.dart';
 
 class MonthlyTransactionApi {
   static String rootURI = '${Api.rootURI}/fixed';
-  static Dio dio = Dio();
 
   /// 月次取引の取得
   static Future<void> getFixed(envClass env, Function setMonthlyTransactionList,
       Function setLoading, Function setSnackBar) async {
     await Future(() async {
-      Response res =
-          await dio.post('$rootURI/getFixed', data: env.getUserJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-        setSnackBar(res.data['message']);
-      } else {
-        // 成功
-        List<monthlyTransactionClass> resultList = [];
-        res.data['monthlyTransactionList'].forEach((value) {
-          resultList.add(monthlyTransactionClass.setFields(
-            value['monthlyTransactionId'].toString(),
-            value['monthlyTransactionName'],
-            value['monthlyTransactionAmount'],
-            value['monthlyTransactionDate'],
-            value['categoryId'],
-            value['subCategoryId'],
-            value['includeFlg'],
-            value['monthlyTransactionSign'],
-            value['categoryName'],
-            value['subCategoryName'],
-          ));
-        });
-        setMonthlyTransactionList(resultList);
-        MonthlyTransactionStorage.saveFixed(
-            res.data['monthlyTransactionList'], env.getUserJson().toString());
+      try {
+        Response res =
+            await Api.dio.post('$rootURI/getFixed', data: env.getUserJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setSnackBar(res.data['message']);
+        } else {
+          // 成功
+          List<monthlyTransactionClass> resultList = [];
+          res.data['monthlyTransactionList'].forEach((value) {
+            resultList.add(monthlyTransactionClass.setFields(
+              value['monthlyTransactionId'].toString(),
+              value['monthlyTransactionName'],
+              value['monthlyTransactionAmount'],
+              value['monthlyTransactionDate'],
+              value['categoryId'],
+              value['subCategoryId'],
+              value['includeFlg'],
+              value['monthlyTransactionSign'],
+              value['categoryName'],
+              value['subCategoryName'],
+            ));
+          });
+          setMonthlyTransactionList(resultList);
+          MonthlyTransactionStorage.saveFixed(
+              res.data['monthlyTransactionList'], env.getUserJson().toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
+      } finally {
+        setLoading();
       }
-      setLoading();
     });
   }
 
@@ -58,19 +62,23 @@ class MonthlyTransactionApi {
     }
 
     await Future(() async {
-      Response res = await dio.post('$rootURI/editOneFixed',
-          data: monthlyTransaction.convertEditMonthlyTranJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-        setSnackBar(res.data['message']);
-      } else {
-        // 成功
-        if (monthlyTransaction.subCategoryId == null) {
-          CategoryStorage.deleteSubCategoryListWithParam(
-              monthlyTransaction.categoryId.toString());
+      try {
+        Response res = await Api.dio.post('$rootURI/editOneFixed',
+            data: monthlyTransaction.convertEditMonthlyTranJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setSnackBar(res.data['message']);
+        } else {
+          // 成功
+          if (monthlyTransaction.subCategoryId == null) {
+            CategoryStorage.deleteSubCategoryListWithParam(
+                monthlyTransaction.categoryId.toString());
+          }
         }
+        backNavigation();
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
-      backNavigation();
     });
   }
 
@@ -82,15 +90,19 @@ class MonthlyTransactionApi {
       Function setDisable) async {
     setDisable();
     await Future(() async {
-      Response res = await dio.post('$rootURI/deleteFixedFromTable',
-          data: monthlyTransaction.convertDeleteMonthlyTranJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
+      try {
+        Response res = await Api.dio.post('$rootURI/deleteFixedFromTable',
+            data: monthlyTransaction.convertDeleteMonthlyTranJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+        }
+        setSnackBar(res.data['message']);
+        backNavigation();
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
-      setSnackBar(res.data['message']);
-      backNavigation();
     });
   }
 }

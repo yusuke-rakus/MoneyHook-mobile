@@ -9,22 +9,27 @@ import 'api.dart';
 
 class transactionApi {
   static String rootURI = '${Api.rootURI}/transaction';
-  static Dio dio = Dio();
 
   static Future<void> getHome(
       envClass env, Function setLoading, Function setHomeTransaction) async {
     setLoading();
     await Future(() async {
-      Response res = await dio.post('$rootURI/getHome', data: env.getJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        setHomeTransaction(res.data['balance'], res.data['categoryList']);
-        TransactionStorage.saveStorageHomeData(res.data['balance'],
-            res.data['categoryList'], env.getJson().toString());
+      try {
+        Response res =
+            await Api.dio.post('$rootURI/getHome', data: env.getJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          setHomeTransaction(res.data['balance'], res.data['categoryList']);
+          TransactionStorage.saveStorageHomeData(res.data['balance'],
+              res.data['categoryList'], env.getJson().toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
+      } finally {
+        setLoading();
       }
-      setLoading();
     });
   }
 
@@ -33,56 +38,66 @@ class transactionApi {
     setLoading();
 
     await Future(() async {
-      Response res =
-          await dio.post('$rootURI/getTimelineData', data: env.getJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<transactionClass> resultList = [];
-        res.data['transactionList'].forEach((value) {
-          String transactionId = value['transactionId'].toString();
-          String transactionDate = value['transactionDate'];
-          int transactionSign = value['transactionSign'];
-          String transactionAmount = value['transactionAmount'].toString();
-          String transactionName = value['transactionName'];
-          String categoryName = value['categoryName'];
-          String subCategoryName = value['subCategoryName'];
-          bool fixedFlg = value['fixedFlg'];
-          resultList.add(transactionClass.setTimelineFields(
-              transactionId,
-              transactionDate,
-              transactionSign,
-              int.parse(transactionAmount),
-              transactionName,
-              categoryName,
-              subCategoryName,
-              fixedFlg));
-        });
-        setTimelineData(resultList);
-        TransactionStorage.saveStorageTimelineData(
-            resultList, env.getJson().toString());
+      try {
+        Response res =
+            await Api.dio.post('$rootURI/getTimelineData', data: env.getJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<transactionClass> resultList = [];
+          res.data['transactionList'].forEach((value) {
+            String transactionId = value['transactionId'].toString();
+            String transactionDate = value['transactionDate'];
+            int transactionSign = value['transactionSign'];
+            String transactionAmount = value['transactionAmount'].toString();
+            String transactionName = value['transactionName'];
+            String categoryName = value['categoryName'];
+            String subCategoryName = value['subCategoryName'];
+            bool fixedFlg = value['fixedFlg'];
+            resultList.add(transactionClass.setTimelineFields(
+                transactionId,
+                transactionDate,
+                transactionSign,
+                int.parse(transactionAmount),
+                transactionName,
+                categoryName,
+                subCategoryName,
+                fixedFlg));
+          });
+          setTimelineData(resultList);
+          TransactionStorage.saveStorageTimelineData(
+              resultList, env.getJson().toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
+      } finally {
+        setLoading();
       }
-    }).then((value) => setLoading());
+    });
   }
 
   static Future<void> getTimelineChart(
       envClass env, Function setTimelineChart) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlySpendingData',
-          data: env.getJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<transactionClass> resultList = [];
-        res.data['monthlyTotalAmountList'].reversed.forEach((value) {
-          resultList.add(transactionClass.setTimelineChart(
-              value['month'], value['totalAmount']));
-        });
-        setTimelineChart(resultList);
-        TransactionStorage.saveStorageTimelineChart(
-            resultList, env.getJson().toString());
+      try {
+        Response res = await Api.dio
+            .post('$rootURI/getMonthlySpendingData', data: env.getJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<transactionClass> resultList = [];
+          res.data['monthlyTotalAmountList'].reversed.forEach((value) {
+            resultList.add(transactionClass.setTimelineChart(
+                value['month'], value['totalAmount']));
+          });
+          setTimelineChart(resultList);
+          TransactionStorage.saveStorageTimelineChart(
+              resultList, env.getJson().toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
@@ -91,44 +106,55 @@ class transactionApi {
       envClass env, Function setLoading, Function setMonthlyVariable) async {
     setLoading();
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlyVariableData',
-          data: env.getJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<Map<String, dynamic>> resultList = [];
-        res.data['monthlyVariableList'].forEach((value) {
-          Map<String, dynamic> categoryList = {
-            'categoryName': value['categoryName'],
-            'categoryTotalAmount': value['categoryTotalAmount'],
-            'subCategoryList': value['subCategoryList']
-          };
-          resultList.add(categoryList);
-        });
-        setMonthlyVariable(res.data['totalVariable'].abs(), resultList);
-        TransactionStorage.saveMonthlyVariableData(
-            res.data['totalVariable'].abs(),
-            resultList,
-            env.getJson().toString());
+      try {
+        Response res = await Api.dio
+            .post('$rootURI/getMonthlyVariableData', data: env.getJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<Map<String, dynamic>> resultList = [];
+          res.data['monthlyVariableList'].forEach((value) {
+            Map<String, dynamic> categoryList = {
+              'categoryName': value['categoryName'],
+              'categoryTotalAmount': value['categoryTotalAmount'],
+              'subCategoryList': value['subCategoryList']
+            };
+            resultList.add(categoryList);
+          });
+          setMonthlyVariable(res.data['totalVariable'].abs(), resultList);
+          TransactionStorage.saveMonthlyVariableData(
+              res.data['totalVariable'].abs(),
+              resultList,
+              env.getJson().toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
+      } finally {
+        setLoading();
       }
     });
-    setLoading();
   }
 
   static Future<void> getMonthlyFixedIncome(
       envClass env, Function setMonthlyFixedIncome) async {
     await Future(() async {
-      Response res =
-          await dio.post('$rootURI/getMonthlyFixedIncome', data: env.getJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        setMonthlyFixedIncome(
-            res.data['disposableIncome'], res.data['monthlyFixedList']);
-        TransactionStorage.saveMonthlyFixedIncome(res.data['disposableIncome'],
-            res.data['monthlyFixedList'], env.getJson().toString());
+      try {
+        Response res = await Api.dio
+            .post('$rootURI/getMonthlyFixedIncome', data: env.getJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          setMonthlyFixedIncome(
+              res.data['disposableIncome'], res.data['monthlyFixedList']);
+          TransactionStorage.saveMonthlyFixedIncome(
+              res.data['disposableIncome'],
+              res.data['monthlyFixedList'],
+              env.getJson().toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
@@ -137,21 +163,26 @@ class transactionApi {
       Function setMonthlyFixedSpending) async {
     setLoading();
     await Future(() async {
-      Response res = await dio.post('$rootURI/getMonthlyFixedSpending',
-          data: env.getJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        setMonthlyFixedSpending(
-            res.data['disposableIncome'], res.data['monthlyFixedList']);
-        TransactionStorage.saveMonthlyFixedSpending(
-            res.data['disposableIncome'],
-            res.data['monthlyFixedList'],
-            env.getJson().toString());
+      try {
+        Response res = await Api.dio
+            .post('$rootURI/getMonthlyFixedSpending', data: env.getJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          setMonthlyFixedSpending(
+              res.data['disposableIncome'], res.data['monthlyFixedList']);
+          TransactionStorage.saveMonthlyFixedSpending(
+              res.data['disposableIncome'],
+              res.data['monthlyFixedList'],
+              env.getJson().toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
+      } finally {
+        setLoading();
       }
     });
-    setLoading();
   }
 
   /// 取引の追加
@@ -166,22 +197,27 @@ class transactionApi {
     }
 
     await Future(() async {
-      Response res = await dio.post('$rootURI/addTransaction',
-          data: transaction.getTransactionJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-        setSnackBar(res.data['message']);
-        setDisable();
-      } else {
-        // 成功
-        TransactionStorage.allDeleteWithParam(
-            transaction.userId, transaction.transactionDate);
-        if (transaction.subCategoryId == null) {
-          CategoryStorage.deleteCategoryWithSubCategoryList();
-          CategoryStorage.deleteSubCategoryListWithParam(
-              transaction.categoryId.toString());
+      try {
+        Response res = await Api.dio.post('$rootURI/addTransaction',
+            data: transaction.getTransactionJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setSnackBar(res.data['message']);
+          setDisable();
+        } else {
+          // 成功
+          TransactionStorage.allDeleteWithParam(
+              transaction.userId, transaction.transactionDate);
+          if (transaction.subCategoryId == null) {
+            CategoryStorage.deleteCategoryWithSubCategoryList();
+            CategoryStorage.deleteSubCategoryListWithParam(
+                transaction.categoryId.toString());
+          }
+          backNavigation(isUpdate: false);
         }
-        backNavigation(isUpdate: false);
+      } on DioError catch (e) {
+        setDisable();
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -198,22 +234,27 @@ class transactionApi {
     }
 
     await Future(() async {
-      Response res = await dio.post('$rootURI/editTransaction',
-          data: transaction.getTransactionJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-        setSnackBar(res.data['message']);
-        setDisable();
-      } else {
-        // 成功
-        TransactionStorage.allDeleteWithParam(
-            transaction.userId, transaction.transactionDate);
-        if (transaction.subCategoryId == null) {
-          CategoryStorage.deleteCategoryWithSubCategoryList();
-          CategoryStorage.deleteSubCategoryListWithParam(
-              transaction.categoryId.toString());
+      try {
+        Response res = await Api.dio.post('$rootURI/editTransaction',
+            data: transaction.getTransactionJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setSnackBar(res.data['message']);
+          setDisable();
+        } else {
+          // 成功
+          TransactionStorage.allDeleteWithParam(
+              transaction.userId, transaction.transactionDate);
+          if (transaction.subCategoryId == null) {
+            CategoryStorage.deleteCategoryWithSubCategoryList();
+            CategoryStorage.deleteSubCategoryListWithParam(
+                transaction.categoryId.toString());
+          }
+          backNavigation(isUpdate: true);
         }
-        backNavigation(isUpdate: true);
+      } on DioError catch (e) {
+        setDisable();
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -226,20 +267,25 @@ class transactionApi {
       Function setDisable,
       Function setSnackBar) async {
     await Future(() async {
-      setDisable();
-      Response res = await dio.post('$rootURI/deleteTransaction', data: {
-        'userId': env.userId,
-        'transactionId': transaction.transactionId
-      });
-      if (res.data['status'] == 'error') {
-        // 失敗
-        setSnackBar(res.data['message']);
+      try {
         setDisable();
-      } else {
-        // 成功
-        TransactionStorage.allDeleteWithParam(
-            env.userId, transaction.transactionDate);
-        backNavigation(isUpdate: true);
+        Response res = await Api.dio.post('$rootURI/deleteTransaction', data: {
+          'userId': env.userId,
+          'transactionId': transaction.transactionId
+        });
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setSnackBar(res.data['message']);
+          setDisable();
+        } else {
+          // 成功
+          TransactionStorage.allDeleteWithParam(
+              env.userId, transaction.transactionDate);
+          backNavigation(isUpdate: true);
+        }
+      } on DioError catch (e) {
+        setDisable();
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -248,26 +294,30 @@ class transactionApi {
   static Future<void> getFrequentTransactionName(
       envClass env, Function setRecommendList) async {
     await Future(() async {
-      Response res =
-          await dio.post('$rootURI/getFrequentTransactionName', data: {
-        'userId': env.userId,
-      });
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<transactionClass> resultList = [];
-        res.data['transactionList'].forEach((value) {
-          transactionClass tran = transactionClass.setFrequentFields(
-              value['transactionName'],
-              value['categoryId'],
-              value['categoryName'],
-              value['subCategoryId'],
-              value['subCategoryName'],
-              value['fixedFlg']);
-          resultList.add(tran);
+      try {
+        Response res =
+            await Api.dio.post('$rootURI/getFrequentTransactionName', data: {
+          'userId': env.userId,
         });
-        setRecommendList(resultList);
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<transactionClass> resultList = [];
+          res.data['transactionList'].forEach((value) {
+            transactionClass tran = transactionClass.setFrequentFields(
+                value['transactionName'],
+                value['categoryId'],
+                value['categoryName'],
+                value['subCategoryId'],
+                value['subCategoryName'],
+                value['fixedFlg']);
+            resultList.add(tran);
+          });
+          setRecommendList(resultList);
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }

@@ -10,28 +10,31 @@ import '../env/envClass.dart';
 
 class SavingTargetApi {
   static String rootURI = '${Api.rootURI}/savingTarget';
-  static Dio dio = Dio();
   static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   /// 貯金目標の取得
   static Future<void> getSavingTargetList(
       Function setSavingTargetList, String userId) async {
     await Future(() async {
-      Response res = await dio
-          .post('$rootURI/getSavingTargetList', data: {'userId': userId});
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<savingTargetClass> resultList = [
-          savingTargetClass.setTargetFields(null, 'なし')
-        ];
-        res.data['savingTarget'].forEach((value) {
-          resultList.add(savingTargetClass.setTargetFields(
-              value['savingTargetId'], value['savingTargetName']));
-        });
-        setSavingTargetList(resultList);
-        SavingTargetStorage.saveSavingTargetData(resultList, userId);
+      try {
+        Response res = await Api.dio
+            .post('$rootURI/getSavingTargetList', data: {'userId': userId});
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<savingTargetClass> resultList = [
+            savingTargetClass.setTargetFields(null, 'なし')
+          ];
+          res.data['savingTarget'].forEach((value) {
+            resultList.add(savingTargetClass.setTargetFields(
+                value['savingTargetId'], value['savingTargetName']));
+          });
+          setSavingTargetList(resultList);
+          SavingTargetStorage.saveSavingTargetData(resultList, userId);
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
@@ -49,16 +52,21 @@ class SavingTargetApi {
     }
 
     await Future(() async {
-      Response res = await dio.post('$rootURI/addSavingTarget',
-          data: savingTarget.getSavingTargetJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
+      try {
+        Response res = await Api.dio.post('$rootURI/addSavingTarget',
+            data: savingTarget.getSavingTargetJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setDisable();
+          setSnackBar(res.data['message']);
+        } else {
+          // 成功
+          backNavigation();
+          SavingTargetStorage.allDelete();
+        }
+      } on DioError catch (e) {
         setDisable();
-        setSnackBar(res.data['message']);
-      } else {
-        // 成功
-        backNavigation();
-        SavingTargetStorage.allDelete();
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -76,16 +84,21 @@ class SavingTargetApi {
     }
 
     await Future(() async {
-      Response res = await dio.post('$rootURI/editSavingTarget',
-          data: savingTarget.getSavingTargetJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
+      try {
+        Response res = await Api.dio.post('$rootURI/editSavingTarget',
+            data: savingTarget.getSavingTargetJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setDisable();
+          setSnackBar(res.data['message']);
+        } else {
+          // 成功
+          backNavigation();
+          SavingTargetStorage.allDelete();
+        }
+      } on DioError catch (e) {
         setDisable();
-        setSnackBar(res.data['message']);
-      } else {
-        // 成功
-        backNavigation();
-        SavingTargetStorage.allDelete();
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
@@ -99,18 +112,23 @@ class SavingTargetApi {
       Function setSnackBar) async {
     setDisable();
     await Future(() async {
-      Response res = await dio.post('$rootURI/deleteSavingTarget', data: {
-        'userId': env.userId,
-        'savingTargetId': savingTarget.savingTargetId
-      });
-      if (res.data['status'] == 'error') {
-        // 失敗
+      try {
+        Response res = await Api.dio.post('$rootURI/deleteSavingTarget', data: {
+          'userId': env.userId,
+          'savingTargetId': savingTarget.savingTargetId
+        });
+        if (res.data['status'] == 'error') {
+          // 失敗
+          setSnackBar(res.data['message']);
+          setDisable();
+        } else {
+          // 成功
+          backNavigation();
+          SavingTargetStorage.allDelete();
+        }
+      } on DioError catch (e) {
+        setSnackBar(Api.errorMessage(e));
         setDisable();
-        setSnackBar(res.data['message']);
-      } else {
-        // 成功
-        backNavigation();
-        SavingTargetStorage.allDelete();
       }
     });
   }
@@ -119,19 +137,23 @@ class SavingTargetApi {
   static Future<void> getDeletedSavingTarget(
       Function setSavingTargetList, String userId) async {
     await Future(() async {
-      Response res = await dio
-          .post('$rootURI/getDeletedSavingTarget', data: {'userId': userId});
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<savingTargetClass> resultList = [];
-        res.data['savingTarget'].forEach((value) {
-          resultList.add(savingTargetClass.setTargetFields(
-              value['savingTargetId'], value['savingTargetName']));
-        });
-        setSavingTargetList(resultList);
-        SavingTargetStorage.saveDeletedSavingTargetData(resultList, userId);
+      try {
+        Response res = await Api.dio
+            .post('$rootURI/getDeletedSavingTarget', data: {'userId': userId});
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<savingTargetClass> resultList = [];
+          res.data['savingTarget'].forEach((value) {
+            resultList.add(savingTargetClass.setTargetFields(
+                value['savingTargetId'], value['savingTargetName']));
+          });
+          setSavingTargetList(resultList);
+          SavingTargetStorage.saveDeletedSavingTargetData(resultList, userId);
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
@@ -143,19 +165,23 @@ class SavingTargetApi {
       Function setSnackBar,
       Function reloadList) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/deleteSavingTargetFromTable',
-          data: {
-            'userId': env.userId,
-            'savingTargetId': savingTarget.savingTargetId
-          });
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        reloadList(savingTarget);
-        SavingTargetStorage.deleteDeletedSavingTargetData();
+      try {
+        Response res = await Api.dio
+            .post('$rootURI/deleteSavingTargetFromTable', data: {
+          'userId': env.userId,
+          'savingTargetId': savingTarget.savingTargetId
+        });
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          reloadList(savingTarget);
+          SavingTargetStorage.deleteDeletedSavingTargetData();
+        }
+        setSnackBar(res.data['message']);
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
-      setSnackBar(res.data['message']);
     });
   }
 
@@ -166,19 +192,23 @@ class SavingTargetApi {
       Function setSnackBar,
       Function reloadList) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/returnSavingTarget', data: {
-        'userId': env.userId,
-        'savingTargetId': savingTarget.savingTargetId
-      });
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        reloadList(savingTarget);
-        SavingTargetStorage.allDelete();
-        SavingStorage.deleteSavingAmountForTarget();
+      try {
+        Response res = await Api.dio.post('$rootURI/returnSavingTarget', data: {
+          'userId': env.userId,
+          'savingTargetId': savingTarget.savingTargetId
+        });
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          reloadList(savingTarget);
+          SavingTargetStorage.allDelete();
+          SavingStorage.deleteSavingAmountForTarget();
+        }
+        setSnackBar(res.data['message']);
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
-      setSnackBar(res.data['message']);
     });
   }
 }

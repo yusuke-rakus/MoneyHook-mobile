@@ -8,22 +8,25 @@ import 'api.dart';
 
 class CategoryApi {
   static String rootURI = Api.rootURI;
-  static Dio dio = Dio();
 
   static Future<void> getCategoryList(Function setCategoryList) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/category/getCategoryList');
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<categoryClass> categoryList = [];
-        res.data['categoryList'].forEach((value) {
-          categoryList
-              .add(categoryClass(value['categoryId'], value['categoryName']));
-        });
-        setCategoryList(categoryList);
-        CategoryStorage.saveCategoryList(categoryList);
+      try {
+        Response res = await Api.dio.post('$rootURI/category/getCategoryList');
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<categoryClass> categoryList = [];
+          res.data['categoryList'].forEach((value) {
+            categoryList
+                .add(categoryClass(value['categoryId'], value['categoryName']));
+          });
+          setCategoryList(categoryList);
+          CategoryStorage.saveCategoryList(categoryList);
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
@@ -31,20 +34,25 @@ class CategoryApi {
   static Future<void> getSubCategoryList(
       String userId, int categoryId, Function setSubCategoryList) async {
     await Future(() async {
-      Response res = await dio.post('$rootURI/subCategory/getSubCategoryList',
-          data: {'userId': userId, 'categoryId': categoryId});
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<subCategoryClass> subCategoryList = [];
-        res.data['subCategoryList'].forEach((value) {
-          subCategoryList.add(subCategoryClass(
-              value['subCategoryId'], value['subCategoryName']));
-        });
-        setSubCategoryList(subCategoryList);
-        CategoryStorage.saveSubCategoryList(
-            subCategoryList, categoryId.toString());
+      try {
+        Response res = await Api.dio.post(
+            '$rootURI/subCategory/getSubCategoryList',
+            data: {'userId': userId, 'categoryId': categoryId});
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<subCategoryClass> subCategoryList = [];
+          res.data['subCategoryList'].forEach((value) {
+            subCategoryList.add(subCategoryClass(
+                value['subCategoryId'], value['subCategoryName']));
+          });
+          setSubCategoryList(subCategoryList);
+          CategoryStorage.saveSubCategoryList(
+              subCategoryList, categoryId.toString());
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
@@ -52,30 +60,35 @@ class CategoryApi {
   static Future<void> getCategoryWithSubCategoryList(
       envClass env, Function setLoading, Function setCategoryList) async {
     await Future(() async {
-      Response res = await dio.post(
-          '$rootURI/category/getCategoryWithSubCategoryList',
-          data: env.getUserJson());
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        List<categoryClass> categoryList = [];
-        res.data['categoryList'].forEach((value) {
-          List<subCategoryClass> subCategoryList = [];
-          value['subCategoryList'].forEach((subCategory) {
-            subCategoryList.add(subCategoryClass.setFullFields(
-                subCategory['subCategoryId'],
-                subCategory['subCategoryName'],
-                subCategory['enable']));
-          });
+      try {
+        Response res = await Api.dio.post(
+            '$rootURI/category/getCategoryWithSubCategoryList',
+            data: env.getUserJson());
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<categoryClass> categoryList = [];
+          res.data['categoryList'].forEach((value) {
+            List<subCategoryClass> subCategoryList = [];
+            value['subCategoryList'].forEach((subCategory) {
+              subCategoryList.add(subCategoryClass.setFullFields(
+                  subCategory['subCategoryId'],
+                  subCategory['subCategoryName'],
+                  subCategory['enable']));
+            });
 
-          categoryList.add(categoryClass.setCategoryWithSubCategory(
-              value['categoryId'], value['categoryName'], subCategoryList));
-        });
-        setCategoryList(categoryList);
-        CategoryStorage.saveCategoryWithSubCategoryList(categoryList);
+            categoryList.add(categoryClass.setCategoryWithSubCategory(
+                value['categoryId'], value['categoryName'], subCategoryList));
+          });
+          setCategoryList(categoryList);
+          CategoryStorage.saveCategoryWithSubCategoryList(categoryList);
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
+      } finally {
+        setLoading();
       }
-      setLoading();
     });
   }
 
@@ -83,18 +96,22 @@ class CategoryApi {
   static Future<void> editSubCategory(
       envClass env, subCategoryClass subCategory, int categoryId) async {
     await Future(() async {
-      Response res =
-          await dio.post('$rootURI/subCategory/editSubCategory', data: {
-        'userId': env.userId,
-        'subCategoryId': subCategory.subCategoryId,
-        'enable': subCategory.enable
-      });
-      if (res.data['status'] == 'error') {
-        // 失敗
-      } else {
-        // 成功
-        CategoryStorage.deleteSubCategoryListWithParam(categoryId.toString());
-        CategoryStorage.deleteCategoryWithSubCategoryList();
+      try {
+        Response res =
+            await Api.dio.post('$rootURI/subCategory/editSubCategory', data: {
+          'userId': env.userId,
+          'subCategoryId': subCategory.subCategoryId,
+          'enable': subCategory.enable
+        });
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          CategoryStorage.deleteSubCategoryListWithParam(categoryId.toString());
+          CategoryStorage.deleteCategoryWithSubCategoryList();
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
