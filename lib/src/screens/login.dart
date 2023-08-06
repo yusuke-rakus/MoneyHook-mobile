@@ -20,7 +20,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  bool _showPassword = false;
   late bool _isLoading;
   late userClass loginInfo;
 
@@ -88,6 +87,7 @@ class _LoginState extends State<Login> {
         body: Stack(
           children: [
             ListView(
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 const dataNotRegisteredBox(message: '外部アカウントでログインしてください'),
                 // *** デバッグ用ログイン start ***
