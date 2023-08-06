@@ -20,7 +20,7 @@ class savingValidation {
 
     // 桁数チェック
     if (saving.savingAmount > 9999999) {
-      saving.savingAmountError = '9999,999以内';
+      saving.savingAmountError = '9,999,999以内';
       return true;
     }
 

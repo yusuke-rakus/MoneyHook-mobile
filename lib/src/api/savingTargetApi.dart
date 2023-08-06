@@ -48,6 +48,7 @@ class SavingTargetApi {
     setDisable();
     // バリデーション
     if (savingTargetValidation.checkSavingTarget(savingTarget)) {
+      setDisable();
       return;
     }
 
@@ -80,6 +81,7 @@ class SavingTargetApi {
     setDisable();
     // バリデーション
     if (savingTargetValidation.checkSavingTarget(savingTarget)) {
+      setDisable();
       return;
     }
 

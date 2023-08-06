@@ -193,6 +193,7 @@ class transactionApi {
       Function setSnackBar) async {
     setDisable();
     if (transactionValidation.checkTransaction(transaction)) {
+      setDisable();
       return;
     }
 
@@ -230,6 +231,7 @@ class transactionApi {
       Function setSnackBar) async {
     setDisable();
     if (transactionValidation.checkTransaction(transaction)) {
+      setDisable();
       return;
     }
 

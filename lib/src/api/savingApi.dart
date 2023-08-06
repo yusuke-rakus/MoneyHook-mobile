@@ -115,6 +115,7 @@ class SavingApi {
       Function setDisable, Function setSnackBar) async {
     setDisable();
     if (savingValidation.checkSaving(saving)) {
+      setDisable();
       return;
     }
 
@@ -143,6 +144,7 @@ class SavingApi {
       Function setDisable, Function setSnackBar) async {
     setDisable();
     if (savingValidation.checkSaving(saving)) {
+      setDisable();
       return;
     }
 
