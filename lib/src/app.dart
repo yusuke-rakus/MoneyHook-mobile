@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/screens/analysis.dart';
 import 'package:money_hooks/src/screens/homeScreen.dart';
@@ -8,7 +10,6 @@ import 'package:money_hooks/src/screens/login.dart';
 import 'package:money_hooks/src/screens/saving.dart';
 import 'package:money_hooks/src/screens/settings.dart';
 import 'package:money_hooks/src/screens/timelineScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -46,7 +47,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   bool isLogin = false;
   bool isLoading = false;
-  String? userId;
   late envClass env;
 
   void setScreenItems() {
@@ -68,22 +68,48 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   void initState() {
     super.initState();
-
-    // ここで認証
-    Future(() async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      userId = prefs.getString('USER_ID');
-
-      if (userId == null) {
+    // 認証
+    Future(() {
+      FirebaseAuth.instance.authStateChanges().listen((User? user) {
         setState(() {
-          setLoginItem();
+          _selectedIndex = 0;
         });
-      } else {
-        setState(() {
-          env = envClass.setUserId(userId);
-          setScreenItems();
-        });
-      }
+        if (user == null) {
+          // ログイン画面へ
+          setState(() {
+            setLoginItem();
+          });
+        } else {
+          user.getIdToken().then((value) {
+            final String? token = value;
+            final String? email = user.email;
+
+            if (token != null && email != null) {
+              print('load start');
+              userApi.googleSignIn(context, email, token).then((userId) {
+                print('load end');
+                if (userId == null) {
+                  // ログイン画面へ
+                  setState(() {
+                    setLoginItem();
+                  });
+                } else {
+                  // ホーム画面へ
+                  setState(() {
+                    env = envClass.setUserId(userId);
+                    setScreenItems();
+                  });
+                }
+              });
+            } else {
+              // ログイン画面へ
+              setState(() {
+                setLoginItem();
+              });
+            }
+          });
+        }
+      });
     });
   }
 

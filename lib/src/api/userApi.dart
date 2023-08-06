@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/api.dart';
@@ -12,20 +15,20 @@ class userApi {
   static String rootURI = '${Api.rootURI}/user';
 
   // Googleサインイン
-  static Future<void> googleSignIn(
+  static Future<String?> googleSignIn(
       BuildContext context, String email, String token) async {
-    await Future(() async {
-      Response res = await Api.dio.post('$rootURI/googleSignIn',
-          data: {'userId': email, 'token': token});
-      if (res.data['status'] == 'error') {
-        // ログイン失敗
-      } else {
-        // ログイン成功
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<int> bytes = utf8.encode(email);
+    final userId = sha256.convert(bytes).toString();
 
-        await prefs.setString('USER_ID', res.data['user']['userId']);
-      }
-    });
+    Response res = await Api.dio.post('$rootURI/googleSignIn',
+        data: {'userId': userId, 'token': token});
+    if (res.data['status'] == 'error') {
+      // ログイン失敗
+      return null;
+    } else {
+      // ログイン成功
+      return userId;
+    }
   }
 
   // ログイン
@@ -43,6 +46,7 @@ class userApi {
           SharedPreferences prefs = await SharedPreferences.getInstance();
 
           await prefs.setString('USER_ID', res.data['user']['userId']);
+          await prefs.setString('TOKEN', 'token');
           reload();
         }
       } on DioError catch (e) {

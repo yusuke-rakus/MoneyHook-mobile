@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
@@ -13,7 +14,6 @@ import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../app.dart';
 import '../env/envClass.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -41,17 +41,22 @@ class SettingsScreen extends StatelessWidget {
             _menuCard(context, Icons.savings_outlined, '完了した貯金目標',
                 DeletedSavingTarget(env: env)),
             TextButton(
-                onPressed: () async {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  await prefs.remove('USER_ID');
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
 
-                  // ignore: use_build_context_synchronously
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              const MyStatefulWidget()));
+                  // SharedPreferences prefs =
+                  //     await SharedPreferences.getInstance();
+                  // サインアウト
+                  // prefs
+                  //     .remove('USER_ID')
+                  //     .then((value) => prefs.remove('TOKEN').then((value) {
+                  //           FirebaseAuth.instance.signOut();
+                  //           Navigator.pushReplacement(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (BuildContext context) =>
+                  //                       const MyStatefulWidget()));
+                  //         }));
                 },
                 child: const Text(
                   'ログアウト',
@@ -80,6 +85,25 @@ class SettingsScreen extends StatelessWidget {
                   'デバッグ用キャッシュ全削除',
                   style: TextStyle(color: Colors.black54),
                 )),
+            TextButton(
+                onPressed: () {
+                  FirebaseAuth.instance
+                      .authStateChanges()
+                      .listen((User? user) async {
+                    if (user == null) {
+                      print('Null');
+                    } else {
+                      // user.getIdToken().then((value) => print(value));
+
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      final userId = prefs.getString('USER_ID');
+                      print(userId);
+                      print('signed in!');
+                    }
+                  });
+                },
+                child: const Text('Firebase確認'))
           ],
         ));
   }
