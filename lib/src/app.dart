@@ -10,6 +10,7 @@ import 'package:money_hooks/src/screens/login.dart';
 import 'package:money_hooks/src/screens/saving.dart';
 import 'package:money_hooks/src/screens/settings.dart';
 import 'package:money_hooks/src/screens/timelineScreen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -70,24 +71,35 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     super.initState();
     // 認証
     Future(() {
-      FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      // *** デバッグ用async ***
+      FirebaseAuth.instance.authStateChanges().listen((User? user) async {
         setState(() {
           _selectedIndex = 0;
         });
         if (user == null) {
-          // ログイン画面へ
-          setState(() {
-            setLoginItem();
-          });
+          // *** デバッグ用ログイン start ***
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          final userId = prefs.getString('USER_ID');
+          if (userId != null) {
+            setState(() {
+              env = envClass.setUserId(userId);
+              setScreenItems();
+            });
+          }
+          // *** デバッグ用ログイン end ***
+          else {
+            // ログイン画面へ
+            setState(() {
+              setLoginItem();
+            });
+          }
         } else {
           user.getIdToken().then((value) {
             final String? token = value;
             final String? email = user.email;
 
             if (token != null && email != null) {
-              print('load start');
               userApi.googleSignIn(context, email, token).then((userId) {
-                print('load end');
                 if (userId == null) {
                   // ログイン画面へ
                   setState(() {

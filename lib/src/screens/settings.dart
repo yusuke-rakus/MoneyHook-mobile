@@ -14,6 +14,7 @@ import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../app.dart';
 import '../env/envClass.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -43,25 +44,29 @@ class SettingsScreen extends StatelessWidget {
             TextButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
-
-                  // SharedPreferences prefs =
-                  //     await SharedPreferences.getInstance();
-                  // サインアウト
-                  // prefs
-                  //     .remove('USER_ID')
-                  //     .then((value) => prefs.remove('TOKEN').then((value) {
-                  //           FirebaseAuth.instance.signOut();
-                  //           Navigator.pushReplacement(
-                  //               context,
-                  //               MaterialPageRoute(
-                  //                   builder: (BuildContext context) =>
-                  //                       const MyStatefulWidget()));
-                  //         }));
                 },
                 child: const Text(
                   'ログアウト',
                   style: TextStyle(color: Colors.black54),
                 )),
+            // *** デバッグ用ログイン start ***
+            TextButton(
+                onPressed: () async {
+                  SharedPreferences prefs =
+                      await SharedPreferences.getInstance();
+                  // サインアウト
+                  prefs.remove('USER_ID').then((value) =>
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  const MyStatefulWidget())));
+                },
+                child: const Text(
+                  '旧ログアウト',
+                  style: TextStyle(color: Colors.black54),
+                )),
+            // *** デバッグ用ログイン end ***
             TextButton(
                 onPressed: () async {
                   final db = Localstore.instance;
@@ -93,17 +98,11 @@ class SettingsScreen extends StatelessWidget {
                     if (user == null) {
                       print('Null');
                     } else {
-                      // user.getIdToken().then((value) => print(value));
-
-                      SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-                      final userId = prefs.getString('USER_ID');
-                      print(userId);
                       print('signed in!');
                     }
                   });
                 },
-                child: const Text('Firebase確認'))
+                child: const Text('Firebase確認')),
           ],
         ));
   }

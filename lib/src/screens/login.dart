@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:money_hooks/src/api/userApi.dart';
@@ -25,6 +24,7 @@ class _LoginState extends State<Login> {
   late bool _isLoading;
   late userClass loginInfo;
 
+  // [デバッグ用]
   void setLoading() {
     setState(() {
       _isLoading ? context.loaderOverlay.hide() : context.loaderOverlay.show();
@@ -32,7 +32,7 @@ class _LoginState extends State<Login> {
     });
   }
 
-  // アプリケーションの再読み込み
+  // アプリケーションの再読み込み[デバッグ用]
   void reload() {
     Navigator.pushReplacement(
         context,
@@ -40,7 +40,7 @@ class _LoginState extends State<Login> {
             builder: (BuildContext context) => const MyStatefulWidget()));
   }
 
-  // スナックバー表示
+  // スナックバー表示[デバッグ用]
   void setSnackBar(String message) {
     CommonSnackBar.build(context: context, text: message);
   }
@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
     _isLoading = widget.isLoading;
   }
 
-  // ログイン処理
+  // ログイン処理[デバッグ用]
   void _login(BuildContext context, userClass loginInfo) async {
     await userApi.login(loginInfo, setLoading, reload, setSnackBar);
   }
@@ -64,17 +64,6 @@ class _LoginState extends State<Login> {
     } on Exception catch (e) {
       CommonSnackBar.build(context: context, text: 'Firebaseエラー');
     }
-  }
-
-  /// Firebase Auth
-  void _checkLogin() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user == null) {
-        print('Null');
-      } else {
-        print('signed in!');
-      }
-    });
   }
 
   @override
@@ -101,63 +90,32 @@ class _LoginState extends State<Login> {
             ListView(
               children: [
                 const dataNotRegisteredBox(message: '外部アカウントでログインしてください'),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        loginInfo.email = value;
-                      });
-                    },
-                    controller: emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'メールアドレス',
-                    ),
-                  ),
+                // *** デバッグ用ログイン start ***
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      loginInfo.email = value;
+                    });
+                  },
+                  controller: emailController,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20),
-                  child: TextField(
-                    onChanged: (value) {
-                      setState(() {
-                        loginInfo.password = value;
-                      });
-                    },
-                    controller: passwordController,
-                    obscureText: !_showPassword,
-                    decoration: InputDecoration(
-                        labelText: "パスワード",
-                        suffixIcon: IconButton(
-                          icon: Icon(_showPassword
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined),
-                          onPressed: () {
-                            setState(() {
-                              _showPassword = !_showPassword;
-                            });
-                          },
-                        )),
-                  ),
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      loginInfo.password = value;
+                    });
+                  },
+                  controller: passwordController,
                 ),
                 ElevatedButton(
-                  onPressed: loginInfo.isDisabled()
-                      ? null
-                      : _isLoading
-                          ? null
-                          : () {
-                              setState(() {
-                                _login(context, loginInfo);
-                              });
-                            },
+                  onPressed: () {
+                    _login(context, loginInfo);
+                  },
                   child: const Text(
                     'デバッグ用旧ログイン',
                   ),
                 ),
-                TextButton(
-                    onPressed: () {
-                      _checkLogin();
-                    },
-                    child: const Text('ログイン状態チェック'))
+                // *** デバッグ用ログイン end ***
               ],
             ),
             Padding(
