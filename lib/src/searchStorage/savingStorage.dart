@@ -102,7 +102,7 @@ class SavingStorage {
     });
   }
 
-  static void deleteSavingAmountForTarget() async {
+  static Future<void> deleteSavingAmountForTarget() async {
     await db.collection('savingAmountForTargetData').delete();
   }
 

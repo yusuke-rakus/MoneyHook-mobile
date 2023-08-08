@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/api/savingTargetApi.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../modals/editSavingTarget.dart';
+import 'commonSnackBar.dart';
 
-class SavingTargetList extends StatelessWidget {
+class SavingTargetList extends StatefulWidget {
   const SavingTargetList(
       {Key? key,
       required this.context,
@@ -18,14 +20,54 @@ class SavingTargetList extends StatelessWidget {
   final Function setReload;
 
   @override
+  State<SavingTargetList> createState() => _SavingTargetListState();
+}
+
+class _SavingTargetListState extends State<SavingTargetList> {
+  late List<savingTargetClass> savingTargetList;
+  late envClass env;
+  late Function setReload;
+
+  // メッセージの設定
+  void setSnackBar(String message) {
+    setState(() {
+      CommonSnackBar.build(context: context, text: message);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    savingTargetList = widget.savingTargetList;
+    env = widget.env;
+    setReload = widget.setReload;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    return ReorderableListView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 100),
       itemCount: savingTargetList.length,
       itemBuilder: (BuildContext context, int index) {
-        return _savingTargetCard(savingTargetList[index]);
+        return ListTile(
+            key: Key('$index'),
+            title: _savingTargetCard(savingTargetList[index]));
+      },
+      onReorder: (oldIndex, newIndex) {
+        if (oldIndex < newIndex) {
+          newIndex -= 1;
+        }
+        final savingTargetClass savingTarget =
+            savingTargetList.removeAt(oldIndex);
+        setState(() {
+          savingTargetList.insert(newIndex, savingTarget);
+          savingTargetList.asMap().forEach((i, e) {
+            e.sortNo = i + 1;
+          });
+        });
+        // API通信
+        SavingTargetApi.sortSavingTarget(env, savingTargetList, setSnackBar);
       },
     );
   }

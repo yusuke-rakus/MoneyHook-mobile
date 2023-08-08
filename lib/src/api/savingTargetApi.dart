@@ -213,4 +213,32 @@ class SavingTargetApi {
       }
     });
   }
+
+  /// 貯金目標を並べ替え
+  static Future<void> sortSavingTarget(envClass env,
+      List<savingTargetClass> savingTargetList, Function setSnackBar) async {
+    await Future(() async {
+      try {
+        Response res = await Api.dio.post('$rootURI/sortSavingTarget', data: {
+          'userId': env.userId,
+          'savingTargetList':
+              savingTargetList.map((e) => e.getSortSavingJson()).toList()
+        });
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          // 貯金目標リストを更新
+          SavingStorage.deleteSavingAmountForTarget().then((value) =>
+              SavingStorage.saveSavingAmountForTarget(
+                  savingTargetList, env.userId));
+          // 貯金目標リスト(貯金画面)を削除
+          SavingTargetStorage.allDelete();
+        }
+        setSnackBar(res.data['message']);
+      } on DioError catch (e) {
+        setSnackBar(Api.errorMessage(e));
+      }
+    });
+  }
 }

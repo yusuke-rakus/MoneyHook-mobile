@@ -12,6 +12,7 @@ class savingTargetClass {
   bool isDisable = false;
   String savingTargetNameError = '';
   String targetAmountError = '';
+  int? sortNo;
 
   savingTargetClass();
 
@@ -76,6 +77,10 @@ class savingTargetClass {
       'savingMonth': savingMonth.toString(),
       'monthlyTotalSavingAmount': monthlyTotalSavingAmount
     };
+  }
+
+  Map<String, dynamic> getSortSavingJson() {
+    return {'savingTargetId': savingTargetId, 'sortNo': sortNo};
   }
 
   @override
