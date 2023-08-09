@@ -162,65 +162,71 @@ class _HideSubCategoryState extends State<HideSubCategory> {
                       shrinkWrap: true,
                       itemCount: categoryList.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return ExpansionTile(
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(categoryList[index].categoryName),
-                            ],
+                        return Theme(
+                          data: Theme.of(context)
+                              .copyWith(dividerColor: Colors.transparent),
+                          child: ExpansionTile(
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(categoryList[index].categoryName),
+                              ],
+                            ),
+                            textColor: Colors.black,
+                            children: categoryList[index]
+                                .subCategoryList
+                                .asMap()
+                                .entries
+                                .map<Widget>((subCategory) => ListTile(
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          // デフォルト選択ボタン
+                                          if (_editMode)
+                                            Radio(
+                                                value:
+                                                    '$index,${subCategory.key}',
+                                                groupValue: defaultIndex,
+                                                onChanged: (e) {
+                                                  _changeDefaultIndex(
+                                                      e!, false);
+                                                }),
+                                          const SizedBox(
+                                            width: 20,
+                                          ),
+                                          // サブカテゴリ名
+                                          Text.rich(TextSpan(children: [
+                                            TextSpan(
+                                                text: subCategory
+                                                    .value.subCategoryName),
+                                            WidgetSpan(
+                                                alignment:
+                                                    PlaceholderAlignment.top,
+                                                child: Visibility(
+                                                    visible:
+                                                        '$index,${subCategory.key}' ==
+                                                            defaultIndex,
+                                                    child: const Icon(
+                                                      Icons.circle,
+                                                      color: Colors.blue,
+                                                      size: 10,
+                                                    ))),
+                                          ])),
+                                          const Spacer(),
+                                        ],
+                                      ),
+                                      // スイッチボタン
+                                      trailing: CupertinoSwitch(
+                                          activeColor: Colors.blue,
+                                          value: subCategory.value.enable,
+                                          onChanged: (activeState) {
+                                            _changeEnable(activeState, index,
+                                                subCategory.key);
+                                          }),
+                                    ))
+                                .toList(),
                           ),
-                          children: categoryList[index]
-                              .subCategoryList
-                              .asMap()
-                              .entries
-                              .map<Widget>((subCategory) => ListTile(
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        // デフォルト選択ボタン
-                                        if (_editMode)
-                                          Radio(
-                                              value:
-                                                  '$index,${subCategory.key}',
-                                              groupValue: defaultIndex,
-                                              onChanged: (e) {
-                                                _changeDefaultIndex(e!, false);
-                                              }),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        // サブカテゴリ名
-                                        Text.rich(TextSpan(children: [
-                                          TextSpan(
-                                              text: subCategory
-                                                  .value.subCategoryName),
-                                          WidgetSpan(
-                                              alignment:
-                                                  PlaceholderAlignment.top,
-                                              child: Visibility(
-                                                  visible:
-                                                      '$index,${subCategory.key}' ==
-                                                          defaultIndex,
-                                                  child: const Icon(
-                                                    Icons.circle,
-                                                    color: Colors.blue,
-                                                    size: 10,
-                                                  ))),
-                                        ])),
-                                        const Spacer(),
-                                      ],
-                                    ),
-                                    // スイッチボタン
-                                    trailing: CupertinoSwitch(
-                                        activeColor: Colors.blue,
-                                        value: subCategory.value.enable,
-                                        onChanged: (activeState) {
-                                          _changeEnable(activeState, index,
-                                              subCategory.key);
-                                        }),
-                                  ))
-                              .toList(),
                         );
                       }),
                 ),

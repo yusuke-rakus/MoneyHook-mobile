@@ -150,50 +150,59 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
   // アコーディオン
   Widget _variableAccordion(
       BuildContext context, Map<String, dynamic> monthlyVariableList) {
-    return ExpansionTile(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text('${monthlyVariableList['categoryName']}'),
-            Text(
-                '¥${transactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
-          ],
-        ),
-        children: monthlyVariableList['subCategoryList']
-            .map<Widget>((subCategory) => ExpansionTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(subCategory['subCategoryName']),
-                      Text(
-                          '¥${transactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
-                    ],
-                  ),
-                  children: subCategory['transactionList']
-                      .map<Widget>((tran) => ListTile(
-                              title: Row(
-                            children: [
-                              Expanded(
-                                flex: 7,
-                                child: Text(
-                                  tran['transactionName'],
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ),
-                              Expanded(
-                                flex: 3,
-                                child: Row(
-                                  children: [
-                                    const Expanded(child: SizedBox()),
-                                    Text(
-                                        '¥${transactionClass.formatNum(tran['transactionAmount'].abs())}'),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          )))
-                      .toList(),
-                ))
-            .toList());
+    return Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('${monthlyVariableList['categoryName']}'),
+              Text(
+                  '¥${transactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
+            ],
+          ),
+          textColor: Colors.black,
+          children: monthlyVariableList['subCategoryList']
+              .map<Widget>((subCategory) => Theme(
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
+                    child: ExpansionTile(
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(subCategory['subCategoryName']),
+                          Text(
+                              '¥${transactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
+                        ],
+                      ),
+                      textColor: Colors.black,
+                      children: subCategory['transactionList']
+                          .map<Widget>((tran) => ListTile(
+                                  title: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 7,
+                                    child: Text(
+                                      tran['transactionName'],
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Row(
+                                      children: [
+                                        const Expanded(child: SizedBox()),
+                                        Text(
+                                            '¥${transactionClass.formatNum(tran['transactionAmount'].abs())}'),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )))
+                          .toList(),
+                    ),
+                  ))
+              .toList()),
+    );
   }
 }

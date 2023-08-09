@@ -16,26 +16,31 @@ class HomeAccordion extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
             itemCount: homeTransactionList.length,
             itemBuilder: (BuildContext context, int index) {
-              return ExpansionTile(
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(homeTransactionList[index]['categoryName']),
-                    Text(
-                        '¥${transactionClass.formatNum(homeTransactionList[index]['categoryTotalAmount'].abs())}'),
-                  ],
+              return Theme(
+                data: Theme.of(context)
+                    .copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(homeTransactionList[index]['categoryName']),
+                      Text(
+                          '¥${transactionClass.formatNum(homeTransactionList[index]['categoryTotalAmount'].abs())}'),
+                    ],
+                  ),
+                  textColor: Colors.black,
+                  children: homeTransactionList[index]['subCategoryList']
+                      .map<Widget>((value) => ListTile(
+                              title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(value['subCategoryName']),
+                              Text(
+                                  '¥${transactionClass.formatNum(value['subCategoryTotalAmount'].abs())}'),
+                            ],
+                          )))
+                      .toList(),
                 ),
-                children: homeTransactionList[index]['subCategoryList']
-                    .map<Widget>((value) => ListTile(
-                            title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(value['subCategoryName']),
-                            Text(
-                                '¥${transactionClass.formatNum(value['subCategoryTotalAmount'].abs())}'),
-                          ],
-                        )))
-                    .toList(),
               );
             },
             separatorBuilder: (BuildContext context, int index) {

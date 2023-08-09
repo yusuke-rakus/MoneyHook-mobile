@@ -367,7 +367,7 @@ class _EditTransaction extends State<EditTransaction> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  '${transaction.categoryName} / ${widget.transaction.subCategoryName}',
+                                  '${transaction.categoryName} / ${transaction.subCategoryName}',
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(fontSize: 20),
                                 ),
