@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../app.dart';
 import '../env/envClass.dart';
+import '../modals/settings_modal/searchTransaction.dart';
 
 class SettingsScreen extends StatelessWidget {
   SettingsScreen(this.isLoading, this.env, {super.key});
@@ -41,6 +42,8 @@ class SettingsScreen extends StatelessWidget {
                 HideSubCategory(env: env)),
             _menuCard(context, Icons.savings_outlined, '完了した貯金目標',
                 DeletedSavingTarget(env: env)),
+            _menuCard(context, Icons.search_outlined, '収支の検索',
+                SearchTransaction(env: env)),
             TextButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();

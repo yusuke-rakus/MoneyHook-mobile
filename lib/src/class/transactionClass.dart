@@ -15,6 +15,8 @@ class transactionClass {
   bool isDisable = false;
   String transactionNameError = '';
   String transactionAmountError = '';
+  late String startMonth;
+  late String endMonth;
 
   transactionClass();
 

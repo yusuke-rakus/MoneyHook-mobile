@@ -323,4 +323,37 @@ class transactionApi {
       }
     });
   }
+
+  /// カテゴリ毎の支出総額を取得
+  static Future<void> getTotalSpending(envClass env,
+      transactionClass transaction, Function setTransactionList) async {
+    await Future(() async {
+      try {
+        Response res = await Api.dio.post('$rootURI/getTotalSpending', data: {
+          'userId': env.userId,
+          'categoryId': transaction.categoryId,
+          'subCategoryId': transaction.subCategoryId,
+          'startMonth': transaction.startMonth,
+          'endMonth': transaction.endMonth,
+        });
+        if (res.data['status'] == 'error') {
+          // 失敗
+        } else {
+          // 成功
+          List<Map<String, dynamic>> resultList = [];
+          res.data['categoryTotalList'].forEach((value) {
+            Map<String, dynamic> categoryList = {
+              'categoryName': value['categoryName'],
+              'categoryTotalAmount': value['categoryTotalAmount'],
+              'subCategoryList': value['subCategoryList']
+            };
+            resultList.add(categoryList);
+          });
+          setTransactionList(res.data['totalSpending'], resultList);
+        }
+      } on DioError catch (e) {
+        Api.errorMessage(e);
+      }
+    });
+  }
 }
