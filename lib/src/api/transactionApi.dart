@@ -325,8 +325,11 @@ class transactionApi {
   }
 
   /// カテゴリ毎の支出総額を取得
-  static Future<void> getTotalSpending(envClass env,
-      transactionClass transaction, Function setTransactionList) async {
+  static Future<void> getTotalSpending(
+      envClass env,
+      transactionClass transaction,
+      Function setTransactionList,
+      Function setSnackBar) async {
     await Future(() async {
       try {
         Response res = await Api.dio.post('$rootURI/getTotalSpending', data: {
@@ -338,6 +341,7 @@ class transactionApi {
         });
         if (res.data['status'] == 'error') {
           // 失敗
+          setSnackBar(res.data['message']);
         } else {
           // 成功
           List<Map<String, dynamic>> resultList = [];
