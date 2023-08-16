@@ -7,7 +7,6 @@ import 'package:money_hooks/src/class/response/searchTransactionData.dart';
 import '../../class/transactionClass.dart';
 import '../../components/commonLoadingDialog.dart';
 import '../../components/commonSnackBar.dart';
-import '../../components/dataNotRegisteredBox.dart';
 import '../../env/envClass.dart';
 import '../../searchStorage/categoryStorage.dart';
 import '../selectCategoryForSearch.dart';
@@ -78,7 +77,7 @@ class _SearchTransaction extends State<SearchTransaction> {
     super.initState();
     env = widget.env;
     _isLoading = false;
-    _setDefaultCategory(transaction);
+    // _setDefaultCategory(transaction);
 
     DateTime now = DateTime.now();
     transaction.startMonth =
@@ -97,148 +96,156 @@ class _SearchTransaction extends State<SearchTransaction> {
           data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
           child: ListView(
             children: [
-              ExpansionTile(
-                title: Text(
-                  searchTitle,
-                  style: const TextStyle(fontSize: 20),
-                ),
-                textColor: Colors.black,
-                initiallyExpanded: true,
-                onExpansionChanged: (isOpen) {
-                  setState(() {
-                    if (isOpen) {
-                      searchTitle = '';
-                    } else {
-                      searchTitle =
-                          '${transaction.categoryName} / ${transaction.subCategoryName}';
-                    }
-                  });
-                },
-                children: [
-                  // カテゴリタイトル
-                  Container(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: const Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            '検索するカテゴリを選択',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
-                  // カテゴリ
-                  Container(
-                      margin: const EdgeInsetsDirectional.only(
-                          start: 30, end: 30, bottom: 30),
-                      child: InkWell(
-                          onTap: () async {
-                            final result = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    SelectCategoryForSearch(env),
-                              ),
-                            );
-                            if (result == null) return;
-                            setState(() {
-                              transaction.categoryName = result['categoryName'];
-                              transaction.categoryId = result['categoryId'];
-                              transaction.subCategoryName =
-                                  result['subCategoryName'];
-                              transaction.subCategoryId =
-                                  result['subCategoryId'];
-                            });
-                          },
-                          child: SizedBox(
-                              height: 70,
-                              child: InputDecorator(
-                                  decoration: const InputDecoration(
-                                    labelText: 'カテゴリ',
-                                  ),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Text(
-                                          '${transaction.categoryName} / ${transaction.subCategoryName}',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(fontSize: 20),
-                                        )),
-                                        const Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Icon(
-                                              Icons.keyboard_arrow_right,
-                                              size: 30,
-                                            ))
-                                      ]))))),
-                  // 期間タイトル
-                  Container(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: const Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            '期間を選択',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ))),
-                  dateSelectWidget(
-                      context: context,
-                      title: '開始日',
-                      targetMonth: transaction.startMonth,
-                      setFunction: setStartMonth),
-
-                  dateSelectWidget(
-                    context: context,
-                    title: '終了日',
-                    targetMonth: transaction.endMonth,
-                    setFunction: setEndMonth,
+              Card(
+                margin: const EdgeInsets.all(10),
+                child: ExpansionTile(
+                  title: Text(
+                    searchTitle,
+                    style: const TextStyle(fontSize: 20),
                   ),
-                  // 検索ボタン
-                  Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Align(
-                          child: Container(
-                              color: Colors.white,
-                              height: 60,
-                              width: double.infinity,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    searchTransaction();
-                                  },
-                                  child: const Text(
-                                    '検索',
-                                    style: TextStyle(
-                                        fontSize: 23, letterSpacing: 20),
-                                  )))))
-                ],
+                  textColor: Colors.black,
+                  initiallyExpanded: true,
+                  onExpansionChanged: (isOpen) {
+                    setState(() {
+                      if (isOpen) {
+                        searchTitle = '';
+                      } else {
+                        if (transaction.categoryName.isNotEmpty) {
+                          searchTitle =
+                              '${transaction.categoryName} / ${transaction.subCategoryName}';
+                        }
+                      }
+                    });
+                  },
+                  children: [
+                    // カテゴリタイトル
+                    Container(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: const Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              '検索するカテゴリを選択',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))),
+                    // カテゴリ
+                    Container(
+                        margin: const EdgeInsetsDirectional.only(
+                            start: 30, end: 30, bottom: 30),
+                        child: InkWell(
+                            onTap: () async {
+                              final result = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      SelectCategoryForSearch(env),
+                                ),
+                              );
+                              if (result == null) return;
+                              setState(() {
+                                transaction.categoryName =
+                                    result['categoryName'];
+                                transaction.categoryId = result['categoryId'];
+                                transaction.subCategoryName =
+                                    result['subCategoryName'];
+                                transaction.subCategoryId =
+                                    result['subCategoryId'];
+                              });
+                            },
+                            child: SizedBox(
+                                height: 70,
+                                child: InputDecorator(
+                                    decoration: const InputDecoration(
+                                      labelText: 'カテゴリ',
+                                    ),
+                                    child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                              child: Text(
+                                            transaction.categoryName.isNotEmpty
+                                                ? '${transaction.categoryName} / ${transaction.subCategoryName}'
+                                                : '',
+                                            overflow: TextOverflow.ellipsis,
+                                            style:
+                                                const TextStyle(fontSize: 20),
+                                          )),
+                                          const Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Icon(
+                                                Icons.keyboard_arrow_right,
+                                                size: 30,
+                                              ))
+                                        ]))))),
+                    // 期間タイトル
+                    Container(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: const Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              '期間を選択',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))),
+                    dateSelectWidget(
+                        context: context,
+                        title: '開始日',
+                        targetMonth: transaction.startMonth,
+                        setFunction: setStartMonth),
+
+                    dateSelectWidget(
+                      context: context,
+                      title: '終了日',
+                      targetMonth: transaction.endMonth,
+                      setFunction: setEndMonth,
+                    ),
+                    // 検索ボタン
+                    Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Align(
+                            child: Container(
+                                color: Colors.white,
+                                height: 60,
+                                width: double.infinity,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      searchTransaction();
+                                    },
+                                    child: const Text(
+                                      '検索',
+                                      style: TextStyle(
+                                          fontSize: 23, letterSpacing: 20),
+                                    )))))
+                  ],
+                ),
               ),
-              // 検索結果タイトル
-              Container(
-                  padding: const EdgeInsets.only(left: 20, top: 30),
-                  child: const Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text(
-                        '検索結果',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ))),
-              Center(
-                child:
-                    // 検索結果
-                    resultData.monthlyVariableList.isNotEmpty
-                        ? ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            itemCount: resultData.monthlyVariableList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return _variableAccordion(context,
-                                  resultData.monthlyVariableList[index]);
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return const Divider();
-                            },
-                          )
-                        : const dataNotRegisteredBox(message: ''),
-              )
+              resultData.monthlyVariableList.isNotEmpty
+                  ? Column(
+                      children: [
+                        // 検索結果タイトル
+                        Container(
+                            padding: const EdgeInsets.only(left: 20, top: 30),
+                            child: const Align(
+                                alignment: Alignment.bottomLeft,
+                                child: Text(
+                                  '検索結果',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ))),
+                        Center(
+                            // 検索結果
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                itemCount:
+                                    resultData.monthlyVariableList.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return _variableAccordion(context,
+                                      resultData.monthlyVariableList[index]);
+                                }))
+                      ],
+                    )
+                  : const SizedBox(),
             ],
           ),
         ));

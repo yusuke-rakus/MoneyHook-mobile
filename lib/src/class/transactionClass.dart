@@ -7,9 +7,9 @@ class transactionClass {
   var transactionSign = -1;
   num transactionAmount = 0;
   var transactionName = '';
-  late int categoryId = 1;
+  int? categoryId;
   var categoryName = '';
-  late int? subCategoryId = 1;
+  int? subCategoryId;
   var subCategoryName = '';
   var fixedFlg = false;
   bool isDisable = false;

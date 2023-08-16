@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:money_hooks/src/api/validation/searchTransactionValidation.dart';
 import 'package:money_hooks/src/api/validation/transactionValidation.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
@@ -330,6 +331,11 @@ class transactionApi {
       transactionClass transaction,
       Function setTransactionList,
       Function setSnackBar) async {
+    if (searchTransactionValidation.checkTransaction(
+        transaction, setSnackBar)) {
+      return;
+    }
+
     await Future(() async {
       try {
         Response res = await Api.dio.post('$rootURI/getTotalSpending', data: {
@@ -354,9 +360,12 @@ class transactionApi {
             resultList.add(categoryList);
           });
           setTransactionList(res.data['totalSpending'], resultList);
+          if (resultList.isEmpty) {
+            setSnackBar('データが存在しませんでした');
+          }
         }
       } on DioError catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }
