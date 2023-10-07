@@ -33,9 +33,9 @@ class _SavingScreenState extends State<SavingScreen> {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: Column(
+          flexibleSpace: const Column(
             mainAxisAlignment: MainAxisAlignment.end,
-            children: const [
+            children: [
               TabBar(tabs: [Tab(text: '貯金一覧'), Tab(text: '貯金総額')])
             ],
           ),

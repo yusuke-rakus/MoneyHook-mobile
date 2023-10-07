@@ -26,7 +26,7 @@ class CategoryApi {
           setCategoryList(categoryList);
           CategoryStorage.saveCategoryList(categoryList);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });
@@ -53,7 +53,7 @@ class CategoryApi {
           CategoryStorage.saveSubCategoryList(
               subCategoryList, categoryId.toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });
@@ -87,7 +87,7 @@ class CategoryApi {
           setCategoryList(categoryList);
           CategoryStorage.saveCategoryWithSubCategoryList(categoryList);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -113,7 +113,7 @@ class CategoryApi {
           CategoryStorage.deleteSubCategoryListWithParam(categoryId.toString());
           CategoryStorage.deleteCategoryWithSubCategoryList();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });

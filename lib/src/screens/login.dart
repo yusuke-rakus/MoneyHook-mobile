@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:money_hooks/src/api/userApi.dart';
@@ -60,7 +61,7 @@ class _LoginState extends State<Login> {
   void _signInWithGoogle() {
     try {
       signInWithGoogle();
-    } on Exception catch (e) {
+    } on Exception {
       CommonSnackBar.build(context: context, text: 'Firebaseエラー');
     }
   }
@@ -115,6 +116,14 @@ class _LoginState extends State<Login> {
                     'デバッグ用旧ログイン',
                   ),
                 ),
+                TextButton(
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                    },
+                    child: const Text(
+                      'Firebaseログアウト',
+                      style: TextStyle(color: Colors.black54),
+                    ))
                 // *** デバッグ用ログイン end ***
               ],
             ),

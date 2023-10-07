@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/savingValidation.dart';
@@ -11,7 +10,6 @@ import '../env/envClass.dart';
 
 class SavingApi {
   static String rootURI = '${Api.rootURI}/saving';
-  static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   static Future<void> getMonthlySavingData(envClass env, Function setLoading,
       Function setSnackBar, Function setSavingList) async {
@@ -42,7 +40,7 @@ class SavingApi {
           SavingStorage.saveMonthlySavingData(
               resultList, env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -76,7 +74,7 @@ class SavingApi {
           setSavingTargetList(resultList);
           SavingStorage.saveSavingAmountForTarget(resultList, userId);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -104,7 +102,7 @@ class SavingApi {
           SavingStorage.saveTotalSaving(res.data['totalSavingAmount'],
               resultList, env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });
@@ -132,7 +130,7 @@ class SavingApi {
           SavingStorage.allDeleteWithParam(saving.userId, saving.savingDate);
           backNavigation();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
         setDisable();
       }
@@ -161,7 +159,7 @@ class SavingApi {
           SavingStorage.allDeleteWithParam(saving.userId, saving.savingDate);
           backNavigation();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
         setDisable();
       }
@@ -189,7 +187,7 @@ class SavingApi {
           SavingStorage.allDeleteWithParam(env.userId, saving.savingDate);
           backNavigation();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
         setDisable();
       }
@@ -215,7 +213,7 @@ class SavingApi {
           });
           setRecommendList(resultList);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });

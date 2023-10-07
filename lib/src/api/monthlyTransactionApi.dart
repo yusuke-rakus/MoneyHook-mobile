@@ -41,7 +41,7 @@ class MonthlyTransactionApi {
           MonthlyTransactionStorage.saveFixed(
               res.data['monthlyTransactionList'], env.getUserJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -77,7 +77,7 @@ class MonthlyTransactionApi {
           }
         }
         backNavigation();
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setDisable();
         setSnackBar(Api.errorMessage(e));
       }
@@ -104,7 +104,7 @@ class MonthlyTransactionApi {
         }
         setSnackBar(res.data['message']);
         backNavigation();
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setDisable();
         setSnackBar(Api.errorMessage(e));
       }

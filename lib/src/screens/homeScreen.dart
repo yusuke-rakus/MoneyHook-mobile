@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/homeTransaction.dart';
 import 'package:money_hooks/src/components/charts/homeChart.dart';
@@ -26,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   late envClass env;
   late homeTransaction homeTransactionList = homeTransaction();
   late bool _isLoading;
-  FlutterSecureStorage storage = const FlutterSecureStorage();
 
   void setLoading() {
     setState(() {

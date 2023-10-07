@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/savingTargetValidation.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
@@ -10,7 +9,6 @@ import '../env/envClass.dart';
 
 class SavingTargetApi {
   static String rootURI = '${Api.rootURI}/savingTarget';
-  static FlutterSecureStorage storage = const FlutterSecureStorage();
 
   /// 貯金目標の取得
   static Future<void> getSavingTargetList(
@@ -33,7 +31,7 @@ class SavingTargetApi {
           setSavingTargetList(resultList);
           SavingTargetStorage.saveSavingTargetData(resultList, userId);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });
@@ -65,7 +63,7 @@ class SavingTargetApi {
           backNavigation();
           SavingTargetStorage.allDelete();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setDisable();
         setSnackBar(Api.errorMessage(e));
       }
@@ -98,7 +96,7 @@ class SavingTargetApi {
           backNavigation();
           SavingTargetStorage.allDelete();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setDisable();
         setSnackBar(Api.errorMessage(e));
       }
@@ -128,7 +126,7 @@ class SavingTargetApi {
           backNavigation();
           SavingTargetStorage.allDelete();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
         setDisable();
       }
@@ -154,7 +152,7 @@ class SavingTargetApi {
           setSavingTargetList(resultList);
           SavingTargetStorage.saveDeletedSavingTargetData(resultList, userId);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       }
     });
@@ -181,7 +179,7 @@ class SavingTargetApi {
           SavingTargetStorage.deleteDeletedSavingTargetData();
         }
         setSnackBar(res.data['message']);
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       }
     });
@@ -208,7 +206,7 @@ class SavingTargetApi {
           SavingStorage.deleteSavingAmountForTarget();
         }
         setSnackBar(res.data['message']);
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       }
     });
@@ -236,7 +234,7 @@ class SavingTargetApi {
           SavingTargetStorage.allDelete();
         }
         setSnackBar(res.data['message']);
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       }
     });
