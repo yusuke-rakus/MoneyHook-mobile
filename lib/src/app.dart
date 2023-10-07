@@ -105,6 +105,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                   setState(() {
                     setLoginItem();
                   });
+                  // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
+                  FirebaseAuth.instance.signOut();
                 } else {
                   // ホーム画面へ
                   setState(() {
@@ -118,6 +120,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               setState(() {
                 setLoginItem();
               });
+              FirebaseAuth.instance.signOut();
             }
           });
         }

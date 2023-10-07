@@ -17,11 +17,15 @@ class userApi {
   // Googleサインイン
   static Future<String?> googleSignIn(
       BuildContext context, String email, String token) async {
-    List<int> bytes = utf8.encode(email);
-    final userId = sha256.convert(bytes).toString();
+    List<int> emailBytes = utf8.encode(email);
+    final userId = sha256.convert(emailBytes).toString();
+
+    List<int> tokenBytes = utf8.encode(token);
+    final hashedToken = sha256.convert(tokenBytes).toString();
 
     Response res = await Api.dio.post('$rootURI/googleSignIn',
-        data: {'userId': userId, 'token': token});
+        data: {'userId': userId},
+        options: Options(headers: {'Authorization': hashedToken}));
     if (res.data['status'] == 'error') {
       // ログイン失敗
       return null;
@@ -49,7 +53,7 @@ class userApi {
           await prefs.setString('TOKEN', 'token');
           reload();
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();

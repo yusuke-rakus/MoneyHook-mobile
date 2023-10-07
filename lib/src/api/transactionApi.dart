@@ -14,10 +14,11 @@ class transactionApi {
   static Future<void> getHome(envClass env, Function setLoading,
       Function setSnackBar, Function setHomeTransaction) async {
     setLoading();
-    await Future(() async {
+
+    Api.getHeader().then((option) async {
       try {
-        Response res =
-            await Api.dio.post('$rootURI/getHome', data: env.getJson());
+        Response res = await Api.dio
+            .post('$rootURI/getHome', data: env.getJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -26,7 +27,7 @@ class transactionApi {
           TransactionStorage.saveStorageHomeData(res.data['balance'],
               res.data['categoryList'], env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -70,7 +71,7 @@ class transactionApi {
           TransactionStorage.saveStorageTimelineData(
               resultList, env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -97,7 +98,7 @@ class transactionApi {
           TransactionStorage.saveStorageTimelineChart(
               resultList, env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });
@@ -129,7 +130,7 @@ class transactionApi {
               resultList,
               env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -154,7 +155,7 @@ class transactionApi {
               res.data['monthlyFixedList'],
               env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });
@@ -178,7 +179,7 @@ class transactionApi {
               res.data['monthlyFixedList'],
               env.getJson().toString());
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
@@ -217,7 +218,7 @@ class transactionApi {
           }
           backNavigation(isUpdate: false);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setDisable();
         setSnackBar(Api.errorMessage(e));
       }
@@ -255,7 +256,7 @@ class transactionApi {
           }
           backNavigation(isUpdate: true);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setDisable();
         setSnackBar(Api.errorMessage(e));
       }
@@ -286,7 +287,7 @@ class transactionApi {
               env.userId, transaction.transactionDate);
           backNavigation(isUpdate: true);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setDisable();
         setSnackBar(Api.errorMessage(e));
       }
@@ -319,7 +320,7 @@ class transactionApi {
           });
           setRecommendList(resultList);
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         Api.errorMessage(e);
       }
     });
@@ -364,7 +365,7 @@ class transactionApi {
             setSnackBar('データが存在しませんでした');
           }
         }
-      } on DioError catch (e) {
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       }
     });
