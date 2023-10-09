@@ -66,6 +66,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     isLogin = false;
   }
 
+  void setLoadingItem() {
+    _screens = [const Loading()];
+    isLogin = false;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -99,14 +104,16 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             final String? email = user.email;
 
             if (token != null && email != null) {
+              // ローディング画面の表示
+              setLoadingItem();
               userApi.googleSignIn(context, email, token).then((userId) {
                 if (userId == null) {
+                  // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
+                  FirebaseAuth.instance.signOut();
                   // ログイン画面へ
                   setState(() {
                     setLoginItem();
                   });
-                  // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
-                  FirebaseAuth.instance.signOut();
                 } else {
                   // ホーム画面へ
                   setState(() {

@@ -20,16 +20,11 @@ class Api {
 
       if (email == null || token == null) {
         return null;
-        // return Options(
-        //     headers: {'userId': 'userId', 'Authorization': 'hashedToken'});
       } else {
-        List<int> emailBytes = utf8.encode(email);
-        final userId = sha256.convert(emailBytes).toString();
+        final String userId = convHash(email);
+        final String hashedToken = convHash(token);
 
-        List<int> tokenBytes = utf8.encode(token);
-        final hashedToken = sha256.convert(tokenBytes).toString();
         return Options(
-            // headers: {'userId': 'userId', 'Authorization': 'hashedToken'});
             headers: {'userId': userId, 'Authorization': hashedToken});
       }
     });
@@ -49,5 +44,10 @@ class Api {
       default:
         return '不明なエラーが発生しました';
     }
+  }
+
+  static String convHash(String value) {
+    List<int> tokenBytes = utf8.encode(value);
+    return sha256.convert(tokenBytes).toString();
   }
 }
