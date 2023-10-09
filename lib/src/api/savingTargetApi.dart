@@ -13,10 +13,10 @@ class SavingTargetApi {
   /// 貯金目標の取得
   static Future<void> getSavingTargetList(
       Function setSavingTargetList, String userId) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/getSavingTargetList', data: {'userId': userId});
+        Response res = await Api.dio.post('$rootURI/getSavingTargetList',
+            data: {'userId': userId}, options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -50,10 +50,10 @@ class SavingTargetApi {
       return;
     }
 
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/addSavingTarget',
-            data: savingTarget.getSavingTargetJson());
+            data: savingTarget.getSavingTargetJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setDisable();
@@ -83,10 +83,10 @@ class SavingTargetApi {
       return;
     }
 
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/editSavingTarget',
-            data: savingTarget.getSavingTargetJson());
+            data: savingTarget.getSavingTargetJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setDisable();
@@ -111,12 +111,14 @@ class SavingTargetApi {
       Function setDisable,
       Function setSnackBar) async {
     setDisable();
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/deleteSavingTarget', data: {
-          'userId': env.userId,
-          'savingTargetId': savingTarget.savingTargetId
-        });
+        Response res = await Api.dio.post('$rootURI/deleteSavingTarget',
+            data: {
+              'userId': env.userId,
+              'savingTargetId': savingTarget.savingTargetId
+            },
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setSnackBar(res.data['message']);
@@ -136,10 +138,10 @@ class SavingTargetApi {
   /// 削除済み貯金目標を取得
   static Future<void> getDeletedSavingTarget(
       Function setSavingTargetList, Function setSnackBar, String userId) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/getDeletedSavingTarget', data: {'userId': userId});
+        Response res = await Api.dio.post('$rootURI/getDeletedSavingTarget',
+            data: {'userId': userId}, options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -164,13 +166,15 @@ class SavingTargetApi {
       savingTargetClass savingTarget,
       Function setSnackBar,
       Function reloadList) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/deleteSavingTargetFromTable', data: {
-          'userId': env.userId,
-          'savingTargetId': savingTarget.savingTargetId
-        });
+        Response res = await Api.dio.post(
+            '$rootURI/deleteSavingTargetFromTable',
+            data: {
+              'userId': env.userId,
+              'savingTargetId': savingTarget.savingTargetId
+            },
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -191,12 +195,14 @@ class SavingTargetApi {
       savingTargetClass savingTarget,
       Function setSnackBar,
       Function reloadList) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/returnSavingTarget', data: {
-          'userId': env.userId,
-          'savingTargetId': savingTarget.savingTargetId
-        });
+        Response res = await Api.dio.post('$rootURI/returnSavingTarget',
+            data: {
+              'userId': env.userId,
+              'savingTargetId': savingTarget.savingTargetId
+            },
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -215,13 +221,15 @@ class SavingTargetApi {
   /// 貯金目標を並べ替え
   static Future<void> sortSavingTarget(envClass env,
       List<savingTargetClass> savingTargetList, Function setSnackBar) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/sortSavingTarget', data: {
-          'userId': env.userId,
-          'savingTargetList':
-              savingTargetList.map((e) => e.getSortSavingJson()).toList()
-        });
+        Response res = await Api.dio.post('$rootURI/sortSavingTarget',
+            data: {
+              'userId': env.userId,
+              'savingTargetList':
+                  savingTargetList.map((e) => e.getSortSavingJson()).toList()
+            },
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {

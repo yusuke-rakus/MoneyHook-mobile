@@ -47,6 +47,8 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>FLTEnableImpeller</key>
+    <false />
     <!-- Google Sign-in Section -->
     <key>CFBundleURLTypes</key>
     <array>

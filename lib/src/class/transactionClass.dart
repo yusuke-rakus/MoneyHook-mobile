@@ -40,7 +40,9 @@ class transactionClass {
     this.transactionSign,
     this.transactionAmount,
     this.transactionName,
+    this.categoryId,
     this.categoryName,
+    this.subCategoryId,
     this.subCategoryName,
     this.fixedFlg,
   );

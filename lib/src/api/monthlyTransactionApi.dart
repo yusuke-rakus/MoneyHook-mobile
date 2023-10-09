@@ -13,10 +13,10 @@ class MonthlyTransactionApi {
   /// 月次取引の取得
   static Future<void> getFixed(envClass env, Function setMonthlyTransactionList,
       Function setLoading, Function setSnackBar) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res =
-            await Api.dio.post('$rootURI/getFixed', data: env.getUserJson());
+        Response res = await Api.dio.post('$rootURI/getFixed',
+            data: env.getUserJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setSnackBar(res.data['message']);
@@ -61,10 +61,11 @@ class MonthlyTransactionApi {
       return;
     }
 
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/editOneFixed',
-            data: monthlyTransaction.convertEditMonthlyTranJson());
+            data: monthlyTransaction.convertEditMonthlyTranJson(),
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setDisable();
@@ -91,10 +92,11 @@ class MonthlyTransactionApi {
       Function setSnackBar,
       Function setDisable) async {
     setDisable();
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/deleteFixedFromTable',
-            data: monthlyTransaction.convertDeleteMonthlyTranJson());
+            data: monthlyTransaction.convertDeleteMonthlyTranJson(),
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setDisable();

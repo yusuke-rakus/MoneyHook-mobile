@@ -11,9 +11,10 @@ class CategoryApi {
 
   /// カテゴリ一覧の取得
   static Future<void> getCategoryList(Function setCategoryList) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/category/getCategoryList');
+        Response res = await Api.dio
+            .post('$rootURI/category/getCategoryList', options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -35,11 +36,12 @@ class CategoryApi {
   /// サブカテゴリ一覧の取得
   static Future<void> getSubCategoryList(
       String userId, int categoryId, Function setSubCategoryList) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post(
             '$rootURI/subCategory/getSubCategoryList',
-            data: {'userId': userId, 'categoryId': categoryId});
+            data: {'userId': userId, 'categoryId': categoryId},
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -62,11 +64,12 @@ class CategoryApi {
   /// カテゴリ一覧の取得(サブカテゴリ含む)
   static Future<void> getCategoryWithSubCategoryList(envClass env,
       Function setLoading, setSnackBar, Function setCategoryList) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post(
             '$rootURI/category/getCategoryWithSubCategoryList',
-            data: env.getUserJson());
+            data: env.getUserJson(),
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -98,14 +101,16 @@ class CategoryApi {
   /// サブカテゴリの表示・非表示
   static Future<void> editSubCategory(
       envClass env, subCategoryClass subCategory, int categoryId) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res =
-            await Api.dio.post('$rootURI/subCategory/editSubCategory', data: {
-          'userId': env.userId,
-          'subCategoryId': subCategory.subCategoryId,
-          'enable': subCategory.enable
-        });
+            await Api.dio.post('$rootURI/subCategory/editSubCategory',
+                data: {
+                  'userId': env.userId,
+                  'subCategoryId': subCategory.subCategoryId,
+                  'enable': subCategory.enable
+                },
+                options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {

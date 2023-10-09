@@ -39,10 +39,10 @@ class transactionApi {
       Function setSnackBar, Function setTimelineData) async {
     setLoading();
 
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res =
-            await Api.dio.post('$rootURI/getTimelineData', data: env.getJson());
+        Response res = await Api.dio.post('$rootURI/getTimelineData',
+            data: env.getJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -54,7 +54,9 @@ class transactionApi {
             int transactionSign = value['transactionSign'];
             String transactionAmount = value['transactionAmount'].toString();
             String transactionName = value['transactionName'];
+            int categoryId = value['categoryId'];
             String categoryName = value['categoryName'];
+            int subCategoryId = value['subCategoryId'];
             String subCategoryName = value['subCategoryName'];
             bool fixedFlg = value['fixedFlg'];
             resultList.add(transactionClass.setTimelineFields(
@@ -63,7 +65,9 @@ class transactionApi {
                 transactionSign,
                 int.parse(transactionAmount),
                 transactionName,
+                categoryId,
                 categoryName,
+                subCategoryId,
                 subCategoryName,
                 fixedFlg));
           });
@@ -81,10 +85,10 @@ class transactionApi {
 
   static Future<void> getTimelineChart(
       envClass env, Function setTimelineChart) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/getMonthlySpendingData', data: env.getJson());
+        Response res = await Api.dio.post('$rootURI/getMonthlySpendingData',
+            data: env.getJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -107,10 +111,10 @@ class transactionApi {
   static Future<void> getMonthlyVariableData(envClass env, Function setLoading,
       setSnackBar, Function setMonthlyVariable) async {
     setLoading();
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/getMonthlyVariableData', data: env.getJson());
+        Response res = await Api.dio.post('$rootURI/getMonthlyVariableData',
+            data: env.getJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -140,10 +144,10 @@ class transactionApi {
 
   static Future<void> getMonthlyFixedIncome(
       envClass env, Function setMonthlyFixedIncome) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/getMonthlyFixedIncome', data: env.getJson());
+        Response res = await Api.dio.post('$rootURI/getMonthlyFixedIncome',
+            data: env.getJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -164,10 +168,10 @@ class transactionApi {
   static Future<void> getMonthlyFixedSpending(envClass env, Function setLoading,
       Function setSnackBar, Function setMonthlyFixedSpending) async {
     setLoading();
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/getMonthlyFixedSpending', data: env.getJson());
+        Response res = await Api.dio.post('$rootURI/getMonthlyFixedSpending',
+            data: env.getJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -199,10 +203,10 @@ class transactionApi {
       return;
     }
 
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/addTransaction',
-            data: transaction.getTransactionJson());
+            data: transaction.getTransactionJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setSnackBar(res.data['message']);
@@ -237,10 +241,10 @@ class transactionApi {
       return;
     }
 
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/editTransaction',
-            data: transaction.getTransactionJson());
+            data: transaction.getTransactionJson(), options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setSnackBar(res.data['message']);
@@ -270,13 +274,15 @@ class transactionApi {
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
         setDisable();
-        Response res = await Api.dio.post('$rootURI/deleteTransaction', data: {
-          'userId': env.userId,
-          'transactionId': transaction.transactionId
-        });
+        Response res = await Api.dio.post('$rootURI/deleteTransaction',
+            data: {
+              'userId': env.userId,
+              'transactionId': transaction.transactionId
+            },
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setSnackBar(res.data['message']);
@@ -297,12 +303,13 @@ class transactionApi {
   /// レコメンドリストの取得
   static Future<void> getFrequentTransactionName(
       envClass env, Function setRecommendList) async {
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res =
-            await Api.dio.post('$rootURI/getFrequentTransactionName', data: {
-          'userId': env.userId,
-        });
+        Response res = await Api.dio.post('$rootURI/getFrequentTransactionName',
+            data: {
+              'userId': env.userId,
+            },
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -337,15 +344,17 @@ class transactionApi {
       return;
     }
 
-    await Future(() async {
+    Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getTotalSpending', data: {
-          'userId': env.userId,
-          'categoryId': transaction.categoryId,
-          'subCategoryId': transaction.subCategoryId,
-          'startMonth': transaction.startMonth,
-          'endMonth': transaction.endMonth,
-        });
+        Response res = await Api.dio.post('$rootURI/getTotalSpending',
+            data: {
+              'userId': env.userId,
+              'categoryId': transaction.categoryId,
+              'subCategoryId': transaction.subCategoryId,
+              'startMonth': transaction.startMonth,
+              'endMonth': transaction.endMonth,
+            },
+            options: option);
         if (res.data['status'] == 'error') {
           // 失敗
           setSnackBar(res.data['message']);
