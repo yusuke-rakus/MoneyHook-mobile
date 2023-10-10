@@ -10,7 +10,8 @@ import 'package:money_hooks/src/screens/login.dart';
 import 'package:money_hooks/src/screens/saving.dart';
 import 'package:money_hooks/src/screens/settings.dart';
 import 'package:money_hooks/src/screens/timelineScreen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
+import 'components/commonSnackBar.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -51,24 +52,35 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   late envClass env;
 
   void setScreenItems() {
-    _screens = [
-      HomeScreen(isLoading, env),
-      TimelineScreen(isLoading, env),
-      AnalysisScreen(isLoading, env),
-      SavingScreen(isLoading, env),
-      SettingsScreen(isLoading, env),
-    ];
-    isLogin = true;
+    setState(() {
+      _screens = [
+        HomeScreen(isLoading, env),
+        TimelineScreen(isLoading, env),
+        AnalysisScreen(isLoading, env),
+        SavingScreen(isLoading, env),
+        SettingsScreen(isLoading, env),
+      ];
+      isLogin = true;
+    });
   }
 
   void setLoginItem() {
-    _screens = [Login(isLoading)];
-    isLogin = false;
+    setState(() {
+      _screens = [Login()];
+      isLogin = false;
+    });
   }
 
   void setLoadingItem() {
-    _screens = [const Loading()];
-    isLogin = false;
+    setState(() {
+      _screens = [const Loading()];
+      isLogin = false;
+    });
+  }
+
+  // スナックバー表示[デバッグ用]
+  void setSnackBar(String message) {
+    CommonSnackBar.build(context: context, text: message);
   }
 
   @override
@@ -82,22 +94,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           _selectedIndex = 0;
         });
         if (user == null) {
-          // *** デバッグ用ログイン start ***
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          final userId = prefs.getString('USER_ID');
-          if (userId != null) {
-            setState(() {
-              env = envClass.setUserId(userId);
-              setScreenItems();
-            });
-          }
-          // *** デバッグ用ログイン end ***
-          else {
-            // ログイン画面へ
-            setState(() {
-              setLoginItem();
-            });
-          }
+          // ログイン画面へ
+          setLoginItem();
         } else {
           user.getIdToken().then((value) {
             final String? token = value;
@@ -106,27 +104,27 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             if (token != null && email != null) {
               // ローディング画面の表示
               setLoadingItem();
-              userApi.googleSignIn(context, email, token).then((userId) {
+              userApi
+                  .googleSignIn(
+                      context, email, token, setSnackBar, setLoginItem)
+                  .then((userId) {
                 if (userId == null) {
+                  setSnackBar('ログインエラーが発生しました');
                   // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
                   FirebaseAuth.instance.signOut();
                   // ログイン画面へ
-                  setState(() {
-                    setLoginItem();
-                  });
+                  setLoginItem();
                 } else {
                   // ホーム画面へ
                   setState(() {
                     env = envClass.setUserId(userId);
-                    setScreenItems();
                   });
+                  setScreenItems();
                 }
               });
             } else {
               // ログイン画面へ
-              setState(() {
-                setLoginItem();
-              });
+              setLoginItem();
               FirebaseAuth.instance.signOut();
             }
           });

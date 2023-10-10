@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
-import 'package:money_hooks/src/modals/settings_modal/accountInfo.dart';
 import 'package:money_hooks/src/modals/settings_modal/deletedSavingTarget.dart';
 import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
@@ -12,9 +11,7 @@ import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 import 'package:money_hooks/src/searchStorage/savingStorage.dart';
 import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../app.dart';
 import '../env/envClass.dart';
 import '../modals/settings_modal/searchTransaction.dart';
 
@@ -32,8 +29,6 @@ class SettingsScreen extends StatelessWidget {
         ),
         body: ListView(
           children: [
-            _menuCard(context, Icons.account_circle_outlined, 'アカウント情報',
-                AccountInfo(env: env)),
             _menuCard(context, Icons.account_circle_outlined, 'ローカル設定',
                 const LocalSettings()),
             _menuCard(context, Icons.account_tree, '自動入力',
@@ -52,24 +47,6 @@ class SettingsScreen extends StatelessWidget {
                   'ログアウト',
                   style: TextStyle(color: Colors.black54),
                 )),
-            // *** デバッグ用ログイン start ***
-            TextButton(
-                onPressed: () async {
-                  SharedPreferences prefs =
-                      await SharedPreferences.getInstance();
-                  // サインアウト
-                  prefs.remove('USER_ID').then((value) =>
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  const MyStatefulWidget())));
-                },
-                child: const Text(
-                  '旧ログアウト',
-                  style: TextStyle(color: Colors.black54),
-                )),
-            // *** デバッグ用ログイン end ***
             TextButton(
                 onPressed: () async {
                   final db = Localstore.instance;
