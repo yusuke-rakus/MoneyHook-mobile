@@ -1,41 +1,53 @@
-// import 'package:charts_flutter/flutter.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-class HomeChart extends StatelessWidget {
-  HomeChart(this.data, {super.key});
+class HomeChart extends StatefulWidget {
+  HomeChart({super.key, required this.data, required this.colorList});
 
   List<dynamic> data;
+  final List<Color> colorList;
+
+  @override
+  State<HomeChart> createState() => _HomeChartState();
+}
+
+class _HomeChartState extends State<HomeChart> {
+  int touchedIndex = -1;
 
   @override
   Widget build(BuildContext context) {
-    return Container();
-    // return PieChart(
-    //   _createHomeChart(data),
-    // );
+    return PieChart(PieChartData(
+        sections: _createHomeChart(widget.data, widget.colorList, touchedIndex),
+        pieTouchData: PieTouchData(
+          touchCallback: (FlTouchEvent event, pieTouchResponse) {
+            setState(() {
+              if (!event.isInterestedForInteractions ||
+                  pieTouchResponse == null ||
+                  pieTouchResponse.touchedSection == null) {
+                touchedIndex = -1;
+                return;
+              }
+              touchedIndex =
+                  pieTouchResponse.touchedSection!.touchedSectionIndex;
+            });
+          },
+        )));
   }
 }
 
-// List<Series<dynamic, String>> _createHomeChart(List<dynamic> data) {
-//   List<Color> colorList = [
-//     ColorUtil.fromDartColor(Colors.redAccent),
-//     ColorUtil.fromDartColor(Colors.lightBlue),
-//     ColorUtil.fromDartColor(Colors.greenAccent),
-//     ColorUtil.fromDartColor(Colors.indigo),
-//     ColorUtil.fromDartColor(Colors.amber),
-//     ColorUtil.fromDartColor(Colors.teal),
-//     ColorUtil.fromDartColor(Colors.deepPurpleAccent),
-//     ColorUtil.fromDartColor(Colors.grey),
-//   ];
-//
-//   return [
-//     Series<dynamic, String>(
-//       id: 'HomeChart',
-//       colorFn: (dynamic, i) => i! < colorList.length
-//           ? colorList[i]
-//           : colorList[colorList.length - 1],
-//       domainFn: (dynamic value, _) => value['categoryName'],
-//       measureFn: (dynamic value, _) => value['categoryTotalAmount'].abs(),
-//       data: data,
-//     )
-//   ];
-// }
+List<PieChartSectionData> _createHomeChart(
+    List<dynamic> data, colorList, int touchedIndex) {
+  List<PieChartSectionData> result = List.generate(data.length, (index) {
+    return PieChartSectionData(
+      value: data[index]['categoryTotalAmount'].abs().toDouble(),
+      color: colorList[index],
+      title: data[index]['categoryName'],
+      showTitle: index == touchedIndex ? true : false,
+      titleStyle:
+          const TextStyle(color: Colors.white, backgroundColor: Colors.black38),
+      radius: 60,
+    );
+  });
+
+  return result;
+}

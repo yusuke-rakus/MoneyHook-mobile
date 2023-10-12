@@ -3,9 +3,11 @@ import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 
 class HomeAccordion extends StatelessWidget {
-  const HomeAccordion({Key? key, required this.homeTransactionList})
+  const HomeAccordion(
+      {Key? key, required this.homeTransactionList, required this.colorList})
       : super(key: key);
   final List<dynamic> homeTransactionList;
+  final List<Color> colorList;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,17 @@ class HomeAccordion extends StatelessWidget {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(homeTransactionList[index]['categoryName']),
+                      Text.rich(TextSpan(children: [
+                        TextSpan(
+                            text: homeTransactionList[index]['categoryName']),
+                        WidgetSpan(
+                            alignment: PlaceholderAlignment.top,
+                            child: Icon(
+                              Icons.circle,
+                              color: colorList[index],
+                              size: 10,
+                            )),
+                      ])),
                       Text(
                           '¥${transactionClass.formatNum(homeTransactionList[index]['categoryTotalAmount'].abs())}'),
                     ],

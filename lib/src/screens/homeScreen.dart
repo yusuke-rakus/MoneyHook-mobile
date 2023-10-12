@@ -25,6 +25,16 @@ class _HomeScreenState extends State<HomeScreen> {
   late envClass env;
   late homeTransaction homeTransactionList = homeTransaction();
   late bool _isLoading;
+  static const List<Color> colorList = [
+    Colors.redAccent,
+    Colors.lightBlue,
+    Colors.greenAccent,
+    Colors.indigo,
+    Colors.amber,
+    Colors.teal,
+    Colors.deepPurpleAccent,
+    Colors.grey
+  ];
 
   void setLoading() {
     setState(() {
@@ -97,7 +107,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 Center(
                   child: SizedBox(
                     height: 250,
-                    child: HomeChart(homeTransactionList.categoryList),
+                    child: HomeChart(
+                        data: homeTransactionList.categoryList,
+                        colorList: colorList),
                   ),
                 ),
                 // 収支
@@ -121,8 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 // アコーディオン
                 HomeAccordion(
-                  homeTransactionList: homeTransactionList.categoryList,
-                ),
+                    homeTransactionList: homeTransactionList.categoryList,
+                    colorList: colorList),
                 const SizedBox(
                   height: 90,
                 )
