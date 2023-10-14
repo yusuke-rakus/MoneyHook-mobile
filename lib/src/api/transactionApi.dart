@@ -15,7 +15,7 @@ class transactionApi {
       Function setSnackBar, Function setHomeTransaction) async {
     setLoading();
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio
             .post('$rootURI/getHome', data: env.getJson(), options: option);
@@ -39,7 +39,7 @@ class transactionApi {
       Function setSnackBar, Function setTimelineData) async {
     setLoading();
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getTimelineData',
             data: env.getJson(), options: option);
@@ -85,7 +85,7 @@ class transactionApi {
 
   static Future<void> getTimelineChart(
       envClass env, Function setTimelineChart) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getMonthlySpendingData',
             data: env.getJson(), options: option);
@@ -111,7 +111,7 @@ class transactionApi {
   static Future<void> getMonthlyVariableData(envClass env, Function setLoading,
       setSnackBar, Function setMonthlyVariable) async {
     setLoading();
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getMonthlyVariableData',
             data: env.getJson(), options: option);
@@ -144,7 +144,7 @@ class transactionApi {
 
   static Future<void> getMonthlyFixedIncome(
       envClass env, Function setMonthlyFixedIncome) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getMonthlyFixedIncome',
             data: env.getJson(), options: option);
@@ -168,7 +168,7 @@ class transactionApi {
   static Future<void> getMonthlyFixedSpending(envClass env, Function setLoading,
       Function setSnackBar, Function setMonthlyFixedSpending) async {
     setLoading();
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getMonthlyFixedSpending',
             data: env.getJson(), options: option);
@@ -203,7 +203,7 @@ class transactionApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/addTransaction',
             data: transaction.getTransactionJson(), options: option);
@@ -241,7 +241,7 @@ class transactionApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/editTransaction',
             data: transaction.getTransactionJson(), options: option);
@@ -274,7 +274,7 @@ class transactionApi {
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         setDisable();
         Response res = await Api.dio.post('$rootURI/deleteTransaction',
@@ -303,7 +303,7 @@ class transactionApi {
   /// レコメンドリストの取得
   static Future<void> getFrequentTransactionName(
       envClass env, Function setRecommendList) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getFrequentTransactionName',
             data: {
@@ -344,7 +344,7 @@ class transactionApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getTotalSpending',
             data: {

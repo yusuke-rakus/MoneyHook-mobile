@@ -7,10 +7,11 @@ class TransactionLoad {
   /// 【タイムライン画面】データ
   static Future<void> getTimelineData(envClass env, Function setLoading,
       Function setSnackBar, Function setTimelineData) async {
-    TransactionStorage.getTimelineData(env.getJson().toString(), setLoading)
+    await TransactionStorage.getTimelineData(
+            env.getJson().toString(), setLoading)
         .then((value) async {
       if (value.isEmpty) {
-        transactionApi.getTimelineData(
+        await transactionApi.getTimelineData(
             env, setLoading, setSnackBar, setTimelineData);
       } else {
         setTimelineData(value);
@@ -21,10 +22,10 @@ class TransactionLoad {
   /// 【タイムライン画面】グラフ
   static Future<void> getTimelineChart(
       envClass env, Function setTimelineChart) async {
-    TransactionStorage.getTimelineChart(env.getJson().toString())
+    await TransactionStorage.getTimelineChart(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty) {
-        transactionApi.getTimelineChart(env, setTimelineChart);
+        await transactionApi.getTimelineChart(env, setTimelineChart);
       } else {
         setTimelineChart(value);
       }
@@ -34,9 +35,10 @@ class TransactionLoad {
   /// 【ホーム画面】データ
   static Future<void> getHome(envClass env, Function setLoading,
       Function setSnackBar, Function setHomeTransaction) async {
-    TransactionStorage.getHome(env.getJson().toString()).then((value) {
+    await TransactionStorage.getHome(env.getJson().toString())
+        .then((value) async {
       if (value.isEmpty) {
-        transactionApi.getHome(
+        await transactionApi.getHome(
             env, setLoading, setSnackBar, setHomeTransaction);
       } else {
         setHomeTransaction(value['balance'], value['categoryList']);
@@ -45,22 +47,23 @@ class TransactionLoad {
   }
 
   /// 取引名レコメンド
-  static void getFrequentTransactionName(
+  static Future<void> getFrequentTransactionName(
       envClass env, Function setRecommendList) async {
-    TransactionStorage.getTransactionRecommendState().then((activeState) {
+    await TransactionStorage.getTransactionRecommendState()
+        .then((activeState) async {
       if (activeState) {
-        transactionApi.getFrequentTransactionName(env, setRecommendList);
+        await transactionApi.getFrequentTransactionName(env, setRecommendList);
       }
     });
   }
 
   /// 【月別変動費画面】データ
-  static void getMonthlyVariableData(envClass env, Function setLoading,
+  static Future<void> getMonthlyVariableData(envClass env, Function setLoading,
       Function setSnackBar, Function setMonthlyVariable) async {
-    TransactionStorage.getMonthlyVariableData(env.getJson().toString())
-        .then((value) {
+    await TransactionStorage.getMonthlyVariableData(env.getJson().toString())
+        .then((value) async {
       if (value.isEmpty) {
-        transactionApi.getMonthlyVariableData(
+        await transactionApi.getMonthlyVariableData(
             env, setLoading, setSnackBar, setMonthlyVariable);
       } else {
         setMonthlyVariable(
@@ -70,12 +73,12 @@ class TransactionLoad {
   }
 
   /// 【月別固定費画面】収入データ
-  static void getMonthlyFixedIncome(
+  static Future<void> getMonthlyFixedIncome(
       envClass env, Function setMonthlyFixedIncome) async {
-    TransactionStorage.getMonthlyFixedIncome(env.getJson().toString())
-        .then((value) {
+    await TransactionStorage.getMonthlyFixedIncome(env.getJson().toString())
+        .then((value) async {
       if (value.isEmpty) {
-        transactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+        await transactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
       } else {
         setMonthlyFixedIncome(
             value['disposableIncome'], value['monthlyFixedList']);
@@ -84,12 +87,12 @@ class TransactionLoad {
   }
 
   /// 【月別固定費画面】支出データ
-  static void getMonthlyFixedSpending(envClass env, Function setLoading,
+  static Future<void> getMonthlyFixedSpending(envClass env, Function setLoading,
       Function setSnackBar, Function setMonthlyFixedSpending) async {
-    TransactionStorage.getMonthlyFixedSpending(env.getJson().toString())
-        .then((value) {
+    await TransactionStorage.getMonthlyFixedSpending(env.getJson().toString())
+        .then((value) async {
       if (value.isEmpty) {
-        transactionApi.getMonthlyFixedSpending(
+        await transactionApi.getMonthlyFixedSpending(
             env, setLoading, setSnackBar, setMonthlyFixedSpending);
       } else {
         setMonthlyFixedSpending(

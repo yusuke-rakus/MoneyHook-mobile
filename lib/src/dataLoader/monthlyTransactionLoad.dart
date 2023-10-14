@@ -5,12 +5,12 @@ import '../env/envClass.dart';
 
 class MonthlyTransactionLoad {
   /// 【収支の自動入力画面】データ
-  static void getFixed(envClass env, Function setMonthlyTransactionList,
+  static Future<void> getFixed(envClass env, Function setMonthlyTransactionList,
       Function setLoading, Function setErrorMessage) async {
-    MonthlyTransactionStorage.getFixed(env.getUserJson().toString())
+    await MonthlyTransactionStorage.getFixed(env.getUserJson().toString())
         .then((value) async {
       if (value.isEmpty) {
-        MonthlyTransactionApi.getFixed(
+        await MonthlyTransactionApi.getFixed(
             env, setMonthlyTransactionList, setLoading, setErrorMessage);
       } else {
         setMonthlyTransactionList(value);

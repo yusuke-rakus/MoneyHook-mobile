@@ -13,7 +13,7 @@ class SavingTargetApi {
   /// 貯金目標の取得
   static Future<void> getSavingTargetList(
       Function setSavingTargetList, String userId) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getSavingTargetList',
             data: {'userId': userId}, options: option);
@@ -50,7 +50,7 @@ class SavingTargetApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/addSavingTarget',
             data: savingTarget.getSavingTargetJson(), options: option);
@@ -83,7 +83,7 @@ class SavingTargetApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/editSavingTarget',
             data: savingTarget.getSavingTargetJson(), options: option);
@@ -111,7 +111,7 @@ class SavingTargetApi {
       Function setDisable,
       Function setSnackBar) async {
     setDisable();
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/deleteSavingTarget',
             data: {
@@ -138,7 +138,7 @@ class SavingTargetApi {
   /// 削除済み貯金目標を取得
   static Future<void> getDeletedSavingTarget(
       Function setSavingTargetList, Function setSnackBar, String userId) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getDeletedSavingTarget',
             data: {'userId': userId}, options: option);
@@ -166,7 +166,7 @@ class SavingTargetApi {
       savingTargetClass savingTarget,
       Function setSnackBar,
       Function reloadList) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post(
             '$rootURI/deleteSavingTargetFromTable',
@@ -195,7 +195,7 @@ class SavingTargetApi {
       savingTargetClass savingTarget,
       Function setSnackBar,
       Function reloadList) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/returnSavingTarget',
             data: {
@@ -221,7 +221,7 @@ class SavingTargetApi {
   /// 貯金目標を並べ替え
   static Future<void> sortSavingTarget(envClass env,
       List<savingTargetClass> savingTargetList, Function setSnackBar) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/sortSavingTarget',
             data: {

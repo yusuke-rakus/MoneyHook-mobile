@@ -5,12 +5,13 @@ import '../env/envClass.dart';
 
 class SavingLoad {
   /// 【貯金一覧画面】データ
-  static void getMonthlySavingData(envClass env, Function setLoading,
+  static Future<void> getMonthlySavingData(envClass env, Function setLoading,
       Function setSnackBar, Function setSavingList) async {
-    SavingStorage.getMonthlySavingData(env.getJson().toString(), setLoading)
+    await SavingStorage.getMonthlySavingData(
+            env.getJson().toString(), setLoading)
         .then((value) async {
       if (value.isEmpty) {
-        SavingApi.getMonthlySavingData(
+        await SavingApi.getMonthlySavingData(
             env, setLoading, setSnackBar, setSavingList);
       } else {
         num resultAmount = 0;
@@ -23,12 +24,15 @@ class SavingLoad {
   }
 
   /// 【貯金総額画面】貯金目標毎の総額データ
-  static void getSavingAmountForTarget(String userId, Function setLoading,
-      Function setSnackBar, Function setSavingTargetList) async {
-    SavingStorage.getSavingAmountForTarget(userId, setLoading)
+  static Future<void> getSavingAmountForTarget(
+      String userId,
+      Function setLoading,
+      Function setSnackBar,
+      Function setSavingTargetList) async {
+    await SavingStorage.getSavingAmountForTarget(userId, setLoading)
         .then((value) async {
       if (value.isEmpty) {
-        SavingApi.getSavingAmountForTarget(
+        await SavingApi.getSavingAmountForTarget(
             userId, setLoading, setSnackBar, setSavingTargetList);
       } else {
         setSavingTargetList(value);
@@ -37,11 +41,12 @@ class SavingLoad {
   }
 
   /// 【貯金総額画面】貯金総額データ
-  static void getTotalSaving(envClass env, Function setTotalSaving) async {
-    SavingStorage.getTotalSaving(env.getJson().toString(), setTotalSaving)
+  static Future<void> getTotalSaving(
+      envClass env, Function setTotalSaving) async {
+    await SavingStorage.getTotalSaving(env.getJson().toString(), setTotalSaving)
         .then((value) async {
       if (value.isEmpty) {
-        SavingApi.getTotalSaving(env, setTotalSaving);
+        await SavingApi.getTotalSaving(env, setTotalSaving);
       } else {
         setTotalSaving(value['totalSavingAmount'], value['savingDataList']);
       }

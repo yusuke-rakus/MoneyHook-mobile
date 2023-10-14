@@ -57,9 +57,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
     env = widget.env;
     env.initMonth();
     _isLoading = widget.isLoading;
-    TransactionLoad.getTimelineData(
-        env, setLoading, setSnackBar, setTimelineData);
-    TransactionLoad.getTimelineChart(env, setTimelineChart);
+    Future(() async {
+      await TransactionLoad.getTimelineData(
+          env, setLoading, setSnackBar, setTimelineData);
+      await TransactionLoad.getTimelineChart(env, setTimelineChart);
+    });
   }
 
   void setReload() {
@@ -79,9 +81,12 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 onPressed: () {
                   setState(() {
                     env.subtractMonth();
-                    TransactionLoad.getTimelineData(
-                        env, setLoading, setSnackBar, setTimelineData);
-                    TransactionLoad.getTimelineChart(env, setTimelineChart);
+                    Future(() async {
+                      await TransactionLoad.getTimelineData(
+                          env, setLoading, setSnackBar, setTimelineData);
+                      await TransactionLoad.getTimelineChart(
+                          env, setTimelineChart);
+                    });
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios)),
@@ -92,9 +97,12 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     // 翌月が未来でなければデータ取得
                     if (env.isNotCurrentMonth()) {
                       env.addMonth();
-                      TransactionLoad.getTimelineData(
-                          env, setLoading, setSnackBar, setTimelineData);
-                      TransactionLoad.getTimelineChart(env, setTimelineChart);
+                      Future(() async {
+                        await TransactionLoad.getTimelineData(
+                            env, setLoading, setSnackBar, setTimelineData);
+                        await TransactionLoad.getTimelineChart(
+                            env, setTimelineChart);
+                      });
                     }
                   });
                 },
@@ -120,9 +128,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
               child: _isLoading
                   ? CommonLoadingAnimation.build()
                   : TimelineList(
-                      env: env,
-                      timelineList: timelineList.transactionList,
-                      setReload: setReload),
+                  env: env,
+                  timelineList: timelineList.transactionList,
+                  setReload: setReload),
             ),
           ],
         ),

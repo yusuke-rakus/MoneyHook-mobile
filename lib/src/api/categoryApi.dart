@@ -11,7 +11,7 @@ class CategoryApi {
 
   /// カテゴリ一覧の取得
   static Future<void> getCategoryList(Function setCategoryList) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio
             .post('$rootURI/category/getCategoryList', options: option);
@@ -36,7 +36,7 @@ class CategoryApi {
   /// サブカテゴリ一覧の取得
   static Future<void> getSubCategoryList(
       String userId, int categoryId, Function setSubCategoryList) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post(
             '$rootURI/subCategory/getSubCategoryList',
@@ -99,7 +99,7 @@ class CategoryApi {
   /// サブカテゴリの表示・非表示
   static Future<void> editSubCategory(
       envClass env, subCategoryClass subCategory, int categoryId) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res =
             await Api.dio.post('$rootURI/subCategory/editSubCategory',

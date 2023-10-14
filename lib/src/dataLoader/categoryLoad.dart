@@ -6,10 +6,10 @@ import '../env/envClass.dart';
 
 class CategoryLoad {
   /// 【カテゴリ一覧取得】データ
-  static void getCategoryList(Function setCategoryList) async {
-    CategoryStorage.getCategoryListData().then((value) async {
+  static Future<void> getCategoryList(Function setCategoryList) async {
+    await CategoryStorage.getCategoryListData().then((value) async {
       if (value.isEmpty) {
-        CategoryApi.getCategoryList(setCategoryList);
+        await CategoryApi.getCategoryList(setCategoryList);
       } else {
         setCategoryList(value);
       }
@@ -17,12 +17,13 @@ class CategoryLoad {
   }
 
   /// 【サブカテゴリ一覧取得】データ
-  static void getSubCategoryList(
+  static Future<void> getSubCategoryList(
       String userId, int categoryId, Function setSubCategoryList) async {
-    CategoryStorage.getSubCategoryListData(categoryId.toString())
+    await CategoryStorage.getSubCategoryListData(categoryId.toString())
         .then((value) async {
       if (value.isEmpty) {
-        CategoryApi.getSubCategoryList(userId, categoryId, setSubCategoryList);
+        await CategoryApi.getSubCategoryList(
+            userId, categoryId, setSubCategoryList);
       } else {
         setSubCategoryList(value);
       }

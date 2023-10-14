@@ -38,16 +38,16 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
     });
   }
 
-  void setMonthlyFixedIncome(
-      int disposableIncome, List<dynamic> monthlyFixedList) {
+  void setMonthlyFixedIncome(int disposableIncome,
+      List<dynamic> monthlyFixedList) {
     setState(() {
       monthlyFixedIncome.disposableIncome = disposableIncome;
       monthlyFixedIncome.monthlyFixedList = monthlyFixedList;
     });
   }
 
-  void setMonthlyFixedSpending(
-      int disposableIncome, List<dynamic> monthlyFixedList) {
+  void setMonthlyFixedSpending(int disposableIncome,
+      List<dynamic> monthlyFixedList) {
     setState(() {
       monthlyFixedSpending.disposableIncome = disposableIncome;
       monthlyFixedSpending.monthlyFixedList = monthlyFixedList;
@@ -60,9 +60,11 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
     env = widget.env;
     _isLoading = widget.isLoading;
     env.initMonth();
-    TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
-    TransactionLoad.getMonthlyFixedSpending(
-        env, setLoading, setSnackBar, setMonthlyFixedSpending);
+    Future(() async {
+      await TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+      await TransactionLoad.getMonthlyFixedSpending(
+          env, setLoading, setSnackBar, setMonthlyFixedSpending);
+    });
   }
 
   @override
@@ -81,10 +83,12 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                     onPressed: () {
                       setState(() {
                         env.subtractMonth();
-                        TransactionLoad.getMonthlyFixedIncome(
-                            env, setMonthlyFixedIncome);
-                        TransactionLoad.getMonthlyFixedSpending(env, setLoading,
-                            setSnackBar, setMonthlyFixedSpending);
+                        Future(() async {
+                          await TransactionLoad.getMonthlyFixedIncome(
+                              env, setMonthlyFixedIncome);
+                          await TransactionLoad.getMonthlyFixedSpending(env,
+                              setLoading, setSnackBar, setMonthlyFixedSpending);
+                        });
                       });
                     },
                     icon: const Icon(Icons.arrow_back_ios)),
@@ -96,10 +100,13 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                         // 翌月が未来でなければデータ取得
                         if (env.isNotCurrentMonth()) {
                           env.addMonth();
-                          TransactionLoad.getMonthlyFixedIncome(
-                              env, setMonthlyFixedIncome);
-                          TransactionLoad.getMonthlyFixedSpending(env,
-                              setLoading, setSnackBar, setMonthlyFixedSpending);
+                          Future(() async {
+                            await TransactionLoad.getMonthlyFixedIncome(
+                                env, setMonthlyFixedIncome);
+                            await TransactionLoad.getMonthlyFixedSpending(env,
+                                setLoading, setSnackBar,
+                                setMonthlyFixedSpending);
+                          });
                         }
                       });
                     },
@@ -110,107 +117,110 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
           _isLoading
               ? CommonLoadingAnimation.build()
               : Flexible(
-                  child: monthlyFixedIncome.monthlyFixedList.isNotEmpty ||
-                          monthlyFixedSpending.monthlyFixedList.isNotEmpty
-                      ? ListView(
+              child: monthlyFixedIncome.monthlyFixedList.isNotEmpty ||
+                  monthlyFixedSpending.monthlyFixedList.isNotEmpty
+                  ? ListView(
+                children: [
+                  // 合計値
+                  Container(
+                    margin:
+                    const EdgeInsets.only(right: 15, left: 15),
+                    height: 60,
+                    child: Row(
+                      children: [
+                        const Text('可処分所得額',
+                            style: TextStyle(fontSize: 17)),
+                        const SizedBox(width: 20),
+                        Text(
+                            transactionClass.formatNum(
+                                (monthlyFixedIncome.disposableIncome +
+                                    monthlyFixedSpending
+                                        .disposableIncome)),
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: (monthlyFixedIncome
+                                    .disposableIncome +
+                                    monthlyFixedSpending
+                                        .disposableIncome) <
+                                    0
+                                    ? Colors.red
+                                    : Colors.green)),
+                      ],
+                    ),
+                  ),
+                  // 収入
+                  Column(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(
+                            left: 10, right: 10),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10),
+                        color: Colors.white,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
                           children: [
-                            // 合計値
-                            Container(
-                              margin:
-                                  const EdgeInsets.only(right: 15, left: 15),
-                              height: 60,
-                              child: Row(
-                                children: [
-                                  const Text('可処分所得額',
-                                      style: TextStyle(fontSize: 17)),
-                                  const SizedBox(width: 20),
-                                  Text(
-                                      transactionClass.formatNum(
-                                          (monthlyFixedIncome.disposableIncome +
-                                              monthlyFixedSpending
-                                                  .disposableIncome)),
-                                      style: TextStyle(
-                                          fontSize: 30,
-                                          color: (monthlyFixedIncome
-                                                          .disposableIncome +
-                                                      monthlyFixedSpending
-                                                          .disposableIncome) <
-                                                  0
-                                              ? Colors.red
-                                              : Colors.green)),
-                                ],
-                              ),
+                            const Text(
+                              '収入',
+                              style: TextStyle(fontSize: 20),
                             ),
-                            // 収入
-                            Column(
-                              children: [
-                                Container(
-                                  margin: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  color: Colors.white,
-                                  height: 50,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        '収入',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      Text(
-                                        '¥${transactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.green),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(left: 5, right: 5),
-                                  child: FixedAnalysisAccordion(
-                                      monthlyFixedList:
-                                          monthlyFixedIncome.monthlyFixedList),
-                                )
-                              ],
-                            ),
-                            const SizedBox(height: 30),
-                            // 支出
-                            Column(
-                              children: [
-                                Container(
-                                  margin:
-                                      const EdgeInsets.only(left: 5, right: 5),
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  color: Colors.white,
-                                  height: 50,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      const Text(
-                                        '支出',
-                                        style: TextStyle(fontSize: 20),
-                                      ),
-                                      Text(
-                                        '¥${transactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
-                                        style: const TextStyle(
-                                            fontSize: 20, color: Colors.red),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                FixedAnalysisAccordion(
-                                    monthlyFixedList:
-                                        monthlyFixedSpending.monthlyFixedList),
-                              ],
-                            ),
+                            Text(
+                              '¥${transactionClass.formatNum(
+                                  monthlyFixedIncome.disposableIncome)}',
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.green),
+                            )
                           ],
-                        )
-                      : const dataNotRegisteredBox(message: '取引履歴が存在しません')),
+                        ),
+                      ),
+                      Container(
+                        margin:
+                        const EdgeInsets.only(left: 5, right: 5),
+                        child: FixedAnalysisAccordion(
+                            monthlyFixedList:
+                            monthlyFixedIncome.monthlyFixedList),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 30),
+                  // 支出
+                  Column(
+                    children: [
+                      Container(
+                        margin:
+                        const EdgeInsets.only(left: 5, right: 5),
+                        padding: const EdgeInsets.only(
+                            left: 10, right: 10),
+                        color: Colors.white,
+                        height: 50,
+                        child: Row(
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              '支出',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Text(
+                              '¥${transactionClass.formatNum(
+                                  monthlyFixedSpending.disposableIncome
+                                      .abs())}',
+                              style: const TextStyle(
+                                  fontSize: 20, color: Colors.red),
+                            )
+                          ],
+                        ),
+                      ),
+                      FixedAnalysisAccordion(
+                          monthlyFixedList:
+                          monthlyFixedSpending.monthlyFixedList),
+                    ],
+                  ),
+                ],
+              )
+                  : const dataNotRegisteredBox(message: '取引履歴が存在しません')),
         ],
       ),
     );

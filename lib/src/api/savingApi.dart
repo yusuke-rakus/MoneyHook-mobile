@@ -14,7 +14,7 @@ class SavingApi {
   static Future<void> getMonthlySavingData(envClass env, Function setLoading,
       Function setSnackBar, Function setSavingList) async {
     setLoading();
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getMonthlySavingData',
             data: env.getJson(), options: option);
@@ -51,13 +51,10 @@ class SavingApi {
   static Future<void> getSavingAmountForTarget(String userId,
       Function setLoading, setSnackBar, Function setSavingTargetList) async {
     setLoading();
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getSavingAmountForTarget',
-            data: {
-              'userId': userId,
-            },
-            options: option);
+            data: {'userId': userId}, options: option);
         if (res.data['status'] == 'error') {
           // 失敗
         } else {
@@ -85,7 +82,7 @@ class SavingApi {
 
   static Future<void> getTotalSaving(
       envClass env, Function setTotalSaving) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getTotalSaving',
             data: env.getJson(), options: option);
@@ -118,7 +115,7 @@ class SavingApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/addSaving',
             data: saving.getSavingJson(), options: option);
@@ -147,7 +144,7 @@ class SavingApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/editSaving',
             data: saving.getSavingJson(), options: option);
@@ -175,7 +172,7 @@ class SavingApi {
       Function setDisable,
       Function setSnackBar) async {
     setDisable();
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/deleteSaving',
             data: {'userId': env.userId, 'savingId': saving.savingId},
@@ -199,7 +196,7 @@ class SavingApi {
   /// レコメンドリストの取得
   static Future<void> getFrequentSavingName(
       envClass env, Function setRecommendList) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getFrequentSavingName',
             data: {

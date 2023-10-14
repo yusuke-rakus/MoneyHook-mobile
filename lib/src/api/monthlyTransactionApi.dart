@@ -13,7 +13,7 @@ class MonthlyTransactionApi {
   /// 月次取引の取得
   static Future<void> getFixed(envClass env, Function setMonthlyTransactionList,
       Function setLoading, Function setSnackBar) async {
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getFixed',
             data: env.getUserJson(), options: option);
@@ -61,7 +61,7 @@ class MonthlyTransactionApi {
       return;
     }
 
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/editOneFixed',
             data: monthlyTransaction.convertEditMonthlyTranJson(),
@@ -92,7 +92,7 @@ class MonthlyTransactionApi {
       Function setSnackBar,
       Function setDisable) async {
     setDisable();
-    Api.getHeader().then((option) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/deleteFixedFromTable',
             data: monthlyTransaction.convertDeleteMonthlyTranJson(),

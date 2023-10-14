@@ -54,10 +54,10 @@ class _TotalSaving extends State<TotalSaving> {
     });
   }
 
-  void setReload() {
-    SavingApi.getSavingAmountForTarget(
+  void setReload() async {
+    await SavingApi.getSavingAmountForTarget(
         env.userId, setLoading, setSnackBar, setSavingTargetList);
-    SavingApi.getTotalSaving(env, setTotalSaving);
+    await SavingApi.getTotalSaving(env, setTotalSaving);
   }
 
   @override
@@ -66,9 +66,11 @@ class _TotalSaving extends State<TotalSaving> {
     env = widget.env;
     _isLoading = widget.isLoading;
     env.initMonth();
-    SavingLoad.getSavingAmountForTarget(
-        env.userId, setLoading, setSnackBar, setSavingTargetList);
-    SavingLoad.getTotalSaving(env, setTotalSaving);
+    Future(() async {
+      await SavingLoad.getSavingAmountForTarget(
+          env.userId, setLoading, setSnackBar, setSavingTargetList);
+      await SavingLoad.getTotalSaving(env, setTotalSaving);
+    });
     widget.changeReload(setReload);
   }
 

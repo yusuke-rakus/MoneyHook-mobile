@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/env/googleSignIn.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -49,7 +49,7 @@ class _LoginState extends State<Login> {
                 const dataNotRegisteredBox(message: '外部アカウントでログインしてください'),
                 TextButton(
                     onPressed: () {
-                      FirebaseAuth.instance.signOut();
+                      userApi.signOut();
                     },
                     child: const Text(
                       'Firebaseログアウト',

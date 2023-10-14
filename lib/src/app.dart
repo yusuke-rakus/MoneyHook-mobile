@@ -111,7 +111,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 if (userId == null) {
                   setSnackBar('ログインエラーが発生しました');
                   // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
-                  FirebaseAuth.instance.signOut();
+                  userApi.signOut();
                   // ログイン画面へ
                   setLoginItem();
                 } else {

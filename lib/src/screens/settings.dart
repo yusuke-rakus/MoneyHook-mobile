@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:localstore/localstore.dart';
+import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/modals/settings_modal/deletedSavingTarget.dart';
 import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
@@ -41,7 +42,7 @@ class SettingsScreen extends StatelessWidget {
                 SearchTransaction(env: env)),
             TextButton(
                 onPressed: () {
-                  FirebaseAuth.instance.signOut();
+                  userApi.signOut();
                 },
                 child: const Text(
                   'ログアウト',

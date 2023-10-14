@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:money_hooks/src/api/userApi.dart';
 
 class Api {
   static const String rootURI = 'http://localhost:8080';
@@ -14,7 +15,7 @@ class Api {
 
   static Future<Options?> getHeader() async {
     User? user = FirebaseAuth.instance.currentUser;
-    Options? options = await user?.getIdToken().then((value) {
+    Options? options = await user?.getIdToken().then((value) async {
       final String? token = value;
       final String? email = user.email;
 
@@ -23,6 +24,15 @@ class Api {
       } else {
         final String userId = convHash(email);
         final String hashedToken = convHash(token);
+        // ローカルにあるトークンと比較
+        String? localToken = await userApi.getToken();
+        if (localToken == null) {
+          return null;
+        }
+        // 異なる場合：GoogleSignIn
+        if (hashedToken.compareTo(localToken) != 0) {
+          await userApi.updateToken(userId, hashedToken);
+        }
 
         return Options(
             headers: {'userId': userId, 'Authorization': hashedToken});
