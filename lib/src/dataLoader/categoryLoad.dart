@@ -1,6 +1,7 @@
 import 'package:money_hooks/src/api/categoryApi.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
+import '../class/categoryClass.dart';
 import '../env/envClass.dart';
 
 class CategoryLoad {
@@ -34,15 +35,15 @@ class CategoryLoad {
       Function setLoading,
       Function setSnackBar,
       Function setCategoryList) async {
-    await CategoryStorage.getCategoryWithSubCategoryListData()
-        .then((value) async {
-      if (value.isEmpty) {
-        await CategoryApi.getCategoryWithSubCategoryList(
-            env, setLoading, setSnackBar, setCategoryList);
-      } else {
-        setCategoryList(value);
-        setLoading();
-      }
-    });
+    List<categoryClass> categoryList =
+        await CategoryStorage.getCategoryWithSubCategoryListData();
+
+    if (categoryList.isEmpty) {
+      await CategoryApi.getCategoryWithSubCategoryList(
+          env, setSnackBar, setCategoryList);
+    } else {
+      setCategoryList(categoryList);
+    }
+    setLoading();
   }
 }

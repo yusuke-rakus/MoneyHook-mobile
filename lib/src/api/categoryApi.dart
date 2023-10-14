@@ -62,9 +62,9 @@ class CategoryApi {
   }
 
   /// カテゴリ一覧の取得(サブカテゴリ含む)
-  static Future<void> getCategoryWithSubCategoryList(envClass env,
-      Function setLoading, setSnackBar, Function setCategoryList) async {
-    Api.getHeader().then((option) async {
+  static Future<void> getCategoryWithSubCategoryList(
+      envClass env, setSnackBar, Function setCategoryList) async {
+    await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post(
             '$rootURI/category/getCategoryWithSubCategoryList',
@@ -92,8 +92,6 @@ class CategoryApi {
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
-      } finally {
-        setLoading();
       }
     });
   }

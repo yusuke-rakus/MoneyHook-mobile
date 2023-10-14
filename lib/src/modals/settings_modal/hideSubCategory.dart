@@ -21,9 +21,9 @@ class HideSubCategory extends StatefulWidget {
 class _HideSubCategoryState extends State<HideSubCategory> {
   late envClass env;
   late List<categoryClass> categoryList = [];
-  late String defaultIndex;
   late bool _isLoading;
   late bool _editMode;
+  late String defaultIndex;
 
   void setCategoryList(List<categoryClass> resultList) {
     setState(() {
@@ -119,9 +119,11 @@ class _HideSubCategoryState extends State<HideSubCategory> {
     env = widget.env;
     _isLoading = true;
     _editMode = false;
-    CategoryLoad.getCategoryWithSubCategoryList(
-            env, setLoading, setSnackBar, setCategoryList)
-        .then((value) {
+
+    Future(() async {
+      await CategoryLoad.getCategoryWithSubCategoryList(
+          env, setLoading, setSnackBar, setCategoryList);
+
       CategoryStorage.getDefaultValue()
           .then((value) => _setDefaultValue(value, true));
     });
