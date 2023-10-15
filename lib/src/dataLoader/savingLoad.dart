@@ -25,15 +25,11 @@ class SavingLoad {
 
   /// 【貯金総額画面】貯金目標毎の総額データ
   static Future<void> getSavingAmountForTarget(
-      String userId,
-      Function setLoading,
-      Function setSnackBar,
-      Function setSavingTargetList) async {
-    await SavingStorage.getSavingAmountForTarget(userId, setLoading)
-        .then((value) async {
+      String userId, Function setSnackBar, Function setSavingTargetList) async {
+    await SavingStorage.getSavingAmountForTarget(userId).then((value) async {
       if (value.isEmpty) {
         await SavingApi.getSavingAmountForTarget(
-            userId, setLoading, setSnackBar, setSavingTargetList);
+            userId, setSnackBar, setSavingTargetList);
       } else {
         setSavingTargetList(value);
       }

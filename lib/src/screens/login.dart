@@ -6,7 +6,6 @@ import 'package:money_hooks/src/env/googleSignIn.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 import '../components/commonSnackBar.dart';
-import '../components/dataNotRegisteredBox.dart';
 
 class Login extends StatefulWidget {
   Login({super.key});
@@ -46,7 +45,22 @@ class _LoginState extends State<Login> {
             ListView(
               physics: const NeverScrollableScrollPhysics(),
               children: [
-                const dataNotRegisteredBox(message: '外部アカウントでログインしてください'),
+                Container(
+                  color: Colors.white60,
+                  margin: const EdgeInsets.only(top: 20),
+                  padding: const EdgeInsets.all(20),
+                  child: Center(
+                      child: Column(children: [
+                    SizedBox(
+                      height: 70,
+                      child: Image.asset(
+                        "images/color_logo.png",
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    const Text('外部アカウントでログインしてください')
+                  ])),
+                ),
                 TextButton(
                     onPressed: () {
                       userApi.signOut();

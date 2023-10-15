@@ -48,9 +48,8 @@ class SavingApi {
     });
   }
 
-  static Future<void> getSavingAmountForTarget(String userId,
-      Function setLoading, setSnackBar, Function setSavingTargetList) async {
-    setLoading();
+  static Future<void> getSavingAmountForTarget(
+      String userId, setSnackBar, Function setSavingTargetList) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getSavingAmountForTarget',
@@ -74,8 +73,6 @@ class SavingApi {
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
-      } finally {
-        setLoading();
       }
     });
   }
@@ -96,6 +93,7 @@ class SavingApi {
                 value['monthlyTotalSavingAmount'],
                 DateFormat('yyyy-MM-dd').parse(value['savingMonth'])));
           });
+          resultList = List.from(resultList.reversed);
           setTotalSaving(res.data['totalSavingAmount'], resultList);
           SavingStorage.saveTotalSaving(res.data['totalSavingAmount'],
               resultList, env.getJson().toString());

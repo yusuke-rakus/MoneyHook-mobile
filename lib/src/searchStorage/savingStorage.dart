@@ -66,9 +66,7 @@ class SavingStorage {
 
   /// 【貯金総額画面】貯金目標毎の総額データ
   static Future<List<savingTargetClass>> getSavingAmountForTarget(
-      String param, Function setLoading) async {
-    setLoading();
-
+      String param) async {
     final id = 'savingAmountForTargetData$param';
     List<savingTargetClass> resultList = [];
 
@@ -80,15 +78,14 @@ class SavingStorage {
       if (value != null) {
         value['data'].forEach((e) {
           resultList.add(savingTargetClass.setFields(
-            e['savingTargetId'],
-            e['savingTargetName'],
-            e['targetAmount'],
-            e['totalSavedAmount'],
-            e['savingCount'],
-          ));
+              e['savingTargetId'],
+              e['savingTargetName'],
+              e['targetAmount'],
+              e['totalSavedAmount'],
+              e['savingCount']));
         });
       }
-    }).then((value) => setLoading());
+    });
     return resultList;
   }
 

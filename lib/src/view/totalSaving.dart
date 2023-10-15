@@ -2,13 +2,13 @@ import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/savingApi.dart';
 import 'package:money_hooks/src/class/savingTargetClass.dart';
 import 'package:money_hooks/src/components/charts/totalSavingChart.dart';
-import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
-import 'package:money_hooks/src/components/savingTargetList.dart';
 import 'package:money_hooks/src/dataLoader/savingLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/commonLoadingAnimation.dart';
 import '../components/commonSnackBar.dart';
+import '../components/dataNotRegisteredBox.dart';
+import '../components/savingTargetList.dart';
 
 class TotalSaving extends StatefulWidget {
   TotalSaving(this.env, this.isLoading, this.changeReload, {super.key});
@@ -55,9 +55,11 @@ class _TotalSaving extends State<TotalSaving> {
   }
 
   void setReload() async {
+    setLoading();
     await SavingApi.getSavingAmountForTarget(
-        env.userId, setLoading, setSnackBar, setSavingTargetList);
+        env.userId, setSnackBar, setSavingTargetList);
     await SavingApi.getTotalSaving(env, setTotalSaving);
+    setLoading();
   }
 
   @override
@@ -65,11 +67,13 @@ class _TotalSaving extends State<TotalSaving> {
     super.initState();
     env = widget.env;
     _isLoading = widget.isLoading;
+    setLoading();
     env.initMonth();
     Future(() async {
-      await SavingLoad.getSavingAmountForTarget(
-          env.userId, setLoading, setSnackBar, setSavingTargetList);
       await SavingLoad.getTotalSaving(env, setTotalSaving);
+      await SavingLoad.getSavingAmountForTarget(
+          env.userId, setSnackBar, setSavingTargetList);
+      setLoading();
     });
     widget.changeReload(setReload);
   }
@@ -97,7 +101,9 @@ class _TotalSaving extends State<TotalSaving> {
                   ),
 
                   // グラフ
-                  SizedBox(
+                  Container(
+                    padding: const EdgeInsets.all(20),
+                    margin: const EdgeInsets.only(left: 30, right: 30),
                     height: 200,
                     child: TotalSavingChart(totalSavingChart),
                   ),
