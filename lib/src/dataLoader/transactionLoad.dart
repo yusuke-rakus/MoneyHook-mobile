@@ -87,13 +87,13 @@ class TransactionLoad {
   }
 
   /// 【月別固定費画面】支出データ
-  static Future<void> getMonthlyFixedSpending(envClass env, Function setLoading,
+  static Future<void> getMonthlyFixedSpending(envClass env,
       Function setSnackBar, Function setMonthlyFixedSpending) async {
     await TransactionStorage.getMonthlyFixedSpending(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty) {
         await transactionApi.getMonthlyFixedSpending(
-            env, setLoading, setSnackBar, setMonthlyFixedSpending);
+            env, setSnackBar, setMonthlyFixedSpending);
       } else {
         setMonthlyFixedSpending(
             value['disposableIncome'], value['monthlyFixedList']);

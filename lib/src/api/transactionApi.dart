@@ -165,9 +165,8 @@ class transactionApi {
     });
   }
 
-  static Future<void> getMonthlyFixedSpending(envClass env, Function setLoading,
+  static Future<void> getMonthlyFixedSpending(envClass env,
       Function setSnackBar, Function setMonthlyFixedSpending) async {
-    setLoading();
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/getMonthlyFixedSpending',
@@ -185,8 +184,6 @@ class transactionApi {
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
-      } finally {
-        setLoading();
       }
     });
   }
