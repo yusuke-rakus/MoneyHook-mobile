@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import '../../class/transactionClass.dart';
 
 class TimelineChart extends StatefulWidget {
-  TimelineChart(this.data, {super.key});
+  const TimelineChart(this.data, {super.key});
 
-  List<transactionClass> data;
+  final List<TransactionClass> data;
 
   @override
   State<TimelineChart> createState() => _TimelineChartState();
@@ -37,7 +37,7 @@ class _TimelineChartState extends State<TimelineChart> {
                 int rodIndex,
               ) {
                 return BarTooltipItem(
-                  '¥${transactionClass.formatNum(rod.toY.toInt())}',
+                  '¥${TransactionClass.formatNum(rod.toY.toInt())}',
                   const TextStyle(color: Colors.blueGrey),
                 );
               },
@@ -82,7 +82,7 @@ class _TimelineChartState extends State<TimelineChart> {
             const AxisTitles(sideTitles: SideTitles(showTitles: false)),
       );
 
-  List<BarChartGroupData> _createTimelineChart(List<transactionClass> data) {
+  List<BarChartGroupData> _createTimelineChart(List<TransactionClass> data) {
     List<BarChartGroupData> result = List.generate(
         data.length,
         (index) => BarChartGroupData(

@@ -1,7 +1,7 @@
 import '../../class/savingClass.dart';
 
 class savingValidation {
-  static bool checkSaving(savingClass saving) {
+  static bool checkSaving(SavingClass saving) {
     // 未入力チェック
     if (saving.savingName.isEmpty) {
       saving.savingNameError = '未入力';

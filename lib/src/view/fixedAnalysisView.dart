@@ -10,18 +10,18 @@ import '../components/commonSnackBar.dart';
 import '../components/fixedAnalysisAccordion.dart';
 
 class FixedAnalysisView extends StatefulWidget {
-  FixedAnalysisView(this.env, this.isLoading, {super.key});
+  const FixedAnalysisView(this.env, this.isLoading, {super.key});
 
-  bool isLoading;
-  envClass env;
+  final bool isLoading;
+  final envClass env;
 
   @override
   State<FixedAnalysisView> createState() => _FixedAnalysis();
 }
 
 class _FixedAnalysis extends State<FixedAnalysisView> {
-  late monthlyFixedData monthlyFixedIncome = monthlyFixedData();
-  late monthlyFixedData monthlyFixedSpending = monthlyFixedData();
+  late MonthlyFixedData monthlyFixedIncome = MonthlyFixedData();
+  late MonthlyFixedData monthlyFixedSpending = MonthlyFixedData();
   late envClass env;
   late bool _isLoading;
 
@@ -137,7 +137,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       style: TextStyle(fontSize: 17)),
                                   const SizedBox(width: 20),
                                   Text(
-                                      transactionClass.formatNum(
+                                      TransactionClass.formatNum(
                                           (monthlyFixedIncome.disposableIncome +
                                               monthlyFixedSpending
                                                   .disposableIncome)),
@@ -172,7 +172,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                         style: TextStyle(fontSize: 20),
                                       ),
                                       Text(
-                                        '¥${transactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
+                                        '¥${TransactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
                                         style: const TextStyle(
                                             fontSize: 20, color: Colors.green),
                                       )
@@ -208,7 +208,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                         style: TextStyle(fontSize: 20),
                                       ),
                                       Text(
-                                        '¥${transactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
+                                        '¥${TransactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
                                         style: const TextStyle(
                                             fontSize: 20, color: Colors.red),
                                       )

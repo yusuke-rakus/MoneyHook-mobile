@@ -5,9 +5,9 @@ import 'package:money_hooks/src/class/transactionClass.dart';
 import '../../class/savingTargetClass.dart';
 
 class TotalSavingChart extends StatelessWidget {
-  TotalSavingChart(this.data, {super.key});
+  const TotalSavingChart(this.data, {super.key});
 
-  List<savingTargetClass> data;
+  final List<SavingTargetClass> data;
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +44,13 @@ class TotalSavingChart extends StatelessWidget {
             getTooltipItems: (List<LineBarSpot> touchedBarSpots) {
               return touchedBarSpots.map((barSpot) {
                 return LineTooltipItem(
-                    '¥${transactionClass.formatNum(barSpot.y.toInt())}',
+                    '¥${TransactionClass.formatNum(barSpot.y.toInt())}',
                     const TextStyle(color: Colors.white));
               }).toList();
             }),
       );
 
-  List<LineChartBarData> _createTotalSavingData(List<savingTargetClass> data) {
+  List<LineChartBarData> _createTotalSavingData(List<SavingTargetClass> data) {
     List<LineChartBarData> result = [
       LineChartBarData(
           spots: List.generate(

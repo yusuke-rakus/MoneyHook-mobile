@@ -1,14 +1,14 @@
 import 'package:money_hooks/src/class/response/response.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 
-class timelineTransaction extends response {
-  List<transactionClass> transactionList = [];
+class TimelineTransaction extends Response {
+  List<TransactionClass> transactionList = [];
 
-  timelineTransaction.init(this.transactionList) : super('', '');
+  TimelineTransaction.init(this.transactionList) : super('', '');
 
-  timelineTransaction() : super('', '');
+  TimelineTransaction() : super('', '');
 
-  timelineTransaction.setResponse(
+  TimelineTransaction.setResponse(
       super.status, super.message, this.transactionList);
 
   @override

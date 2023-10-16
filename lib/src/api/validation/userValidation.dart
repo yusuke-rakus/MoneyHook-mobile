@@ -3,7 +3,7 @@ import 'package:money_hooks/src/class/changeEmailClass.dart';
 import '../../class/changePasswordClass.dart';
 
 class userValidation {
-  static bool checkChangeEmail(changeEmailClass emailClass) {
+  static bool checkChangeEmail(ChangeEmailClass emailClass) {
     // 未入力チェック
     if (emailClass.email.isEmpty) {
       emailClass.emailError = '未入力';
@@ -25,7 +25,7 @@ class userValidation {
     return false;
   }
 
-  static bool checkChangePassword(changePasswordClass passwordClass) {
+  static bool checkChangePassword(ChangePasswordClass passwordClass) {
     // 未入力チェック
     if (passwordClass.password.isEmpty) {
       passwordClass.passwordError = '未入力';

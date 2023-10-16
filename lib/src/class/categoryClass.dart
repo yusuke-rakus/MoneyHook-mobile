@@ -1,18 +1,18 @@
 import 'package:money_hooks/src/class/subCategoryClass.dart';
 
-class categoryClass {
+class CategoryClass {
   var _categoryId;
   var _categoryName;
   var _subCategoryId;
   var _subCategoryName;
-  late List<subCategoryClass> _subCategoryList;
+  late List<SubCategoryClass> _subCategoryList;
 
-  categoryClass(this._categoryId, this._categoryName);
+  CategoryClass(this._categoryId, this._categoryName);
 
-  categoryClass.setCategoryWithSubCategory(
+  CategoryClass.setCategoryWithSubCategory(
       this._categoryId, this._categoryName, this._subCategoryList);
 
-  categoryClass.setDefaultValue(this._categoryId, this._categoryName,
+  CategoryClass.setDefaultValue(this._categoryId, this._categoryName,
       this._subCategoryId, this._subCategoryName);
 
   get categoryName => _categoryName;
@@ -27,9 +27,9 @@ class categoryClass {
     _categoryId = value;
   }
 
-  List<subCategoryClass> get subCategoryList => _subCategoryList;
+  List<SubCategoryClass> get subCategoryList => _subCategoryList;
 
-  set subCategoryList(List<subCategoryClass> value) {
+  set subCategoryList(List<SubCategoryClass> value) {
     _subCategoryList = value;
   }
 

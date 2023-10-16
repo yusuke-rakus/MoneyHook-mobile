@@ -1,7 +1,7 @@
 import 'package:money_hooks/src/class/response/response.dart';
 
-class login extends response {
+class Login extends Response {
   String userId;
 
-  login(super.status, super.message, this.userId);
+  Login(super.status, super.message, this.userId);
 }

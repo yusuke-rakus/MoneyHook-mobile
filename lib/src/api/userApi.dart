@@ -13,7 +13,7 @@ import '../searchStorage/savingStorage.dart';
 import '../searchStorage/savingTargetStorage.dart';
 import '../searchStorage/transactionStorage.dart';
 
-class userApi {
+class UserApi {
   static String rootURI = '${Api.rootURI}/user';
   static final db = Localstore.instance;
 
@@ -39,7 +39,7 @@ class userApi {
       setSnackBar(Api.errorMessage(e));
       setLoginItem();
       // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
-      userApi.signOut();
+      UserApi.signOut();
       return null;
     }
   }
@@ -57,9 +57,9 @@ class userApi {
         // ログイン成功
         return userId;
       }
-    } on DioException catch (e) {
+    } on DioException {
       // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
-      userApi.signOut();
+      UserApi.signOut();
       return null;
     }
   }

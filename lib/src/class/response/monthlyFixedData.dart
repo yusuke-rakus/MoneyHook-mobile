@@ -1,14 +1,14 @@
 import 'package:money_hooks/src/class/response/response.dart';
 
-class monthlyFixedData extends response {
+class MonthlyFixedData extends Response {
   late int disposableIncome = 0;
   late List<dynamic> monthlyFixedList = [];
 
-  monthlyFixedData.init(this.disposableIncome, this.monthlyFixedList)
+  MonthlyFixedData.init(this.disposableIncome, this.monthlyFixedList)
       : super('', '');
 
-  monthlyFixedData() : super('', '');
+  MonthlyFixedData() : super('', '');
 
-  monthlyFixedData.setResponse(super.status, super.message,
+  MonthlyFixedData.setResponse(super.status, super.message,
       this.disposableIncome, this.monthlyFixedList);
 }

@@ -37,7 +37,7 @@ class HomeAccordion extends StatelessWidget {
                             )),
                       ])),
                       Text(
-                          '¥${transactionClass.formatNum(homeTransactionList[index]['categoryTotalAmount'].abs())}'),
+                          '¥${TransactionClass.formatNum(homeTransactionList[index]['categoryTotalAmount'].abs())}'),
                     ],
                   ),
                   textColor: Colors.black,
@@ -48,7 +48,7 @@ class HomeAccordion extends StatelessWidget {
                             children: [
                               Text(value['subCategoryName']),
                               Text(
-                                  '¥${transactionClass.formatNum(value['subCategoryTotalAmount'].abs())}'),
+                                  '¥${TransactionClass.formatNum(value['subCategoryTotalAmount'].abs())}'),
                             ],
                           )))
                       .toList(),

@@ -5,13 +5,14 @@ import 'package:money_hooks/src/env/envClass.dart';
 import '../modals/editSaving.dart';
 
 class SavingTimelineList extends StatelessWidget {
-  const SavingTimelineList({Key? key,
-    required this.env,
-    required this.savingTimelineList,
-    required this.setReload})
+  const SavingTimelineList(
+      {Key? key,
+      required this.env,
+      required this.savingTimelineList,
+      required this.setReload})
       : super(key: key);
   final envClass env;
-  final List<savingClass> savingTimelineList;
+  final List<SavingClass> savingTimelineList;
   final Function setReload;
 
   @override
@@ -38,14 +39,14 @@ class SavingTimelineList extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
-                    flex:1,
+                    flex: 1,
                     child: Text(
                       '${savingTimelineList[index].getDay()}日',
                       style: const TextStyle(fontSize: 15),
                     ),
                   ),
                   Expanded(
-                    flex:5,
+                    flex: 5,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 5),
                       child: Text(
@@ -56,15 +57,14 @@ class SavingTimelineList extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    flex:3,
+                    flex: 3,
                     child: Text(
-                      '¥${savingClass.formatNum(
-                          savingTimelineList[index].savingAmount.toInt())}',
+                      '¥${SavingClass.formatNum(savingTimelineList[index].savingAmount.toInt())}',
                       style: const TextStyle(fontSize: 15),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  const Expanded(flex: 1,child: Icon(Icons.arrow_forward_ios)),
+                  const Expanded(flex: 1, child: Icon(Icons.arrow_forward_ios)),
                 ],
               ),
             ));

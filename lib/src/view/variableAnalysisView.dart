@@ -9,17 +9,17 @@ import '../class/response/monthlyVariableData.dart';
 import '../components/commonSnackBar.dart';
 
 class VariableAnalysisView extends StatefulWidget {
-  VariableAnalysisView(this.env, this.isLoading, {super.key});
+  const VariableAnalysisView(this.env, this.isLoading, {super.key});
 
-  bool isLoading;
-  envClass env;
+  final bool isLoading;
+  final envClass env;
 
   @override
   State<VariableAnalysisView> createState() => _VariableAnalysis();
 }
 
 class _VariableAnalysis extends State<VariableAnalysisView> {
-  late monthlyVariableData data = monthlyVariableData();
+  late MonthlyVariableData data = MonthlyVariableData();
   late envClass env;
   late bool _isLoading;
 
@@ -111,8 +111,8 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                                 width: 10,
                               )),
                               TextSpan(
-                                  text: transactionClass
-                                      .formatNum(data.totalVariable),
+                                  text: TransactionClass.formatNum(
+                                      data.totalVariable),
                                   style: const TextStyle(fontSize: 30)),
                               const WidgetSpan(
                                   child: SizedBox(
@@ -158,7 +158,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
             children: [
               Text('${monthlyVariableList['categoryName']}'),
               Text(
-                  '¥${transactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
+                  '¥${TransactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
             ],
           ),
           textColor: Colors.black,
@@ -172,7 +172,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                         children: [
                           Text(subCategory['subCategoryName']),
                           Text(
-                              '¥${transactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
+                              '¥${TransactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
                         ],
                       ),
                       textColor: Colors.black,
@@ -193,7 +193,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                                       children: [
                                         const Expanded(child: SizedBox()),
                                         Text(
-                                            '¥${transactionClass.formatNum(tran['transactionAmount'].abs())}'),
+                                            '¥${TransactionClass.formatNum(tran['transactionAmount'].abs())}'),
                                       ],
                                     ),
                                   ),

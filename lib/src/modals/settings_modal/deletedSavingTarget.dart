@@ -11,8 +11,8 @@ import '../../components/dataNotRegisteredBox.dart';
 import '../../env/envClass.dart';
 
 class DeletedSavingTarget extends StatefulWidget {
-  DeletedSavingTarget({Key? key, required this.env}) : super(key: key);
-  envClass env;
+  const DeletedSavingTarget({Key? key, required this.env}) : super(key: key);
+  final envClass env;
 
   @override
   State<DeletedSavingTarget> createState() => _DeletedSavingTarget();
@@ -20,10 +20,10 @@ class DeletedSavingTarget extends StatefulWidget {
 
 class _DeletedSavingTarget extends State<DeletedSavingTarget> {
   late envClass env;
-  late List<savingTargetClass> savingTargetList = [];
+  late List<SavingTargetClass> savingTargetList = [];
   late bool _isLoading;
 
-  void setSavingTargetList(List<savingTargetClass> resultList) {
+  void setSavingTargetList(List<SavingTargetClass> resultList) {
     setState(() {
       savingTargetList = resultList;
     });
@@ -41,14 +41,14 @@ class _DeletedSavingTarget extends State<DeletedSavingTarget> {
     });
   }
 
-  void reloadList(savingTargetClass savingTarget) {
+  void reloadList(SavingTargetClass savingTarget) {
     setState(() {
       savingTargetList.remove(savingTarget);
     });
   }
 
   /// 戻す処理
-  void _returnSavingTarget(savingTargetClass savingTarget) {
+  void _returnSavingTarget(SavingTargetClass savingTarget) {
     commonLoadingDialog(context: context);
     SavingTargetApi.returnSavingTarget(
             env, savingTarget, setSnackBar, reloadList)
@@ -56,7 +56,7 @@ class _DeletedSavingTarget extends State<DeletedSavingTarget> {
   }
 
   /// 削除処理
-  void _deleteSavingTargetFromTable(savingTargetClass savingTarget) {
+  void _deleteSavingTargetFromTable(SavingTargetClass savingTarget) {
     commonLoadingDialog(context: context);
     SavingTargetApi.deleteSavingTargetFromTable(
             env, savingTarget, setSnackBar, reloadList)

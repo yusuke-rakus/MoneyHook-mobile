@@ -12,15 +12,15 @@ class SavingTargetStorage {
   }
 
   /// 【貯金目標一覧取得】データ
-  static Future<List<savingTargetClass>> getSavingTargetData(
+  static Future<List<SavingTargetClass>> getSavingTargetData(
       Function setSavingTargetList, String param) async {
     final id = 'savingTargetData$param';
-    List<savingTargetClass> resultList = [];
+    List<SavingTargetClass> resultList = [];
 
     await db.collection('savingTargetData').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(savingTargetClass.setTargetFields(
+          resultList.add(SavingTargetClass.setTargetFields(
               e['savingTargetId'], e['savingTargetName']));
         });
       }
@@ -29,7 +29,7 @@ class SavingTargetStorage {
   }
 
   static void saveSavingTargetData(
-      List<savingTargetClass> resultList, String param) async {
+      List<SavingTargetClass> resultList, String param) async {
     await db
         .collection('savingTargetData')
         .doc('savingTargetData$param')
@@ -41,15 +41,15 @@ class SavingTargetStorage {
   }
 
   /// 【貯金目標一覧取得】データ
-  static Future<List<savingTargetClass>> getDeletedSavingTargetData(
+  static Future<List<SavingTargetClass>> getDeletedSavingTargetData(
       Function setSavingTargetList, String param) async {
     final id = 'DeletedSavingTargetData$param';
-    List<savingTargetClass> resultList = [];
+    List<SavingTargetClass> resultList = [];
 
     await db.collection('DeletedSavingTargetData').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(savingTargetClass.setTargetFields(
+          resultList.add(SavingTargetClass.setTargetFields(
               e['savingTargetId'], e['savingTargetName']));
         });
       }
@@ -58,7 +58,7 @@ class SavingTargetStorage {
   }
 
   static void saveDeletedSavingTargetData(
-      List<savingTargetClass> resultList, String param) async {
+      List<SavingTargetClass> resultList, String param) async {
     await db
         .collection('DeletedSavingTargetData')
         .doc('DeletedSavingTargetData$param')

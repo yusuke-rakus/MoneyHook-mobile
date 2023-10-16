@@ -21,11 +21,11 @@ class SavingTargetApi {
           // 失敗
         } else {
           // 成功
-          List<savingTargetClass> resultList = [
-            savingTargetClass.setTargetFields(null, 'なし')
+          List<SavingTargetClass> resultList = [
+            SavingTargetClass.setTargetFields(null, 'なし')
           ];
           res.data['savingTarget'].forEach((value) {
-            resultList.add(savingTargetClass.setTargetFields(
+            resultList.add(SavingTargetClass.setTargetFields(
                 value['savingTargetId'], value['savingTargetName']));
           });
           setSavingTargetList(resultList);
@@ -39,7 +39,7 @@ class SavingTargetApi {
 
   /// 貯金目標の追加
   static Future<void> addSavingTarget(
-      savingTargetClass savingTarget,
+      SavingTargetClass savingTarget,
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
@@ -72,7 +72,7 @@ class SavingTargetApi {
 
   /// 貯金目標の編集
   static Future<void> editSavingTarget(
-      savingTargetClass savingTarget,
+      SavingTargetClass savingTarget,
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
@@ -106,7 +106,7 @@ class SavingTargetApi {
   /// 貯金目標の削除
   static Future<void> deleteSavingTarget(
       envClass env,
-      savingTargetClass savingTarget,
+      SavingTargetClass savingTarget,
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
@@ -146,9 +146,9 @@ class SavingTargetApi {
           // 失敗
         } else {
           // 成功
-          List<savingTargetClass> resultList = [];
+          List<SavingTargetClass> resultList = [];
           res.data['savingTarget'].forEach((value) {
-            resultList.add(savingTargetClass.setTargetFields(
+            resultList.add(SavingTargetClass.setTargetFields(
                 value['savingTargetId'], value['savingTargetName']));
           });
           setSavingTargetList(resultList);
@@ -163,7 +163,7 @@ class SavingTargetApi {
   /// 貯金目標を削除(物理)
   static Future<void> deleteSavingTargetFromTable(
       envClass env,
-      savingTargetClass savingTarget,
+      SavingTargetClass savingTarget,
       Function setSnackBar,
       Function reloadList) async {
     await Api.getHeader().then((option) async {
@@ -192,7 +192,7 @@ class SavingTargetApi {
   /// 貯金目標を戻す
   static Future<void> returnSavingTarget(
       envClass env,
-      savingTargetClass savingTarget,
+      SavingTargetClass savingTarget,
       Function setSnackBar,
       Function reloadList) async {
     await Api.getHeader().then((option) async {
@@ -220,7 +220,7 @@ class SavingTargetApi {
 
   /// 貯金目標を並べ替え
   static Future<void> sortSavingTarget(envClass env,
-      List<savingTargetClass> savingTargetList, Function setSnackBar) async {
+      List<SavingTargetClass> savingTargetList, Function setSnackBar) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/sortSavingTarget',

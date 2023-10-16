@@ -3,7 +3,7 @@ import 'package:money_hooks/src/class/transactionClass.dart';
 
 class searchTransactionValidation {
   static bool checkTransaction(
-      transactionClass transaction, Function setSnackBar) {
+      TransactionClass transaction, Function setSnackBar) {
     // 未入力チェック
     if (transaction.categoryId == null) {
       setSnackBar('カテゴリを選択してください');

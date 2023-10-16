@@ -13,25 +13,25 @@ import '../components/commonSnackBar.dart';
 import '../components/deleteConfirmDialog.dart';
 
 class EditSaving extends StatefulWidget {
-  EditSaving(this.saving, this.env, this.setReload, {super.key});
+  const EditSaving(this.saving, this.env, this.setReload, {super.key});
 
-  savingClass saving;
-  envClass env;
-  Function setReload;
+  final SavingClass saving;
+  final envClass env;
+  final Function setReload;
 
   @override
   State<EditSaving> createState() => _EditSaving();
 }
 
 class _EditSaving extends State<EditSaving> {
-  late savingClass saving;
+  late SavingClass saving;
   late envClass env;
   late List<String> recommendList = [];
-  late List<savingTargetClass> savingTargetList = [];
+  late List<SavingTargetClass> savingTargetList = [];
 
   final TextEditingController nameController = TextEditingController();
 
-  void setSavingTargetList(List<savingTargetClass> responseList) {
+  void setSavingTargetList(List<SavingTargetClass> responseList) {
     setState(() {
       savingTargetList = responseList;
     });
@@ -70,7 +70,7 @@ class _EditSaving extends State<EditSaving> {
   }
 
   // 貯金編集
-  void _editSaving(savingClass saving, envClass env) {
+  void _editSaving(SavingClass saving, envClass env) {
     commonLoadingDialog(context: context);
     saving.userId = env.userId;
     if (saving.hasSavingId()) {
@@ -83,7 +83,7 @@ class _EditSaving extends State<EditSaving> {
   }
 
   // 貯金削除
-  void _deleteSaving(envClass env, savingClass saving) {
+  void _deleteSaving(envClass env, SavingClass saving) {
     commonLoadingDialog(context: context);
     SavingApi.deleteSaving(
         env, saving, backNavigation, setDisable, setSnackBar);
@@ -111,7 +111,7 @@ class _EditSaving extends State<EditSaving> {
     final focusNode = FocusNode();
     final amountController = TextEditingController(
         text: saving.savingAmount != 0
-            ? savingClass.formatNum(saving.savingAmount.toInt())
+            ? SavingClass.formatNum(saving.savingAmount.toInt())
             : '');
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
@@ -135,21 +135,21 @@ class _EditSaving extends State<EditSaving> {
                       onPressed: saving.isDisabled()
                           ? null
                           : () {
-                        showDialog<String>(
-                            context: context,
-                            builder: (BuildContext context) =>
-                                deleteConfirmDialog(
-                                    context: context,
-                                    title: '貯金を削除しますか',
-                                    leftText: 'キャンセル',
-                                    rightText: '削除',
-                                    isDestructiveAction: true,
-                                    function: () {
-                                      // 削除処理
-                                      Navigator.pop(context);
-                                      _deleteSaving(env, saving);
-                                    }));
-                      },
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      deleteConfirmDialog(
+                                          context: context,
+                                          title: '貯金を削除しますか',
+                                          leftText: 'キャンセル',
+                                          rightText: '削除',
+                                          isDestructiveAction: true,
+                                          function: () {
+                                            // 削除処理
+                                            Navigator.pop(context);
+                                            _deleteSaving(env, saving);
+                                          }));
+                            },
                       icon: const Icon(
                         Icons.delete_outline,
                       )),
@@ -167,47 +167,41 @@ class _EditSaving extends State<EditSaving> {
                     onTap: () {
                       showCupertinoModalPopup(
                         context: context,
-                        builder: (_) =>
-                            Container(
-                              height: 250,
-                              color: Colors.white,
-                              child: CupertinoDatePicker(
-                                initialDateTime: DateFormat('yyyy-MM-dd')
-                                    .parse(saving.savingDate),
-                                onDateTimeChanged: (value) {
-                                  setState(() {
-                                    saving.savingDate =
-                                        DateFormat('yyyy-MM-dd').format(value);
-                                  });
-                                },
-                                minimumYear: DateTime
-                                    .now()
-                                    .year - 1,
-                                maximumYear: DateTime
-                                    .now()
-                                    .year,
-                                maximumDate: DateTime.now(),
-                                dateOrder: DatePickerDateOrder.ymd,
-                                mode: CupertinoDatePickerMode.date,
-                              ),
-                            ),
+                        builder: (_) => Container(
+                          height: 250,
+                          color: Colors.white,
+                          child: CupertinoDatePicker(
+                            initialDateTime: DateFormat('yyyy-MM-dd')
+                                .parse(saving.savingDate),
+                            onDateTimeChanged: (value) {
+                              setState(() {
+                                saving.savingDate =
+                                    DateFormat('yyyy-MM-dd').format(value);
+                              });
+                            },
+                            minimumYear: DateTime.now().year - 1,
+                            maximumYear: DateTime.now().year,
+                            maximumDate: DateTime.now(),
+                            dateOrder: DatePickerDateOrder.ymd,
+                            mode: CupertinoDatePickerMode.date,
+                          ),
+                        ),
                       );
                     },
                     child: SizedBox(
                       height: 60,
                       child: Center(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                '${saving.savingDate.replaceAll('-', '月')
-                                    .replaceFirst('月', '年')}日',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 20),
-                              ),
-                              const Icon(Icons.edit),
-                            ],
-                          )),
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            '${saving.savingDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          const Icon(Icons.edit),
+                        ],
+                      )),
                     ),
                   ),
                   // 金額
@@ -222,7 +216,7 @@ class _EditSaving extends State<EditSaving> {
                                 setState(() {
                                   if (value.isNotEmpty) {
                                     saving.savingAmount =
-                                        savingClass.formatInt(value);
+                                        SavingClass.formatInt(value);
                                   } else {
                                     saving.savingAmount = 0;
                                   }
@@ -276,8 +270,7 @@ class _EditSaving extends State<EditSaving> {
                     child: Wrap(
                         children: recommendList
                             .map<Widget>(
-                              (savingName) =>
-                              Container(
+                              (savingName) => Container(
                                 height: 23,
                                 margin: const EdgeInsets.only(top: 3, right: 5),
                                 child: OutlinedButton(
@@ -290,7 +283,7 @@ class _EditSaving extends State<EditSaving> {
                                   style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
-                                        BorderRadius.circular(18.0),
+                                            BorderRadius.circular(18.0),
                                       ),
                                       foregroundColor: Colors.black87,
                                       backgroundColor: Colors.black12,
@@ -299,7 +292,7 @@ class _EditSaving extends State<EditSaving> {
                                   child: Text(savingName),
                                 ),
                               ),
-                        )
+                            )
                             .toList()),
                   ),
                   // 貯金目標
@@ -307,17 +300,14 @@ class _EditSaving extends State<EditSaving> {
                     visible: savingTargetList.isNotEmpty,
                     child: Container(
                       margin:
-                      const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
+                          const EdgeInsetsDirectional.fromSTEB(30, 30, 40, 30),
                       child: InkWell(
                         onTap: () {
                           showCupertinoModalPopup(
                             context: context,
                             builder: (BuildContext context) {
                               return SizedBox(
-                                height: MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height / 3,
+                                height: MediaQuery.of(context).size.height / 3,
                                 child: CupertinoPicker(
                                   backgroundColor: Colors.white,
                                   diameterRatio: 1.0,
@@ -327,7 +317,7 @@ class _EditSaving extends State<EditSaving> {
                                           .map((e) => e.savingTargetId)
                                           .toList()
                                           .indexOf(
-                                          saving.savingTargetId?.toInt())),
+                                              saving.savingTargetId?.toInt())),
                                   onSelectedItemChanged: (int i) {
                                     setState(() {
                                       // 貯金目標をセット
@@ -392,14 +382,14 @@ class _EditSaving extends State<EditSaving> {
                       onPressed: saving.isDisabled()
                           ? null
                           : () {
-                        setState(() {
-                          _editSaving(saving, env);
-                        });
-                      },
+                              setState(() {
+                                _editSaving(saving, env);
+                              });
+                            },
                       style: ElevatedButton.styleFrom(
                         shape: const RoundedRectangleBorder(
                             borderRadius:
-                            BorderRadius.all(Radius.circular(25))),
+                                BorderRadius.all(Radius.circular(25))),
                         fixedSize: const Size(double.infinity, 50),
                       ),
                       child: const Text(

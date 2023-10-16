@@ -9,18 +9,19 @@ import '../components/commonSnackBar.dart';
 import '../components/deleteConfirmDialog.dart';
 
 class EditSavingTarget extends StatefulWidget {
-  EditSavingTarget(this.savingTarget, this.env, this.setReload, {super.key});
+  const EditSavingTarget(this.savingTarget, this.env, this.setReload,
+      {super.key});
 
-  savingTargetClass savingTarget;
-  envClass env;
-  Function setReload;
+  final SavingTargetClass savingTarget;
+  final envClass env;
+  final Function setReload;
 
   @override
   State<EditSavingTarget> createState() => _EditSavingTarget();
 }
 
 class _EditSavingTarget extends State<EditSavingTarget> {
-  late savingTargetClass savingTarget;
+  late SavingTargetClass savingTarget;
   late envClass env;
 
   final TextEditingController nameController = TextEditingController();
@@ -61,7 +62,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
   }
 
   // 登録処理
-  void _editSavingTarget(savingTargetClass savingTarget, envClass env) {
+  void _editSavingTarget(SavingTargetClass savingTarget, envClass env) {
     commonLoadingDialog(context: context);
     savingTarget.userId = env.userId;
     if (savingTarget.hasTargetId()) {
@@ -76,7 +77,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
   }
 
   // 削除処理
-  void _deleteSavingTarget(envClass env, savingTargetClass savingTarget) {
+  void _deleteSavingTarget(envClass env, SavingTargetClass savingTarget) {
     commonLoadingDialog(context: context);
     SavingTargetApi.deleteSavingTarget(
         env, savingTarget, backNavigation, setDisable, setSnackBar);
@@ -87,7 +88,7 @@ class _EditSavingTarget extends State<EditSavingTarget> {
     final focusNode = FocusNode();
     final amountController = TextEditingController(
         text: savingTarget.targetAmount != 0
-            ? savingTargetClass.formatNum(savingTarget.targetAmount.toInt())
+            ? SavingTargetClass.formatNum(savingTarget.targetAmount.toInt())
             : '');
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));

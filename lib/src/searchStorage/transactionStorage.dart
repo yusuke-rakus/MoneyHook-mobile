@@ -28,12 +28,12 @@ class TransactionStorage {
   }
 
   /// 【タイムライン画面】データ
-  static Future<List<transactionClass>> getTimelineData(
+  static Future<List<TransactionClass>> getTimelineData(
       String param, Function setLoading) async {
     setLoading();
 
     final id = 'timelineData$param';
-    List<transactionClass> resultList = [];
+    List<TransactionClass> resultList = [];
 
     await db.collection('timelineData').doc(id).get().then((value) {
       if (value != null) {
@@ -48,7 +48,7 @@ class TransactionStorage {
           int subCategoryId = e['subCategoryId'];
           String subCategoryName = e['subCategoryName'];
           bool fixedFlg = e['fixedFlg'];
-          resultList.add(transactionClass.setTimelineFields(
+          resultList.add(TransactionClass.setTimelineFields(
               transactionId,
               transactionDate,
               transactionSign,
@@ -66,7 +66,7 @@ class TransactionStorage {
   }
 
   static void saveStorageTimelineData(
-      List<transactionClass> resultList, String param) async {
+      List<TransactionClass> resultList, String param) async {
     await db
         .collection('timelineData')
         .doc('timelineData$param')
@@ -85,14 +85,14 @@ class TransactionStorage {
   }
 
   /// 【タイムライン画面】グラフ
-  static Future<List<transactionClass>> getTimelineChart(String param) async {
+  static Future<List<TransactionClass>> getTimelineChart(String param) async {
     final id = 'timelineChart$param';
-    List<transactionClass> resultList = [];
+    List<TransactionClass> resultList = [];
 
     await db.collection('timelineChart').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(transactionClass.setTimelineChart(
+          resultList.add(TransactionClass.setTimelineChart(
               e['transactionDate'], e['transactionAmount']));
         });
       }
@@ -101,7 +101,7 @@ class TransactionStorage {
   }
 
   static void saveStorageTimelineChart(
-      List<transactionClass> resultList, String param) async {
+      List<TransactionClass> resultList, String param) async {
     await db
         .collection('timelineChart')
         .doc('timelineChart$param')

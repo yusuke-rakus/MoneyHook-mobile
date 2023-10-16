@@ -19,10 +19,10 @@ class CategoryApi {
           // 失敗
         } else {
           // 成功
-          List<categoryClass> categoryList = [];
+          List<CategoryClass> categoryList = [];
           res.data['categoryList'].forEach((value) {
             categoryList
-                .add(categoryClass(value['categoryId'], value['categoryName']));
+                .add(CategoryClass(value['categoryId'], value['categoryName']));
           });
           setCategoryList(categoryList);
           CategoryStorage.saveCategoryList(categoryList);
@@ -46,9 +46,9 @@ class CategoryApi {
           // 失敗
         } else {
           // 成功
-          List<subCategoryClass> subCategoryList = [];
+          List<SubCategoryClass> subCategoryList = [];
           res.data['subCategoryList'].forEach((value) {
-            subCategoryList.add(subCategoryClass(
+            subCategoryList.add(SubCategoryClass(
                 value['subCategoryId'], value['subCategoryName']));
           });
           setSubCategoryList(subCategoryList);
@@ -74,17 +74,17 @@ class CategoryApi {
           // 失敗
         } else {
           // 成功
-          List<categoryClass> categoryList = [];
+          List<CategoryClass> categoryList = [];
           res.data['categoryList'].forEach((value) {
-            List<subCategoryClass> subCategoryList = [];
+            List<SubCategoryClass> subCategoryList = [];
             value['subCategoryList'].forEach((subCategory) {
-              subCategoryList.add(subCategoryClass.setFullFields(
+              subCategoryList.add(SubCategoryClass.setFullFields(
                   subCategory['subCategoryId'],
                   subCategory['subCategoryName'],
                   subCategory['enable']));
             });
 
-            categoryList.add(categoryClass.setCategoryWithSubCategory(
+            categoryList.add(CategoryClass.setCategoryWithSubCategory(
                 value['categoryId'], value['categoryName'], subCategoryList));
           });
           setCategoryList(categoryList);
@@ -98,7 +98,7 @@ class CategoryApi {
 
   /// サブカテゴリの表示・非表示
   static Future<void> editSubCategory(
-      envClass env, subCategoryClass subCategory, int categoryId) async {
+      envClass env, SubCategoryClass subCategory, int categoryId) async {
     await Api.getHeader().then((option) async {
       try {
         Response res =

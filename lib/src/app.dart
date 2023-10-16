@@ -104,14 +104,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
             if (token != null && email != null) {
               // ローディング画面の表示
               setLoadingItem();
-              userApi
-                  .googleSignIn(
+              UserApi.googleSignIn(
                       context, email, token, setSnackBar, setLoginItem)
                   .then((userId) {
                 if (userId == null) {
                   setSnackBar('ログインエラーが発生しました');
                   // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
-                  userApi.signOut();
+                  UserApi.signOut();
                   // ログイン画面へ
                   setLoginItem();
                 } else {

@@ -1,7 +1,7 @@
 import 'package:money_hooks/src/class/transactionClass.dart';
 
 class transactionValidation {
-  static bool checkTransaction(transactionClass transaction) {
+  static bool checkTransaction(TransactionClass transaction) {
     // 未入力チェック
     if (transaction.transactionName.isEmpty) {
       transaction.transactionNameError = '未入力';

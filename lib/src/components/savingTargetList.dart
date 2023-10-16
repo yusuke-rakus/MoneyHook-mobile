@@ -16,7 +16,7 @@ class SavingTargetList extends StatefulWidget {
       : super(key: key);
   final BuildContext context;
   final envClass env;
-  final List<savingTargetClass> savingTargetList;
+  final List<SavingTargetClass> savingTargetList;
   final Function setReload;
 
   @override
@@ -24,7 +24,7 @@ class SavingTargetList extends StatefulWidget {
 }
 
 class _SavingTargetListState extends State<SavingTargetList> {
-  late List<savingTargetClass> savingTargetList;
+  late List<SavingTargetClass> savingTargetList;
   late envClass env;
   late Function setReload;
 
@@ -58,7 +58,7 @@ class _SavingTargetListState extends State<SavingTargetList> {
         if (oldIndex < newIndex) {
           newIndex -= 1;
         }
-        final savingTargetClass savingTarget =
+        final SavingTargetClass savingTarget =
             savingTargetList.removeAt(oldIndex);
         setState(() {
           savingTargetList.insert(newIndex, savingTarget);
@@ -73,7 +73,7 @@ class _SavingTargetListState extends State<SavingTargetList> {
   }
 
   // 貯金目標カード
-  Widget _savingTargetCard(savingTargetClass savingTarget) {
+  Widget _savingTargetCard(SavingTargetClass savingTarget) {
     return Card(
       margin: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
       child: InkWell(
@@ -126,7 +126,7 @@ class _SavingTargetListState extends State<SavingTargetList> {
                                 padding:
                                     const EdgeInsets.only(left: 10, right: 10),
                                 child: Text(
-                                  savingTargetClass.formatNum(
+                                  SavingTargetClass.formatNum(
                                       savingTarget.targetAmount.toInt()),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -161,7 +161,7 @@ class _SavingTargetListState extends State<SavingTargetList> {
                         children: [
                           const Center(child: Text('貯金額')),
                           Text(
-                            '¥${savingTargetClass.formatNum(savingTarget.savingTotalAmount.toInt())}',
+                            '¥${SavingTargetClass.formatNum(savingTarget.savingTotalAmount.toInt())}',
                             style: const TextStyle(fontSize: 20),
                             overflow: TextOverflow.ellipsis,
                           ),

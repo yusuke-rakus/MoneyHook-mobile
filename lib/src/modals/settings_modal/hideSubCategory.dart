@@ -11,8 +11,8 @@ import '../../components/commonSnackBar.dart';
 import '../../env/envClass.dart';
 
 class HideSubCategory extends StatefulWidget {
-  HideSubCategory({Key? key, required this.env}) : super(key: key);
-  envClass env;
+  const HideSubCategory({Key? key, required this.env}) : super(key: key);
+  final envClass env;
 
   @override
   State<HideSubCategory> createState() => _HideSubCategoryState();
@@ -20,12 +20,12 @@ class HideSubCategory extends StatefulWidget {
 
 class _HideSubCategoryState extends State<HideSubCategory> {
   late envClass env;
-  late List<categoryClass> categoryList = [];
+  late List<CategoryClass> categoryList = [];
   late bool _isLoading;
   late bool _editMode;
   late String defaultIndex;
 
-  void setCategoryList(List<categoryClass> resultList) {
+  void setCategoryList(List<CategoryClass> resultList) {
     setState(() {
       categoryList = resultList;
     });
@@ -57,7 +57,7 @@ class _HideSubCategoryState extends State<HideSubCategory> {
       CommonSnackBar.build(context: context, text: 'デフォルトのため非表示にできません');
     } else {
       setState(() {
-        subCategoryClass subCategory =
+        SubCategoryClass subCategory =
             categoryList[categoryNo].subCategoryList[subCategoryNo];
         subCategory.enable = status;
         CategoryApi.editSubCategory(
@@ -69,11 +69,11 @@ class _HideSubCategoryState extends State<HideSubCategory> {
   /// サブカテゴリの表示・非表示を処理
   void setDefaultCategory(
       int categoryIndex, int subCategoryIndex, bool isInit) {
-    categoryClass category = categoryList[categoryIndex];
-    subCategoryClass subCategory =
+    CategoryClass category = categoryList[categoryIndex];
+    SubCategoryClass subCategory =
         categoryList[categoryIndex].subCategoryList[subCategoryIndex];
 
-    categoryClass defaultCategory = categoryClass.setDefaultValue(
+    CategoryClass defaultCategory = CategoryClass.setDefaultValue(
         category.categoryId,
         category.categoryName,
         subCategory.subCategoryId,
@@ -101,7 +101,7 @@ class _HideSubCategoryState extends State<HideSubCategory> {
   }
 
   /// デフォルトのカテゴリから、インデックス番号を取得
-  void _setDefaultValue(categoryClass defaultCategory, bool isInit) {
+  void _setDefaultValue(CategoryClass defaultCategory, bool isInit) {
     categoryList.asMap().forEach((i, category) {
       if (defaultCategory.categoryName == category.categoryName) {
         category.subCategoryList.asMap().forEach((t, subCategory) {

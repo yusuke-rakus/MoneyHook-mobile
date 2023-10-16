@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class savingTargetClass {
+class SavingTargetClass {
   var userId = '';
   int? savingTargetId;
   var savingTargetName = '';
@@ -14,9 +14,9 @@ class savingTargetClass {
   String targetAmountError = '';
   int? sortNo;
 
-  savingTargetClass();
+  SavingTargetClass();
 
-  savingTargetClass.setFields(
+  SavingTargetClass.setFields(
     var this.savingTargetId,
     var this.savingTargetName,
     var targetAmount,
@@ -28,12 +28,12 @@ class savingTargetClass {
     this.savingCount = savingCount ?? 0;
   }
 
-  savingTargetClass.setTargetFields(
+  SavingTargetClass.setTargetFields(
     this.savingTargetId,
     this.savingTargetName,
   );
 
-  savingTargetClass.setChartFields(
+  SavingTargetClass.setChartFields(
     this.monthlyTotalSavingAmount,
     this.savingMonth,
   ) {

@@ -12,10 +12,10 @@ import '../env/envClass.dart';
 import '../modals/editTransaction.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen(this.isLoading, this.env, {super.key});
+  const HomeScreen(this.isLoading, this.env, {super.key});
 
-  bool isLoading;
-  envClass env;
+  final bool isLoading;
+  final envClass env;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late envClass env;
-  late homeTransaction homeTransactionList = homeTransaction();
+  late HomeTransaction homeTransactionList = HomeTransaction();
   late bool _isLoading;
   static const List<Color> colorList = [
     Colors.redAccent,
@@ -122,8 +122,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       const Text('支出合計', style: TextStyle(fontSize: 20)),
                       const SizedBox(width: 20),
                       Text(
-                          transactionClass
-                              .formatNum(homeTransactionList.balance),
+                          TransactionClass.formatNum(
+                              homeTransactionList.balance),
                           style: TextStyle(
                               fontSize: 20,
                               color: homeTransactionList.balance < 0
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          EditTransaction(transactionClass(), env, setReload),
+                          EditTransaction(TransactionClass(), env, setReload),
                       fullscreenDialog: true),
                 );
               },

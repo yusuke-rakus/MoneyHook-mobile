@@ -1,12 +1,12 @@
-class subCategoryClass {
+class SubCategoryClass {
   var _subCategoryId;
   var _subCategoryName;
   var _enable;
 
-  subCategoryClass(this._subCategoryId, this._subCategoryName);
+  SubCategoryClass(this._subCategoryId, this._subCategoryName);
 
-  subCategoryClass.setFullFields(this._subCategoryId, this._subCategoryName,
-      this._enable);
+  SubCategoryClass.setFullFields(
+      this._subCategoryId, this._subCategoryName, this._enable);
 
   get subCategoryId => _subCategoryId;
 

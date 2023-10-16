@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class transactionClass {
+class TransactionClass {
   var userId = '';
   var transactionId = '';
   var transactionDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -18,9 +18,9 @@ class transactionClass {
   late String startMonth;
   late String endMonth;
 
-  transactionClass();
+  TransactionClass();
 
-  transactionClass.setFields(
+  TransactionClass.setFields(
     this.userId,
     this.transactionId,
     this.transactionDate,
@@ -34,7 +34,7 @@ class transactionClass {
     this.fixedFlg,
   );
 
-  transactionClass.setTimelineFields(
+  TransactionClass.setTimelineFields(
     this.transactionId,
     this.transactionDate,
     this.transactionSign,
@@ -47,7 +47,7 @@ class transactionClass {
     this.fixedFlg,
   );
 
-  transactionClass.setFrequentFields(
+  TransactionClass.setFrequentFields(
     this.transactionName,
     this.categoryId,
     this.categoryName,
@@ -56,7 +56,7 @@ class transactionClass {
     this.fixedFlg,
   );
 
-  transactionClass.setTimelineChart(
+  TransactionClass.setTimelineChart(
       String transactionDate, int transactionAmount) {
     if (RegExp(r'^[0-9]{1,2}月').hasMatch(transactionDate)) {
       this.transactionDate = transactionDate;

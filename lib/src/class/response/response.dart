@@ -1,8 +1,8 @@
-class response {
+class Response {
   late String status;
   late String message;
 
-  response(this.status, this.message);
+  Response(this.status, this.message);
 
   @override
   String toString() {

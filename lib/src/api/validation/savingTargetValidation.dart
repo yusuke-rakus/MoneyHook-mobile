@@ -1,7 +1,7 @@
 import '../../class/savingTargetClass.dart';
 
 class savingTargetValidation {
-  static bool checkSavingTarget(savingTargetClass savingTarget) {
+  static bool checkSavingTarget(SavingTargetClass savingTarget) {
     // 未入力チェック
     if (savingTarget.savingTargetName.isEmpty) {
       savingTarget.savingTargetNameError = '未入力';

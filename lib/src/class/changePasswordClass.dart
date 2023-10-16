@@ -1,4 +1,4 @@
-class changePasswordClass {
+class ChangePasswordClass {
   late String userId = '';
   late String password = '';
   late String newPassword = '';
@@ -8,10 +8,10 @@ class changePasswordClass {
   String newPasswordError = '';
   String newPassword2Error = '';
 
-  changePasswordClass(
+  ChangePasswordClass(
       this.userId, this.password, this.newPassword, this.newPassword2);
 
-  changePasswordClass.init(this.userId);
+  ChangePasswordClass.init(this.userId);
 
   Map<String, String> toJson() {
     return {'userId': userId, 'password': password, 'newPassword': newPassword};

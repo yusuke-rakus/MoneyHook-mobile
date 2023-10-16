@@ -63,7 +63,7 @@ class _LoginState extends State<Login> {
                 ),
                 TextButton(
                     onPressed: () {
-                      userApi.signOut();
+                      UserApi.signOut();
                     },
                     child: const Text(
                       'Firebaseログアウト',

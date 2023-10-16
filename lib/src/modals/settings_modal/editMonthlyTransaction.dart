@@ -11,21 +11,21 @@ import '../../components/commonLoadingDialog.dart';
 import '../../components/deleteConfirmDialog.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
-  EditMonthlyTransaction(
+  const EditMonthlyTransaction(
       this.monthlyTransaction, this.env, this.setReload, this.setSnackBar,
       {super.key});
 
-  monthlyTransactionClass monthlyTransaction;
-  envClass env;
-  Function setReload;
-  Function setSnackBar;
+  final MonthlyTransactionClass monthlyTransaction;
+  final envClass env;
+  final Function setReload;
+  final Function setSnackBar;
 
   @override
   State<StatefulWidget> createState() => _EditTransaction();
 }
 
 class _EditTransaction extends State<EditMonthlyTransaction> {
-  late monthlyTransactionClass monthlyTransaction;
+  late MonthlyTransactionClass monthlyTransaction;
   late envClass env;
 
   final TextEditingController nameController = TextEditingController();
@@ -57,7 +57,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
 
   // 登録処理
   void _editTransaction(
-      monthlyTransactionClass monthlyTransaction, envClass env) {
+      MonthlyTransactionClass monthlyTransaction, envClass env) {
     commonLoadingDialog(context: context);
     monthlyTransaction.userId = env.userId;
     MonthlyTransactionApi.editTransaction(
@@ -66,7 +66,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
 
   // 削除処理
   void _deleteTransaction(
-      envClass env, monthlyTransactionClass monthlyTransaction) {
+      envClass env, MonthlyTransactionClass monthlyTransaction) {
     commonLoadingDialog(context: context);
     monthlyTransaction.userId = env.userId;
     MonthlyTransactionApi.deleteMonthlyTransaction(
@@ -88,8 +88,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
     final focusNode = FocusNode();
     final TextEditingController amountController = TextEditingController(
         text: monthlyTransaction.monthlyTransactionAmount != 0
-            ? monthlyTransactionClass
-                .formatNum(monthlyTransaction.monthlyTransactionAmount.toInt())
+            ? MonthlyTransactionClass.formatNum(
+                monthlyTransaction.monthlyTransactionAmount.toInt())
             : '');
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
@@ -150,7 +150,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                           setState(() {
                             if (value.isNotEmpty) {
                               monthlyTransaction.monthlyTransactionDate =
-                                  monthlyTransactionClass.formatInt(value);
+                                  MonthlyTransactionClass.formatInt(value);
                             } else {
                               monthlyTransaction.monthlyTransactionDate = 0;
                             }
@@ -209,7 +209,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                               setState(() {
                                 if (value.isNotEmpty) {
                                   monthlyTransaction.monthlyTransactionAmount =
-                                      monthlyTransactionClass.formatInt(value);
+                                      MonthlyTransactionClass.formatInt(value);
                                 } else {
                                   monthlyTransaction.monthlyTransactionAmount =
                                       0;

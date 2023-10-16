@@ -11,11 +11,11 @@ import '../components/dataNotRegisteredBox.dart';
 import '../components/savingTargetList.dart';
 
 class TotalSaving extends StatefulWidget {
-  TotalSaving(this.env, this.isLoading, this.changeReload, {super.key});
+  const TotalSaving(this.env, this.isLoading, this.changeReload, {super.key});
 
-  envClass env;
-  bool isLoading;
-  Function changeReload;
+  final envClass env;
+  final bool isLoading;
+  final Function changeReload;
 
   @override
   State<TotalSaving> createState() => _TotalSaving();
@@ -24,9 +24,9 @@ class TotalSaving extends StatefulWidget {
 class _TotalSaving extends State<TotalSaving> {
   late envClass env;
   late bool _isLoading;
-  late List<savingTargetClass> savingTargetList = [];
+  late List<SavingTargetClass> savingTargetList = [];
   late int totalSaving = 0;
-  late List<savingTargetClass> totalSavingChart = [];
+  late List<SavingTargetClass> totalSavingChart = [];
 
   void setLoading() {
     setState(() {
@@ -41,13 +41,13 @@ class _TotalSaving extends State<TotalSaving> {
     });
   }
 
-  void setSavingTargetList(List<savingTargetClass> resultList) {
+  void setSavingTargetList(List<SavingTargetClass> resultList) {
     setState(() {
       savingTargetList = resultList;
     });
   }
 
-  void setTotalSaving(int resultAmount, List<savingTargetClass> resultList) {
+  void setTotalSaving(int resultAmount, List<SavingTargetClass> resultList) {
     setState(() {
       totalSaving = resultAmount;
       totalSavingChart = resultList;
@@ -93,7 +93,7 @@ class _TotalSaving extends State<TotalSaving> {
                       children: [
                         const Text('貯金総額', style: TextStyle(fontSize: 17)),
                         const SizedBox(width: 20),
-                        Text(savingTargetClass.formatNum(totalSaving),
+                        Text(SavingTargetClass.formatNum(totalSaving),
                             style: const TextStyle(
                                 fontSize: 20, color: Colors.green)),
                       ],

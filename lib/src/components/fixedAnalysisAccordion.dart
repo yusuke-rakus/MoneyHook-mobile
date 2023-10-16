@@ -22,7 +22,7 @@ class FixedAnalysisAccordion extends StatelessWidget {
               children: [
                 Text(monthlyFixedList[index]['categoryName']),
                 Text(
-                    '¥${transactionClass.formatNum(monthlyFixedList[index]['totalCategoryAmount'].abs())}'),
+                    '¥${TransactionClass.formatNum(monthlyFixedList[index]['totalCategoryAmount'].abs())}'),
               ],
             ),
             textColor: Colors.black,
@@ -33,7 +33,7 @@ class FixedAnalysisAccordion extends StatelessWidget {
                       children: [
                         Text(value['transactionName']),
                         Text(
-                            '¥${transactionClass.formatNum(value['transactionAmount'].abs())}'),
+                            '¥${TransactionClass.formatNum(value['transactionAmount'].abs())}'),
                       ],
                     )))
                 .toList(),

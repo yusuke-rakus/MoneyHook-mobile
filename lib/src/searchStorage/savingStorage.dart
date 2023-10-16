@@ -22,17 +22,17 @@ class SavingStorage {
   }
 
   /// 【貯金一覧画面】データ
-  static Future<List<savingClass>> getMonthlySavingData(
+  static Future<List<SavingClass>> getMonthlySavingData(
       String param, Function setLoading) async {
     setLoading();
 
     final id = 'monthlySavingData$param';
-    List<savingClass> resultList = [];
+    List<SavingClass> resultList = [];
 
     await db.collection('monthlySavingData').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(savingClass.setFields(
+          resultList.add(SavingClass.setFields(
               e['savingDate'],
               e['savingName'],
               e['savingId'],
@@ -46,7 +46,7 @@ class SavingStorage {
   }
 
   static void saveMonthlySavingData(
-      List<savingClass> resultList, String param) async {
+      List<SavingClass> resultList, String param) async {
     await db
         .collection('monthlySavingData')
         .doc('monthlySavingData$param')
@@ -65,10 +65,10 @@ class SavingStorage {
   }
 
   /// 【貯金総額画面】貯金目標毎の総額データ
-  static Future<List<savingTargetClass>> getSavingAmountForTarget(
+  static Future<List<SavingTargetClass>> getSavingAmountForTarget(
       String param) async {
     final id = 'savingAmountForTargetData$param';
-    List<savingTargetClass> resultList = [];
+    List<SavingTargetClass> resultList = [];
 
     await db
         .collection('savingAmountForTargetData')
@@ -77,7 +77,7 @@ class SavingStorage {
         .then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(savingTargetClass.setFields(
+          resultList.add(SavingTargetClass.setFields(
               e['savingTargetId'],
               e['savingTargetName'],
               e['targetAmount'],
@@ -90,7 +90,7 @@ class SavingStorage {
   }
 
   static void saveSavingAmountForTarget(
-      List<savingTargetClass> resultList, String param) async {
+      List<SavingTargetClass> resultList, String param) async {
     await db
         .collection('savingAmountForTargetData')
         .doc('savingAmountForTargetData$param')
@@ -113,12 +113,12 @@ class SavingStorage {
       String param, Function setTotalSaving) async {
     final id = 'totalSavingData$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
-    List<savingTargetClass> resultList = [];
+    List<SavingTargetClass> resultList = [];
 
     await db.collection('totalSavingData').doc(id).get().then((value) {
       if (value != null) {
         value['savingDataList'].forEach((e) {
-          resultList.add(savingTargetClass.setChartFields(
+          resultList.add(SavingTargetClass.setChartFields(
               e['monthlyTotalSavingAmount'], DateTime.parse(e['savingMonth'])));
         });
 
@@ -130,7 +130,7 @@ class SavingStorage {
   }
 
   static void saveTotalSaving(int totalSavingAmount,
-      List<savingTargetClass> resultList, String param) async {
+      List<SavingTargetClass> resultList, String param) async {
     await db.collection('totalSavingData').doc('totalSavingData$param').set({
       'totalSavingAmount': totalSavingAmount,
       'savingDataList': resultList.map((e) => e.getTotalSavingJson()).toList()

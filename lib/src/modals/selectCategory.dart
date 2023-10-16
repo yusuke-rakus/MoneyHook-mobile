@@ -5,19 +5,19 @@ import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectSubCategory.dart';
 
 class SelectCategory extends StatefulWidget {
-  SelectCategory(this.env, {super.key});
+  const SelectCategory(this.env, {super.key});
 
-  envClass env;
+  final envClass env;
 
   @override
   State<StatefulWidget> createState() => _SelectCategory();
 }
 
 class _SelectCategory extends State<SelectCategory> {
-  late List<categoryClass> categoryList = [];
+  late List<CategoryClass> categoryList = [];
   late envClass env;
 
-  void setCategoryList(List<categoryClass> responseList) {
+  void setCategoryList(List<CategoryClass> responseList) {
     setState(() {
       categoryList = responseList;
     });

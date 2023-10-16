@@ -2,7 +2,7 @@ import '../../class/monthlyTransactionClass.dart';
 
 class monthlyTransactionValidation {
   static bool checkMonthlyTransaction(
-      monthlyTransactionClass monthlyTransaction) {
+      MonthlyTransactionClass monthlyTransaction) {
     // 未入力チェック
     if (monthlyTransaction.monthlyTransactionName.isEmpty) {
       monthlyTransaction.monthlyTransactionNameError = '未入力';

@@ -36,7 +36,7 @@ class CategoryLoad {
       Function setLoading,
       Function setSnackBar,
       Function setCategoryList) async {
-    List<categoryClass> categoryList =
+    List<CategoryClass> categoryList =
         await CategoryStorage.getCategoryWithSubCategoryListData();
 
     if (categoryList.isEmpty) {

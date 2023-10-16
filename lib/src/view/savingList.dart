@@ -10,18 +10,18 @@ import '../class/savingClass.dart';
 import '../components/commonSnackBar.dart';
 
 class SavingList extends StatefulWidget {
-  SavingList(this.env, this.isLoading, this.changeReload, {super.key});
+  const SavingList(this.env, this.isLoading, this.changeReload, {super.key});
 
-  envClass env;
-  bool isLoading;
-  Function changeReload;
+  final envClass env;
+  final bool isLoading;
+  final Function changeReload;
 
   @override
   State<SavingList> createState() => _SavingList();
 }
 
 class _SavingList extends State<SavingList> {
-  late List<savingClass> savingList = [];
+  late List<SavingClass> savingList = [];
   late var totalSavingAmount = 0;
   late envClass env;
   late bool _isLoading;
@@ -39,7 +39,7 @@ class _SavingList extends State<SavingList> {
     });
   }
 
-  void setSavingList(List<savingClass> resultList, var resultAmount) {
+  void setSavingList(List<SavingClass> resultList, var resultAmount) {
     setState(() {
       savingList = resultList;
       totalSavingAmount = resultAmount;
@@ -117,7 +117,7 @@ class _SavingList extends State<SavingList> {
                           children: [
                             const Text('今月の貯金', style: TextStyle(fontSize: 17)),
                             const SizedBox(width: 20),
-                            Text(savingClass.formatNum(totalSavingAmount),
+                            Text(SavingClass.formatNum(totalSavingAmount),
                                 style: const TextStyle(
                                     fontSize: 30, color: Colors.green)),
                           ],

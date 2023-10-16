@@ -22,10 +22,10 @@ class SavingApi {
           // 失敗
         } else {
           // 成功
-          List<savingClass> resultList = [];
+          List<SavingClass> resultList = [];
           num resultAmount = 0;
           res.data['savingList'].forEach((value) {
-            resultList.add(savingClass.setFields(
+            resultList.add(SavingClass.setFields(
                 value['savingDate'],
                 value['savingName'],
                 value['savingId'],
@@ -58,9 +58,9 @@ class SavingApi {
           // 失敗
         } else {
           // 成功
-          List<savingTargetClass> resultList = [];
+          List<SavingTargetClass> resultList = [];
           res.data['savingTargetList'].forEach((value) {
-            resultList.add(savingTargetClass.setFields(
+            resultList.add(SavingTargetClass.setFields(
               value['savingTargetId'],
               value['savingTargetName'],
               value['targetAmount'],
@@ -87,9 +87,9 @@ class SavingApi {
           // 失敗
         } else {
           // 成功
-          List<savingTargetClass> resultList = [];
+          List<SavingTargetClass> resultList = [];
           res.data['savingDataList'].forEach((value) {
-            resultList.add(savingTargetClass.setChartFields(
+            resultList.add(SavingTargetClass.setChartFields(
                 value['monthlyTotalSavingAmount'],
                 DateFormat('yyyy-MM-dd').parse(value['savingMonth'])));
           });
@@ -105,7 +105,7 @@ class SavingApi {
   }
 
   /// 貯金の追加
-  static Future<void> addSaving(savingClass saving, Function backNavigation,
+  static Future<void> addSaving(SavingClass saving, Function backNavigation,
       Function setDisable, Function setSnackBar) async {
     setDisable();
     if (savingValidation.checkSaving(saving)) {
@@ -134,7 +134,7 @@ class SavingApi {
   }
 
   /// 貯金の編集
-  static Future<void> editSaving(savingClass saving, Function backNavigation,
+  static Future<void> editSaving(SavingClass saving, Function backNavigation,
       Function setDisable, Function setSnackBar) async {
     setDisable();
     if (savingValidation.checkSaving(saving)) {
@@ -165,7 +165,7 @@ class SavingApi {
   /// 貯金の削除
   static Future<void> deleteSaving(
       envClass env,
-      savingClass saving,
+      SavingClass saving,
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {

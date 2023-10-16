@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class savingClass {
+class SavingClass {
   var userId;
   int? savingId;
   var savingDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
@@ -12,9 +12,9 @@ class savingClass {
   String savingNameError = '';
   String savingAmountError = '';
 
-  savingClass();
+  SavingClass();
 
-  savingClass.setFields(this.savingDate, this.savingName, var savingId,
+  SavingClass.setFields(this.savingDate, this.savingName, var savingId,
       this.savingAmount, this.savingTargetId, var savingTargetName) {
     this.savingId = savingId ?? 0;
     this.savingTargetName = savingTargetName ?? '';

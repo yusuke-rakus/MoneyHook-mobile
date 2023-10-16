@@ -16,20 +16,21 @@ import '../components/commonSnackBar.dart';
 import '../searchStorage/categoryStorage.dart';
 
 class EditTransaction extends StatefulWidget {
-  EditTransaction(this.transaction, this.env, this.setReload, {super.key});
+  const EditTransaction(this.transaction, this.env, this.setReload,
+      {super.key});
 
-  transactionClass transaction;
-  envClass env;
-  Function setReload;
+  final TransactionClass transaction;
+  final envClass env;
+  final Function setReload;
 
   @override
   State<StatefulWidget> createState() => _EditTransaction();
 }
 
 class _EditTransaction extends State<EditTransaction> {
-  late transactionClass transaction;
+  late TransactionClass transaction;
   late envClass env;
-  late List<transactionClass> recommendList = [];
+  late List<TransactionClass> recommendList = [];
 
   final TextEditingController nameController = TextEditingController();
 
@@ -50,7 +51,7 @@ class _EditTransaction extends State<EditTransaction> {
     }
   }
 
-  void _setDefaultCategory(transactionClass transaction) {
+  void _setDefaultCategory(TransactionClass transaction) {
     CategoryStorage.getDefaultValue().then((category) {
       setState(() {
         transaction.categoryId = category.categoryId;
@@ -62,7 +63,7 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   // 取引候補
-  void setRecommendList(List<transactionClass> resultList) {
+  void setRecommendList(List<TransactionClass> resultList) {
     setState(() {
       recommendList = resultList;
     });
@@ -90,7 +91,7 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   // 登録処理
-  void _editTransaction(transactionClass transaction, envClass env) {
+  void _editTransaction(TransactionClass transaction, envClass env) {
     commonLoadingDialog(context: context);
     transaction.userId = env.userId;
     if (transaction.hasTransactionId()) {
@@ -105,7 +106,7 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   // 削除処理
-  void _deleteTransaction(envClass env, transactionClass transaction) {
+  void _deleteTransaction(envClass env, TransactionClass transaction) {
     commonLoadingDialog(context: context);
     transactionApi.deleteTransaction(
         env, transaction, backNavigation, setDisable, setSnackBar);
@@ -126,7 +127,7 @@ class _EditTransaction extends State<EditTransaction> {
     final focusNode = FocusNode();
     final TextEditingController amountController = TextEditingController(
         text: transaction.transactionAmount != 0
-            ? transactionClass.formatNum(transaction.transactionAmount.toInt())
+            ? TransactionClass.formatNum(transaction.transactionAmount.toInt())
             : '');
     amountController.selection = TextSelection.fromPosition(
         TextPosition(offset: amountController.text.length));
@@ -248,7 +249,7 @@ class _EditTransaction extends State<EditTransaction> {
                               setState(() {
                                 if (value.isNotEmpty) {
                                   transaction.transactionAmount =
-                                      transactionClass.formatInt(value);
+                                      TransactionClass.formatInt(value);
                                 } else {
                                   transaction.transactionAmount = 0;
                                 }

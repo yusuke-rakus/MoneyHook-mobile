@@ -5,10 +5,10 @@ import 'package:money_hooks/src/view/variableAnalysisView.dart';
 import '../env/envClass.dart';
 
 class AnalysisScreen extends StatelessWidget {
-  AnalysisScreen(this.isLoading, this.env, {super.key});
+  const AnalysisScreen(this.isLoading, this.env, {super.key});
 
-  bool isLoading;
-  envClass env;
+  final bool isLoading;
+  final envClass env;
 
   @override
   Widget build(BuildContext context) {

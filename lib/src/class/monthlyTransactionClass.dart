@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class monthlyTransactionClass {
+class MonthlyTransactionClass {
   var userId = '';
   var monthlyTransactionId = '';
   var monthlyTransactionName = '';
@@ -17,9 +17,9 @@ class monthlyTransactionClass {
   String monthlyTransactionAmountError = '';
   String monthlyTransactionDateError = '';
 
-  monthlyTransactionClass();
+  MonthlyTransactionClass();
 
-  monthlyTransactionClass.setFields(
+  MonthlyTransactionClass.setFields(
       this.monthlyTransactionId,
       this.monthlyTransactionName,
       this.monthlyTransactionAmount,

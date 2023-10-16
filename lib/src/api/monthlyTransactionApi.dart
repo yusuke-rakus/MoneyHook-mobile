@@ -22,9 +22,9 @@ class MonthlyTransactionApi {
           setSnackBar(res.data['message']);
         } else {
           // 成功
-          List<monthlyTransactionClass> resultList = [];
+          List<MonthlyTransactionClass> resultList = [];
           res.data['monthlyTransactionList'].forEach((value) {
-            resultList.add(monthlyTransactionClass.setFields(
+            resultList.add(MonthlyTransactionClass.setFields(
               value['monthlyTransactionId'].toString(),
               value['monthlyTransactionName'],
               value['monthlyTransactionAmount'],
@@ -51,7 +51,7 @@ class MonthlyTransactionApi {
 
   /// 月次取引の追加
   static Future<void> editTransaction(
-      monthlyTransactionClass monthlyTransaction,
+      MonthlyTransactionClass monthlyTransaction,
       Function backNavigation,
       Function setSnackBar,
       Function setDisable) async {
@@ -87,7 +87,7 @@ class MonthlyTransactionApi {
 
   /// 月次取引の削除
   static Future<void> deleteMonthlyTransaction(
-      monthlyTransactionClass monthlyTransaction,
+      MonthlyTransactionClass monthlyTransaction,
       Function backNavigation,
       Function setSnackBar,
       Function setDisable) async {

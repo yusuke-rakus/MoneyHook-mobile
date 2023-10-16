@@ -1,14 +1,14 @@
 import 'package:money_hooks/src/class/response/response.dart';
 
-class searchTransactionData extends response {
+class SearchTransactionData extends Response {
   late int totalSpending = 0;
   late List<dynamic> monthlyVariableList = [];
 
-  searchTransactionData.init(this.totalSpending, this.monthlyVariableList)
+  SearchTransactionData.init(this.totalSpending, this.monthlyVariableList)
       : super('', '');
 
-  searchTransactionData() : super('', '');
+  SearchTransactionData() : super('', '');
 
-  searchTransactionData.setResponse(super.status, super.message,
+  SearchTransactionData.setResponse(super.status, super.message,
       this.totalSpending, this.monthlyVariableList);
 }

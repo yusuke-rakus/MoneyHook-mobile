@@ -1,12 +1,12 @@
-class userClass {
+class UserClass {
   late String userId = '';
   late String email = 'sample@sample.com';
   late String password = 'password';
   String errorMessage = '';
 
-  userClass(this.userId, this.email, this.password);
+  UserClass(this.userId, this.email, this.password);
 
-  userClass.init();
+  UserClass.init();
 
   Map<String, String> loginJson() {
     return {'email': email, 'password': password};

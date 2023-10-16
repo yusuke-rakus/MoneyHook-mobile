@@ -11,10 +11,10 @@ import '../dataLoader/transactionLoad.dart';
 import '../env/envClass.dart';
 
 class TimelineScreen extends StatefulWidget {
-  TimelineScreen(this.isLoading, this.env, {super.key});
+  const TimelineScreen(this.isLoading, this.env, {super.key});
 
-  bool isLoading;
-  envClass env;
+  final bool isLoading;
+  final envClass env;
 
   @override
   State<TimelineScreen> createState() => _TimelineScreenState();
@@ -22,8 +22,8 @@ class TimelineScreen extends StatefulWidget {
 
 class _TimelineScreenState extends State<TimelineScreen> {
   late envClass env;
-  late timelineTransaction timelineList = timelineTransaction();
-  late List<transactionClass> timelineChart = [];
+  late TimelineTransaction timelineList = TimelineTransaction();
+  late List<TransactionClass> timelineChart = [];
   late bool _isLoading;
 
   void setLoading() {
@@ -39,13 +39,13 @@ class _TimelineScreenState extends State<TimelineScreen> {
     });
   }
 
-  void setTimelineData(List<transactionClass> responseList) {
+  void setTimelineData(List<TransactionClass> responseList) {
     setState(() {
-      timelineList = timelineTransaction.init(responseList);
+      timelineList = TimelineTransaction.init(responseList);
     });
   }
 
-  void setTimelineChart(List<transactionClass> responseList) {
+  void setTimelineChart(List<TransactionClass> responseList) {
     setState(() {
       timelineChart = responseList;
     });
@@ -128,9 +128,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
               child: _isLoading
                   ? CommonLoadingAnimation.build()
                   : TimelineList(
-                  env: env,
-                  timelineList: timelineList.transactionList,
-                  setReload: setReload),
+                      env: env,
+                      timelineList: timelineList.transactionList,
+                      setReload: setReload),
             ),
           ],
         ),

@@ -2,9 +2,9 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class HomeChart extends StatefulWidget {
-  HomeChart({super.key, required this.data, required this.colorList});
+  const HomeChart({super.key, required this.data, required this.colorList});
 
-  List<dynamic> data;
+  final List<dynamic> data;
   final List<Color> colorList;
 
   @override

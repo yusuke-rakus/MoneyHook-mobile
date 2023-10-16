@@ -10,10 +10,10 @@ import '../class/savingTargetClass.dart';
 import '../env/envClass.dart';
 
 class SavingScreen extends StatefulWidget {
-  SavingScreen(this.isLoading, this.env, {super.key});
+  const SavingScreen(this.isLoading, this.env, {super.key});
 
-  bool isLoading;
-  envClass env;
+  final bool isLoading;
+  final envClass env;
 
   @override
   State<SavingScreen> createState() => _SavingScreenState();
@@ -55,7 +55,7 @@ class _SavingScreenState extends State<SavingScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          EditSaving(savingClass(), widget.env, setReload),
+                          EditSaving(SavingClass(), widget.env, setReload),
                       fullscreenDialog: true),
                 );
               },
@@ -69,7 +69,7 @@ class _SavingScreenState extends State<SavingScreen> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => EditSavingTarget(
-                          savingTargetClass(), widget.env, setReload),
+                          SavingTargetClass(), widget.env, setReload),
                       fullscreenDialog: true),
                 );
               },

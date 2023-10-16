@@ -12,8 +12,8 @@ import '../../searchStorage/categoryStorage.dart';
 import '../selectCategoryForSearch.dart';
 
 class SearchTransaction extends StatefulWidget {
-  SearchTransaction({Key? key, required this.env}) : super(key: key);
-  envClass env;
+  const SearchTransaction({Key? key, required this.env}) : super(key: key);
+  final envClass env;
 
   @override
   State<SearchTransaction> createState() => _SearchTransaction();
@@ -22,8 +22,8 @@ class SearchTransaction extends StatefulWidget {
 class _SearchTransaction extends State<SearchTransaction> {
   late envClass env;
   late bool _isLoading;
-  late searchTransactionData resultData = searchTransactionData();
-  transactionClass transaction = transactionClass();
+  late SearchTransactionData resultData = SearchTransactionData();
+  TransactionClass transaction = TransactionClass();
   String searchTitle = '';
 
   void setLoading() {
@@ -46,7 +46,7 @@ class _SearchTransaction extends State<SearchTransaction> {
     transaction.endMonth = value;
   }
 
-  void _setDefaultCategory(transactionClass transaction) {
+  void _setDefaultCategory(TransactionClass transaction) {
     CategoryStorage.getDefaultValue().then((category) {
       setState(() {
         transaction.categoryId = category.categoryId;
@@ -312,7 +312,7 @@ class _SearchTransaction extends State<SearchTransaction> {
             children: [
               Text('${monthlyVariableList['categoryName']}'),
               Text(
-                  '¥${transactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
+                  '¥${TransactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
             ],
           ),
           textColor: Colors.black,
@@ -326,7 +326,7 @@ class _SearchTransaction extends State<SearchTransaction> {
                         children: [
                           Text(subCategory['subCategoryName']),
                           Text(
-                              '¥${transactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
+                              '¥${TransactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
                         ],
                       ),
                       textColor: Colors.black,
@@ -347,7 +347,7 @@ class _SearchTransaction extends State<SearchTransaction> {
                                       children: [
                                         const Expanded(child: SizedBox()),
                                         Text(
-                                            '¥${transactionClass.formatNum(tran['transactionAmount'].abs())}'),
+                                            '¥${TransactionClass.formatNum(tran['transactionAmount'].abs())}'),
                                       ],
                                     ),
                                   ),

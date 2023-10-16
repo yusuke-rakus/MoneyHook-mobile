@@ -9,8 +9,8 @@ import '../../components/commonSnackBar.dart';
 import '../../env/envClass.dart';
 
 class MonthlyTransaction extends StatefulWidget {
-  MonthlyTransaction({Key? key, required this.env}) : super(key: key);
-  envClass env;
+  const MonthlyTransaction({Key? key, required this.env}) : super(key: key);
+  final envClass env;
 
   @override
   State<MonthlyTransaction> createState() => _MonthlyTransactionState();
@@ -18,10 +18,10 @@ class MonthlyTransaction extends StatefulWidget {
 
 class _MonthlyTransactionState extends State<MonthlyTransaction> {
   late envClass env;
-  late List<monthlyTransactionClass> monthlyTransactionList = [];
+  late List<MonthlyTransactionClass> monthlyTransactionList = [];
   late bool _isLoading;
 
-  void setMonthlyTransactionList(List<monthlyTransactionClass> resultList) {
+  void setMonthlyTransactionList(List<MonthlyTransactionClass> resultList) {
     setState(() {
       monthlyTransactionList = resultList;
     });
@@ -111,7 +111,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
               context,
               MaterialPageRoute(
                   builder: (context) => EditMonthlyTransaction(
-                      monthlyTransactionClass(), env, setReload, setSnackBar),
+                      MonthlyTransactionClass(), env, setReload, setSnackBar),
                   fullscreenDialog: true));
         },
         child: const Icon(Icons.add),
@@ -120,7 +120,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
   }
 
   // 月次固定費コンポーネント
-  Widget _monthlyTransactionData(monthlyTransactionClass monthlyTransaction) {
+  Widget _monthlyTransactionData(MonthlyTransactionClass monthlyTransaction) {
     return Container(
         padding: const EdgeInsets.only(left: 10, right: 10),
         height: 60,
@@ -171,7 +171,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
               child: TextField(
                 enabled: false,
                 controller: TextEditingController(
-                    text: monthlyTransactionClass.formatNum(
+                    text: MonthlyTransactionClass.formatNum(
                         monthlyTransaction.monthlyTransactionAmount.toInt())),
                 decoration: const InputDecoration(
                   labelText: '金額',

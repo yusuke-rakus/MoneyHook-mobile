@@ -13,7 +13,7 @@ class TimelineList extends StatelessWidget {
       required this.setReload})
       : super(key: key);
   final envClass env;
-  final List<transactionClass> timelineList;
+  final List<TransactionClass> timelineList;
   final Function setReload;
 
   @override
@@ -67,7 +67,7 @@ class TimelineList extends StatelessWidget {
                         Expanded(
                           flex: 2,
                           child: Text(
-                            '¥${transactionClass.formatNum(timelineList[index].transactionAmount.toInt())}',
+                            '¥${TransactionClass.formatNum(timelineList[index].transactionAmount.toInt())}',
                             style: const TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),

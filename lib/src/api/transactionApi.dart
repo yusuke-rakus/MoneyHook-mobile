@@ -47,7 +47,7 @@ class transactionApi {
           // 失敗
         } else {
           // 成功
-          List<transactionClass> resultList = [];
+          List<TransactionClass> resultList = [];
           res.data['transactionList'].forEach((value) {
             String transactionId = value['transactionId'].toString();
             String transactionDate = value['transactionDate'];
@@ -59,7 +59,7 @@ class transactionApi {
             int subCategoryId = value['subCategoryId'];
             String subCategoryName = value['subCategoryName'];
             bool fixedFlg = value['fixedFlg'];
-            resultList.add(transactionClass.setTimelineFields(
+            resultList.add(TransactionClass.setTimelineFields(
                 transactionId,
                 transactionDate,
                 transactionSign,
@@ -93,9 +93,9 @@ class transactionApi {
           // 失敗
         } else {
           // 成功
-          List<transactionClass> resultList = [];
+          List<TransactionClass> resultList = [];
           res.data['monthlyTotalAmountList'].reversed.forEach((value) {
-            resultList.add(transactionClass.setTimelineChart(
+            resultList.add(TransactionClass.setTimelineChart(
                 value['month'], value['totalAmount']));
           });
           setTimelineChart(resultList);
@@ -190,7 +190,7 @@ class transactionApi {
 
   /// 取引の追加
   static Future<void> addTransaction(
-      transactionClass transaction,
+      TransactionClass transaction,
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
@@ -228,7 +228,7 @@ class transactionApi {
 
   /// 取引の編集
   static Future<void> editTransaction(
-      transactionClass transaction,
+      TransactionClass transaction,
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
@@ -267,7 +267,7 @@ class transactionApi {
   /// 取引の削除
   static Future<void> deleteTransaction(
       envClass env,
-      transactionClass transaction,
+      TransactionClass transaction,
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
@@ -311,9 +311,9 @@ class transactionApi {
           // 失敗
         } else {
           // 成功
-          List<transactionClass> resultList = [];
+          List<TransactionClass> resultList = [];
           res.data['transactionList'].forEach((value) {
-            transactionClass tran = transactionClass.setFrequentFields(
+            TransactionClass tran = TransactionClass.setFrequentFields(
                 value['transactionName'],
                 value['categoryId'],
                 value['categoryName'],
@@ -333,7 +333,7 @@ class transactionApi {
   /// カテゴリ毎の支出総額を取得
   static Future<void> getTotalSpending(
       envClass env,
-      transactionClass transaction,
+      TransactionClass transaction,
       Function setTransactionList,
       Function setSnackBar) async {
     if (searchTransactionValidation.checkTransaction(

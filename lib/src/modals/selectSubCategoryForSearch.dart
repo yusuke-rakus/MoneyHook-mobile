@@ -5,26 +5,26 @@ import 'package:money_hooks/src/env/envClass.dart';
 import '../class/subCategoryClass.dart';
 
 class SelectSubCategoryForSearch extends StatefulWidget {
-  SelectSubCategoryForSearch(this.env, this.categoryId, this.categoryName,
+  const SelectSubCategoryForSearch(this.env, this.categoryId, this.categoryName,
       {super.key});
 
-  envClass env;
-  int categoryId;
-  String categoryName;
+  final envClass env;
+  final int categoryId;
+  final String categoryName;
 
   @override
   State<StatefulWidget> createState() => _SelectSubCategoryForSearch();
 }
 
 class _SelectSubCategoryForSearch extends State<SelectSubCategoryForSearch> {
-  late List<subCategoryClass> subCategoryList = [];
+  late List<SubCategoryClass> subCategoryList = [];
   late String categoryName;
   late int categoryId;
   late envClass env;
 
-  void setSubCategoryList(List<subCategoryClass> responseList) {
+  void setSubCategoryList(List<SubCategoryClass> responseList) {
     setState(() {
-      responseList.add(subCategoryClass(null, '指定しない'));
+      responseList.add(SubCategoryClass(null, '指定しない'));
       subCategoryList = responseList;
     });
   }

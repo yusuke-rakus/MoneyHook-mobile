@@ -25,13 +25,13 @@ class Api {
         final String userId = convHash(email);
         final String hashedToken = convHash(token);
         // ローカルにあるトークンと比較
-        String? localToken = await userApi.getToken();
+        String? localToken = await UserApi.getToken();
         if (localToken == null) {
           return null;
         }
         // 異なる場合：GoogleSignIn
         if (hashedToken.compareTo(localToken) != 0) {
-          await userApi.updateToken(userId, hashedToken);
+          await UserApi.updateToken(userId, hashedToken);
         }
 
         return Options(

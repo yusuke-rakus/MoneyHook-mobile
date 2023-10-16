@@ -17,10 +17,10 @@ import '../env/envClass.dart';
 import '../modals/settings_modal/searchTransaction.dart';
 
 class SettingsScreen extends StatelessWidget {
-  SettingsScreen(this.isLoading, this.env, {super.key});
+  const SettingsScreen(this.isLoading, this.env, {super.key});
 
-  bool isLoading;
-  envClass env;
+  final bool isLoading;
+  final envClass env;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class SettingsScreen extends StatelessWidget {
                 SearchTransaction(env: env)),
             TextButton(
                 onPressed: () {
-                  userApi.signOut();
+                  UserApi.signOut();
                 },
                 child: const Text(
                   'ログアウト',

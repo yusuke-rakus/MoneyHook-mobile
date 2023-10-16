@@ -1,4 +1,4 @@
-class changeEmailClass {
+class ChangeEmailClass {
   late String userId = '';
   late String email = '';
   late String password = '';
@@ -6,9 +6,9 @@ class changeEmailClass {
   String emailError = '';
   String passwordError = '';
 
-  changeEmailClass(this.userId, this.email, this.password);
+  ChangeEmailClass(this.userId, this.email, this.password);
 
-  changeEmailClass.init(this.userId);
+  ChangeEmailClass.init(this.userId);
 
   Map<String, String> toJson() {
     return {'userId': userId, 'email': email, 'password': password};

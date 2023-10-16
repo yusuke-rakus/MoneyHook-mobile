@@ -14,20 +14,20 @@ class CategoryStorage {
   }
 
   /// 【カテゴリ一覧取得】データ
-  static Future<List<categoryClass>> getCategoryListData() async {
-    List<categoryClass> resultList = [];
+  static Future<List<CategoryClass>> getCategoryListData() async {
+    List<CategoryClass> resultList = [];
 
     await db.collection('categoryData').doc('categoryData').get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(categoryClass(e['categoryId'], e['categoryName']));
+          resultList.add(CategoryClass(e['categoryId'], e['categoryName']));
         });
       }
     });
     return resultList;
   }
 
-  static void saveCategoryList(List<categoryClass> resultList) async {
+  static void saveCategoryList(List<CategoryClass> resultList) async {
     await db
         .collection('categoryData')
         .doc('categoryData')
@@ -39,16 +39,16 @@ class CategoryStorage {
   }
 
   /// 【サブカテゴリ一覧取得】データ
-  static Future<List<subCategoryClass>> getSubCategoryListData(
+  static Future<List<SubCategoryClass>> getSubCategoryListData(
       String param) async {
-    List<subCategoryClass> resultList = [];
+    List<SubCategoryClass> resultList = [];
     final id = 'subCategoryData$param';
 
     await db.collection('subCategoryData').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
           resultList
-              .add(subCategoryClass(e['subCategoryId'], e['subCategoryName']));
+              .add(SubCategoryClass(e['subCategoryId'], e['subCategoryName']));
         });
       }
     });
@@ -56,7 +56,7 @@ class CategoryStorage {
   }
 
   static void saveSubCategoryList(
-      List<subCategoryClass> resultList, String param) async {
+      List<SubCategoryClass> resultList, String param) async {
     await db
         .collection('subCategoryData')
         .doc('subCategoryData$param')
@@ -73,9 +73,9 @@ class CategoryStorage {
   }
 
   /// 【カテゴリ・サブカテゴリ一覧取得】データ
-  static Future<List<categoryClass>>
+  static Future<List<CategoryClass>>
       getCategoryWithSubCategoryListData() async {
-    List<categoryClass> resultList = [];
+    List<CategoryClass> resultList = [];
 
     await db
         .collection('categoryWithSubCategoryData')
@@ -84,15 +84,15 @@ class CategoryStorage {
         .then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          List<subCategoryClass> subCategoryList = [];
+          List<SubCategoryClass> subCategoryList = [];
           e['subCategoryList'].forEach((subCategory) {
-            subCategoryList.add(subCategoryClass.setFullFields(
+            subCategoryList.add(SubCategoryClass.setFullFields(
                 subCategory['subCategoryId'],
                 subCategory['subCategoryName'],
                 subCategory['enable']));
           });
 
-          resultList.add(categoryClass.setCategoryWithSubCategory(
+          resultList.add(CategoryClass.setCategoryWithSubCategory(
               e['categoryId'], e['categoryName'], subCategoryList));
         });
       }
@@ -101,7 +101,7 @@ class CategoryStorage {
   }
 
   static void saveCategoryWithSubCategoryList(
-      List<categoryClass> resultList) async {
+      List<CategoryClass> resultList) async {
     await db
         .collection('categoryWithSubCategoryData')
         .doc('categoryWithSubCategoryData')
@@ -114,8 +114,8 @@ class CategoryStorage {
     await db.collection('categoryWithSubCategoryData').delete();
   }
 
-  static Future<categoryClass> getDefaultValue() async {
-    categoryClass category = categoryClass.setDefaultValue(1, '食費', 1, 'なし');
+  static Future<CategoryClass> getDefaultValue() async {
+    CategoryClass category = CategoryClass.setDefaultValue(1, '食費', 1, 'なし');
     await db.collection('defaultValue').doc('defaultValue').get().then((value) {
       if (value != null) {
         category.categoryId = value['categoryId'];
@@ -127,7 +127,7 @@ class CategoryStorage {
     return category;
   }
 
-  static Future<void> saveDefaultValue(categoryClass category) async {
+  static Future<void> saveDefaultValue(CategoryClass category) async {
     await db.collection('defaultValue').doc('defaultValue').set({
       'categoryId': category.categoryId,
       'categoryName': category.categoryName,
