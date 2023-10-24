@@ -60,6 +60,11 @@ class envClass {
     return {'userId': userId};
   }
 
+  static String getToday() {
+    return DateFormat('yyyy-MM-dd').format(DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day));
+  }
+
   @override
   String toString() {
     return 'envClass{thisMonth: $thisMonth, userId: $userId}';

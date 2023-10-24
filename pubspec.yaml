@@ -26,7 +26,7 @@ dependencies:
   firebase_auth: ^4.10.1
   firebase_core: ^2.14.0
   sign_in_button: ^3.2.0
-  shared_preferences: ^2.2.0
+  shared_preferences: ^2.2.2
   localstore: ^1.3.5
   flutter_slidable: ^3.0.0
   crypto: ^3.0.2

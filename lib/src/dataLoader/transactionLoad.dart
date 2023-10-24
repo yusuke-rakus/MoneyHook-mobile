@@ -1,4 +1,5 @@
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/dataLoader/registrationDate.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 import '../env/envClass.dart';
@@ -10,9 +11,10 @@ class TransactionLoad {
     await TransactionStorage.getTimelineData(
             env.getJson().toString(), setLoading)
         .then((value) async {
-      if (value.isEmpty) {
+      if (value.isEmpty || await isNeedApi()) {
         await transactionApi.getTimelineData(
             env, setLoading, setSnackBar, setTimelineData);
+        await setRegistrationDate();
       } else {
         setTimelineData(value);
       }
@@ -24,8 +26,9 @@ class TransactionLoad {
       envClass env, Function setTimelineChart) async {
     await TransactionStorage.getTimelineChart(env.getJson().toString())
         .then((value) async {
-      if (value.isEmpty) {
+      if (value.isEmpty || await isNeedApi()) {
         await transactionApi.getTimelineChart(env, setTimelineChart);
+        await setRegistrationDate();
       } else {
         setTimelineChart(value);
       }
@@ -37,9 +40,10 @@ class TransactionLoad {
       Function setSnackBar, Function setHomeTransaction) async {
     await TransactionStorage.getHome(env.getJson().toString())
         .then((value) async {
-      if (value.isEmpty) {
+      if (value.isEmpty || await isNeedApi()) {
         await transactionApi.getHome(
             env, setLoading, setSnackBar, setHomeTransaction);
+        await setRegistrationDate();
       } else {
         setHomeTransaction(value['balance'], value['categoryList']);
       }
@@ -77,8 +81,9 @@ class TransactionLoad {
       envClass env, Function setMonthlyFixedIncome) async {
     await TransactionStorage.getMonthlyFixedIncome(env.getJson().toString())
         .then((value) async {
-      if (value.isEmpty) {
+      if (value.isEmpty || await isNeedApi()) {
         await transactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+        await setRegistrationDate();
       } else {
         setMonthlyFixedIncome(
             value['disposableIncome'], value['monthlyFixedList']);
@@ -91,9 +96,10 @@ class TransactionLoad {
       Function setSnackBar, Function setMonthlyFixedSpending) async {
     await TransactionStorage.getMonthlyFixedSpending(env.getJson().toString())
         .then((value) async {
-      if (value.isEmpty) {
+      if (value.isEmpty || await isNeedApi()) {
         await transactionApi.getMonthlyFixedSpending(
             env, setSnackBar, setMonthlyFixedSpending);
+        await setRegistrationDate();
       } else {
         setMonthlyFixedSpending(
             value['disposableIncome'], value['monthlyFixedList']);
