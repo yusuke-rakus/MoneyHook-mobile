@@ -16,8 +16,7 @@ Future<void> setRegistrationDate() async {
 Future<bool> isNeedApi() async {
   String? registrationDate = await getRegistrationDate();
   if (registrationDate == envClass.getToday()) {
-    return true;
-    // return false;
+    return false;
   } else {
     return true;
   }
