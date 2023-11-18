@@ -8,7 +8,7 @@ import 'package:sign_in_button/sign_in_button.dart';
 import '../components/commonSnackBar.dart';
 
 class Login extends StatefulWidget {
-  Login({super.key});
+  const Login({super.key});
 
   @override
   State<Login> createState() => _LoginState();
@@ -33,9 +33,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       useDefaultLoading: false,
-      overlayWidget: Center(
-        child: CommonLoadingAnimation.build(),
-      ),
+      overlayWidgetBuilder: (_) {
+        return Center(child: CommonLoadingAnimation.build());
+      },
       child: Scaffold(
         appBar: AppBar(
           title: (const Text('ログイン')),
