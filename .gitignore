@@ -49,3 +49,4 @@ ios/firebase_app_id_file.json
 ios/Runner/GoogleService-Info.plist
 lib/firebase_options.dart
 ios/Runner/Info.plist
+ios/RunnerTests

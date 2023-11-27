@@ -30,6 +30,7 @@ class MyApp extends StatelessWidget {
       locale: const Locale('ja'),
       title: "MoneyHook",
       theme: ThemeData(
+        useMaterial3: false,
         primarySwatch: Colors.blue,
       ),
       home: const MyStatefulWidget(),

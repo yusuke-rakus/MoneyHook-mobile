@@ -36,10 +36,10 @@ class UserApi {
         return userId;
       }
     } on DioException catch (e) {
-      setSnackBar(Api.errorMessage(e));
-      setLoginItem();
       // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
       UserApi.signOut();
+      setSnackBar(Api.errorMessage(e));
+      setLoginItem();
       return null;
     }
   }
