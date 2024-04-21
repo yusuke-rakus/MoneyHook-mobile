@@ -53,7 +53,7 @@ class envClass {
   }
 
   Map<String, String> getJson() {
-    return {'month': thisMonth, 'userId': userId};
+    return {'month': thisMonth};
   }
 
   Map<String, String> getUserJson() {

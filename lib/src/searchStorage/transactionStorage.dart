@@ -32,10 +32,10 @@ class TransactionStorage {
       String param, Function setLoading) async {
     setLoading();
 
-    final id = 'timelineData$param';
+    final id = 'timeline_data$param';
     List<TransactionClass> resultList = [];
 
-    await db.collection('timelineData').doc(id).get().then((value) {
+    await db.collection('timeline_data').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
           String transactionId = e['transactionId'].toString();
@@ -68,28 +68,28 @@ class TransactionStorage {
   static void saveStorageTimelineData(
       List<TransactionClass> resultList, String param) async {
     await db
-        .collection('timelineData')
-        .doc('timelineData$param')
+        .collection('timeline_data')
+        .doc('timeline_data$param')
         .set({'data': resultList.map((e) => e.getTransactionJson()).toList()});
   }
 
   static void deleteTimelineData() async {
-    await db.collection('timelineData').delete();
+    await db.collection('timeline_data').delete();
   }
 
   static void deleteTimelineDataWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
-    final id = 'timelineData${env.getJson()}';
-    await db.collection('timelineData').doc(id).delete();
+    final id = 'timeline_data${env.getJson()}';
+    await db.collection('timeline_data').doc(id).delete();
   }
 
   /// 【タイムライン画面】グラフ
   static Future<List<TransactionClass>> getTimelineChart(String param) async {
-    final id = 'timelineChart$param';
+    final id = 'timeline_chart$param';
     List<TransactionClass> resultList = [];
 
-    await db.collection('timelineChart').doc(id).get().then((value) {
+    await db.collection('timeline_chart').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
           resultList.add(TransactionClass.setTimelineChart(
@@ -103,31 +103,31 @@ class TransactionStorage {
   static void saveStorageTimelineChart(
       List<TransactionClass> resultList, String param) async {
     await db
-        .collection('timelineChart')
-        .doc('timelineChart$param')
+        .collection('timeline_chart')
+        .doc('timeline_chart$param')
         .set({'data': resultList.map((e) => e.getTransactionJson()).toList()});
   }
 
   static void deleteTimelineChart() async {
-    await db.collection('timelineChart').delete();
+    await db.collection('timeline_chart').delete();
   }
 
   static void deleteTimelineChartWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
-    final id = 'timelineChart${env.getJson()}';
-    await db.collection('timelineChart').doc(id).delete();
+    final id = 'timeline_chart${env.getJson()}';
+    await db.collection('timeline_chart').doc(id).delete();
   }
 
   /// 【ホーム画面】データ
   static Future<Map<String, dynamic>> getHome(String param) async {
-    final id = 'homeData$param';
+    final id = 'home_data$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
 
-    await db.collection('homeData').doc(id).get().then((value) {
+    await db.collection('home_data').doc(id).get().then((value) {
       if (value != null) {
         resultMap['balance'] = value['balance'];
-        resultMap['categoryList'] = value['categoryList'];
+        resultMap['category_list'] = value['category_list'];
       }
     });
     return resultMap;
@@ -136,20 +136,20 @@ class TransactionStorage {
   static void saveStorageHomeData(
       int balance, List<dynamic> resultList, String param) async {
     await db
-        .collection('homeData')
-        .doc('homeData$param')
-        .set({'balance': balance, 'categoryList': resultList});
+        .collection('home_data')
+        .doc('home_data$param')
+        .set({'balance': balance, 'category_list': resultList});
   }
 
   static void deleteHomeData() async {
-    await db.collection('homeData').delete();
+    await db.collection('home_data').delete();
   }
 
   static void deleteHomeDataWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
-    final id = 'homeData${env.getJson()}';
-    await db.collection('homeData').doc(id).delete();
+    final id = 'home_data${env.getJson()}';
+    await db.collection('home_data').doc(id).delete();
   }
 
   /// 取引名レコメンド
@@ -173,13 +173,13 @@ class TransactionStorage {
   /// 【月別変動費画面】データ
   static Future<Map<String, dynamic>> getMonthlyVariableData(
       String param) async {
-    final id = 'monthlyVariableData$param';
+    final id = 'monthly_variable_data$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
 
-    await db.collection('monthlyVariableData').doc(id).get().then((value) {
+    await db.collection('monthly_variable_data').doc(id).get().then((value) {
       if (value != null) {
-        resultMap['totalVariable'] = value['totalVariable'];
-        resultMap['monthlyVariableList'] = value['monthlyVariableList'];
+        resultMap['total_variable'] = value['total_variable'];
+        resultMap['monthly_variable_list'] = value['monthly_variable_list'];
       }
     });
     return resultMap;
@@ -188,32 +188,36 @@ class TransactionStorage {
   static void saveMonthlyVariableData(
       int balance, List<dynamic> resultList, String param) async {
     await db
-        .collection('monthlyVariableData')
-        .doc('monthlyVariableData$param')
-        .set({'totalVariable': balance, 'monthlyVariableList': resultList});
+        .collection('monthly_variable_data')
+        .doc('monthly_variable_data$param')
+        .set({'total_variable': balance, 'monthly_variable_list': resultList});
   }
 
   static void deleteMonthlyVariableData() async {
-    await db.collection('monthlyVariableData').delete();
+    await db.collection('monthly_variable_data').delete();
   }
 
   static void deleteMonthlyVariableDataWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
-    final id = 'monthlyVariableData${env.getJson()}';
-    await db.collection('monthlyVariableData').doc(id).delete();
+    final id = 'monthly_variable_data${env.getJson()}';
+    await db.collection('monthly_variable_data').doc(id).delete();
   }
 
   /// 【月別固定費画面】収入データ
   static Future<Map<String, dynamic>> getMonthlyFixedIncome(
       String param) async {
-    final id = 'monthlyFixedIncomeData$param';
+    final id = 'monthly_fixed_income_data$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
 
-    await db.collection('monthlyFixedIncomeData').doc(id).get().then((value) {
+    await db
+        .collection('monthly_fixed_income_data')
+        .doc(id)
+        .get()
+        .then((value) {
       if (value != null) {
-        resultMap['disposableIncome'] = value['disposableIncome'];
-        resultMap['monthlyFixedList'] = value['monthlyFixedList'];
+        resultMap['disposable_income'] = value['disposable_income'];
+        resultMap['monthly_fixed_list'] = value['monthly_fixed_list'];
       }
     });
     return resultMap;
@@ -222,35 +226,39 @@ class TransactionStorage {
   static void saveMonthlyFixedIncome(
       int disposableIncome, List<dynamic> resultList, String param) async {
     await db
-        .collection('monthlyFixedIncomeData')
-        .doc('monthlyFixedIncomeData$param')
+        .collection('monthly_fixed_income_data')
+        .doc('monthly_fixed_income_data$param')
         .set({
-      'disposableIncome': disposableIncome,
-      'monthlyFixedList': resultList
+      'disposable_income': disposableIncome,
+      'monthly_fixed_list': resultList
     });
   }
 
   static void deleteMonthlyFixedIncome() async {
-    await db.collection('monthlyFixedIncomeData').delete();
+    await db.collection('monthly_fixed_income_data').delete();
   }
 
   static void deleteMonthlyFixedIncomeWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
-    final id = 'monthlyFixedIncomeData${env.getJson()}';
-    await db.collection('monthlyFixedIncomeData').doc(id).delete();
+    final id = 'monthly_fixed_income_data${env.getJson()}';
+    await db.collection('monthly_fixed_income_data').doc(id).delete();
   }
 
   /// 【月別固定費画面】支出データ
   static Future<Map<String, dynamic>> getMonthlyFixedSpending(
       String param) async {
-    final id = 'monthlyFixedSpendingData$param';
+    final id = 'monthly_fixed_spending_data$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
 
-    await db.collection('monthlyFixedSpendingData').doc(id).get().then((value) {
+    await db
+        .collection('monthly_fixed_spending_data')
+        .doc(id)
+        .get()
+        .then((value) {
       if (value != null) {
-        resultMap['disposableIncome'] = value['disposableIncome'];
-        resultMap['monthlyFixedList'] = value['monthlyFixedList'];
+        resultMap['disposable_income'] = value['disposable_income'];
+        resultMap['monthly_fixed_list'] = value['monthly_fixed_list'];
       }
     });
     return resultMap;
@@ -259,19 +267,19 @@ class TransactionStorage {
   static void saveMonthlyFixedSpending(
       int balance, List<dynamic> resultList, String param) async {
     await db
-        .collection('monthlyFixedSpendingData')
-        .doc('monthlyFixedSpendingData$param')
-        .set({'disposableIncome': balance, 'monthlyFixedList': resultList});
+        .collection('monthly_fixed_spending_data')
+        .doc('monthly_fixed_spending_data$param')
+        .set({'disposable_income': balance, 'monthly_fixed_list': resultList});
   }
 
   static void deleteMonthlyFixedSpending() async {
-    await db.collection('monthlyFixedSpendingData').delete();
+    await db.collection('monthly_fixed_spending_data').delete();
   }
 
   static void deleteMonthlyFixedSpendingWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
     final id = 'monthlyFixedSpendingData${env.getJson()}';
-    await db.collection('monthlyFixedSpendingData').doc(id).delete();
+    await db.collection('monthly_fixed_spending_data').doc(id).delete();
   }
 }

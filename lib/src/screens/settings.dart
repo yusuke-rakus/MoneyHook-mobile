@@ -3,14 +3,11 @@ import "package:flutter/material.dart";
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
-import 'package:money_hooks/src/modals/settings_modal/deletedSavingTarget.dart';
 import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
-import 'package:money_hooks/src/searchStorage/savingStorage.dart';
-import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 import '../env/envClass.dart';
@@ -36,8 +33,6 @@ class SettingsScreen extends StatelessWidget {
                 MonthlyTransaction(env: env)),
             _menuCard(context, Icons.checklist_sharp, 'サブカテゴリの表示',
                 HideSubCategory(env: env)),
-            _menuCard(context, Icons.savings_outlined, '完了した貯金目標',
-                DeletedSavingTarget(env: env)),
             _menuCard(context, Icons.search_outlined, '収支の検索',
                 SearchTransaction(env: env)),
             TextButton(
@@ -58,9 +53,7 @@ class SettingsScreen extends StatelessWidget {
                         .then((value) async {
                       print(value);
                       TransactionStorage.allDelete();
-                      SavingStorage.allDelete();
                       MonthlyTransactionStorage.allDelete();
-                      SavingTargetStorage.allDelete();
                       CategoryStorage.allDelete();
                       CategoryStorage.deleteDefaultValue();
                     });

@@ -17,18 +17,31 @@ class AnalysisScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: const Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              TabBar(tabs: [Tab(text: '月別変動費'), Tab(text: '月別固定費')]),
-            ],
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[Colors.lightBlue, Colors.blue]),
+            ),
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TabBar(tabs: [Tab(text: '月別変動費'), Tab(text: '月別固定費')]),
+              ],
+            ),
           ),
         ),
-        body: TabBarView(
-          children: <Widget>[
-            VariableAnalysisView(env, isLoading),
-            FixedAnalysisView(env, isLoading),
-          ],
+        body: Center(
+          child: SizedBox(
+            width: 800,
+            child: TabBarView(
+              children: <Widget>[
+                VariableAnalysisView(env, isLoading),
+                FixedAnalysisView(env, isLoading),
+              ],
+            ),
+          ),
         ),
       ),
     );

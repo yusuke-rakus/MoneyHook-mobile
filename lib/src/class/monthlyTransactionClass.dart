@@ -26,7 +26,6 @@ class MonthlyTransactionClass {
       this.monthlyTransactionDate,
       this.categoryId,
       this.subCategoryId,
-      this.includeFlg,
       this.monthlyTransactionSign,
       this.categoryName,
       this.subCategoryName);

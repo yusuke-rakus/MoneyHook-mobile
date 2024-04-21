@@ -27,7 +27,7 @@ class HomeAccordion extends StatelessWidget {
                     children: [
                       Text.rich(TextSpan(children: [
                         TextSpan(
-                            text: homeTransactionList[index]['categoryName']),
+                            text: homeTransactionList[index]['category_name']),
                         WidgetSpan(
                             alignment: PlaceholderAlignment.top,
                             child: Icon(
@@ -37,18 +37,18 @@ class HomeAccordion extends StatelessWidget {
                             )),
                       ])),
                       Text(
-                          '¥${TransactionClass.formatNum(homeTransactionList[index]['categoryTotalAmount'].abs())}'),
+                          '¥${TransactionClass.formatNum(homeTransactionList[index]['category_total_amount'].abs())}'),
                     ],
                   ),
                   textColor: Colors.black,
-                  children: homeTransactionList[index]['subCategoryList']
+                  children: homeTransactionList[index]['sub_category_list']
                       .map<Widget>((value) => ListTile(
                               title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(value['subCategoryName']),
+                              Text(value['sub_category_name']),
                               Text(
-                                  '¥${TransactionClass.formatNum(value['subCategoryTotalAmount'].abs())}'),
+                                  '¥${TransactionClass.formatNum(value['sub_category_total_amount'].abs())}'),
                             ],
                           )))
                       .toList(),

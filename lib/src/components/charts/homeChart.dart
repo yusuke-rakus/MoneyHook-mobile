@@ -39,9 +39,9 @@ List<PieChartSectionData> _createHomeChart(
     List<dynamic> data, colorList, int touchedIndex) {
   List<PieChartSectionData> result = List.generate(data.length, (index) {
     return PieChartSectionData(
-      value: data[index]['categoryTotalAmount'].abs().toDouble(),
+      value: data[index]['category_total_amount'].abs().toDouble(),
       color: colorList[index],
-      title: data[index]['categoryName'],
+      title: data[index]['category_name'],
       showTitle: index == touchedIndex ? true : false,
       titleStyle:
           const TextStyle(color: Colors.white, backgroundColor: Colors.black38),

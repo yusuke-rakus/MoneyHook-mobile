@@ -20,20 +20,20 @@ class FixedAnalysisAccordion extends StatelessWidget {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(monthlyFixedList[index]['categoryName']),
+                Text(monthlyFixedList[index]['category_name']),
                 Text(
-                    '¥${TransactionClass.formatNum(monthlyFixedList[index]['totalCategoryAmount'].abs())}'),
+                    '¥${TransactionClass.formatNum(monthlyFixedList[index]['total_category_amount'].abs())}'),
               ],
             ),
             textColor: Colors.black,
-            children: monthlyFixedList[index]['transactionList']
+            children: monthlyFixedList[index]['transaction_list']
                 .map<Widget>((value) => ListTile(
                         title: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(value['transactionName']),
+                        Text(value['transaction_name']),
                         Text(
-                            '¥${TransactionClass.formatNum(value['transactionAmount'].abs())}'),
+                            '¥${TransactionClass.formatNum(value['transaction_amount'].abs())}'),
                       ],
                     )))
                 .toList(),

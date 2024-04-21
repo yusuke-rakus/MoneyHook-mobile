@@ -13,16 +13,16 @@ class CategoryApi {
   static Future<void> getCategoryList(Function setCategoryList) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/category/getCategoryList', options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/category/getCategoryList',
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<CategoryClass> categoryList = [];
-          res.data['categoryList'].forEach((value) {
-            categoryList
-                .add(CategoryClass(value['categoryId'], value['categoryName']));
+          res.data['category_list'].forEach((value) {
+            categoryList.add(
+                CategoryClass(value['category_id'], value['category_name']));
           });
           setCategoryList(categoryList);
           CategoryStorage.saveCategoryList(categoryList);
@@ -38,22 +38,21 @@ class CategoryApi {
       String userId, int categoryId, Function setSubCategoryList) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post(
-            '$rootURI/subCategory/getSubCategoryList',
-            data: {'userId': userId, 'categoryId': categoryId},
-            options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get(
+            '$rootURI/subCategory/getSubCategoryList/$categoryId',
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<SubCategoryClass> subCategoryList = [];
-          res.data['subCategoryList'].forEach((value) {
+          res.data['sub_category_list'].forEach((value) {
             subCategoryList.add(SubCategoryClass(
-                value['subCategoryId'], value['subCategoryName']));
+                value['sub_category_id'], value['sub_category_name']));
           });
-          setSubCategoryList(subCategoryList);
           CategoryStorage.saveSubCategoryList(
               subCategoryList, categoryId.toString());
+          setSubCategoryList(subCategoryList);
         }
       } on DioException catch (e) {
         Api.errorMessage(e);
@@ -66,26 +65,26 @@ class CategoryApi {
       envClass env, setSnackBar, Function setCategoryList) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post(
+        Response res = await Api.dio.get(
             '$rootURI/category/getCategoryWithSubCategoryList',
-            data: env.getUserJson(),
-            options: option);
-        if (res.data['status'] == 'error') {
+            queryParameters: env.getJson(),
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<CategoryClass> categoryList = [];
-          res.data['categoryList'].forEach((value) {
+          res.data['category_list'].forEach((value) {
             List<SubCategoryClass> subCategoryList = [];
-            value['subCategoryList'].forEach((subCategory) {
+            value['sub_category_list'].forEach((subCategory) {
               subCategoryList.add(SubCategoryClass.setFullFields(
-                  subCategory['subCategoryId'],
-                  subCategory['subCategoryName'],
+                  subCategory['sub_category_id'],
+                  subCategory['sub_category_name'],
                   subCategory['enable']));
             });
 
             categoryList.add(CategoryClass.setCategoryWithSubCategory(
-                value['categoryId'], value['categoryName'], subCategoryList));
+                value['category_id'], value['category_name'], subCategoryList));
           });
           setCategoryList(categoryList);
           CategoryStorage.saveCategoryWithSubCategoryList(categoryList);
@@ -109,7 +108,7 @@ class CategoryApi {
                   'enable': subCategory.enable
                 },
                 options: option);
-        if (res.data['status'] == 'error') {
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功

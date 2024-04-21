@@ -73,6 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.lightBlue, Colors.blue]),
+          ),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -101,45 +109,50 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: _isLoading
           ? Center(child: CommonLoadingAnimation.build())
-          : ListView(
-              children: [
-                // 円グラフ
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    height: 250,
-                    child: HomeChart(
-                        data: homeTransactionList.categoryList,
+          : Center(
+              child: SizedBox(
+                width: 800,
+                child: ListView(
+                  children: [
+                    // 円グラフ
+                    Center(
+                      child: Container(
+                        margin: const EdgeInsets.only(top: 10),
+                        height: 250,
+                        child: HomeChart(
+                            data: homeTransactionList.categoryList,
+                            colorList: colorList),
+                      ),
+                    ),
+                    // 収支
+                    Container(
+                      margin: const EdgeInsets.only(left: 8),
+                      height: 40,
+                      child: Row(
+                        children: [
+                          const Text('支出合計', style: TextStyle(fontSize: 20)),
+                          const SizedBox(width: 20),
+                          Text(
+                              TransactionClass.formatNum(
+                                  homeTransactionList.balance),
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: homeTransactionList.balance < 0
+                                      ? Colors.red
+                                      : Colors.green)),
+                        ],
+                      ),
+                    ),
+                    // アコーディオン
+                    HomeAccordion(
+                        homeTransactionList: homeTransactionList.categoryList,
                         colorList: colorList),
-                  ),
+                    const SizedBox(
+                      height: 90,
+                    )
+                  ],
                 ),
-                // 収支
-                Container(
-                  margin: const EdgeInsets.only(left: 8),
-                  height: 40,
-                  child: Row(
-                    children: [
-                      const Text('支出合計', style: TextStyle(fontSize: 20)),
-                      const SizedBox(width: 20),
-                      Text(
-                          TransactionClass.formatNum(
-                              homeTransactionList.balance),
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: homeTransactionList.balance < 0
-                                  ? Colors.red
-                                  : Colors.green)),
-                    ],
-                  ),
-                ),
-                // アコーディオン
-                HomeAccordion(
-                    homeTransactionList: homeTransactionList.categoryList,
-                    colorList: colorList),
-                const SizedBox(
-                  height: 90,
-                )
-              ],
+              ),
             ),
       floatingActionButton: FloatingActionButton(
         onPressed: _isLoading
@@ -153,7 +166,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       fullscreenDialog: true),
                 );
               },
-        child: const Icon(Icons.add),
+        child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                begin: FractionalOffset.topLeft,
+                end: FractionalOffset.bottomRight,
+                colors: [Colors.lightBlueAccent, Colors.blueAccent],
+              ),
+            ),
+            child: const Icon(Icons.add)),
       ),
     );
   }

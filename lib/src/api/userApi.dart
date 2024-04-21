@@ -9,8 +9,6 @@ import 'package:money_hooks/src/api/api.dart';
 
 import '../searchStorage/categoryStorage.dart';
 import '../searchStorage/monthlyTransactionStorage.dart';
-import '../searchStorage/savingStorage.dart';
-import '../searchStorage/savingTargetStorage.dart';
 import '../searchStorage/transactionStorage.dart';
 
 class UserApi {
@@ -26,8 +24,7 @@ class UserApi {
 
     try {
       Response res = await Api.dio.post('$rootURI/googleSignIn',
-          data: {'userId': userId},
-          options: Options(headers: {'Authorization': hashedToken}));
+          data: {'user_id': userId, 'token': hashedToken});
       if (res.data['status'] == 'error') {
         // ログイン失敗
         return null;
@@ -68,9 +65,7 @@ class UserApi {
   static void signOut() {
     deleteToken();
     TransactionStorage.allDelete();
-    SavingStorage.allDelete();
     MonthlyTransactionStorage.allDelete();
-    SavingTargetStorage.allDelete();
     CategoryStorage.allDelete();
     FirebaseAuth.instance.signOut();
   }

@@ -28,7 +28,7 @@ class _TimelineChartState extends State<TimelineChart> {
             enabled: true,
             handleBuiltInTouches: false,
             touchTooltipData: BarTouchTooltipData(
-              tooltipBgColor: Colors.transparent,
+              // tooltipBgColor: Colors.transparent,
               tooltipMargin: 0,
               getTooltipItem: (
                 BarChartGroupData group,

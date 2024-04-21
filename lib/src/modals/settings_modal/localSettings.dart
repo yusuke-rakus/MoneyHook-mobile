@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
-import 'package:money_hooks/src/searchStorage/savingTargetStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
-
-import '../../searchStorage/savingStorage.dart';
 
 class LocalSettings extends StatefulWidget {
   const LocalSettings({super.key});
@@ -66,9 +63,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                       onPressed: () async {
                         Future(() async {
                           TransactionStorage.allDelete();
-                          SavingStorage.allDelete();
                           MonthlyTransactionStorage.allDelete();
-                          SavingTargetStorage.allDelete();
                           CategoryStorage.allDelete();
                         }).then((value) => CommonSnackBar.build(
                             context: context, text: '削除完了'));

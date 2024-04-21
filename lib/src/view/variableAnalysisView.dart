@@ -156,13 +156,13 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('${monthlyVariableList['categoryName']}'),
+              Text('${monthlyVariableList['category_name']}'),
               Text(
-                  '¥${TransactionClass.formatNum(monthlyVariableList['categoryTotalAmount'].abs())}'),
+                  '¥${TransactionClass.formatNum(monthlyVariableList['category_total_amount'].abs())}'),
             ],
           ),
           textColor: Colors.black,
-          children: monthlyVariableList['subCategoryList']
+          children: monthlyVariableList['sub_category_list']
               .map<Widget>((subCategory) => Theme(
                     data: Theme.of(context)
                         .copyWith(dividerColor: Colors.transparent),
@@ -170,20 +170,20 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(subCategory['subCategoryName']),
+                          Text(subCategory['sub_category_name']),
                           Text(
-                              '¥${TransactionClass.formatNum(subCategory['subCategoryTotalAmount'].abs())}'),
+                              '¥${TransactionClass.formatNum(subCategory['sub_category_total_amount'].abs())}'),
                         ],
                       ),
                       textColor: Colors.black,
-                      children: subCategory['transactionList']
+                      children: subCategory['transaction_list']
                           .map<Widget>((tran) => ListTile(
                                   title: Row(
                                 children: [
                                   Expanded(
                                     flex: 7,
                                     child: Text(
-                                      tran['transactionName'],
+                                      tran['transaction_name'],
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -193,7 +193,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                                       children: [
                                         const Expanded(child: SizedBox()),
                                         Text(
-                                            '¥${TransactionClass.formatNum(tran['transactionAmount'].abs())}'),
+                                            '¥${TransactionClass.formatNum(tran['transaction_amount'].abs())}'),
                                       ],
                                     ),
                                   ),

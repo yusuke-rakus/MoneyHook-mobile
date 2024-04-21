@@ -138,6 +138,14 @@ class _EditTransaction extends State<EditTransaction> {
         onTap: focusNode.requestFocus,
         child: Scaffold(
             appBar: AppBar(
+              flexibleSpace: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: <Color>[Colors.lightBlue, Colors.blue]),
+                ),
+              ),
               title: transaction.hasTransactionId()
                   ? const Text('収支の編集')
                   : const Text('収支の入力'),

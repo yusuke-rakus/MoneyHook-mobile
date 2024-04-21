@@ -1,6 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/env/googleSignIn.dart';
 import 'package:sign_in_button/sign_in_button.dart';
@@ -62,8 +62,14 @@ class _LoginState extends State<Login> {
                   ])),
                 ),
                 TextButton(
-                    onPressed: () {
-                      UserApi.signOut();
+                    onPressed: () async {
+                      final dio = Dio();
+                      // await dio.get('http://localhost:8080/googleSignIn');
+                      final response = dio.post(
+                          'http://localhost:8080/api/user/googleSignIn',
+                          data: {'userId': "userId", 'token': "hashedToken"});
+                      print(response);
+                      // UserApi.signOut();
                     },
                     child: const Text(
                       'Firebaseログアウト',

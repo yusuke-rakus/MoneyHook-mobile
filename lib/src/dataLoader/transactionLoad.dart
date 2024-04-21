@@ -45,7 +45,7 @@ class TransactionLoad {
             env, setLoading, setSnackBar, setHomeTransaction);
         await setRegistrationDate();
       } else {
-        setHomeTransaction(value['balance'], value['categoryList']);
+        setHomeTransaction(value['balance'], value['category_list']);
       }
     });
   }
@@ -71,7 +71,7 @@ class TransactionLoad {
             env, setLoading, setSnackBar, setMonthlyVariable);
       } else {
         setMonthlyVariable(
-            value['totalVariable'], value['monthlyVariableList']);
+            value['total_variable'], value['monthly_variable_list']);
       }
     });
   }
@@ -86,7 +86,7 @@ class TransactionLoad {
         await setRegistrationDate();
       } else {
         setMonthlyFixedIncome(
-            value['disposableIncome'], value['monthlyFixedList']);
+            value['disposable_income'], value['monthly_fixed_list']);
       }
     });
   }
@@ -102,7 +102,7 @@ class TransactionLoad {
         await setRegistrationDate();
       } else {
         setMonthlyFixedSpending(
-            value['disposableIncome'], value['monthlyFixedList']);
+            value['disposable_income'], value['monthly_fixed_list']);
       }
     });
   }

@@ -17,15 +17,16 @@ class transactionApi {
 
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio
-            .post('$rootURI/getHome', data: env.getJson(), options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getHome',
+            queryParameters: env.getJson(),
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
-          setHomeTransaction(res.data['balance'], res.data['categoryList']);
+          setHomeTransaction(res.data['balance'], res.data['category_list']);
           TransactionStorage.saveStorageHomeData(res.data['balance'],
-              res.data['categoryList'], env.getJson().toString());
+              res.data['category_list'], env.getJson().toString());
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
@@ -41,24 +42,25 @@ class transactionApi {
 
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getTimelineData',
-            data: env.getJson(), options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getTimelineData',
+            queryParameters: env.getJson(),
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<TransactionClass> resultList = [];
-          res.data['transactionList'].forEach((value) {
-            String transactionId = value['transactionId'].toString();
-            String transactionDate = value['transactionDate'];
-            int transactionSign = value['transactionSign'];
-            String transactionAmount = value['transactionAmount'].toString();
-            String transactionName = value['transactionName'];
-            int categoryId = value['categoryId'];
-            String categoryName = value['categoryName'];
-            int subCategoryId = value['subCategoryId'];
-            String subCategoryName = value['subCategoryName'];
-            bool fixedFlg = value['fixedFlg'];
+          res.data['transaction_list'].forEach((value) {
+            String transactionId = value['transaction_id'].toString();
+            String transactionDate = value['transaction_date'];
+            int transactionSign = value['transaction_sign'];
+            String transactionAmount = value['transaction_amount'].toString();
+            String transactionName = value['transaction_name'];
+            int categoryId = value['category_id'];
+            String categoryName = value['category_name'];
+            int subCategoryId = value['sub_category_id'];
+            String subCategoryName = value['sub_category_name'];
+            bool fixedFlg = value['fixed_flg'];
             resultList.add(TransactionClass.setTimelineFields(
                 transactionId,
                 transactionDate,
@@ -87,16 +89,17 @@ class transactionApi {
       envClass env, Function setTimelineChart) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getMonthlySpendingData',
-            data: env.getJson(), options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getMonthlySpendingData',
+            queryParameters: env.getJson(),
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<TransactionClass> resultList = [];
-          res.data['monthlyTotalAmountList'].reversed.forEach((value) {
+          res.data['monthly_total_amount_list'].reversed.forEach((value) {
             resultList.add(TransactionClass.setTimelineChart(
-                value['month'], value['totalAmount']));
+                value['month'], value['total_amount']));
           });
           setTimelineChart(resultList);
           TransactionStorage.saveStorageTimelineChart(
@@ -113,24 +116,25 @@ class transactionApi {
     setLoading();
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getMonthlyVariableData',
-            data: env.getJson(), options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getMonthlyVariableData',
+            queryParameters: env.getJson(),
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<Map<String, dynamic>> resultList = [];
-          res.data['monthlyVariableList'].forEach((value) {
+          res.data['monthly_variable_list'].forEach((value) {
             Map<String, dynamic> categoryList = {
-              'categoryName': value['categoryName'],
-              'categoryTotalAmount': value['categoryTotalAmount'],
-              'subCategoryList': value['subCategoryList']
+              'category_name': value['category_name'],
+              'category_total_amount': value['category_total_amount'],
+              'sub_category_list': value['sub_category_list']
             };
             resultList.add(categoryList);
           });
-          setMonthlyVariable(res.data['totalVariable'].abs(), resultList);
+          setMonthlyVariable(res.data['total_variable'].abs(), resultList);
           TransactionStorage.saveMonthlyVariableData(
-              res.data['totalVariable'].abs(),
+              res.data['total_variable'].abs(),
               resultList,
               env.getJson().toString());
         }
@@ -146,17 +150,18 @@ class transactionApi {
       envClass env, Function setMonthlyFixedIncome) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getMonthlyFixedIncome',
-            data: env.getJson(), options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getMonthlyFixedIncome',
+            queryParameters: env.getJson(),
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           setMonthlyFixedIncome(
-              res.data['disposableIncome'], res.data['monthlyFixedList']);
+              res.data['disposable_income'], res.data['monthly_fixed_list']);
           TransactionStorage.saveMonthlyFixedIncome(
-              res.data['disposableIncome'],
-              res.data['monthlyFixedList'],
+              res.data['disposable_income'],
+              res.data['monthly_fixed_list'],
               env.getJson().toString());
         }
       } on DioException catch (e) {
@@ -169,17 +174,18 @@ class transactionApi {
       Function setSnackBar, Function setMonthlyFixedSpending) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getMonthlyFixedSpending',
-            data: env.getJson(), options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getMonthlyFixedSpending',
+            queryParameters: env.getJson(),
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           setMonthlyFixedSpending(
-              res.data['disposableIncome'], res.data['monthlyFixedList']);
+              res.data['disposable_income'], res.data['monthly_fixed_list']);
           TransactionStorage.saveMonthlyFixedSpending(
-              res.data['disposableIncome'],
-              res.data['monthlyFixedList'],
+              res.data['disposable_income'],
+              res.data['monthly_fixed_list'],
               env.getJson().toString());
         }
       } on DioException catch (e) {
@@ -204,7 +210,7 @@ class transactionApi {
       try {
         Response res = await Api.dio.post('$rootURI/addTransaction',
             data: transaction.getTransactionJson(), options: option);
-        if (res.data['status'] == 'error') {
+        if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);
           setDisable();
@@ -242,7 +248,7 @@ class transactionApi {
       try {
         Response res = await Api.dio.post('$rootURI/editTransaction',
             data: transaction.getTransactionJson(), options: option);
-        if (res.data['status'] == 'error') {
+        if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);
           setDisable();
@@ -277,10 +283,10 @@ class transactionApi {
         Response res = await Api.dio.post('$rootURI/deleteTransaction',
             data: {
               'userId': env.userId,
-              'transactionId': transaction.transactionId
+              'transaction_id': transaction.transactionId
             },
             options: option);
-        if (res.data['status'] == 'error') {
+        if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);
           setDisable();
@@ -302,24 +308,21 @@ class transactionApi {
       envClass env, Function setRecommendList) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getFrequentTransactionName',
-            data: {
-              'userId': env.userId,
-            },
-            options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getFrequentTransactionName',
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<TransactionClass> resultList = [];
-          res.data['transactionList'].forEach((value) {
+          res.data['transaction_list'].forEach((value) {
             TransactionClass tran = TransactionClass.setFrequentFields(
-                value['transactionName'],
-                value['categoryId'],
-                value['categoryName'],
-                value['subCategoryId'],
-                value['subCategoryName'],
-                value['fixedFlg']);
+                value['transaction_name'],
+                value['category_id'],
+                value['category_name'],
+                value['sub_category_id'],
+                value['sub_category_name'],
+                value['fixed_flg']);
             resultList.add(tran);
           });
           setRecommendList(resultList);
@@ -343,30 +346,30 @@ class transactionApi {
 
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getTotalSpending',
+        Response res = await Api.dio.get('$rootURI/getTotalSpending',
             data: {
-              'userId': env.userId,
-              'categoryId': transaction.categoryId,
-              'subCategoryId': transaction.subCategoryId,
-              'startMonth': transaction.startMonth,
-              'endMonth': transaction.endMonth,
+              'user_id': env.userId,
+              'category_id': transaction.categoryId,
+              'sub_category_id': transaction.subCategoryId,
+              'start_month': transaction.startMonth,
+              'end_month': transaction.endMonth,
             },
-            options: option);
-        if (res.data['status'] == 'error') {
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);
         } else {
           // 成功
           List<Map<String, dynamic>> resultList = [];
-          res.data['categoryTotalList'].forEach((value) {
+          res.data['category_total_list'].forEach((value) {
             Map<String, dynamic> categoryList = {
-              'categoryName': value['categoryName'],
-              'categoryTotalAmount': value['categoryTotalAmount'],
-              'subCategoryList': value['subCategoryList']
+              'category_name': value['category_name'],
+              'category_total_amount': value['category_total_amount'],
+              'sub_category_list': value['sub_category_list']
             };
             resultList.add(categoryList);
           });
-          setTransactionList(res.data['totalSpending'], resultList);
+          setTransactionList(res.data['total_spending'], resultList);
           if (resultList.isEmpty) {
             setSnackBar('データが存在しませんでした');
           }

@@ -13,6 +13,6 @@ class HomeTransaction extends Response {
 
   @override
   String toString() {
-    return 'homeTransaction{balance: $balance, categoryList: $categoryList}';
+    return 'homeTransaction{balance: $balance, category_list: $categoryList}';
   }
 }

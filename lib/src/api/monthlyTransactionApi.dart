@@ -15,31 +15,31 @@ class MonthlyTransactionApi {
       Function setLoading, Function setSnackBar) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/getFixed',
-            data: env.getUserJson(), options: option);
-        if (res.data['status'] == 'error') {
+        Response res = await Api.dio.get('$rootURI/getFixed',
+            options: Options(headers: {'Authorization': 2}));
+        if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);
         } else {
           // 成功
           List<MonthlyTransactionClass> resultList = [];
-          res.data['monthlyTransactionList'].forEach((value) {
+          res.data['monthly_transaction_list'].forEach((value) {
             resultList.add(MonthlyTransactionClass.setFields(
-              value['monthlyTransactionId'].toString(),
-              value['monthlyTransactionName'],
-              value['monthlyTransactionAmount'],
-              value['monthlyTransactionDate'],
-              value['categoryId'],
-              value['subCategoryId'],
-              value['includeFlg'],
-              value['monthlyTransactionSign'],
-              value['categoryName'],
-              value['subCategoryName'],
+              value['monthly_transaction_id'].toString(),
+              value['monthly_transaction_name'],
+              value['monthly_transaction_amount'],
+              value['monthly_transaction_date'],
+              value['category_id'],
+              value['sub_category_id'],
+              value['monthly_transaction_sign'],
+              value['category_name'],
+              value['sub_category_name'],
             ));
           });
           setMonthlyTransactionList(resultList);
           MonthlyTransactionStorage.saveFixed(
-              res.data['monthlyTransactionList'], env.getUserJson().toString());
+              res.data['monthly_transaction_list'],
+              env.getUserJson().toString());
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
@@ -66,7 +66,7 @@ class MonthlyTransactionApi {
         Response res = await Api.dio.post('$rootURI/editOneFixed',
             data: monthlyTransaction.convertEditMonthlyTranJson(),
             options: option);
-        if (res.data['status'] == 'error') {
+        if (res.statusCode != 200) {
           // 失敗
           setDisable();
           setSnackBar(res.data['message']);
@@ -97,7 +97,7 @@ class MonthlyTransactionApi {
         Response res = await Api.dio.post('$rootURI/deleteFixedFromTable',
             data: monthlyTransaction.convertDeleteMonthlyTranJson(),
             options: option);
-        if (res.data['status'] == 'error') {
+        if (res.statusCode != 200) {
           // 失敗
           setDisable();
           setSnackBar(res.data['message']);

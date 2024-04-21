@@ -12,23 +12,22 @@ class MonthlyTransactionStorage {
 
   /// 【収支の自動入力画面】データ
   static Future<List<MonthlyTransactionClass>> getFixed(String param) async {
-    final id = 'monthlyTransactionData$param';
+    final id = 'monthly_transaction_data$param';
     List<MonthlyTransactionClass> resultList = [];
 
-    await db.collection('monthlyTransactionData').doc(id).get().then((value) {
+    await db.collection('monthly_transaction_data').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
           resultList.add(MonthlyTransactionClass.setFields(
-              e['monthlyTransactionId'].toString(),
-              e['monthlyTransactionName'],
-              e['monthlyTransactionAmount'],
-              e['monthlyTransactionDate'],
-              e['categoryId'],
-              e['subCategoryId'],
-              e['includeFlg'],
-              e['monthlyTransactionSign'],
-              e['categoryName'],
-              e['subCategoryName']));
+              e['monthly_transaction_id'].toString(),
+              e['monthly_transaction_name'],
+              e['monthly_transaction_amount'],
+              e['monthly_transaction_date'],
+              e['category_id'],
+              e['sub_category_id'],
+              e['monthly_transaction_sign'],
+              e['category_name'],
+              e['sub_category_name']));
         });
       }
     });
@@ -37,12 +36,12 @@ class MonthlyTransactionStorage {
 
   static void saveFixed(List<dynamic> resultList, String param) async {
     await db
-        .collection('monthlyTransactionData')
-        .doc('monthlyTransactionData$param')
+        .collection('monthly_transaction_data')
+        .doc('monthly_transaction_data$param')
         .set({'data': resultList});
   }
 
   static void deleteFixed() async {
-    await db.collection('monthlyTransactionData').delete();
+    await db.collection('monthly_transaction_data').delete();
   }
 }

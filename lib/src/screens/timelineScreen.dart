@@ -74,6 +74,14 @@ class _TimelineScreenState extends State<TimelineScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Colors.lightBlue, Colors.blue]),
+          ),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -110,29 +118,34 @@ class _TimelineScreenState extends State<TimelineScreen> {
           ],
         ),
       ),
-      body: RefreshIndicator(
-        color: Colors.grey,
-        onRefresh: () async {
-          transactionApi.getTimelineData(
-              env, setLoading, setSnackBar, setTimelineData);
-          transactionApi.getTimelineChart(env, setTimelineChart);
-        },
-        child: ListView(
-          children: [
-            Container(
-              margin: const EdgeInsets.only(top: 40),
-              height: 180,
-              child: TimelineChart(timelineChart),
+      body: Center(
+        child: SizedBox(
+          width: 800,
+          child: RefreshIndicator(
+            color: Colors.grey,
+            onRefresh: () async {
+              transactionApi.getTimelineData(
+                  env, setLoading, setSnackBar, setTimelineData);
+              transactionApi.getTimelineChart(env, setTimelineChart);
+            },
+            child: ListView(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 40),
+                  height: 180,
+                  child: TimelineChart(timelineChart),
+                ),
+                Center(
+                  child: _isLoading
+                      ? CommonLoadingAnimation.build()
+                      : TimelineList(
+                          env: env,
+                          timelineList: timelineList.transactionList,
+                          setReload: setReload),
+                ),
+              ],
             ),
-            Center(
-              child: _isLoading
-                  ? CommonLoadingAnimation.build()
-                  : TimelineList(
-                      env: env,
-                      timelineList: timelineList.transactionList,
-                      setReload: setReload),
-            ),
-          ],
+          ),
         ),
       ),
     );

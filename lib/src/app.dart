@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:money_hooks/src/api/userApi.dart';
+import 'package:money_hooks/src/class/screenLabelClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/screens/analysis.dart';
 import 'package:money_hooks/src/screens/homeScreen.dart';
 import 'package:money_hooks/src/screens/loading.dart';
 import 'package:money_hooks/src/screens/login.dart';
-import 'package:money_hooks/src/screens/saving.dart';
 import 'package:money_hooks/src/screens/settings.dart';
 import 'package:money_hooks/src/screens/timelineScreen.dart';
 
@@ -51,6 +51,11 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   bool isLogin = false;
   bool isLoading = false;
   late envClass env;
+  final ScreenLabel homeLabel = ScreenLabel("ホーム", Icons.home_filled);
+  final ScreenLabel timelineLabel = ScreenLabel("タイムライン", Icons.show_chart);
+  final ScreenLabel analyticsLabel =
+      ScreenLabel("費用分析", Icons.pie_chart_outline);
+  final ScreenLabel settingsLabel = ScreenLabel("設定", Icons.settings);
 
   void setScreenItems() {
     setState(() {
@@ -58,7 +63,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         HomeScreen(isLoading, env),
         TimelineScreen(isLoading, env),
         AnalysisScreen(isLoading, env),
-        SavingScreen(isLoading, env),
         SettingsScreen(isLoading, env),
       ];
       isLogin = true;
@@ -136,8 +140,31 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex],
-      bottomNavigationBar: isLogin
+      body: Row(
+        children: [
+          isLogin && MediaQuery.of(context).size.width > 768
+              ? Drawer(
+                  width: 250,
+                  // backgroundColor: Colors.white,
+                  child: ListView(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 36),
+                    children: [
+                      _sideBarItem(context, homeLabel.icon, homeLabel.label, 0),
+                      _sideBarItem(
+                          context, timelineLabel.icon, timelineLabel.label, 1),
+                      _sideBarItem(context, analyticsLabel.icon,
+                          analyticsLabel.label, 2),
+                      _sideBarItem(
+                          context, settingsLabel.icon, settingsLabel.label, 3),
+                    ],
+                  ),
+                )
+              : const SizedBox(),
+          Expanded(child: _screens[_selectedIndex]),
+        ],
+      ),
+      bottomNavigationBar: isLogin && MediaQuery.of(context).size.width <= 768
           ? BottomNavigationBar(
               unselectedFontSize: 10,
               selectedFontSize: 10,
@@ -149,21 +176,35 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                         _selectedIndex = i;
                       });
                     },
-              items: const <BottomNavigationBarItem>[
+              items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.home_filled), label: "ホーム"),
+                    icon: Icon(homeLabel.icon), label: homeLabel.label),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.show_chart), label: "タイムライン"),
+                    icon: Icon(timelineLabel.icon), label: timelineLabel.label),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.pie_chart_outline), label: "費用分析"),
+                    icon: Icon(analyticsLabel.icon),
+                    label: analyticsLabel.label),
                 BottomNavigationBarItem(
-                    icon: Icon(Icons.savings_outlined), label: "貯金"),
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.settings), label: "設定"),
+                    icon: Icon(settingsLabel.icon), label: settingsLabel.label),
               ],
               type: BottomNavigationBarType.fixed,
             )
           : const SizedBox(),
     );
+  }
+
+  Widget _sideBarItem(
+      BuildContext context, IconData icons, String title, int selectedIndex) {
+    return ListTile(
+        leading: Icon(icons, color: Colors.lightBlueAccent),
+        title: Text(
+          title,
+          style: const TextStyle(color: Colors.black54),
+        ),
+        onTap: () {
+          setState(() {
+            _selectedIndex = selectedIndex;
+          });
+        });
   }
 }

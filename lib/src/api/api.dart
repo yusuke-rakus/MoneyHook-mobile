@@ -6,7 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:money_hooks/src/api/userApi.dart';
 
 class Api {
-  static const String rootURI = 'http://localhost:8080';
+  static const String rootURI = 'http://localhost:8080/api';
 
   static Dio dio = Dio(BaseOptions(
       connectTimeout: const Duration(seconds: 30),
