@@ -4,6 +4,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:money_hooks/src/api/userApi.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 class Api {
   static const String rootURI = 'http://localhost:8080/api';
@@ -18,6 +19,10 @@ class Api {
     Options? options = await user?.getIdToken().then((value) async {
       final String? token = value;
       final String? email = user.email;
+
+      if (envClass.enableFirebaseAuth()) {
+        return Options(headers: {'Authorization': token});
+      }
 
       if (email == null || token == null) {
         return null;
@@ -34,8 +39,7 @@ class Api {
           await UserApi.updateToken(userId, hashedToken);
         }
 
-        return Options(
-            headers: {'userId': userId, 'Authorization': hashedToken});
+        return Options(headers: {'Authorization': hashedToken});
       }
     });
     return options;

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
@@ -60,21 +59,7 @@ class _LoginState extends State<Login> {
                     ),
                     const Text('外部アカウントでログインしてください')
                   ])),
-                ),
-                TextButton(
-                    onPressed: () async {
-                      final dio = Dio();
-                      // await dio.get('http://localhost:8080/googleSignIn');
-                      final response = dio.post(
-                          'http://localhost:8080/api/user/googleSignIn',
-                          data: {'userId': "userId", 'token': "hashedToken"});
-                      print(response);
-                      // UserApi.signOut();
-                    },
-                    child: const Text(
-                      'Firebaseログアウト',
-                      style: TextStyle(color: Colors.black54),
-                    ))
+                )
               ],
             ),
             Padding(

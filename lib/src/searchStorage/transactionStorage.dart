@@ -38,16 +38,16 @@ class TransactionStorage {
     await db.collection('timeline_data').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          String transactionId = e['transactionId'].toString();
-          String transactionDate = e['transactionDate'];
-          int transactionSign = e['transactionSign'];
-          String transactionAmount = e['transactionAmount'].toString();
-          String transactionName = e['transactionName'];
-          int categoryId = e['categoryId'];
-          String categoryName = e['categoryName'];
-          int subCategoryId = e['subCategoryId'];
-          String subCategoryName = e['subCategoryName'];
-          bool fixedFlg = e['fixedFlg'];
+          int transactionId = e['transaction_id'];
+          String transactionDate = e['transaction_date'];
+          int transactionSign = e['transaction_sign'];
+          String transactionAmount = e['transaction_amount'].toString();
+          String transactionName = e['transaction_name'];
+          int categoryId = e['category_id'];
+          String categoryName = e['category_name'];
+          int subCategoryId = e['sub_category_id'];
+          String subCategoryName = e['sub_category_name'];
+          bool fixedFlg = e['fixed_flg'];
           resultList.add(TransactionClass.setTimelineFields(
               transactionId,
               transactionDate,
@@ -93,7 +93,7 @@ class TransactionStorage {
       if (value != null) {
         value['data'].forEach((e) {
           resultList.add(TransactionClass.setTimelineChart(
-              e['transactionDate'], e['transactionAmount']));
+              e['transaction_date'], e['transaction_amount']));
         });
       }
     });

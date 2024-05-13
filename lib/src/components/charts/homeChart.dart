@@ -16,22 +16,27 @@ class _HomeChartState extends State<HomeChart> {
 
   @override
   Widget build(BuildContext context) {
-    return PieChart(PieChartData(
-        sections: _createHomeChart(widget.data, widget.colorList, touchedIndex),
-        pieTouchData: PieTouchData(
-          touchCallback: (FlTouchEvent event, pieTouchResponse) {
-            setState(() {
-              if (!event.isInterestedForInteractions ||
-                  pieTouchResponse == null ||
-                  pieTouchResponse.touchedSection == null) {
-                touchedIndex = -1;
-                return;
-              }
-              touchedIndex =
-                  pieTouchResponse.touchedSection!.touchedSectionIndex;
-            });
-          },
-        )));
+    if (widget.data.isNotEmpty) {
+      return PieChart(PieChartData(
+          sections:
+              _createHomeChart(widget.data, widget.colorList, touchedIndex),
+          pieTouchData: PieTouchData(
+            touchCallback: (FlTouchEvent event, pieTouchResponse) {
+              setState(() {
+                if (!event.isInterestedForInteractions ||
+                    pieTouchResponse == null ||
+                    pieTouchResponse.touchedSection == null) {
+                  touchedIndex = -1;
+                  return;
+                }
+                touchedIndex =
+                    pieTouchResponse.touchedSection!.touchedSectionIndex;
+              });
+            },
+          )));
+    } else {
+      return const SizedBox();
+    }
   }
 }
 

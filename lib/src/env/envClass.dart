@@ -65,6 +65,10 @@ class envClass {
         DateTime.now().year, DateTime.now().month, DateTime.now().day));
   }
 
+  static bool enableFirebaseAuth() {
+    return true;
+  }
+
   @override
   String toString() {
     return 'envClass{thisMonth: $thisMonth, userId: $userId}';

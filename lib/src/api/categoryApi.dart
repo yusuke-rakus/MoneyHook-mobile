@@ -13,8 +13,8 @@ class CategoryApi {
   static Future<void> getCategoryList(Function setCategoryList) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.get('$rootURI/category/getCategoryList',
-            options: Options(headers: {'Authorization': 2}));
+        Response res = await Api.dio
+            .get('$rootURI/category/getCategoryList', options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -40,7 +40,7 @@ class CategoryApi {
       try {
         Response res = await Api.dio.get(
             '$rootURI/subCategory/getSubCategoryList/$categoryId',
-            options: Options(headers: {'Authorization': 2}));
+            options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -68,7 +68,7 @@ class CategoryApi {
         Response res = await Api.dio.get(
             '$rootURI/category/getCategoryWithSubCategoryList',
             queryParameters: env.getJson(),
-            options: Options(headers: {'Authorization': 2}));
+            options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -100,14 +100,13 @@ class CategoryApi {
       envClass env, SubCategoryClass subCategory, int categoryId) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res =
-            await Api.dio.post('$rootURI/subCategory/editSubCategory',
-                data: {
-                  'userId': env.userId,
-                  'subCategoryId': subCategory.subCategoryId,
-                  'enable': subCategory.enable
-                },
-                options: option);
+        Response res = await Api.dio.post(
+            '$rootURI/subCategory/editSubCategory',
+            data: {
+              'sub_category_id': subCategory.subCategoryId,
+              'is_enable': subCategory.enable
+            },
+            options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {

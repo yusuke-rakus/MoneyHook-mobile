@@ -15,8 +15,7 @@ class MonthlyTransactionApi {
       Function setLoading, Function setSnackBar) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.get('$rootURI/getFixed',
-            options: Options(headers: {'Authorization': 2}));
+        Response res = await Api.dio.get('$rootURI/getFixed', options: option);
         if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);

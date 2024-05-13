@@ -18,8 +18,7 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getHome',
-            queryParameters: env.getJson(),
-            options: Options(headers: {'Authorization': 2}));
+            queryParameters: env.getJson(), options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -43,15 +42,14 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getTimelineData',
-            queryParameters: env.getJson(),
-            options: Options(headers: {'Authorization': 2}));
+            queryParameters: env.getJson(), options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
           // 成功
           List<TransactionClass> resultList = [];
           res.data['transaction_list'].forEach((value) {
-            String transactionId = value['transaction_id'].toString();
+            int transactionId = value['transaction_id'];
             String transactionDate = value['transaction_date'];
             int transactionSign = value['transaction_sign'];
             String transactionAmount = value['transaction_amount'].toString();
@@ -90,8 +88,7 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getMonthlySpendingData',
-            queryParameters: env.getJson(),
-            options: Options(headers: {'Authorization': 2}));
+            queryParameters: env.getJson(), options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -117,8 +114,7 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getMonthlyVariableData',
-            queryParameters: env.getJson(),
-            options: Options(headers: {'Authorization': 2}));
+            queryParameters: env.getJson(), options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -151,8 +147,7 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getMonthlyFixedIncome',
-            queryParameters: env.getJson(),
-            options: Options(headers: {'Authorization': 2}));
+            queryParameters: env.getJson(), options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -175,8 +170,7 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getMonthlyFixedSpending',
-            queryParameters: env.getJson(),
-            options: Options(headers: {'Authorization': 2}));
+            queryParameters: env.getJson(), options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -209,7 +203,8 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/addTransaction',
-            data: transaction.getTransactionJson(), options: option);
+            data: {'transaction': transaction.getTransactionJson()},
+            options: option);
         if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);
@@ -246,8 +241,9 @@ class transactionApi {
 
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.post('$rootURI/editTransaction',
-            data: transaction.getTransactionJson(), options: option);
+        Response res = await Api.dio.patch('$rootURI/editTransaction',
+            data: {'transaction': transaction.getTransactionJson()},
+            options: option);
         if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);
@@ -280,11 +276,8 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         setDisable();
-        Response res = await Api.dio.post('$rootURI/deleteTransaction',
-            data: {
-              'userId': env.userId,
-              'transaction_id': transaction.transactionId
-            },
+        Response res = await Api.dio.delete(
+            '$rootURI/deleteTransaction/${transaction.transactionId}',
             options: option);
         if (res.statusCode != 200) {
           // 失敗
@@ -308,8 +301,8 @@ class transactionApi {
       envClass env, Function setRecommendList) async {
     await Api.getHeader().then((option) async {
       try {
-        Response res = await Api.dio.get('$rootURI/getFrequentTransactionName',
-            options: Options(headers: {'Authorization': 2}));
+        Response res = await Api.dio
+            .get('$rootURI/getFrequentTransactionName', options: option);
         if (res.statusCode != 200) {
           // 失敗
         } else {
@@ -347,14 +340,14 @@ class transactionApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getTotalSpending',
-            data: {
+            queryParameters: {
               'user_id': env.userId,
               'category_id': transaction.categoryId,
               'sub_category_id': transaction.subCategoryId,
               'start_month': transaction.startMonth,
               'end_month': transaction.endMonth,
             },
-            options: Options(headers: {'Authorization': 2}));
+            options: option);
         if (res.statusCode != 200) {
           // 失敗
           setSnackBar(res.data['message']);

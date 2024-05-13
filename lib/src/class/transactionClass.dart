@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class TransactionClass {
   var userId = '';
-  var transactionId = '';
+  int? transactionId;
   var transactionDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var transactionSign = -1;
   num transactionAmount = 0;
@@ -77,7 +77,7 @@ class TransactionClass {
   }
 
   bool hasTransactionId() {
-    return transactionId.isNotEmpty ? true : false;
+    return transactionId != null;
   }
 
   bool isDisabled() {
@@ -94,17 +94,16 @@ class TransactionClass {
 
   Map<String, dynamic> getTransactionJson() {
     return {
-      'userId': userId,
-      'transactionId': transactionId,
-      'transactionDate': transactionDate,
-      'transactionSign': transactionSign,
-      'transactionAmount': transactionAmount,
-      'transactionName': transactionName,
-      'categoryId': categoryId,
-      'categoryName': categoryName,
-      'subCategoryId': subCategoryId,
-      'subCategoryName': subCategoryName,
-      'fixedFlg': fixedFlg
+      'transaction_id': transactionId,
+      'transaction_date': transactionDate,
+      'transaction_sign': transactionSign,
+      'transaction_amount': transactionAmount,
+      'transaction_name': transactionName,
+      'category_id': categoryId,
+      'category_name': categoryName,
+      'sub_category_id': subCategoryId,
+      'sub_category_name': subCategoryName,
+      'fixed_flg': fixedFlg
     };
   }
 
