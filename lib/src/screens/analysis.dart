@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/view/fixedAnalysisView.dart';
 import 'package:money_hooks/src/view/variableAnalysisView.dart';
 
@@ -17,21 +18,14 @@ class AnalysisScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[Colors.lightBlue, Colors.blue]),
-            ),
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                TabBar(tabs: [Tab(text: '月別変動費'), Tab(text: '月別固定費')]),
-              ],
-            ),
+            flexibleSpace: GradientBar(
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              TabBar(tabs: [Tab(text: '月別変動費'), Tab(text: '月別固定費')])
+            ],
           ),
-        ),
+        )),
         body: Center(
           child: SizedBox(
             width: 800,

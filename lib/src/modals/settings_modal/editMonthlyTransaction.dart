@@ -9,6 +9,7 @@ import 'package:switcher/switcher.dart';
 import '../../class/monthlyTransactionClass.dart';
 import '../../components/commonLoadingDialog.dart';
 import '../../components/deleteConfirmDialog.dart';
+import '../../components/gradientButton.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
   const EditMonthlyTransaction(
@@ -60,8 +61,15 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
       MonthlyTransactionClass monthlyTransaction, envClass env) {
     commonLoadingDialog(context: context);
     monthlyTransaction.userId = env.userId;
-    MonthlyTransactionApi.editTransaction(
-        monthlyTransaction, backNavigation, widget.setSnackBar, setDisable);
+    if (monthlyTransaction.hasMonthlyTransactionId()) {
+      // 月次取引の編集
+      MonthlyTransactionApi.editTransaction(
+          monthlyTransaction, backNavigation, widget.setSnackBar, setDisable);
+    } else {
+      // 月次取引の追加
+      MonthlyTransactionApi.addTransaction(
+          monthlyTransaction, backNavigation, widget.setSnackBar, setDisable);
+    }
   }
 
   // 削除処理
@@ -323,7 +331,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                       color: Colors.white,
                       height: 60,
                       width: double.infinity,
-                      child: ElevatedButton(
+                      child: GradientButton(
                         onPressed: monthlyTransaction.isDisabled()
                             ? null
                             : () {
@@ -331,10 +339,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                   _editTransaction(monthlyTransaction, env);
                                 });
                               },
-                        style: ElevatedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)))),
+                        borderRadius: 25,
                         child: const Text(
                           '登録',
                           style: TextStyle(fontSize: 23, letterSpacing: 20),

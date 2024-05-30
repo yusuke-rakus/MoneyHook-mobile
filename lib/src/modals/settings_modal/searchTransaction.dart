@@ -7,6 +7,8 @@ import 'package:money_hooks/src/class/response/searchTransactionData.dart';
 import '../../class/transactionClass.dart';
 import '../../components/commonLoadingDialog.dart';
 import '../../components/commonSnackBar.dart';
+import '../../components/gradientBar.dart';
+import '../../components/gradientButton.dart';
 import '../../env/envClass.dart';
 import '../selectCategoryForSearch.dart';
 
@@ -77,6 +79,7 @@ class _SearchTransaction extends State<SearchTransaction> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          flexibleSpace: GradientBar(),
           title: (const Text('設定')),
         ),
         body: Theme(
@@ -193,7 +196,7 @@ class _SearchTransaction extends State<SearchTransaction> {
                                 color: Colors.white,
                                 height: 60,
                                 width: double.infinity,
-                                child: ElevatedButton(
+                                child: GradientButton(
                                     onPressed: () {
                                       searchTransaction();
                                     },

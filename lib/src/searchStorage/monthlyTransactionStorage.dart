@@ -19,7 +19,7 @@ class MonthlyTransactionStorage {
       if (value != null) {
         value['data'].forEach((e) {
           resultList.add(MonthlyTransactionClass.setFields(
-              e['monthly_transaction_id'].toString(),
+              e['monthly_transaction_id'],
               e['monthly_transaction_name'],
               e['monthly_transaction_amount'],
               e['monthly_transaction_date'],

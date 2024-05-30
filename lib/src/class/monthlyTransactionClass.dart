@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class MonthlyTransactionClass {
   var userId = '';
-  var monthlyTransactionId = '';
+  num? monthlyTransactionId;
   var monthlyTransactionName = '';
   num monthlyTransactionSign = -1;
   num monthlyTransactionAmount = 0;
@@ -40,7 +40,7 @@ class MonthlyTransactionClass {
   }
 
   bool hasMonthlyTransactionId() {
-    return monthlyTransactionId.isNotEmpty ? true : false;
+    return monthlyTransactionId != null ? true : false;
   }
 
   bool isDisabled() {
@@ -52,22 +52,17 @@ class MonthlyTransactionClass {
 
   Map<String, dynamic> convertEditMonthlyTranJson() {
     return {
-      'userId': userId,
-      'monthlyTransaction': {
-        'monthlyTransactionId': monthlyTransactionId,
-        'monthlyTransactionName': monthlyTransactionName,
-        'monthlyTransactionAmount': monthlyTransactionAmount,
-        'monthlyTransactionSign': monthlyTransactionSign,
-        'monthlyTransactionDate': monthlyTransactionDate,
-        'categoryId': categoryId,
-        'subCategoryId': subCategoryId,
-        'subCategoryName': subCategoryName,
-        'includeFlg': includeFlg
+      'monthly_transaction': {
+        'monthly_transaction_id': monthlyTransactionId,
+        'monthly_transaction_name': monthlyTransactionName,
+        'monthly_transaction_amount': monthlyTransactionAmount,
+        'monthly_transaction_sign': monthlyTransactionSign,
+        'monthly_transaction_date': monthlyTransactionDate,
+        'category_id': categoryId,
+        'sub_category_id': subCategoryId,
+        'sub_category_name': subCategoryName,
+        'include_flg': includeFlg
       }
     };
-  }
-
-  Map<String, dynamic> convertDeleteMonthlyTranJson() {
-    return {'userId': userId, 'monthlyTransactionId': monthlyTransactionId};
   }
 }

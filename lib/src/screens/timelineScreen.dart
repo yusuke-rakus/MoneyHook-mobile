@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/timelineTransaction.dart';
 import 'package:money_hooks/src/components/charts/timelineChart.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
 
 import '../class/transactionClass.dart';
@@ -74,14 +75,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Colors.lightBlue, Colors.blue]),
-          ),
-        ),
+        flexibleSpace: GradientBar(),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

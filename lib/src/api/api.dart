@@ -3,11 +3,28 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class Api {
-  static const String rootURI = 'http://localhost:8080/api';
+  static late final String rootURI;
+
+  static Future<void> initialize() async {
+    const localUri = String.fromEnvironment("ROOT_URI");
+    if (localUri.isNotEmpty) {
+      rootURI = "${localUri}/api";
+    } else {
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      await remoteConfig.setConfigSettings(RemoteConfigSettings(
+        fetchTimeout: const Duration(minutes: 1),
+        minimumFetchInterval: const Duration(hours: 1),
+      ));
+      remoteConfig.setDefaults(const {"rootURI": "http://localhost:8080"});
+      await remoteConfig.fetchAndActivate();
+      rootURI = "${remoteConfig.getString("rootURI")}/api";
+    }
+  }
 
   static Dio dio = Dio(BaseOptions(
       connectTimeout: const Duration(seconds: 30),

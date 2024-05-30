@@ -8,6 +8,7 @@ import '../class/transactionClass.dart';
 import '../components/charts/homeChart.dart';
 import '../components/commonLoadingAnimation.dart';
 import '../components/commonSnackBar.dart';
+import '../components/gradientBar.dart';
 import '../env/envClass.dart';
 import '../modals/editTransaction.dart';
 
@@ -73,14 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: <Color>[Colors.lightBlue, Colors.blue]),
-          ),
-        ),
+        flexibleSpace: GradientBar(),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

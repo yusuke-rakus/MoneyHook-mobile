@@ -66,7 +66,9 @@ class envClass {
   }
 
   static bool enableFirebaseAuth() {
-    return true;
+    return const String.fromEnvironment("ENABLE_FIREBASE_AUTH").isEmpty
+        ? true
+        : false;
   }
 
   @override

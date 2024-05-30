@@ -13,6 +13,8 @@ import 'package:switcher/switcher.dart';
 import '../class/transactionClass.dart';
 import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
+import '../components/gradientBar.dart';
+import '../components/gradientButton.dart';
 import '../searchStorage/categoryStorage.dart';
 
 class EditTransaction extends StatefulWidget {
@@ -138,14 +140,7 @@ class _EditTransaction extends State<EditTransaction> {
         onTap: focusNode.requestFocus,
         child: Scaffold(
             appBar: AppBar(
-              flexibleSpace: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: <Color>[Colors.lightBlue, Colors.blue]),
-                ),
-              ),
+              flexibleSpace: GradientBar(),
               title: transaction.hasTransactionId()
                   ? const Text('収支の編集')
                   : const Text('収支の入力'),
@@ -424,7 +419,7 @@ class _EditTransaction extends State<EditTransaction> {
                       color: Colors.white,
                       height: 60,
                       width: double.infinity,
-                      child: ElevatedButton(
+                      child: GradientButton(
                         onPressed: transaction.isDisabled()
                             ? null
                             : () {
@@ -432,15 +427,29 @@ class _EditTransaction extends State<EditTransaction> {
                                   _editTransaction(transaction, env);
                                 });
                               },
-                        style: ElevatedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)))),
+                        borderRadius: 25,
                         child: const Text(
                           '登録',
                           style: TextStyle(fontSize: 23, letterSpacing: 20),
                         ),
                       ),
+                      // child: ElevatedButton(
+                      //   onPressed: transaction.isDisabled()
+                      //       ? null
+                      //       : () {
+                      //           setState(() {
+                      //             _editTransaction(transaction, env);
+                      //           });
+                      //         },
+                      //   style: ElevatedButton.styleFrom(
+                      //       shape: const RoundedRectangleBorder(
+                      //           borderRadius:
+                      //               BorderRadius.all(Radius.circular(25)))),
+                      //   child: const Text(
+                      //     '登録',
+                      //     style: TextStyle(fontSize: 23, letterSpacing: 20),
+                      //   ),
+                      // ),
                     )),
               ),
             ])),

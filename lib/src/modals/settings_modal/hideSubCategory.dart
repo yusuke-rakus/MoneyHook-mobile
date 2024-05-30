@@ -8,6 +8,7 @@ import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
 import '../../components/commonSnackBar.dart';
+import '../../components/gradientBar.dart';
 import '../../env/envClass.dart';
 
 class HideSubCategory extends StatefulWidget {
@@ -133,6 +134,7 @@ class _HideSubCategoryState extends State<HideSubCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: GradientBar(),
         title: (const Text('設定')),
         actions: [
           _editMode

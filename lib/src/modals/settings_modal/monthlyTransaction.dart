@@ -6,6 +6,7 @@ import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dar
 
 import '../../class/monthlyTransactionClass.dart';
 import '../../components/commonSnackBar.dart';
+import '../../components/gradientBar.dart';
 import '../../env/envClass.dart';
 
 class MonthlyTransaction extends StatefulWidget {
@@ -59,6 +60,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: GradientBar(),
         title: (const Text('設定')),
       ),
       body: Stack(
@@ -114,7 +116,18 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                       MonthlyTransactionClass(), env, setReload, setSnackBar),
                   fullscreenDialog: true));
         },
-        child: const Icon(Icons.add),
+        child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                begin: FractionalOffset.topLeft,
+                end: FractionalOffset.bottomRight,
+                colors: [Colors.lightBlueAccent, Colors.blueAccent],
+              ),
+            ),
+            child: const Icon(Icons.add)),
       ),
     );
   }

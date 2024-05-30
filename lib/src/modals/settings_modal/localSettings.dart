@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/commonSnackBar.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
@@ -36,6 +37,7 @@ class _LocalSettingsState extends State<LocalSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          flexibleSpace: GradientBar(),
           title: (const Text('設定')),
         ),
         body: ListView(
