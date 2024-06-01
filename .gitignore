@@ -49,6 +49,5 @@ lib/firebase_options.dart
 ios/Runner/Info.plist
 ios/RunnerTests
 .firebaserc
-firebase.json
 hosting.d2Vi.cache
 .firebase
