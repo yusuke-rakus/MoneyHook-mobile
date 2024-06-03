@@ -38,7 +38,7 @@ class _TimelineChartState extends State<TimelineChart> {
               ) {
                 return BarTooltipItem(
                   '¥${TransactionClass.formatNum(rod.toY.toInt())}',
-                  const TextStyle(color: Colors.blueGrey),
+                  const TextStyle(color: Colors.white),
                 );
               },
             ),
