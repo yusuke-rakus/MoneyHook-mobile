@@ -341,7 +341,6 @@ class transactionApi {
       try {
         Response res = await Api.dio.get('$rootURI/getTotalSpending',
             queryParameters: {
-              'user_id': env.userId,
               'category_id': transaction.categoryId,
               'sub_category_id': transaction.subCategoryId,
               'start_month': transaction.startMonth,

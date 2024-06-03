@@ -3,6 +3,7 @@ import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
+import 'package:money_hooks/src/modals/settings_modal/paymentResource.dart';
 
 import '../components/gradientBar.dart';
 import '../env/envClass.dart';
@@ -31,6 +32,8 @@ class SettingsScreen extends StatelessWidget {
                 HideSubCategory(env: env)),
             _menuCard(context, Icons.search_outlined, '収支の検索',
                 SearchTransaction(env: env)),
+            _menuCard(context, Icons.account_balance_wallet_outlined, '支払い元の管理',
+                PaymentResource(env: env)),
             const SizedBox(
               height: 50,
             ),

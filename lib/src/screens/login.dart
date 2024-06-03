@@ -5,6 +5,7 @@ import 'package:money_hooks/src/env/googleSignIn.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 import '../components/commonSnackBar.dart';
+import '../components/gradientBar.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -37,19 +38,23 @@ class _LoginState extends State<Login> {
       },
       child: Scaffold(
         appBar: AppBar(
+          flexibleSpace: GradientBar(),
           title: (const Text('ログイン')),
         ),
-        body: Stack(
-          children: [
-            ListView(
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                Container(
-                  color: Colors.white60,
-                  margin: const EdgeInsets.only(top: 20),
-                  padding: const EdgeInsets.all(20),
-                  child: Center(
-                      child: Column(children: [
+        body: Container(
+          padding: const EdgeInsets.all(20.0),
+          child: Align(
+            alignment: Alignment.center,
+            child: Card(
+              child: Container(
+                constraints: const BoxConstraints(
+                  maxWidth: 500,
+                  maxHeight: 500,
+                ),
+                child: ListView(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
                     SizedBox(
                       height: 70,
                       child: Image.asset(
@@ -57,33 +62,28 @@ class _LoginState extends State<Login> {
                         fit: BoxFit.contain,
                       ),
                     ),
-                    const Text('外部アカウントでログインしてください')
-                  ])),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: 60,
-                  width: double.infinity,
-                  child:
-                      // Googleサインイン
-                      SignInButton(
-                    Buttons.google,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                    text: 'Googleでログイン',
-                    onPressed: () async {
-                      _signInWithGoogle();
-                    },
-                  ),
+                    const Center(child: Text('外部アカウントでログインしてください')),
+                    const SizedBox(
+                      height: 100,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                      height: 60,
+                      child: SignInButton(
+                        Buttons.google,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        text: 'Googleでログイン',
+                        onPressed: () async {
+                          _signInWithGoogle();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            )
-          ],
+            ),
+          ),
         ),
       ),
     );

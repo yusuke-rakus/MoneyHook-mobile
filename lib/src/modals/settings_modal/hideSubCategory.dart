@@ -138,13 +138,19 @@ class _HideSubCategoryState extends State<HideSubCategory> {
         title: (const Text('設定')),
         actions: [
           _editMode
-              ? IconButton(
-                  icon: const Icon(Icons.check),
-                  onPressed: () => changeEditMode(),
+              ? Tooltip(
+                  message: "完了",
+                  child: IconButton(
+                    icon: const Icon(Icons.check),
+                    onPressed: () => changeEditMode(),
+                  ),
                 )
-              : IconButton(
-                  icon: const Icon(Icons.create),
-                  onPressed: () => changeEditMode(),
+              : Tooltip(
+                  message: "初期表示のカテゴリを選択",
+                  child: IconButton(
+                    icon: const Icon(Icons.create),
+                    onPressed: () => changeEditMode(),
+                  ),
                 )
         ],
       ),
@@ -221,13 +227,16 @@ class _HideSubCategoryState extends State<HideSubCategory> {
                                         ],
                                       ),
                                       // スイッチボタン
-                                      trailing: CupertinoSwitch(
-                                          activeColor: Colors.blue,
-                                          value: subCategory.value.enable,
-                                          onChanged: (activeState) {
-                                            _changeEnable(activeState, index,
-                                                subCategory.key);
-                                          }),
+                                      trailing: Tooltip(
+                                        message: "表示・非表示",
+                                        child: CupertinoSwitch(
+                                            activeColor: Colors.blue,
+                                            value: subCategory.value.enable,
+                                            onChanged: (activeState) {
+                                              _changeEnable(activeState, index,
+                                                  subCategory.key);
+                                            }),
+                                      ),
                                     ))
                                 .toList(),
                           ),

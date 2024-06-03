@@ -150,29 +150,32 @@ class _EditTransaction extends State<EditTransaction> {
                   visible: transaction.hasTransactionId(),
                   child: Align(
                     alignment: Alignment.topRight,
-                    child: IconButton(
-                        onPressed: transaction.isDisabled()
-                            ? null
-                            : () {
-                                showDialog<String>(
-                                    context: context,
-                                    builder: (BuildContext context) =>
-                                        deleteConfirmDialog(
-                                            context: context,
-                                            title: '取引を削除しますか',
-                                            leftText: 'キャンセル',
-                                            rightText: '削除',
-                                            isDestructiveAction: true,
-                                            function: () {
-                                              // 削除処理
-                                              Navigator.pop(context);
-                                              _deleteTransaction(
-                                                  env, transaction);
-                                            }));
-                              },
-                        icon: const Icon(
-                          Icons.delete_outline,
-                        )),
+                    child: Tooltip(
+                      message: "削除",
+                      child: IconButton(
+                          onPressed: transaction.isDisabled()
+                              ? null
+                              : () {
+                                  showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          deleteConfirmDialog(
+                                              context: context,
+                                              title: '取引を削除しますか',
+                                              leftText: 'キャンセル',
+                                              rightText: '削除',
+                                              isDestructiveAction: true,
+                                              function: () {
+                                                // 削除処理
+                                                Navigator.pop(context);
+                                                _deleteTransaction(
+                                                    env, transaction);
+                                              }));
+                                },
+                          icon: const Icon(
+                            Icons.delete_outline,
+                          )),
+                    ),
                   ),
                 ),
               ],

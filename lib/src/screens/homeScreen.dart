@@ -148,30 +148,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _isLoading
-            ? null
-            : () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          EditTransaction(TransactionClass(), env, setReload),
-                      fullscreenDialog: true),
-                );
-              },
-        child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: FractionalOffset.topLeft,
-                end: FractionalOffset.bottomRight,
-                colors: [Colors.lightBlueAccent, Colors.blueAccent],
+      floatingActionButton: Tooltip(
+        message: "収支を追加",
+        child: FloatingActionButton(
+          onPressed: _isLoading
+              ? null
+              : () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            EditTransaction(TransactionClass(), env, setReload),
+                        fullscreenDialog: true),
+                  );
+                },
+          child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topLeft,
+                  end: FractionalOffset.bottomRight,
+                  colors: [Colors.lightBlueAccent, Colors.blueAccent],
+                ),
               ),
-            ),
-            child: const Icon(Icons.add)),
+              child: const Icon(Icons.add)),
+        ),
       ),
     );
   }

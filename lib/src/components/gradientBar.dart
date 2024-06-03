@@ -14,7 +14,7 @@ class GradientBar extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: <Color>[
               Colors.lightBlue,
-              Colors.blue,
+              Colors.blueAccent,
             ]),
       ),
       child: child,

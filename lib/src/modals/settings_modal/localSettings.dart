@@ -4,6 +4,7 @@ import 'package:money_hooks/src/components/commonSnackBar.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
+import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 class LocalSettings extends StatefulWidget {
@@ -67,6 +68,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                           TransactionStorage.allDelete();
                           MonthlyTransactionStorage.allDelete();
                           CategoryStorage.allDelete();
+                          PaymentResourceStorage.allDelete();
                         }).then((value) => CommonSnackBar.build(
                             context: context, text: '削除完了'));
                       },
