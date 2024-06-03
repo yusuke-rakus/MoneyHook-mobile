@@ -78,26 +78,32 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-                onPressed: () {
-                  env.subtractMonth();
-                  TransactionLoad.getHome(
-                      env, setLoading, setSnackBar, setHomeTransaction);
-                },
-                icon: const Icon(Icons.arrow_back_ios)),
+            Tooltip(
+              message: "前の月",
+              child: IconButton(
+                  onPressed: () {
+                    env.subtractMonth();
+                    TransactionLoad.getHome(
+                        env, setLoading, setSnackBar, setHomeTransaction);
+                  },
+                  icon: const Icon(Icons.arrow_back_ios)),
+            ),
             Text('${env.getMonth()}月'),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    // 翌月が未来でなければデータ取得
-                    if (env.isNotCurrentMonth()) {
-                      env.addMonth();
-                      TransactionLoad.getHome(
-                          env, setLoading, setSnackBar, setHomeTransaction);
-                    }
-                  });
-                },
-                icon: const Icon(Icons.arrow_forward_ios)),
+            Tooltip(
+              message: "次の月",
+              child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      // 翌月が未来でなければデータ取得
+                      if (env.isNotCurrentMonth()) {
+                        env.addMonth();
+                        TransactionLoad.getHome(
+                            env, setLoading, setSnackBar, setHomeTransaction);
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_forward_ios)),
+            ),
           ],
         ),
       ),

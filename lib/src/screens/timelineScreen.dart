@@ -79,36 +79,42 @@ class _TimelineScreenState extends State<TimelineScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    env.subtractMonth();
-                    Future(() async {
-                      await TransactionLoad.getTimelineData(
-                          env, setLoading, setSnackBar, setTimelineData);
-                      await TransactionLoad.getTimelineChart(
-                          env, setTimelineChart);
-                    });
-                  });
-                },
-                icon: const Icon(Icons.arrow_back_ios)),
-            Text('${env.getMonth()}月'),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    // 翌月が未来でなければデータ取得
-                    if (env.isNotCurrentMonth()) {
-                      env.addMonth();
+            Tooltip(
+              message: "前の月",
+              child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      env.subtractMonth();
                       Future(() async {
                         await TransactionLoad.getTimelineData(
                             env, setLoading, setSnackBar, setTimelineData);
                         await TransactionLoad.getTimelineChart(
                             env, setTimelineChart);
                       });
-                    }
-                  });
-                },
-                icon: const Icon(Icons.arrow_forward_ios)),
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_back_ios)),
+            ),
+            Text('${env.getMonth()}月'),
+            Tooltip(
+              message: "次の月",
+              child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      // 翌月が未来でなければデータ取得
+                      if (env.isNotCurrentMonth()) {
+                        env.addMonth();
+                        Future(() async {
+                          await TransactionLoad.getTimelineData(
+                              env, setLoading, setSnackBar, setTimelineData);
+                          await TransactionLoad.getTimelineChart(
+                              env, setTimelineChart);
+                        });
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_forward_ios)),
+            ),
           ],
         ),
       ),
@@ -137,6 +143,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
                           timelineList: timelineList.transactionList,
                           setReload: setReload),
                 ),
+                const SizedBox(
+                  height: 100,
+                )
               ],
             ),
           ),
