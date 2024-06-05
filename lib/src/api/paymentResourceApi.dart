@@ -21,8 +21,10 @@ class PaymentResourceApi {
         } else {
           // 成功
           setPaymentResourceList(res.data['payment_list']);
-          PaymentResourceStorage.savePaymentResourceList(
-              res.data['payment_list'], env.getUserJson().toString());
+          if (res.data['payment_list'] != null) {
+            PaymentResourceStorage.savePaymentResourceList(
+                res.data['payment_list'], env.getUserJson().toString());
+          }
         }
       } on DioException catch (e) {
         Api.errorMessage(e);
@@ -49,15 +51,42 @@ class PaymentResourceApi {
           setSnackBar("追加が完了しました");
         }
       } on DioException catch (e) {
-        print(e);
+        setSnackBar(Api.errorMessage(e));
+      }
+    });
+  }
+
+  /// 支払い方法の編集
+  static Future<void> editPaymentResource(PaymentResourceData data,
+      Function reloadList, Function setSnackBar) async {
+    if (PaymentResourceValidation.checkPaymentResource(data)) {
+      return;
+    }
+    await Api.getHeader().then((option) async {
+      try {
+        Response res = await Api.dio.patch('$rootURI/payment/editPayment',
+            data: {
+              'payment_id': data.paymentId,
+              'payment_name': data.paymentName
+            },
+            options: option);
+        if (res.statusCode != 200) {
+          // 失敗
+          setSnackBar("エラーが発生しました");
+        } else {
+          // 成功
+          reloadList();
+          setSnackBar("追加が完了しました");
+        }
+      } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
       }
     });
   }
 
   /// 支払い方法の削除
-  static Future<void> deletePaymentResource(PaymentResourceData data,
-      Function reloadList, Function setSnackBar) async {
+  static Future<void> deletePaymentResource(
+      PaymentResourceData data, Function setSnackBar) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.delete(
@@ -68,11 +97,10 @@ class PaymentResourceApi {
           setSnackBar("エラーが発生しました");
         } else {
           // 成功
-          reloadList();
           setSnackBar("削除が完了しました");
         }
       } on DioException catch (e) {
-        Api.errorMessage(e);
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }

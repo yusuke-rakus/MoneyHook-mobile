@@ -10,11 +10,13 @@ import 'package:money_hooks/src/modals/selectCategory.dart';
 import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
 
+import '../class/response/paymentResource.dart';
 import '../class/transactionClass.dart';
 import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
 import '../components/gradientBar.dart';
 import '../components/gradientButton.dart';
+import '../dataLoader/paymentResource.dart';
 import '../searchStorage/categoryStorage.dart';
 
 class EditTransaction extends StatefulWidget {
@@ -33,6 +35,7 @@ class _EditTransaction extends State<EditTransaction> {
   late TransactionClass transaction;
   late envClass env;
   late List<TransactionClass> recommendList = [];
+  late List<PaymentResourceData> paymentResourceList = [];
 
   final TextEditingController nameController = TextEditingController();
 
@@ -51,6 +54,7 @@ class _EditTransaction extends State<EditTransaction> {
       TransactionLoad.getFrequentTransactionName(env, setRecommendList);
       _setDefaultCategory(transaction);
     }
+    PaymentResourceLoad.getPaymentResource(env, setPaymentResourceList);
   }
 
   void _setDefaultCategory(TransactionClass transaction) {
@@ -68,6 +72,19 @@ class _EditTransaction extends State<EditTransaction> {
   void setRecommendList(List<TransactionClass> resultList) {
     setState(() {
       recommendList = resultList;
+    });
+  }
+
+  // 支払い方法
+  void setPaymentResourceList(dynamic resultList) {
+    setState(() {
+      if (resultList != null) {
+        paymentResourceList.add(PaymentResourceData());
+        resultList.forEach((value) {
+          paymentResourceList.add(PaymentResourceData.init(
+              value['payment_id'], value['payment_name']));
+        });
+      }
     });
   }
 
@@ -344,54 +361,51 @@ class _EditTransaction extends State<EditTransaction> {
                   ),
                   // カテゴリ
                   Container(
-                    margin:
-                        const EdgeInsetsDirectional.fromSTEB(40, 30, 40, 30),
-                    child: InkWell(
-                      onTap: () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SelectCategory(env),
-                          ),
-                        );
-                        if (result == null) return;
-                        setState(() {
-                          transaction.categoryName = result['categoryName'];
-                          transaction.categoryId = result['categoryId'];
-                          transaction.subCategoryName =
-                              result['subCategoryName'];
-                          transaction.subCategoryId = result['subCategoryId'];
-                        });
-                      },
-                      child: SizedBox(
-                        height: 70,
-                        child: InputDecorator(
-                          decoration: const InputDecoration(
-                            labelText: 'カテゴリ',
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  '${transaction.categoryName} / ${transaction.subCategoryName}',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 20),
-                                ),
+                      margin:
+                          const EdgeInsetsDirectional.fromSTEB(40, 30, 40, 30),
+                      child: InkWell(
+                          onTap: () async {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SelectCategory(env),
                               ),
-                              const Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.keyboard_arrow_right,
-                                  size: 30,
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                            );
+                            if (result == null) return;
+                            setState(() {
+                              transaction.categoryName = result['categoryName'];
+                              transaction.categoryId = result['categoryId'];
+                              transaction.subCategoryName =
+                                  result['subCategoryName'];
+                              transaction.subCategoryId =
+                                  result['subCategoryId'];
+                            });
+                          },
+                          child: SizedBox(
+                              height: 70,
+                              child: InputDecorator(
+                                  decoration: const InputDecoration(
+                                    labelText: 'カテゴリ',
+                                  ),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            '${transaction.categoryName} / ${transaction.subCategoryName}',
+                                            overflow: TextOverflow.ellipsis,
+                                            style:
+                                                const TextStyle(fontSize: 20),
+                                          ),
+                                        ),
+                                        const Align(
+                                            alignment: Alignment.centerRight,
+                                            child: Icon(
+                                              Icons.keyboard_arrow_right,
+                                              size: 30,
+                                            ))
+                                      ]))))),
                   // 固定費フラグ
                   Container(
                     alignment: Alignment.center,
@@ -408,6 +422,46 @@ class _EditTransaction extends State<EditTransaction> {
                       },
                     ),
                   ),
+                  // 支払い元選択
+                  paymentResourceList.isNotEmpty
+                      ? Container(
+                          margin: const EdgeInsetsDirectional.only(
+                              start: 50.0, end: 50.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text(
+                                "支払い元を選択",
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              const Expanded(child: SizedBox()),
+                              DropdownButton(
+                                items: paymentResourceList
+                                    .map((resource) => DropdownMenuItem(
+                                          value: resource.paymentId,
+                                          child: Text(resource.paymentName),
+                                        ))
+                                    .toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    PaymentResourceData selectedPayment =
+                                        paymentResourceList
+                                            .where((resource) =>
+                                                resource.paymentId == value)
+                                            .toList()
+                                            .first;
+                                    transaction.paymentId =
+                                        selectedPayment.paymentId;
+                                    transaction.paymentName =
+                                        selectedPayment.paymentName;
+                                  });
+                                },
+                                value: transaction.paymentId,
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                   const SizedBox(
                     height: 100,
                   )
@@ -415,46 +469,27 @@ class _EditTransaction extends State<EditTransaction> {
               ),
               // 登録
               Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      color: Colors.white,
-                      height: 60,
-                      width: double.infinity,
-                      child: GradientButton(
-                        onPressed: transaction.isDisabled()
-                            ? null
-                            : () {
-                                setState(() {
-                                  _editTransaction(transaction, env);
-                                });
-                              },
-                        borderRadius: 25,
-                        child: const Text(
-                          '登録',
-                          style: TextStyle(fontSize: 23, letterSpacing: 20),
-                        ),
-                      ),
-                      // child: ElevatedButton(
-                      //   onPressed: transaction.isDisabled()
-                      //       ? null
-                      //       : () {
-                      //           setState(() {
-                      //             _editTransaction(transaction, env);
-                      //           });
-                      //         },
-                      //   style: ElevatedButton.styleFrom(
-                      //       shape: const RoundedRectangleBorder(
-                      //           borderRadius:
-                      //               BorderRadius.all(Radius.circular(25)))),
-                      //   child: const Text(
-                      //     '登録',
-                      //     style: TextStyle(fontSize: 23, letterSpacing: 20),
-                      //   ),
-                      // ),
-                    )),
-              ),
+                  padding: const EdgeInsets.all(10.0),
+                  child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                          color: Colors.white,
+                          height: 60,
+                          width: double.infinity,
+                          child: GradientButton(
+                              onPressed: transaction.isDisabled()
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        _editTransaction(transaction, env);
+                                      });
+                                    },
+                              borderRadius: 25,
+                              child: const Text(
+                                '登録',
+                                style:
+                                    TextStyle(fontSize: 23, letterSpacing: 20),
+                              )))))
             ])),
       ),
     );

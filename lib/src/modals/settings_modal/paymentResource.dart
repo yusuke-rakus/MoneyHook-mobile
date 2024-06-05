@@ -5,6 +5,7 @@ import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 
 import '../../components/commonLoadingDialog.dart';
 import '../../components/commonSnackBar.dart';
+import '../../components/dataNotRegisteredBox.dart';
 import '../../components/gradientBar.dart';
 import '../../dataLoader/paymentResource.dart';
 import '../../env/envClass.dart';
@@ -30,7 +31,7 @@ class _SearchTransaction extends State<PaymentResource> {
     });
   }
 
-  void cancelEditMode() {
+  void cancelEditMode(PaymentResourceData data) {
     setState(() {
       for (var value in resultData) {
         value.editMode = false;
@@ -54,55 +55,56 @@ class _SearchTransaction extends State<PaymentResource> {
   void setPaymentResourceList(dynamic resultList) {
     setState(() {
       resultData = [];
-      resultList.forEach((value) {
-        resultData.add(PaymentResourceData.init(
-            value['payment_id'], value['payment_name']));
-      });
-    });
-  }
-
-  void reloadList() async {
-    await PaymentResourceStorage.deletePaymentResourceList();
-    await PaymentResourceApi.getPaymentResourceList(
-        env, setPaymentResourceList);
-  }
-
-  void sendPaymentData(PaymentResourceData data) {
-    commonLoadingDialog(context: context);
-    setState(() {
-      if (data.paymentId != null) {
-        // TODO 編集処理
-        print("編集 - '${data.paymentId}', '${data.paymentName}'");
-        Navigator.pop(context);
-      } else {
-        // 追加処理
-        PaymentResourceApi.addPaymentResource(data, reloadList, setSnackBar)
-            .then((value) {
-          Navigator.pop(context);
-          newData.paymentName = "";
-          if (data.PaymentNameError == "") {
-            // 処理成功
-            data.editMode = false;
-          }
+      if (resultList != null) {
+        resultList.forEach((value) {
+          resultData.add(PaymentResourceData.init(
+              value['payment_id'], value['payment_name']));
         });
       }
     });
   }
 
-  void deletePayment(PaymentResourceData data) {
-    if (data.paymentId == null) {
-      setState(() {
+  Future<void> reloadList() async {
+    await PaymentResourceStorage.deletePaymentResourceList();
+    await PaymentResourceApi.getPaymentResourceList(
+        env, setPaymentResourceList);
+  }
+
+  Future<void> sendPaymentData(PaymentResourceData data) async {
+    commonLoadingDialog(context: context);
+    if (data.paymentId != null) {
+      // 編集処理
+      //   await PaymentResourceApi.editPaymentResource(
+      //           data, reloadList, setSnackBar)
+      //       .then((value) {
+      //     setSnackBar("Hoops!編集処理はまだ実装されていません");
+      //   });
+      setSnackBar("Hoops!編集処理はまだ実装されていません");
+      Navigator.pop(context);
+    } else {
+      // 追加処理
+      await PaymentResourceApi.addPaymentResource(data, reloadList, setSnackBar)
+          .then((value) {
         newData.paymentName = "";
-        resultData.removeLast();
+        if (data.paymentNameError == "") {
+          // 処理成功
+          data.editMode = false;
+        }
+        Navigator.pop(context);
       });
+    }
+  }
+
+  Future<void> deletePayment(PaymentResourceData data) async {
+    if (data.paymentId == null) {
+      newData.paymentName = "";
+      resultData.removeLast();
       return;
     }
     commonLoadingDialog(context: context);
     // 削除処理
-    PaymentResourceApi.deletePaymentResource(data, reloadList, setSnackBar)
-        .then((value) {
-      Navigator.pop(context);
-    });
+    await PaymentResourceApi.deletePaymentResource(data, setSnackBar);
+    await reloadList().then((value) => Navigator.pop(context));
   }
 
   @override
@@ -122,13 +124,15 @@ class _SearchTransaction extends State<PaymentResource> {
         ),
         body: ListView(
           children: [
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: resultData.length,
-              itemBuilder: (BuildContext context, int index) {
-                return _card(resultData[index]);
-              },
-            ),
+            resultData.isNotEmpty
+                ? ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: resultData.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _card(resultData[index]);
+                    },
+                  )
+                : const dataNotRegisteredBox(message: '支払い方法が存在しません'),
             Center(
               heightFactor: 2,
               child: Tooltip(
@@ -137,7 +141,8 @@ class _SearchTransaction extends State<PaymentResource> {
                     // 新規追加ボタン
                     onPressed: () {
                       setState(() {
-                        if (resultData.last.paymentId != null) {
+                        if (resultData.isEmpty ||
+                            resultData.last.paymentId != null) {
                           newData.editMode = true;
                           editingData.paymentName = "";
                           resultData.add(newData);
@@ -157,7 +162,7 @@ class _SearchTransaction extends State<PaymentResource> {
         child: InkWell(
           onTap: () {
             setState(() {
-              cancelEditMode();
+              cancelEditMode(data);
               data.editMode = true;
               editingData.paymentName = data.paymentName;
             });
@@ -207,8 +212,8 @@ class _SearchTransaction extends State<PaymentResource> {
                             ),
                           ],
                         ),
-                        errorText: data.PaymentNameError != ""
-                            ? data.PaymentNameError
+                        errorText: data.paymentNameError != ""
+                            ? data.paymentNameError
                             : null),
                     style: const TextStyle(fontSize: 20),
                   )
@@ -223,7 +228,9 @@ class _SearchTransaction extends State<PaymentResource> {
                         message: "削除",
                         child: IconButton(
                             onPressed: () {
-                              deletePayment(data);
+                              setState(() {
+                                deletePayment(data);
+                              });
                             },
                             icon: const Icon(Icons.delete_outline)),
                       )

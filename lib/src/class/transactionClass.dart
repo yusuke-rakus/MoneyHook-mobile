@@ -12,6 +12,8 @@ class TransactionClass {
   int? subCategoryId;
   var subCategoryName = '';
   var fixedFlg = false;
+  num? paymentId;
+  String? paymentName;
   bool isDisable = false;
   String transactionNameError = '';
   String transactionAmountError = '';
@@ -32,6 +34,8 @@ class TransactionClass {
     this.subCategoryId,
     this.subCategoryName,
     this.fixedFlg,
+    this.paymentId,
+    this.paymentName,
   );
 
   TransactionClass.setTimelineFields(
@@ -45,6 +49,8 @@ class TransactionClass {
     this.subCategoryId,
     this.subCategoryName,
     this.fixedFlg,
+    this.paymentId,
+    this.paymentName,
   );
 
   TransactionClass.setFrequentFields(
@@ -103,12 +109,14 @@ class TransactionClass {
       'category_name': categoryName,
       'sub_category_id': subCategoryId,
       'sub_category_name': subCategoryName,
-      'fixed_flg': fixedFlg
+      'fixed_flg': fixedFlg,
+      'payment_id': paymentId,
+      'payment_name': paymentName
     };
   }
 
   @override
   String toString() {
-    return 'ユーザID: $userId, 取引ID: $transactionId, 取引日: $transactionDate, 金額符号: $transactionSign, 金額: $transactionAmount, 取引名: $transactionName, カテゴリID: $categoryId, カテゴリ名: $categoryName, サブカテゴリID: $subCategoryId, サブカテゴリ名: $subCategoryName, 固定費フラグ: $fixedFlg';
+    return 'ユーザID: $userId, 取引ID: $transactionId, 取引日: $transactionDate, 金額符号: $transactionSign, 金額: $transactionAmount, 取引名: $transactionName, カテゴリID: $categoryId, カテゴリ名: $categoryName, サブカテゴリID: $subCategoryId, サブカテゴリ名: $subCategoryName, 固定費フラグ: $fixedFlg, 支払いID: $paymentId, 支払い名: $paymentName';
   }
 }

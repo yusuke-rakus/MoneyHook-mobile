@@ -4,13 +4,13 @@ class PaymentResourceValidation {
   static bool checkPaymentResource(PaymentResourceData payment) {
     // 未入力チェック
     if (payment.paymentName.isEmpty) {
-      payment.PaymentNameError = '未入力';
+      payment.paymentNameError = '未入力';
       return true;
     }
 
     // 文字数チェック
     if (payment.paymentName.length > 32) {
-      payment.PaymentNameError = '32文字以内';
+      payment.paymentNameError = '32文字以内';
       return true;
     }
 
