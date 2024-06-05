@@ -81,29 +81,12 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        env.subtractMonth();
-                        setLoading();
-                        Future(() async {
-                          await TransactionLoad.getMonthlyFixedIncome(
-                              env, setMonthlyFixedIncome);
-                          await TransactionLoad.getMonthlyFixedSpending(
-                              env, setSnackBar, setMonthlyFixedSpending);
-                          setLoading();
-                        });
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_back_ios)),
-                Text('${env.getMonth()}月',
-                    style: const TextStyle(fontSize: 15)),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        // 翌月が未来でなければデータ取得
-                        if (env.isNotCurrentMonth()) {
-                          env.addMonth();
+                Tooltip(
+                  message: "次の月",
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          env.subtractMonth();
                           setLoading();
                           Future(() async {
                             await TransactionLoad.getMonthlyFixedIncome(
@@ -112,10 +95,33 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                 env, setSnackBar, setMonthlyFixedSpending);
                             setLoading();
                           });
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios)),
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_back_ios)),
+                ),
+                Text('${env.getMonth()}月',
+                    style: const TextStyle(fontSize: 15)),
+                Tooltip(
+                  message: "次の月",
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          // 翌月が未来でなければデータ取得
+                          if (env.isNotCurrentMonth()) {
+                            env.addMonth();
+                            setLoading();
+                            Future(() async {
+                              await TransactionLoad.getMonthlyFixedIncome(
+                                  env, setMonthlyFixedIncome);
+                              await TransactionLoad.getMonthlyFixedSpending(
+                                  env, setSnackBar, setMonthlyFixedSpending);
+                              setLoading();
+                            });
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_forward_ios)),
+                ),
               ],
             ),
           ),
@@ -218,6 +224,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                 FixedAnalysisAccordion(
                                     monthlyFixedList:
                                         monthlyFixedSpending.monthlyFixedList),
+                                const SizedBox(
+                                  height: 100,
+                                )
                               ],
                             ),
                           ],

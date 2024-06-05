@@ -47,6 +47,8 @@ class TransactionStorage {
           String categoryName = e['category_name'];
           int subCategoryId = e['sub_category_id'];
           String subCategoryName = e['sub_category_name'];
+          num? paymentId = e['payment_id'];
+          String paymentName = e['payment_name'];
           bool fixedFlg = e['fixed_flg'];
           resultList.add(TransactionClass.setTimelineFields(
               transactionId,
@@ -58,7 +60,9 @@ class TransactionStorage {
               categoryName,
               subCategoryId,
               subCategoryName,
-              fixedFlg));
+              fixedFlg,
+              paymentId,
+              paymentName));
         });
       }
     }).then((value) => setLoading());

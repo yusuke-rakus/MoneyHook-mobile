@@ -66,29 +66,35 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        env.subtractMonth();
-                        TransactionLoad.getMonthlyVariableData(
-                            env, setLoading, setSnackBar, setMonthlyVariable);
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_back_ios)),
-                Text('${env.getMonth()}月',
-                    style: const TextStyle(fontSize: 15)),
-                IconButton(
-                    onPressed: () {
-                      setState(() {
-                        // 翌月が未来でなければデータ取得
-                        if (env.isNotCurrentMonth()) {
-                          env.addMonth();
+                Tooltip(
+                  message: "前の月",
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          env.subtractMonth();
                           TransactionLoad.getMonthlyVariableData(
                               env, setLoading, setSnackBar, setMonthlyVariable);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios)),
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_back_ios)),
+                ),
+                Text('${env.getMonth()}月',
+                    style: const TextStyle(fontSize: 15)),
+                Tooltip(
+                  message: "次の月",
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          // 翌月が未来でなければデータ取得
+                          if (env.isNotCurrentMonth()) {
+                            env.addMonth();
+                            TransactionLoad.getMonthlyVariableData(env,
+                                setLoading, setSnackBar, setMonthlyVariable);
+                          }
+                        });
+                      },
+                      icon: const Icon(Icons.arrow_forward_ios)),
+                ),
               ],
             ),
           ),
@@ -140,6 +146,10 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                             },
                           )
                         : const dataNotRegisteredBox(message: '取引履歴が存在しません'),
+
+                    const SizedBox(
+                      height: 100,
+                    )
                   ],
                 )),
         ],

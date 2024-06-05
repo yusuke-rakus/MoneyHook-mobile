@@ -59,6 +59,8 @@ class transactionApi {
             int subCategoryId = value['sub_category_id'];
             String subCategoryName = value['sub_category_name'];
             bool fixedFlg = value['fixed_flg'];
+            num? paymentId = value['payment_id'];
+            String paymentName = value['payment_name'];
             resultList.add(TransactionClass.setTimelineFields(
                 transactionId,
                 transactionDate,
@@ -69,7 +71,9 @@ class transactionApi {
                 categoryName,
                 subCategoryId,
                 subCategoryName,
-                fixedFlg));
+                fixedFlg,
+                paymentId,
+                paymentName));
           });
           setTimelineData(resultList);
           TransactionStorage.saveStorageTimelineData(
@@ -341,7 +345,6 @@ class transactionApi {
       try {
         Response res = await Api.dio.get('$rootURI/getTotalSpending',
             queryParameters: {
-              'user_id': env.userId,
               'category_id': transaction.categoryId,
               'sub_category_id': transaction.subCategoryId,
               'start_month': transaction.startMonth,

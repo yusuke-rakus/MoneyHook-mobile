@@ -78,26 +78,32 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            IconButton(
-                onPressed: () {
-                  env.subtractMonth();
-                  TransactionLoad.getHome(
-                      env, setLoading, setSnackBar, setHomeTransaction);
-                },
-                icon: const Icon(Icons.arrow_back_ios)),
+            Tooltip(
+              message: "前の月",
+              child: IconButton(
+                  onPressed: () {
+                    env.subtractMonth();
+                    TransactionLoad.getHome(
+                        env, setLoading, setSnackBar, setHomeTransaction);
+                  },
+                  icon: const Icon(Icons.arrow_back_ios)),
+            ),
             Text('${env.getMonth()}月'),
-            IconButton(
-                onPressed: () {
-                  setState(() {
-                    // 翌月が未来でなければデータ取得
-                    if (env.isNotCurrentMonth()) {
-                      env.addMonth();
-                      TransactionLoad.getHome(
-                          env, setLoading, setSnackBar, setHomeTransaction);
-                    }
-                  });
-                },
-                icon: const Icon(Icons.arrow_forward_ios)),
+            Tooltip(
+              message: "次の月",
+              child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      // 翌月が未来でなければデータ取得
+                      if (env.isNotCurrentMonth()) {
+                        env.addMonth();
+                        TransactionLoad.getHome(
+                            env, setLoading, setSnackBar, setHomeTransaction);
+                      }
+                    });
+                  },
+                  icon: const Icon(Icons.arrow_forward_ios)),
+            ),
           ],
         ),
       ),
@@ -148,30 +154,33 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _isLoading
-            ? null
-            : () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          EditTransaction(TransactionClass(), env, setReload),
-                      fullscreenDialog: true),
-                );
-              },
-        child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: FractionalOffset.topLeft,
-                end: FractionalOffset.bottomRight,
-                colors: [Colors.lightBlueAccent, Colors.blueAccent],
+      floatingActionButton: Tooltip(
+        message: "収支を追加",
+        child: FloatingActionButton(
+          onPressed: _isLoading
+              ? null
+              : () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            EditTransaction(TransactionClass(), env, setReload),
+                        fullscreenDialog: true),
+                  );
+                },
+          child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topLeft,
+                  end: FractionalOffset.bottomRight,
+                  colors: [Colors.lightBlueAccent, Colors.blueAccent],
+                ),
               ),
-            ),
-            child: const Icon(Icons.add)),
+              child: const Icon(Icons.add)),
+        ),
       ),
     );
   }

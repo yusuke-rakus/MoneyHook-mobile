@@ -106,28 +106,31 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                 ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // 収支の編集画面へ遷移
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => EditMonthlyTransaction(
-                      MonthlyTransactionClass(), env, setReload, setSnackBar),
-                  fullscreenDialog: true));
-        },
-        child: Container(
-            height: double.infinity,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                begin: FractionalOffset.topLeft,
-                end: FractionalOffset.bottomRight,
-                colors: [Colors.lightBlueAccent, Colors.blueAccent],
+      floatingActionButton: Tooltip(
+        message: "毎月の自動入力を追加",
+        child: FloatingActionButton(
+          onPressed: () {
+            // 収支の編集画面へ遷移
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EditMonthlyTransaction(
+                        MonthlyTransactionClass(), env, setReload, setSnackBar),
+                    fullscreenDialog: true));
+          },
+          child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: FractionalOffset.topLeft,
+                  end: FractionalOffset.bottomRight,
+                  colors: [Colors.lightBlueAccent, Colors.blueAccent],
+                ),
               ),
-            ),
-            child: const Icon(Icons.add)),
+              child: const Icon(Icons.add)),
+        ),
       ),
     );
   }
