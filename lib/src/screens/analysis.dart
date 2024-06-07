@@ -22,7 +22,10 @@ class AnalysisScreen extends StatelessWidget {
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TabBar(tabs: [Tab(text: '月別変動費'), Tab(text: '月別固定費')])
+              TabBar(
+                tabs: [Tab(text: '月別変動費'), Tab(text: '月別固定費')],
+                labelColor: Colors.white,
+              )
             ],
           ),
         )),

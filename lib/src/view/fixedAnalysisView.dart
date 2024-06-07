@@ -138,6 +138,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                   const EdgeInsets.only(right: 15, left: 15),
                               height: 60,
                               child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   const Text('可処分所得額',
                                       style: TextStyle(fontSize: 17)),

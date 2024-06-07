@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/class/screenLabelClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
@@ -32,6 +33,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.blue,
+        textTheme: GoogleFonts.mPlus1pTextTheme(),
+        primaryTextTheme: GoogleFonts.mPlus1pTextTheme(),
+        snackBarTheme: SnackBarThemeData(
+          contentTextStyle:
+              GoogleFonts.mPlus1p(fontSize: 16.0, color: Colors.white),
+        ),
       ),
       home: const MyStatefulWidget(),
     );
