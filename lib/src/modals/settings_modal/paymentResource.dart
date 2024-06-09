@@ -74,13 +74,11 @@ class _SearchTransaction extends State<PaymentResource> {
     commonLoadingDialog(context: context);
     if (data.paymentId != null) {
       // 編集処理
-      //   await PaymentResourceApi.editPaymentResource(
-      //           data, reloadList, setSnackBar)
-      //       .then((value) {
-      //     setSnackBar("Hoops!編集処理はまだ実装されていません");
-      //   });
-      setSnackBar("Hoops!編集処理はまだ実装されていません");
-      Navigator.pop(context);
+      await PaymentResourceApi.editPaymentResource(
+              data, reloadList, setSnackBar)
+          .then((value) {
+        Navigator.pop(context);
+      });
     } else {
       // 追加処理
       await PaymentResourceApi.addPaymentResource(data, reloadList, setSnackBar)

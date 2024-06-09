@@ -76,7 +76,7 @@ class PaymentResourceApi {
         } else {
           // 成功
           reloadList();
-          setSnackBar("追加が完了しました");
+          setSnackBar("更新が完了しました");
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
