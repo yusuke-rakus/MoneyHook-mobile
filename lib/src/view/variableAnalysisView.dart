@@ -106,26 +106,16 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                     // 合計値
                     Padding(
                       padding: const EdgeInsets.only(left: 10),
-                      child: RichText(
-                        text: TextSpan(
-                            style: const TextStyle(
-                                color: Colors.black87, fontSize: 17),
-                            children: [
-                              const TextSpan(text: '変動費合計'),
-                              const WidgetSpan(
-                                  child: SizedBox(
-                                width: 10,
-                              )),
-                              TextSpan(
-                                  text: TransactionClass.formatNum(
-                                      data.totalVariable),
-                                  style: const TextStyle(fontSize: 30)),
-                              const WidgetSpan(
-                                  child: SizedBox(
-                                width: 5,
-                              )),
-                              const TextSpan(text: '円'),
-                            ]),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          const Text('変動費合計', style: TextStyle(fontSize: 17)),
+                          const SizedBox(width: 10),
+                          Text(TransactionClass.formatNum(data.totalVariable),
+                              style: const TextStyle(fontSize: 30)),
+                          const SizedBox(width: 5),
+                          const Text('円', style: TextStyle(fontSize: 17)),
+                        ],
                       ),
                     ),
                     // 変動費
