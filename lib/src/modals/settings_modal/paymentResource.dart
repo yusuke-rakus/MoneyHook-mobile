@@ -6,6 +6,7 @@ import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 import '../../components/commonLoadingDialog.dart';
 import '../../components/commonSnackBar.dart';
 import '../../components/dataNotRegisteredBox.dart';
+import '../../components/deleteConfirmDialog.dart';
 import '../../components/gradientBar.dart';
 import '../../dataLoader/paymentResource.dart';
 import '../../env/envClass.dart';
@@ -120,15 +121,17 @@ class _SearchTransaction extends State<PaymentResource> {
           flexibleSpace: GradientBar(),
           title: (const Text('設定')),
         ),
-        body: ListView(
+        body: Column(
           children: [
             resultData.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: resultData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _card(resultData[index]);
-                    },
+                ? Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: resultData.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return _card(resultData[index]);
+                      },
+                    ),
                   )
                 : const dataNotRegisteredBox(message: '支払い方法が存在しません'),
             Center(
@@ -226,9 +229,20 @@ class _SearchTransaction extends State<PaymentResource> {
                         message: "削除",
                         child: IconButton(
                             onPressed: () {
-                              setState(() {
-                                deletePayment(data);
-                              });
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      deleteConfirmDialog(
+                                          context: context,
+                                          title: '支払い方法を削除しますか',
+                                          leftText: 'キャンセル',
+                                          rightText: '削除',
+                                          isDestructiveAction: true,
+                                          function: () {
+                                            // 削除処理
+                                            Navigator.pop(context);
+                                            deletePayment(data);
+                                          }));
                             },
                             icon: const Icon(Icons.delete_outline)),
                       )

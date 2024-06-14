@@ -131,7 +131,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
             child: ListView(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 40),
+                  margin: const EdgeInsets.only(top: 40, bottom: 10),
                   height: 180,
                   child: TimelineChart(timelineChart),
                 ),
