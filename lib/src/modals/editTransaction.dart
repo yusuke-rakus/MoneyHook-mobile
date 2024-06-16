@@ -179,8 +179,8 @@ class _EditTransaction extends State<EditTransaction> {
                                           commonConfirmDialog(
                                               context: context,
                                               title: '取引を削除しますか',
-                                              leftText: 'キャンセル',
-                                              rightText: '削除',
+                                              secondaryText: 'キャンセル',
+                                              primaryText: '削除',
                                               primaryFunction: () {
                                                 // 削除処理
                                                 Navigator.pop(context);
@@ -499,8 +499,8 @@ class _EditTransaction extends State<EditTransaction> {
     return commonConfirmDialog(
         context: context,
         title: '入力が完了しました',
-        leftText: '連続入力',
-        rightText: '完了',
+        secondaryText: '連続入力',
+        primaryText: '完了',
         primaryFunction: () {
           Navigator.pop(context);
           Navigator.pop(context);

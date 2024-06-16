@@ -4,8 +4,8 @@ AlertDialog commonConfirmDialog({
   required BuildContext context,
   required String title,
   String? subTitle,
-  required String leftText,
-  required String rightText,
+  required String secondaryText,
+  required String primaryText,
   required Function primaryFunction,
   Function? secondaryFunction,
 }) {
@@ -23,7 +23,7 @@ AlertDialog commonConfirmDialog({
           style: TextButton.styleFrom(
               foregroundColor: Colors.grey,
               padding: const EdgeInsets.fromLTRB(20, 15, 20, 15)),
-          child: Text(leftText)),
+          child: Text(secondaryText)),
       TextButton(
           onPressed: () => primaryFunction(),
           style: TextButton.styleFrom(
@@ -33,7 +33,7 @@ AlertDialog commonConfirmDialog({
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(0.0))),
           ),
-          child: Text(rightText)),
+          child: Text(primaryText)),
     ],
   );
 }

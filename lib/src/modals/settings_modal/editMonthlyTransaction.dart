@@ -127,8 +127,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                         commonConfirmDialog(
                                             context: context,
                                             title: '目標を削除しますか',
-                                            leftText: 'キャンセル',
-                                            rightText: '削除',
+                                            secondaryText: 'キャンセル',
+                                            primaryText: '削除',
                                             primaryFunction: () {
                                               // 削除処理
                                               Navigator.pop(context);

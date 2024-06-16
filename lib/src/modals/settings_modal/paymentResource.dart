@@ -235,8 +235,8 @@ class _SearchTransaction extends State<PaymentResource> {
                                       commonConfirmDialog(
                                           context: context,
                                           title: '支払い方法を削除しますか',
-                                          leftText: 'キャンセル',
-                                          rightText: '削除',
+                                          secondaryText: 'キャンセル',
+                                          primaryText: '削除',
                                           primaryFunction: () {
                                             // 削除処理
                                             Navigator.pop(context);
