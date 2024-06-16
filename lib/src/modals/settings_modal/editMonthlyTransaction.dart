@@ -7,8 +7,8 @@ import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
 
 import '../../class/monthlyTransactionClass.dart';
+import '../../components/commonConfirmDialog.dart';
 import '../../components/commonLoadingDialog.dart';
-import '../../components/deleteConfirmDialog.dart';
 import '../../components/gradientButton.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
@@ -124,13 +124,12 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                 showDialog<String>(
                                     context: context,
                                     builder: (BuildContext context) =>
-                                        deleteConfirmDialog(
+                                        commonConfirmDialog(
                                             context: context,
                                             title: '目標を削除しますか',
                                             leftText: 'キャンセル',
                                             rightText: '削除',
-                                            isDestructiveAction: true,
-                                            function: () {
+                                            primaryFunction: () {
                                               // 削除処理
                                               Navigator.pop(context);
                                               _deleteTransaction(

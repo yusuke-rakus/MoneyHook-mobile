@@ -3,10 +3,10 @@ import 'package:money_hooks/src/api/paymentResourceApi.dart';
 import 'package:money_hooks/src/class/response/paymentResource.dart';
 import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 
+import '../../components/commonConfirmDialog.dart';
 import '../../components/commonLoadingDialog.dart';
 import '../../components/commonSnackBar.dart';
 import '../../components/dataNotRegisteredBox.dart';
-import '../../components/deleteConfirmDialog.dart';
 import '../../components/gradientBar.dart';
 import '../../dataLoader/paymentResource.dart';
 import '../../env/envClass.dart';
@@ -232,13 +232,12 @@ class _SearchTransaction extends State<PaymentResource> {
                               showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) =>
-                                      deleteConfirmDialog(
+                                      commonConfirmDialog(
                                           context: context,
                                           title: '支払い方法を削除しますか',
                                           leftText: 'キャンセル',
                                           rightText: '削除',
-                                          isDestructiveAction: true,
-                                          function: () {
+                                          primaryFunction: () {
                                             // 削除処理
                                             Navigator.pop(context);
                                             deletePayment(data);

@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
-import 'package:money_hooks/src/components/deleteConfirmDialog.dart';
+import 'package:money_hooks/src/components/commonConfirmDialog.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
@@ -176,13 +176,12 @@ class _EditTransaction extends State<EditTransaction> {
                                   showDialog<String>(
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          deleteConfirmDialog(
+                                          commonConfirmDialog(
                                               context: context,
                                               title: '取引を削除しますか',
                                               leftText: 'キャンセル',
                                               rightText: '削除',
-                                              isDestructiveAction: true,
-                                              function: () {
+                                              primaryFunction: () {
                                                 // 削除処理
                                                 Navigator.pop(context);
                                                 _deleteTransaction(
@@ -497,44 +496,25 @@ class _EditTransaction extends State<EditTransaction> {
 
   /// 登録ボタン押下後のダイアログ
   AlertDialog _confirmDialog() {
-    return AlertDialog(
-      title: const Text('入力が完了しました'),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20),
-                  fixedSize: const Size(120, 50),
-                  shape: const StadiumBorder()),
-              onPressed: () {
-                Navigator.pop(context);
-                setState(() {
-                  nameController.text = '';
-                  transaction.transactionName = '';
-                  transaction.transactionAmount = 0;
-                  transaction.fixedFlg = false;
-                  transaction.isDisable = false;
-                  _setDefaultCategory(transaction);
-                });
-              },
-              child: const Text('連続入力')),
-          const SizedBox(width: 10),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20),
-                fixedSize: const Size(120, 50),
-                shape: const StadiumBorder(),
-                backgroundColor: Colors.grey),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              widget.setReload();
-            },
-            child: const Text('完了'),
-          )
-        ],
-      ),
-    );
+    return commonConfirmDialog(
+        context: context,
+        title: '入力が完了しました',
+        leftText: '連続入力',
+        rightText: '完了',
+        primaryFunction: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          widget.setReload();
+        },
+        secondaryFunction: () {
+          setState(() {
+            nameController.text = '';
+            transaction.transactionName = '';
+            transaction.transactionAmount = 0;
+            transaction.fixedFlg = false;
+            transaction.isDisable = false;
+            _setDefaultCategory(transaction);
+          });
+        });
   }
 }
