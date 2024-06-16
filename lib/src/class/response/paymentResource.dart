@@ -13,6 +13,10 @@ class PaymentResourceData extends Response {
     paymentName = "";
   }
 
+  Map<String, dynamic> getPaymentJson() {
+    return {'payment_id': paymentId, 'payment_name': paymentName};
+  }
+
   PaymentResourceData.setResponse(
       super.status, super.message, this.paymentId, this.paymentName);
 }

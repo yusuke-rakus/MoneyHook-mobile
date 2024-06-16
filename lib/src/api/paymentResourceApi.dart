@@ -20,10 +20,16 @@ class PaymentResourceApi {
           // 失敗
         } else {
           // 成功
-          setPaymentResourceList(res.data['payment_list']);
-          if (res.data['payment_list'] != null) {
+          List<PaymentResourceData> resultList = [];
+          res.data['payment_list'].forEach((value) {
+            resultList.add(PaymentResourceData.init(
+                value['payment_id'], value['payment_name']));
+          });
+          setPaymentResourceList(resultList);
+
+          if (resultList.isNotEmpty) {
             PaymentResourceStorage.savePaymentResourceList(
-                res.data['payment_list'], env.getUserJson().toString());
+                resultList, env.getUserJson().toString());
           }
         }
       } on DioException catch (e) {

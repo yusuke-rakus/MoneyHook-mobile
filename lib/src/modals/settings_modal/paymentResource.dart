@@ -53,14 +53,11 @@ class _SearchTransaction extends State<PaymentResource> {
     });
   }
 
-  void setPaymentResourceList(dynamic resultList) {
+  void setPaymentResourceList(List<PaymentResourceData> resultList) {
     setState(() {
-      resultData = [];
-      if (resultList != null) {
-        resultList.forEach((value) {
-          resultData.add(PaymentResourceData.init(
-              value['payment_id'], value['payment_name']));
-        });
+      if (resultList != []) {
+        resultData = [];
+        resultList.forEach((value) => resultData.add(value));
       }
     });
   }

@@ -76,16 +76,13 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   // 支払い方法
-  void setPaymentResourceList(dynamic resultList) {
-    setState(() {
-      if (resultList != null) {
+  void setPaymentResourceList(List<PaymentResourceData> resultList) {
+    if (resultList.isNotEmpty) {
+      setState(() {
         paymentResourceList.add(PaymentResourceData());
-        resultList.forEach((value) {
-          paymentResourceList.add(PaymentResourceData.init(
-              value['payment_id'], value['payment_name']));
-        });
-      }
-    });
+        resultList.forEach((value) => paymentResourceList.add(value));
+      });
+    }
   }
 
   // メッセージの設定
@@ -405,6 +402,45 @@ class _EditTransaction extends State<EditTransaction> {
                                               size: 30,
                                             ))
                                       ]))))),
+                  // 支払い元選択
+                  paymentResourceList.isNotEmpty
+                      ? Container(
+                          padding: const EdgeInsets.only(left: 40, right: 40),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: 250,
+                                child: DropdownButton(
+                                  hint: Text("支払方法"),
+                                  isExpanded: true,
+                                  items: paymentResourceList
+                                      .map((resource) => DropdownMenuItem(
+                                            value: resource.paymentId,
+                                            child: Text(resource.paymentName),
+                                          ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      PaymentResourceData selectedPayment =
+                                          paymentResourceList
+                                              .where((resource) =>
+                                                  resource.paymentId == value)
+                                              .toList()
+                                              .first;
+                                      transaction.paymentId =
+                                          selectedPayment.paymentId;
+                                      transaction.paymentName =
+                                          selectedPayment.paymentName;
+                                    });
+                                  },
+                                  value: transaction.paymentId,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                   // 固定費フラグ
                   Container(
                     alignment: Alignment.center,
@@ -421,46 +457,6 @@ class _EditTransaction extends State<EditTransaction> {
                       },
                     ),
                   ),
-                  // 支払い元選択
-                  paymentResourceList.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsetsDirectional.only(
-                              start: 50.0, end: 50.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Text(
-                                "支払い元を選択",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Expanded(child: SizedBox()),
-                              DropdownButton(
-                                items: paymentResourceList
-                                    .map((resource) => DropdownMenuItem(
-                                          value: resource.paymentId,
-                                          child: Text(resource.paymentName),
-                                        ))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    PaymentResourceData selectedPayment =
-                                        paymentResourceList
-                                            .where((resource) =>
-                                                resource.paymentId == value)
-                                            .toList()
-                                            .first;
-                                    transaction.paymentId =
-                                        selectedPayment.paymentId;
-                                    transaction.paymentName =
-                                        selectedPayment.paymentName;
-                                  });
-                                },
-                                value: transaction.paymentId,
-                              ),
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
                   const SizedBox(
                     height: 100,
                   )
