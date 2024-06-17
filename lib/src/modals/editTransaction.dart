@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -80,7 +79,9 @@ class _EditTransaction extends State<EditTransaction> {
     if (resultList.isNotEmpty) {
       setState(() {
         paymentResourceList.add(PaymentResourceData());
-        resultList.forEach((value) => paymentResourceList.add(value));
+        for (var value in resultList) {
+          paymentResourceList.add(value);
+        }
       });
     }
   }
@@ -199,29 +200,35 @@ class _EditTransaction extends State<EditTransaction> {
                 children: [
                   // 日付
                   InkWell(
-                    onTap: () {
-                      showCupertinoModalPopup(
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
                         context: context,
-                        builder: (_) => Container(
-                          height: 250,
-                          color: Colors.white,
-                          child: CupertinoDatePicker(
-                            initialDateTime: DateFormat('yyyy-MM-dd')
-                                .parse(transaction.transactionDate),
-                            onDateTimeChanged: (value) {
-                              setState(() {
-                                transaction.transactionDate =
-                                    DateFormat('yyyy-MM-dd').format(value);
-                              });
-                            },
-                            minimumYear: DateTime.now().year - 1,
-                            maximumYear: DateTime.now().year,
-                            maximumDate: DateTime.now(),
-                            dateOrder: DatePickerDateOrder.ymd,
-                            mode: CupertinoDatePickerMode.date,
-                          ),
-                        ),
+                        initialDate: DateFormat('yyyy-MM-dd')
+                            .parse(transaction.transactionDate),
+                        firstDate: DateTime(DateTime.now().year - 1),
+                        lastDate: DateTime.now(),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                            data: ThemeData.light().copyWith(
+                              datePickerTheme: const DatePickerThemeData(
+                                  headerBackgroundColor: Colors.blue,
+                                  headerForegroundColor: Colors.white,
+                                  dividerColor: Colors.grey,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.zero)),
+                              colorScheme: const ColorScheme.light(
+                                primary: Colors.blueAccent,
+                                onPrimary: Colors.white,
+                              ),
+                            ),
+                            child: child!,
+                          );
+                        },
                       );
+                      if (picked != null) {
+                        setState(() => transaction.transactionDate =
+                            DateFormat('yyyy-MM-dd').format(picked));
+                      }
                     },
                     child: SizedBox(
                       height: 60,
@@ -412,7 +419,7 @@ class _EditTransaction extends State<EditTransaction> {
                               SizedBox(
                                 width: 250,
                                 child: DropdownButton(
-                                  hint: Text("支払方法"),
+                                  hint: const Text("支払方法"),
                                   isExpanded: true,
                                   items: paymentResourceList
                                       .map((resource) => DropdownMenuItem(
