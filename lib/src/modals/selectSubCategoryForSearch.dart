@@ -3,6 +3,7 @@ import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/subCategoryClass.dart';
+import '../components/gradientBar.dart';
 
 class SelectSubCategoryForSearch extends StatefulWidget {
   const SelectSubCategoryForSearch(this.env, this.categoryId, this.categoryName,
@@ -42,6 +43,7 @@ class _SelectSubCategoryForSearch extends State<SelectSubCategoryForSearch> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          flexibleSpace: GradientBar(),
           title: const Text('カテゴリ'),
         ),
         body: Column(children: [

@@ -9,6 +9,7 @@ import 'package:switcher/switcher.dart';
 import '../../class/monthlyTransactionClass.dart';
 import '../../components/commonConfirmDialog.dart';
 import '../../components/commonLoadingDialog.dart';
+import '../../components/gradientBar.dart';
 import '../../components/gradientButton.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
@@ -111,6 +112,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
               title: monthlyTransaction.hasMonthlyTransactionId()
                   ? const Text('月次収支の編集')
                   : const Text('月次収支の追加'),
+              flexibleSpace: GradientBar(),
               actions: [
                 // 削除アイコン
                 Visibility(

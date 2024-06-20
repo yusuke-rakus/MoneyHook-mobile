@@ -66,25 +66,18 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      shrinkWrap: true,
       children: [
         Padding(
           padding: const EdgeInsets.all(10),
           child: TableCalendar(
-              // firstDay: DateTime(DateTime.now().year - 1),
               firstDay: widget.env.getDateTimeMonth(),
               focusedDay: widget.env.getDateTimeMonth(),
               lastDay: DateTime.now(),
               daysOfWeekVisible: false,
               headerVisible: false,
-              rowHeight: 110,
+              rowHeight: 100,
               currentDay: DateTime.now(),
-              // 今日の修正
-              onPageChanged: ((focusedDay) {
-                setState(() {
-                  widget.env.setMonth(focusedDay);
-                });
-              }),
-              // 今日の修正
               onDaySelected: ((selectedDay, focusedDay) {
                 setState(() {
                   selectedDate = selectedDay;
