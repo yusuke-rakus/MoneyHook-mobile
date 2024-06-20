@@ -41,45 +41,50 @@ class _LocalSettingsState extends State<LocalSettings> {
           flexibleSpace: GradientBar(),
           title: (const Text('設定')),
         ),
-        body: ListView(
-          children: [
-            _settingsGroup(context, '収支画面', [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('取引名候補を表示する'),
-                  CupertinoSwitch(
-                      activeColor: Colors.blue,
-                      value: _transactionRecommendState,
-                      onChanged: (activeState) {
-                        _changeRecommendState(activeState);
-                      })
-                ],
-              ),
-            ]),
-            _settingsGroup(context, 'ローカル設定', [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('キャッシュを削除する'),
-                  TextButton(
-                      onPressed: () async {
-                        Future(() async {
-                          TransactionStorage.allDelete();
-                          MonthlyTransactionStorage.allDelete();
-                          CategoryStorage.allDelete();
-                          PaymentResourceStorage.allDelete();
-                        }).then((value) => CommonSnackBar.build(
-                            context: context, text: '削除完了'));
-                      },
-                      child: const Text(
-                        '削除',
-                        style: TextStyle(color: Colors.black54),
-                      )),
-                ],
-              ),
-            ])
-          ],
+        body: Center(
+          child: SizedBox(
+            width: 800,
+            child: ListView(
+              children: [
+                _settingsGroup(context, '収支画面', [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('取引名候補を表示する'),
+                      CupertinoSwitch(
+                          activeColor: Colors.blue,
+                          value: _transactionRecommendState,
+                          onChanged: (activeState) {
+                            _changeRecommendState(activeState);
+                          })
+                    ],
+                  ),
+                ]),
+                _settingsGroup(context, 'ローカル設定', [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('キャッシュを削除する'),
+                      TextButton(
+                          onPressed: () async {
+                            Future(() async {
+                              TransactionStorage.allDelete();
+                              MonthlyTransactionStorage.allDelete();
+                              CategoryStorage.allDelete();
+                              PaymentResourceStorage.allDelete();
+                            }).then((value) => CommonSnackBar.build(
+                                context: context, text: '削除完了'));
+                          },
+                          child: const Text(
+                            '削除',
+                            style: TextStyle(color: Colors.black54),
+                          )),
+                    ],
+                  ),
+                ])
+              ],
+            ),
+          ),
         ));
   }
 

@@ -3,6 +3,7 @@ import 'package:money_hooks/src/api/paymentResourceApi.dart';
 import 'package:money_hooks/src/class/response/paymentResource.dart';
 import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 
+import '../../components/commonConfirmDialog.dart';
 import '../../components/commonLoadingDialog.dart';
 import '../../components/commonSnackBar.dart';
 import '../../components/dataNotRegisteredBox.dart';
@@ -52,14 +53,11 @@ class _SearchTransaction extends State<PaymentResource> {
     });
   }
 
-  void setPaymentResourceList(dynamic resultList) {
+  void setPaymentResourceList(List<PaymentResourceData> resultList) {
     setState(() {
-      resultData = [];
-      if (resultList != null) {
-        resultList.forEach((value) {
-          resultData.add(PaymentResourceData.init(
-              value['payment_id'], value['payment_name']));
-        });
+      if (resultList != []) {
+        resultData = [];
+        resultList.forEach((value) => resultData.add(value));
       }
     });
   }
@@ -120,37 +118,44 @@ class _SearchTransaction extends State<PaymentResource> {
           flexibleSpace: GradientBar(),
           title: (const Text('設定')),
         ),
-        body: ListView(
-          children: [
-            resultData.isNotEmpty
-                ? ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: resultData.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _card(resultData[index]);
-                    },
-                  )
-                : const dataNotRegisteredBox(message: '支払い方法が存在しません'),
-            Center(
-              heightFactor: 2,
-              child: Tooltip(
-                message: "新規支払い方法",
-                child: IconButton(
-                    // 新規追加ボタン
-                    onPressed: () {
-                      setState(() {
-                        if (resultData.isEmpty ||
-                            resultData.last.paymentId != null) {
-                          newData.editMode = true;
-                          editingData.paymentName = "";
-                          resultData.add(newData);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.add_circle_outline)),
-              ),
+        body: Center(
+          child: SizedBox(
+            width: 800,
+            child: Column(
+              children: [
+                resultData.isNotEmpty
+                    ? Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: resultData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _card(resultData[index]);
+                          },
+                        ),
+                      )
+                    : const dataNotRegisteredBox(message: '支払い方法が存在しません'),
+                Center(
+                  heightFactor: 2,
+                  child: Tooltip(
+                    message: "新規支払い方法",
+                    child: IconButton(
+                        // 新規追加ボタン
+                        onPressed: () {
+                          setState(() {
+                            if (resultData.isEmpty ||
+                                resultData.last.paymentId != null) {
+                              newData.editMode = true;
+                              editingData.paymentName = "";
+                              resultData.add(newData);
+                            }
+                          });
+                        },
+                        icon: const Icon(Icons.add_circle_outline)),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ));
   }
 
@@ -226,9 +231,19 @@ class _SearchTransaction extends State<PaymentResource> {
                         message: "削除",
                         child: IconButton(
                             onPressed: () {
-                              setState(() {
-                                deletePayment(data);
-                              });
+                              showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      commonConfirmDialog(
+                                          context: context,
+                                          title: '支払い方法を削除しますか',
+                                          secondaryText: 'キャンセル',
+                                          primaryText: '削除',
+                                          primaryFunction: () {
+                                            // 削除処理
+                                            Navigator.pop(context);
+                                            deletePayment(data);
+                                          }));
                             },
                             icon: const Icon(Icons.delete_outline)),
                       )

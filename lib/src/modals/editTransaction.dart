@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
-import 'package:money_hooks/src/components/deleteConfirmDialog.dart';
+import 'package:money_hooks/src/components/commonConfirmDialog.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
@@ -76,16 +75,15 @@ class _EditTransaction extends State<EditTransaction> {
   }
 
   // 支払い方法
-  void setPaymentResourceList(dynamic resultList) {
-    setState(() {
-      if (resultList != null) {
+  void setPaymentResourceList(List<PaymentResourceData> resultList) {
+    if (resultList.isNotEmpty) {
+      setState(() {
         paymentResourceList.add(PaymentResourceData());
-        resultList.forEach((value) {
-          paymentResourceList.add(PaymentResourceData.init(
-              value['payment_id'], value['payment_name']));
-        });
-      }
-    });
+        for (var value in resultList) {
+          paymentResourceList.add(value);
+        }
+      });
+    }
   }
 
   // メッセージの設定
@@ -176,13 +174,12 @@ class _EditTransaction extends State<EditTransaction> {
                                   showDialog<String>(
                                       context: context,
                                       builder: (BuildContext context) =>
-                                          deleteConfirmDialog(
+                                          commonConfirmDialog(
                                               context: context,
                                               title: '取引を削除しますか',
-                                              leftText: 'キャンセル',
-                                              rightText: '削除',
-                                              isDestructiveAction: true,
-                                              function: () {
+                                              secondaryText: 'キャンセル',
+                                              primaryText: '削除',
+                                              primaryFunction: () {
                                                 // 削除処理
                                                 Navigator.pop(context);
                                                 _deleteTransaction(
@@ -203,29 +200,35 @@ class _EditTransaction extends State<EditTransaction> {
                 children: [
                   // 日付
                   InkWell(
-                    onTap: () {
-                      showCupertinoModalPopup(
+                    onTap: () async {
+                      final DateTime? picked = await showDatePicker(
                         context: context,
-                        builder: (_) => Container(
-                          height: 250,
-                          color: Colors.white,
-                          child: CupertinoDatePicker(
-                            initialDateTime: DateFormat('yyyy-MM-dd')
-                                .parse(transaction.transactionDate),
-                            onDateTimeChanged: (value) {
-                              setState(() {
-                                transaction.transactionDate =
-                                    DateFormat('yyyy-MM-dd').format(value);
-                              });
-                            },
-                            minimumYear: DateTime.now().year - 1,
-                            maximumYear: DateTime.now().year,
-                            maximumDate: DateTime.now(),
-                            dateOrder: DatePickerDateOrder.ymd,
-                            mode: CupertinoDatePickerMode.date,
-                          ),
-                        ),
+                        initialDate: DateFormat('yyyy-MM-dd')
+                            .parse(transaction.transactionDate),
+                        firstDate: DateTime(DateTime.now().year - 1),
+                        lastDate: DateTime.now(),
+                        builder: (BuildContext context, Widget? child) {
+                          return Theme(
+                            data: ThemeData.light().copyWith(
+                              datePickerTheme: const DatePickerThemeData(
+                                  headerBackgroundColor: Colors.blue,
+                                  headerForegroundColor: Colors.white,
+                                  dividerColor: Colors.grey,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.zero)),
+                              colorScheme: const ColorScheme.light(
+                                primary: Colors.blueAccent,
+                                onPrimary: Colors.white,
+                              ),
+                            ),
+                            child: child!,
+                          );
+                        },
                       );
+                      if (picked != null) {
+                        setState(() => transaction.transactionDate =
+                            DateFormat('yyyy-MM-dd').format(picked));
+                      }
                     },
                     child: SizedBox(
                       height: 60,
@@ -406,6 +409,45 @@ class _EditTransaction extends State<EditTransaction> {
                                               size: 30,
                                             ))
                                       ]))))),
+                  // 支払い元選択
+                  paymentResourceList.isNotEmpty
+                      ? Container(
+                          padding: const EdgeInsets.only(left: 40, right: 40),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: 250,
+                                child: DropdownButton(
+                                  hint: const Text("支払方法"),
+                                  isExpanded: true,
+                                  items: paymentResourceList
+                                      .map((resource) => DropdownMenuItem(
+                                            value: resource.paymentId,
+                                            child: Text(resource.paymentName),
+                                          ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      PaymentResourceData selectedPayment =
+                                          paymentResourceList
+                                              .where((resource) =>
+                                                  resource.paymentId == value)
+                                              .toList()
+                                              .first;
+                                      transaction.paymentId =
+                                          selectedPayment.paymentId;
+                                      transaction.paymentName =
+                                          selectedPayment.paymentName;
+                                    });
+                                  },
+                                  value: transaction.paymentId,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                   // 固定費フラグ
                   Container(
                     alignment: Alignment.center,
@@ -422,46 +464,6 @@ class _EditTransaction extends State<EditTransaction> {
                       },
                     ),
                   ),
-                  // 支払い元選択
-                  paymentResourceList.isNotEmpty
-                      ? Container(
-                          margin: const EdgeInsetsDirectional.only(
-                              start: 50.0, end: 50.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              const Text(
-                                "支払い元を選択",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              const Expanded(child: SizedBox()),
-                              DropdownButton(
-                                items: paymentResourceList
-                                    .map((resource) => DropdownMenuItem(
-                                          value: resource.paymentId,
-                                          child: Text(resource.paymentName),
-                                        ))
-                                    .toList(),
-                                onChanged: (value) {
-                                  setState(() {
-                                    PaymentResourceData selectedPayment =
-                                        paymentResourceList
-                                            .where((resource) =>
-                                                resource.paymentId == value)
-                                            .toList()
-                                            .first;
-                                    transaction.paymentId =
-                                        selectedPayment.paymentId;
-                                    transaction.paymentName =
-                                        selectedPayment.paymentName;
-                                  });
-                                },
-                                value: transaction.paymentId,
-                              ),
-                            ],
-                          ),
-                        )
-                      : const SizedBox(),
                   const SizedBox(
                     height: 100,
                   )
@@ -497,44 +499,25 @@ class _EditTransaction extends State<EditTransaction> {
 
   /// 登録ボタン押下後のダイアログ
   AlertDialog _confirmDialog() {
-    return AlertDialog(
-      title: const Text('入力が完了しました'),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20),
-                  fixedSize: const Size(120, 50),
-                  shape: const StadiumBorder()),
-              onPressed: () {
-                Navigator.pop(context);
-                setState(() {
-                  nameController.text = '';
-                  transaction.transactionName = '';
-                  transaction.transactionAmount = 0;
-                  transaction.fixedFlg = false;
-                  transaction.isDisable = false;
-                  _setDefaultCategory(transaction);
-                });
-              },
-              child: const Text('連続入力')),
-          const SizedBox(width: 10),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20),
-                fixedSize: const Size(120, 50),
-                shape: const StadiumBorder(),
-                backgroundColor: Colors.grey),
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-              widget.setReload();
-            },
-            child: const Text('完了'),
-          )
-        ],
-      ),
-    );
+    return commonConfirmDialog(
+        context: context,
+        title: '入力が完了しました',
+        secondaryText: '連続入力',
+        primaryText: '完了',
+        primaryFunction: () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          widget.setReload();
+        },
+        secondaryFunction: () {
+          setState(() {
+            nameController.text = '';
+            transaction.transactionName = '';
+            transaction.transactionAmount = 0;
+            transaction.fixedFlg = false;
+            transaction.isDisable = false;
+            _setDefaultCategory(transaction);
+          });
+        });
   }
 }
