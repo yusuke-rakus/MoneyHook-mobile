@@ -4,6 +4,8 @@ import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectSubCategory.dart';
 
+import '../components/gradientBar.dart';
+
 class SelectCategory extends StatefulWidget {
   const SelectCategory(this.env, {super.key});
 
@@ -34,6 +36,7 @@ class _SelectCategory extends State<SelectCategory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        flexibleSpace: GradientBar(),
         title: const Text('カテゴリ'),
       ),
       body: ListView.builder(

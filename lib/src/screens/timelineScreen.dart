@@ -167,15 +167,31 @@ class _TimelineScreenState extends State<TimelineScreen> {
             ),
       floatingActionButton: Tooltip(
         message: timelineMode ? "カレンダーで表示" : "リストを表示",
-        child: IconButton(
+        child: FloatingActionButton(
           onPressed: () {
             setState(() {
               timelineMode = !timelineMode;
             });
           },
-          icon: Icon(
-              color: Colors.lightBlue,
-              timelineMode ? Icons.calendar_month : Icons.bar_chart_sharp),
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+                shape: BoxShape.circle, color: Colors.white),
+            child: ShaderMask(
+              blendMode: BlendMode.srcIn,
+              shaderCallback: (Rect bounds) => const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  Color(0xFF80D8FF),
+                  Color(0xFF2962FF),
+                ],
+              ).createShader(bounds),
+              child: Icon(
+                  timelineMode ? Icons.calendar_month : Icons.bar_chart_sharp),
+            ),
+          ),
         ),
       ),
     );
