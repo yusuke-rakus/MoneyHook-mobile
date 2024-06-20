@@ -118,39 +118,44 @@ class _SearchTransaction extends State<PaymentResource> {
           flexibleSpace: GradientBar(),
           title: (const Text('設定')),
         ),
-        body: Column(
-          children: [
-            resultData.isNotEmpty
-                ? Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: resultData.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _card(resultData[index]);
-                      },
-                    ),
-                  )
-                : const dataNotRegisteredBox(message: '支払い方法が存在しません'),
-            Center(
-              heightFactor: 2,
-              child: Tooltip(
-                message: "新規支払い方法",
-                child: IconButton(
-                    // 新規追加ボタン
-                    onPressed: () {
-                      setState(() {
-                        if (resultData.isEmpty ||
-                            resultData.last.paymentId != null) {
-                          newData.editMode = true;
-                          editingData.paymentName = "";
-                          resultData.add(newData);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.add_circle_outline)),
-              ),
+        body: Center(
+          child: SizedBox(
+            width: 800,
+            child: Column(
+              children: [
+                resultData.isNotEmpty
+                    ? Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: resultData.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return _card(resultData[index]);
+                          },
+                        ),
+                      )
+                    : const dataNotRegisteredBox(message: '支払い方法が存在しません'),
+                Center(
+                  heightFactor: 2,
+                  child: Tooltip(
+                    message: "新規支払い方法",
+                    child: IconButton(
+                        // 新規追加ボタン
+                        onPressed: () {
+                          setState(() {
+                            if (resultData.isEmpty ||
+                                resultData.last.paymentId != null) {
+                              newData.editMode = true;
+                              editingData.paymentName = "";
+                              resultData.add(newData);
+                            }
+                          });
+                        },
+                        icon: const Icon(Icons.add_circle_outline)),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ));
   }
 

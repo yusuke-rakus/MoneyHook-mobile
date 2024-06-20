@@ -19,14 +19,24 @@ class envClass {
     return DateFormat('yyyy-MM-dd').parse(thisMonth).month.toString();
   }
 
+  DateTime getDateTimeMonth() {
+    return DateFormat('yyyy-MM-dd').parse(thisMonth);
+  }
+
   // 今月にリセット
   void initMonth() {
     thisMonth = DateFormat('yyyy-MM-dd')
         .format(DateTime(DateTime.now().year, DateTime.now().month, 1));
   }
 
+  // 月設定
+  void setMonth(DateTime date) {
+    thisMonth =
+        DateFormat('yyyy-MM-dd').format(DateTime(date.year, date.month, 1));
+  }
+
   // 加算
-  Future<void> addMonth() async {
+  void addMonth() {
     DateTime date = DateFormat('yyyy-MM-dd').parse(thisMonth);
     DateTime today = DateTime(DateTime.now().year, DateTime.now().month, 1);
 

@@ -22,30 +22,35 @@ class SettingsScreen extends StatelessWidget {
           flexibleSpace: GradientBar(),
           title: const Text("設定"),
         ),
-        body: ListView(
-          children: [
-            _menuCard(context, Icons.account_circle_outlined, 'ローカル設定',
-                const LocalSettings()),
-            _menuCard(context, Icons.account_tree, '自動入力',
-                MonthlyTransaction(env: env)),
-            _menuCard(context, Icons.checklist_sharp, 'サブカテゴリの表示',
-                HideSubCategory(env: env)),
-            _menuCard(context, Icons.search_outlined, '収支の検索',
-                SearchTransaction(env: env)),
-            _menuCard(context, Icons.account_balance_wallet_outlined, '支払い元の管理',
-                PaymentResource(env: env)),
-            const SizedBox(
-              height: 50,
+        body: Center(
+          child: SizedBox(
+            width: 800,
+            child: ListView(
+              children: [
+                _menuCard(context, Icons.account_circle_outlined, 'ローカル設定',
+                    const LocalSettings()),
+                _menuCard(context, Icons.account_tree, '自動入力',
+                    MonthlyTransaction(env: env)),
+                _menuCard(context, Icons.checklist_sharp, 'サブカテゴリの表示',
+                    HideSubCategory(env: env)),
+                _menuCard(context, Icons.search_outlined, '収支の検索',
+                    SearchTransaction(env: env)),
+                _menuCard(context, Icons.account_balance_wallet_outlined,
+                    '支払い元の管理', PaymentResource(env: env)),
+                const SizedBox(
+                  height: 50,
+                ),
+                TextButton(
+                    onPressed: () {
+                      UserApi.signOut();
+                    },
+                    child: const Text(
+                      'ログアウト',
+                      style: TextStyle(color: Colors.black54),
+                    )),
+              ],
             ),
-            TextButton(
-                onPressed: () {
-                  UserApi.signOut();
-                },
-                child: const Text(
-                  'ログアウト',
-                  style: TextStyle(color: Colors.black54),
-                )),
-          ],
+          ),
         ));
   }
 

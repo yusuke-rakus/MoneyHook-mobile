@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/timelineTransaction.dart';
-import 'package:money_hooks/src/components/charts/timelineChart.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
-import 'package:money_hooks/src/components/timelineList.dart';
 
 import '../class/transactionClass.dart';
+import '../components/charts/timelineChart.dart';
 import '../components/commonLoadingAnimation.dart';
 import '../components/commonSnackBar.dart';
+import '../components/timelineList.dart';
 import '../dataLoader/transactionLoad.dart';
 import '../env/envClass.dart';
+import '../view/timelineCalendar.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen(this.isLoading, this.env, {super.key});
@@ -26,6 +27,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   late TimelineTransaction timelineList = TimelineTransaction();
   late List<TransactionClass> timelineChart = [];
   late bool _isLoading;
+  late bool timelineMode = true;
 
   void setLoading() {
     setState(() {
@@ -118,37 +120,62 @@ class _TimelineScreenState extends State<TimelineScreen> {
           ],
         ),
       ),
-      body: Center(
-        child: SizedBox(
-          width: 800,
-          child: RefreshIndicator(
-            color: Colors.grey,
-            onRefresh: () async {
-              transactionApi.getTimelineData(
-                  env, setLoading, setSnackBar, setTimelineData);
-              transactionApi.getTimelineChart(env, setTimelineChart);
-            },
-            child: ListView(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 40, bottom: 10),
-                  height: 180,
-                  child: TimelineChart(timelineChart),
+      body: timelineMode
+          ? Center(
+              child: SizedBox(
+                width: 800,
+                child: RefreshIndicator(
+                  color: Colors.grey,
+                  onRefresh: () async {
+                    transactionApi.getTimelineData(
+                        env, setLoading, setSnackBar, setTimelineData);
+                    transactionApi.getTimelineChart(env, setTimelineChart);
+                  },
+                  child: ListView(
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 40, bottom: 10),
+                        height: 180,
+                        child: TimelineChart(timelineChart),
+                      ),
+                      Center(
+                        child: _isLoading
+                            ? CommonLoadingAnimation.build()
+                            : TimelineList(
+                                env: env,
+                                timelineList: timelineList.transactionList,
+                                setReload: setReload),
+                      ),
+                      const SizedBox(
+                        height: 100,
+                      )
+                    ],
+                  ),
                 ),
-                Center(
-                  child: _isLoading
-                      ? CommonLoadingAnimation.build()
-                      : TimelineList(
-                          env: env,
-                          timelineList: timelineList.transactionList,
-                          setReload: setReload),
-                ),
-                const SizedBox(
-                  height: 100,
-                )
-              ],
+              ),
+            )
+          : TimelineCalendar(
+              onRefresh: () async {
+                transactionApi.getTimelineData(
+                    env, setLoading, setSnackBar, setTimelineData);
+                transactionApi.getTimelineChart(env, setTimelineChart);
+              },
+              isLoading: _isLoading,
+              env: env,
+              setReload: setReload,
+              timelines: timelineList,
             ),
-          ),
+      floatingActionButton: Tooltip(
+        message: timelineMode ? "カレンダーで表示" : "リストを表示",
+        child: IconButton(
+          onPressed: () {
+            setState(() {
+              timelineMode = !timelineMode;
+            });
+          },
+          icon: Icon(
+              color: Colors.lightBlue,
+              timelineMode ? Icons.calendar_month : Icons.bar_chart_sharp),
         ),
       ),
     );
