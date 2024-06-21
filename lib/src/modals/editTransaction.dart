@@ -11,6 +11,7 @@ import 'package:switcher/switcher.dart';
 
 import '../class/response/paymentResource.dart';
 import '../class/transactionClass.dart';
+import '../components/centerWidget.dart';
 import '../components/commonLoadingDialog.dart';
 import '../components/commonSnackBar.dart';
 import '../components/gradientBar.dart';
@@ -199,55 +200,57 @@ class _EditTransaction extends State<EditTransaction> {
                 padding: const EdgeInsets.all(8),
                 children: [
                   // 日付
-                  InkWell(
-                    onTap: () async {
-                      final DateTime? picked = await showDatePicker(
-                        context: context,
-                        initialDate: DateFormat('yyyy-MM-dd')
-                            .parse(transaction.transactionDate),
-                        firstDate: DateTime(DateTime.now().year - 1),
-                        lastDate: DateTime.now(),
-                        builder: (BuildContext context, Widget? child) {
-                          return Theme(
-                            data: ThemeData.light().copyWith(
-                              datePickerTheme: const DatePickerThemeData(
-                                  headerBackgroundColor: Colors.blue,
-                                  headerForegroundColor: Colors.white,
-                                  dividerColor: Colors.grey,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.zero)),
-                              colorScheme: const ColorScheme.light(
-                                primary: Colors.blueAccent,
-                                onPrimary: Colors.white,
+                  CenterWidget(
+                    child: InkWell(
+                      onTap: () async {
+                        final DateTime? picked = await showDatePicker(
+                          context: context,
+                          initialDate: DateFormat('yyyy-MM-dd')
+                              .parse(transaction.transactionDate),
+                          firstDate: DateTime(DateTime.now().year - 1),
+                          lastDate: DateTime.now(),
+                          builder: (BuildContext context, Widget? child) {
+                            return Theme(
+                              data: ThemeData.light().copyWith(
+                                datePickerTheme: const DatePickerThemeData(
+                                    headerBackgroundColor: Colors.blue,
+                                    headerForegroundColor: Colors.white,
+                                    dividerColor: Colors.grey,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.zero)),
+                                colorScheme: const ColorScheme.light(
+                                  primary: Colors.blueAccent,
+                                  onPrimary: Colors.white,
+                                ),
                               ),
+                              child: child!,
+                            );
+                          },
+                        );
+                        if (picked != null) {
+                          setState(() => transaction.transactionDate =
+                              DateFormat('yyyy-MM-dd').format(picked));
+                        }
+                      },
+                      child: SizedBox(
+                        height: 60,
+                        child: Center(
+                            child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${transaction.transactionDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
-                            child: child!,
-                          );
-                        },
-                      );
-                      if (picked != null) {
-                        setState(() => transaction.transactionDate =
-                            DateFormat('yyyy-MM-dd').format(picked));
-                      }
-                    },
-                    child: SizedBox(
-                      height: 60,
-                      child: Center(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${transaction.transactionDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          const Icon(Icons.edit),
-                        ],
-                      )),
+                            const Icon(Icons.edit),
+                          ],
+                        )),
+                      ),
                     ),
                   ),
                   // 金額
-                  Container(
+                  CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 100,
                     child: Row(
@@ -301,7 +304,7 @@ class _EditTransaction extends State<EditTransaction> {
                     ),
                   ),
                   // 取引名
-                  Container(
+                  CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 100,
                     alignment: Alignment.center,
@@ -321,7 +324,7 @@ class _EditTransaction extends State<EditTransaction> {
                     ),
                   ),
                   // 候補リスト
-                  Container(
+                  CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 10),
                     alignment: Alignment.centerLeft,
                     child: Wrap(
@@ -363,9 +366,8 @@ class _EditTransaction extends State<EditTransaction> {
                             .toList()),
                   ),
                   // カテゴリ
-                  Container(
-                      margin:
-                          const EdgeInsetsDirectional.fromSTEB(40, 30, 40, 30),
+                  CenterWidget(
+                      padding: const EdgeInsets.fromLTRB(40, 30, 40, 30),
                       child: InkWell(
                           onTap: () async {
                             final result = await Navigator.push(
@@ -411,7 +413,7 @@ class _EditTransaction extends State<EditTransaction> {
                                       ]))))),
                   // 支払い元選択
                   paymentResourceList.isNotEmpty
-                      ? Container(
+                      ? CenterWidget(
                           padding: const EdgeInsets.only(left: 40, right: 40),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -449,7 +451,7 @@ class _EditTransaction extends State<EditTransaction> {
                         )
                       : const SizedBox(),
                   // 固定費フラグ
-                  Container(
+                  CenterWidget(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 100,
@@ -475,6 +477,7 @@ class _EditTransaction extends State<EditTransaction> {
                   child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
+                          constraints: const BoxConstraints(maxWidth: 800),
                           color: Colors.white,
                           height: 60,
                           width: double.infinity,
@@ -517,6 +520,7 @@ class _EditTransaction extends State<EditTransaction> {
             transaction.fixedFlg = false;
             transaction.isDisable = false;
             _setDefaultCategory(transaction);
+            transaction.paymentId = null;
           });
         });
   }

@@ -6,6 +6,7 @@ import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
+import '../components/centerWidget.dart';
 import '../components/commonSnackBar.dart';
 
 class VariableAnalysisView extends StatefulWidget {
@@ -60,7 +61,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
       body: Column(
         children: [
           // 月選択
-          Container(
+          CenterWidget(
             margin: const EdgeInsets.only(right: 15, left: 15),
             height: 60,
             child: Row(
@@ -104,18 +105,20 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                   child: ListView(
                   children: [
                     // 合計値
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          const Text('変動費合計', style: TextStyle(fontSize: 17)),
-                          const SizedBox(width: 10),
-                          Text(TransactionClass.formatNum(data.totalVariable),
-                              style: const TextStyle(fontSize: 30)),
-                          const SizedBox(width: 5),
-                          const Text('円', style: TextStyle(fontSize: 17)),
-                        ],
+                    CenterWidget(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            const Text('変動費合計', style: TextStyle(fontSize: 17)),
+                            const SizedBox(width: 10),
+                            Text(TransactionClass.formatNum(data.totalVariable),
+                                style: const TextStyle(fontSize: 30)),
+                            const SizedBox(width: 5),
+                            const Text('円', style: TextStyle(fontSize: 17)),
+                          ],
+                        ),
                       ),
                     ),
                     // 変動費
@@ -132,7 +135,9 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                             },
                             separatorBuilder:
                                 (BuildContext context, int index) {
-                              return const Divider();
+                              return CenterWidget(
+                                child: const Divider(),
+                              );
                             },
                           )
                         : const dataNotRegisteredBox(message: '取引履歴が存在しません'),
@@ -150,59 +155,61 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
   // アコーディオン
   Widget _variableAccordion(
       BuildContext context, Map<String, dynamic> monthlyVariableList) {
-    return Theme(
-      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
-      child: ExpansionTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('${monthlyVariableList['category_name']}'),
-              Text(
-                  '¥${TransactionClass.formatNum(monthlyVariableList['category_total_amount'].abs())}'),
-            ],
-          ),
-          textColor: Colors.black,
-          children: monthlyVariableList['sub_category_list']
-              .map<Widget>((subCategory) => Theme(
-                    data: Theme.of(context)
-                        .copyWith(dividerColor: Colors.transparent),
-                    child: ExpansionTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(subCategory['sub_category_name']),
-                          Text(
-                              '¥${TransactionClass.formatNum(subCategory['sub_category_total_amount'].abs())}'),
-                        ],
+    return CenterWidget(
+      child: Theme(
+        data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+        child: ExpansionTile(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text('${monthlyVariableList['category_name']}'),
+                Text(
+                    '¥${TransactionClass.formatNum(monthlyVariableList['category_total_amount'].abs())}'),
+              ],
+            ),
+            textColor: Colors.black,
+            children: monthlyVariableList['sub_category_list']
+                .map<Widget>((subCategory) => Theme(
+                      data: Theme.of(context)
+                          .copyWith(dividerColor: Colors.transparent),
+                      child: ExpansionTile(
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(subCategory['sub_category_name']),
+                            Text(
+                                '¥${TransactionClass.formatNum(subCategory['sub_category_total_amount'].abs())}'),
+                          ],
+                        ),
+                        textColor: Colors.black,
+                        children: subCategory['transaction_list']
+                            .map<Widget>((tran) => ListTile(
+                                    title: Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 7,
+                                      child: Text(
+                                        tran['transaction_name'],
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 3,
+                                      child: Row(
+                                        children: [
+                                          const Expanded(child: SizedBox()),
+                                          Text(
+                                              '¥${TransactionClass.formatNum(tran['transaction_amount'].abs())}'),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                )))
+                            .toList(),
                       ),
-                      textColor: Colors.black,
-                      children: subCategory['transaction_list']
-                          .map<Widget>((tran) => ListTile(
-                                  title: Row(
-                                children: [
-                                  Expanded(
-                                    flex: 7,
-                                    child: Text(
-                                      tran['transaction_name'],
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Row(
-                                      children: [
-                                        const Expanded(child: SizedBox()),
-                                        Text(
-                                            '¥${TransactionClass.formatNum(tran['transaction_amount'].abs())}'),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              )))
-                          .toList(),
-                    ),
-                  ))
-              .toList()),
+                    ))
+                .toList()),
+      ),
     );
   }
 }

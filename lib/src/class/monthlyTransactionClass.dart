@@ -11,6 +11,9 @@ class MonthlyTransactionClass {
   var categoryName = '';
   num? subCategoryId;
   var subCategoryName = '';
+  String? paymentName;
+  num? paymentId;
+
   bool includeFlg = true;
   bool isDisable = false;
   String monthlyTransactionNameError = '';
@@ -28,7 +31,8 @@ class MonthlyTransactionClass {
       this.subCategoryId,
       this.monthlyTransactionSign,
       this.categoryName,
-      this.subCategoryName);
+      this.subCategoryName,
+      this.paymentId);
 
   static String formatNum(int num) {
     final formatter = NumberFormat('#,###');
@@ -61,7 +65,8 @@ class MonthlyTransactionClass {
         'category_id': categoryId,
         'sub_category_id': subCategoryId,
         'sub_category_name': subCategoryName,
-        'include_flg': includeFlg
+        'include_flg': includeFlg,
+        'payment_id': paymentId
       }
     };
   }

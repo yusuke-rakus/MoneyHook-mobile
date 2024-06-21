@@ -33,6 +33,7 @@ class MonthlyTransactionApi {
               value['monthly_transaction_sign'],
               value['category_name'],
               value['sub_category_name'],
+              value['payment_id'],
             ));
           });
           setMonthlyTransactionList(resultList);
@@ -57,6 +58,7 @@ class MonthlyTransactionApi {
     setDisable();
     if (monthlyTransactionValidation
         .checkMonthlyTransaction(monthlyTransaction)) {
+      setDisable();
       return;
     }
 
@@ -93,6 +95,7 @@ class MonthlyTransactionApi {
     setDisable();
     if (monthlyTransactionValidation
         .checkMonthlyTransaction(monthlyTransaction)) {
+      setDisable();
       return;
     }
 

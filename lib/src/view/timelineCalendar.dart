@@ -73,7 +73,10 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
           child: TableCalendar(
               firstDay: widget.env.getDateTimeMonth(),
               focusedDay: widget.env.getDateTimeMonth(),
-              lastDay: DateTime.now(),
+              lastDay:
+                  DateTime.now().month == widget.env.getDateTimeMonth().month
+                      ? DateTime.now()
+                      : widget.env.getDateTimeMonth(),
               daysOfWeekVisible: false,
               headerVisible: false,
               rowHeight: 100,

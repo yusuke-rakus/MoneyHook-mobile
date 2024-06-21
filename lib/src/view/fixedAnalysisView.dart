@@ -6,6 +6,7 @@ import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../components/centerWidget.dart';
 import '../components/commonSnackBar.dart';
 import '../components/fixedAnalysisAccordion.dart';
 
@@ -75,7 +76,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
       body: Column(
         children: [
           // 月選択
-          Container(
+          CenterWidget(
             margin: const EdgeInsets.only(right: 15, left: 15),
             height: 60,
             child: Row(
@@ -133,7 +134,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                       ? ListView(
                           children: [
                             // 合計値
-                            Container(
+                            CenterWidget(
                               margin:
                                   const EdgeInsets.only(right: 15, left: 15),
                               height: 60,
@@ -163,7 +164,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                             // 収入
                             Column(
                               children: [
-                                Container(
+                                CenterWidget(
                                   margin: const EdgeInsets.only(
                                       left: 10, right: 10),
                                   padding: const EdgeInsets.only(
@@ -199,7 +200,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                             // 支出
                             Column(
                               children: [
-                                Container(
+                                CenterWidget(
                                   margin:
                                       const EdgeInsets.only(left: 5, right: 5),
                                   padding: const EdgeInsets.only(

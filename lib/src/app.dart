@@ -11,6 +11,7 @@ import 'package:money_hooks/src/screens/loading.dart';
 import 'package:money_hooks/src/screens/login.dart';
 import 'package:money_hooks/src/screens/settings.dart';
 import 'package:money_hooks/src/screens/timelineScreen.dart';
+import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 import 'components/commonSnackBar.dart';
 
@@ -23,11 +24,9 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: const [
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate
       ],
-      supportedLocales: const [
-        Locale('ja'),
-      ],
+      supportedLocales: const [Locale('ja')],
       locale: const Locale('ja'),
       title: "MoneyHook",
       theme: ThemeData(
@@ -36,9 +35,8 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.mPlus1pTextTheme(),
         primaryTextTheme: GoogleFonts.mPlus1pTextTheme(),
         snackBarTheme: SnackBarThemeData(
-          contentTextStyle:
-              GoogleFonts.mPlus1p(fontSize: 16.0, color: Colors.white),
-        ),
+            contentTextStyle:
+                GoogleFonts.mPlus1p(fontSize: 16.0, color: Colors.white)),
       ),
       home: const MyStatefulWidget(),
     );
@@ -119,6 +117,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
               UserApi.googleSignIn(
                       context, email, token, setSnackBar, setLoginItem)
                   .then((userId) {
+                TransactionStorage.allDelete();
                 if (userId == null) {
                   setSnackBar('ログインエラーが発生しました');
                   // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
