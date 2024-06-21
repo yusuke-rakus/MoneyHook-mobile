@@ -29,16 +29,11 @@ class AnalysisScreen extends StatelessWidget {
             ],
           ),
         )),
-        body: Center(
-          child: SizedBox(
-            width: 800,
-            child: TabBarView(
-              children: <Widget>[
-                VariableAnalysisView(env, isLoading),
-                FixedAnalysisView(env, isLoading),
-              ],
-            ),
-          ),
+        body: TabBarView(
+          children: <Widget>[
+            VariableAnalysisView(env, isLoading),
+            FixedAnalysisView(env, isLoading),
+          ],
         ),
       ),
     );

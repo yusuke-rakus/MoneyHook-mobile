@@ -3,6 +3,7 @@ import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/subCategoryClass.dart';
+import '../components/centerWidget.dart';
 import '../components/gradientBar.dart';
 
 class SelectSubCategoryForSearch extends StatefulWidget {
@@ -53,39 +54,41 @@ class _SelectSubCategoryForSearch extends State<SelectSubCategoryForSearch> {
                       left: 20, right: 20, top: 10, bottom: 10),
                   itemCount: subCategoryList.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return InkWell(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.pop(context, {
-                            'categoryName': categoryName,
-                            'categoryId': categoryId,
-                            'subCategoryName':
-                                subCategoryList[index].subCategoryName,
-                            'subCategoryId':
-                                subCategoryList[index].subCategoryId,
-                          });
-                        },
-                        child: SizedBox(
-                            height: 60,
-                            child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                      child: Text(
-                                          subCategoryList[index]
-                                              .subCategoryName,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: const TextStyle(
-                                            fontSize: 20.0,
-                                          ))),
-                                  const Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Icon(
-                                        Icons.keyboard_arrow_right,
-                                        size: 30,
-                                      ))
-                                ])));
+                    return CenterWidget(
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context, {
+                              'categoryName': categoryName,
+                              'categoryId': categoryId,
+                              'subCategoryName':
+                                  subCategoryList[index].subCategoryName,
+                              'subCategoryId':
+                                  subCategoryList[index].subCategoryId,
+                            });
+                          },
+                          child: SizedBox(
+                              height: 60,
+                              child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                        child: Text(
+                                            subCategoryList[index]
+                                                .subCategoryName,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: const TextStyle(
+                                              fontSize: 20.0,
+                                            ))),
+                                    const Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Icon(
+                                          Icons.keyboard_arrow_right,
+                                          size: 30,
+                                        ))
+                                  ]))),
+                    );
                   }))
         ]));
   }

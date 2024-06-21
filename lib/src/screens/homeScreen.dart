@@ -5,6 +5,7 @@ import 'package:money_hooks/src/components/homeAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
 import '../class/transactionClass.dart';
+import '../components/centerWidget.dart';
 import '../components/charts/homeChart.dart';
 import '../components/commonLoadingAnimation.dart';
 import '../components/commonSnackBar.dart';
@@ -109,50 +110,47 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: _isLoading
           ? Center(child: CommonLoadingAnimation.build())
-          : Center(
-              child: SizedBox(
-                width: 800,
-                child: ListView(
-                  children: [
-                    // 円グラフ
-                    Center(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        height: 250,
-                        child: HomeChart(
-                            data: homeTransactionList.categoryList,
-                            colorList: colorList),
-                      ),
-                    ),
-                    // 収支
-                    Container(
-                      margin: const EdgeInsets.only(left: 8),
-                      height: 40,
-                      child: Row(
-                        children: [
-                          const Text('支出合計', style: TextStyle(fontSize: 20)),
-                          const SizedBox(width: 20),
-                          Text(
-                              TransactionClass.formatNum(
-                                  homeTransactionList.balance),
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: homeTransactionList.balance < 0
-                                      ? Colors.red
-                                      : Colors.green)),
-                        ],
-                      ),
-                    ),
-                    // アコーディオン
-                    HomeAccordion(
-                        homeTransactionList: homeTransactionList.categoryList,
+          : ListView(
+              children: [
+                // 円グラフ
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    height: 250,
+                    child: HomeChart(
+                        data: homeTransactionList.categoryList,
                         colorList: colorList),
-                    const SizedBox(
-                      height: 90,
-                    )
-                  ],
+                  ),
                 ),
-              ),
+                // 収支
+                CenterWidget(
+                  height: 40,
+                  margin: const EdgeInsets.only(left: 8),
+                  child: Row(
+                    children: [
+                      const Text('支出合計', style: TextStyle(fontSize: 20)),
+                      const SizedBox(width: 20),
+                      Text(
+                          TransactionClass.formatNum(
+                              homeTransactionList.balance),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: homeTransactionList.balance < 0
+                                  ? Colors.red
+                                  : Colors.green)),
+                    ],
+                  ),
+                ),
+                // アコーディオン
+                CenterWidget(
+                  child: HomeAccordion(
+                      homeTransactionList: homeTransactionList.categoryList,
+                      colorList: colorList),
+                ),
+                const SizedBox(
+                  height: 90,
+                )
+              ],
             ),
       floatingActionButton: Tooltip(
         message: "収支を追加",

@@ -7,10 +7,13 @@ import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
 
 import '../../class/monthlyTransactionClass.dart';
+import '../../class/response/paymentResource.dart';
+import '../../components/centerWidget.dart';
 import '../../components/commonConfirmDialog.dart';
 import '../../components/commonLoadingDialog.dart';
 import '../../components/gradientBar.dart';
 import '../../components/gradientButton.dart';
+import '../../dataLoader/paymentResource.dart';
 
 class EditMonthlyTransaction extends StatefulWidget {
   const EditMonthlyTransaction(
@@ -29,6 +32,7 @@ class EditMonthlyTransaction extends StatefulWidget {
 class _EditTransaction extends State<EditMonthlyTransaction> {
   late MonthlyTransactionClass monthlyTransaction;
   late envClass env;
+  late List<PaymentResourceData> paymentResourceList = [];
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
@@ -48,6 +52,19 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
         .copyWith(text: monthlyTransaction.monthlyTransactionDate.toString());
     dateController.selection = TextSelection.fromPosition(
         TextPosition(offset: dateController.text.length));
+    PaymentResourceLoad.getPaymentResource(env, setPaymentResourceList);
+  }
+
+  // 支払い方法
+  void setPaymentResourceList(List<PaymentResourceData> resultList) {
+    if (resultList.isNotEmpty) {
+      setState(() {
+        paymentResourceList.add(PaymentResourceData());
+        for (var value in resultList) {
+          paymentResourceList.add(value);
+        }
+      });
+    }
   }
 
   // 戻る・更新処理
@@ -150,44 +167,47 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                 padding: const EdgeInsets.all(8),
                 children: [
                   // 日付
-                  Row(children: [
-                    const Expanded(flex: 1, child: SizedBox()),
-                    Expanded(
-                      flex: 1,
-                      child: TextField(
-                        onChanged: (value) {
-                          setState(() {
-                            if (value.isNotEmpty) {
-                              monthlyTransaction.monthlyTransactionDate =
-                                  MonthlyTransactionClass.formatInt(value);
-                            } else {
-                              monthlyTransaction.monthlyTransactionDate = 0;
-                            }
-                          });
-                        },
-                        controller: dateController,
-                        decoration: InputDecoration(
-                            hintStyle:
-                                const TextStyle(fontSize: 20, letterSpacing: 8),
-                            errorText: monthlyTransaction
-                                    .monthlyTransactionDateError.isNotEmpty
-                                ? monthlyTransaction.monthlyTransactionDateError
-                                : null),
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        style: const TextStyle(fontSize: 20),
+                  CenterWidget(
+                    child: Row(children: [
+                      const Expanded(flex: 1, child: SizedBox()),
+                      Expanded(
+                        flex: 1,
+                        child: TextField(
+                          onChanged: (value) {
+                            setState(() {
+                              if (value.isNotEmpty) {
+                                monthlyTransaction.monthlyTransactionDate =
+                                    MonthlyTransactionClass.formatInt(value);
+                              } else {
+                                monthlyTransaction.monthlyTransactionDate = 0;
+                              }
+                            });
+                          },
+                          controller: dateController,
+                          decoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                  fontSize: 20, letterSpacing: 8),
+                              errorText: monthlyTransaction
+                                      .monthlyTransactionDateError.isNotEmpty
+                                  ? monthlyTransaction
+                                      .monthlyTransactionDateError
+                                  : null),
+                          keyboardType: TextInputType.number,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          style: const TextStyle(fontSize: 20),
+                        ),
                       ),
-                    ),
-                    const Text(
-                      '日',
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    const Expanded(flex: 1, child: SizedBox()),
-                  ]),
+                      const Text(
+                        '日',
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      const Expanded(flex: 1, child: SizedBox()),
+                    ]),
+                  ),
                   // 金額
-                  Container(
+                  CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 100,
                     child: Row(
@@ -247,7 +267,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                     ),
                   ),
                   // 取引名
-                  Container(
+                  CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 100,
                     alignment: Alignment.center,
@@ -268,8 +288,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                     ),
                   ),
                   // カテゴリ
-                  Container(
-                    margin:
+                  CenterWidget(
+                    padding:
                         const EdgeInsetsDirectional.fromSTEB(40, 30, 40, 30),
                     child: InkWell(
                       onTap: () async {
@@ -321,6 +341,45 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                       ),
                     ),
                   ),
+                  // 支払い元選択
+                  paymentResourceList.isNotEmpty
+                      ? CenterWidget(
+                          padding: const EdgeInsets.only(left: 40, right: 40),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              SizedBox(
+                                width: 250,
+                                child: DropdownButton(
+                                  hint: const Text("支払方法"),
+                                  isExpanded: true,
+                                  items: paymentResourceList
+                                      .map((resource) => DropdownMenuItem(
+                                            value: resource.paymentId,
+                                            child: Text(resource.paymentName),
+                                          ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      PaymentResourceData selectedPayment =
+                                          paymentResourceList
+                                              .where((resource) =>
+                                                  resource.paymentId == value)
+                                              .toList()
+                                              .first;
+                                      monthlyTransaction.paymentId =
+                                          selectedPayment.paymentId;
+                                      monthlyTransaction.paymentName =
+                                          selectedPayment.paymentName;
+                                    });
+                                  },
+                                  value: monthlyTransaction.paymentId,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox(),
                 ],
               ),
               // 登録
@@ -329,6 +388,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                 child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
+                      constraints: const BoxConstraints(maxWidth: 800),
                       color: Colors.white,
                       height: 60,
                       width: double.infinity,

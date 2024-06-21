@@ -5,6 +5,7 @@ import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
 import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
 
 import '../../class/monthlyTransactionClass.dart';
+import '../../components/centerWidget.dart';
 import '../../components/commonSnackBar.dart';
 import '../../components/gradientBar.dart';
 import '../../env/envClass.dart';
@@ -63,57 +64,47 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
         flexibleSpace: GradientBar(),
         title: (const Text('設定')),
       ),
-      body: Center(
-        child: SizedBox(
-          width: 800,
-          child: Stack(
-            children: [
-              _isLoading
-                  ? Center(child: CommonLoadingAnimation.build())
-                  : Column(
-                      children: [
-                        Container(
-                            padding:
-                                const EdgeInsets.only(left: 10, bottom: 20),
-                            height: 55,
-                            child: const Align(
-                                alignment: Alignment.bottomLeft,
-                                child: Text(
-                                  '収支の自動入力',
-                                  style: TextStyle(fontWeight: FontWeight.bold),
-                                ))),
-                        Expanded(
-                          child: ListView.builder(
-                              padding: const EdgeInsets.only(bottom: 90),
-                              shrinkWrap: true,
-                              itemCount: monthlyTransactionList.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return InkWell(
-                                  onTap: () {
-                                    // 収支の編集画面へ遷移
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditMonthlyTransaction(
-                                                    monthlyTransactionList[
-                                                        index],
-                                                    env,
-                                                    setReload,
-                                                    setSnackBar),
-                                            fullscreenDialog: true));
-                                  },
-                                  child: _monthlyTransactionData(
-                                      monthlyTransactionList[index]),
-                                );
-                              }),
+      body: _isLoading
+          ? Center(child: CommonLoadingAnimation.build())
+          : ListView(
+              children: [
+                CenterWidget(
+                    padding: const EdgeInsets.only(left: 10, bottom: 20),
+                    height: 55,
+                    child: const Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(
+                          '収支の自動入力',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ))),
+                ListView.builder(
+                    padding: const EdgeInsets.only(bottom: 90),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: monthlyTransactionList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CenterWidget(
+                        child: InkWell(
+                          onTap: () {
+                            // 収支の編集画面へ遷移
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        EditMonthlyTransaction(
+                                            monthlyTransactionList[index],
+                                            env,
+                                            setReload,
+                                            setSnackBar),
+                                    fullscreenDialog: true));
+                          },
+                          child: _monthlyTransactionData(
+                              monthlyTransactionList[index]),
                         ),
-                      ],
-                    ),
-            ],
-          ),
-        ),
-      ),
+                      );
+                    }),
+              ],
+            ),
       floatingActionButton: Tooltip(
         message: "毎月の自動入力を追加",
         child: FloatingActionButton(

@@ -27,7 +27,8 @@ class MonthlyTransactionStorage {
               e['sub_category_id'],
               e['monthly_transaction_sign'],
               e['category_name'],
-              e['sub_category_name']));
+              e['sub_category_name'],
+              e['payment_id']));
         });
       }
     });

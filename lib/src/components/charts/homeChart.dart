@@ -18,6 +18,8 @@ class _HomeChartState extends State<HomeChart> {
   Widget build(BuildContext context) {
     if (widget.data.isNotEmpty) {
       return PieChart(PieChartData(
+          startDegreeOffset: 270.0,
+          centerSpaceColor: Colors.transparent,
           sections:
               _createHomeChart(widget.data, widget.colorList, touchedIndex),
           pieTouchData: PieTouchData(

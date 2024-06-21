@@ -4,6 +4,7 @@ import 'package:money_hooks/src/class/response/timelineTransaction.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 
 import '../class/transactionClass.dart';
+import '../components/centerWidget.dart';
 import '../components/charts/timelineChart.dart';
 import '../components/commonLoadingAnimation.dart';
 import '../components/commonSnackBar.dart';
@@ -121,37 +122,32 @@ class _TimelineScreenState extends State<TimelineScreen> {
         ),
       ),
       body: timelineMode
-          ? Center(
-              child: SizedBox(
-                width: 800,
-                child: RefreshIndicator(
-                  color: Colors.grey,
-                  onRefresh: () async {
-                    transactionApi.getTimelineData(
-                        env, setLoading, setSnackBar, setTimelineData);
-                    transactionApi.getTimelineChart(env, setTimelineChart);
-                  },
-                  child: ListView(
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(top: 40, bottom: 10),
-                        height: 180,
-                        child: TimelineChart(timelineChart),
-                      ),
-                      Center(
-                        child: _isLoading
-                            ? CommonLoadingAnimation.build()
-                            : TimelineList(
-                                env: env,
-                                timelineList: timelineList.transactionList,
-                                setReload: setReload),
-                      ),
-                      const SizedBox(
-                        height: 100,
-                      )
-                    ],
+          ? RefreshIndicator(
+              color: Colors.grey,
+              onRefresh: () async {
+                transactionApi.getTimelineData(
+                    env, setLoading, setSnackBar, setTimelineData);
+                transactionApi.getTimelineChart(env, setTimelineChart);
+              },
+              child: ListView(
+                children: [
+                  CenterWidget(
+                    margin: const EdgeInsets.only(top: 40, bottom: 10),
+                    height: 180,
+                    child: TimelineChart(timelineChart),
                   ),
-                ),
+                  CenterWidget(
+                    child: _isLoading
+                        ? CommonLoadingAnimation.build()
+                        : TimelineList(
+                            env: env,
+                            timelineList: timelineList.transactionList,
+                            setReload: setReload),
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  )
+                ],
               ),
             )
           : TimelineCalendar(
@@ -189,6 +185,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                 ],
               ).createShader(bounds),
               child: Icon(
+                  size: 25,
                   timelineMode ? Icons.calendar_month : Icons.bar_chart_sharp),
             ),
           ),
