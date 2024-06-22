@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
@@ -61,6 +60,13 @@ class _SearchTransaction extends State<SearchTransaction> {
     transactionApi
         .getTotalSpending(env, transaction, setTransactionList, setSnackBar)
         .then((value) => Navigator.pop(context));
+  }
+
+  DateTime _lastDayOfMonth(DateTime date) {
+    var beginningNextMonth = (date.month < 12)
+        ? DateTime(date.year, date.month + 1, 1)
+        : DateTime(date.year + 1, 1, 1);
+    return beginningNextMonth.subtract(const Duration(days: 1));
   }
 
   @override
@@ -257,26 +263,33 @@ class _SearchTransaction extends State<SearchTransaction> {
       required String targetMonth,
       required Function setFunction}) {
     return InkWell(
-      onTap: () {
-        showCupertinoModalPopup(
+      onTap: () async {
+        final DateTime? picked = await showDatePicker(
           context: context,
-          builder: (_) => Container(
-            height: 250,
-            color: Colors.white,
-            child: CupertinoDatePicker(
-              initialDateTime: DateFormat('yyyy-MM-dd').parse(targetMonth),
-              onDateTimeChanged: (value) {
-                setState(() {
-                  setFunction(DateFormat('yyyy-MM-dd').format(value));
-                });
-              },
-              // minimumYear: DateTime.now().year - 1,
-              maximumYear: DateTime.now().year,
-              dateOrder: DatePickerDateOrder.ymd,
-              mode: CupertinoDatePickerMode.date,
-            ),
-          ),
+          initialDate: DateFormat('yyyy-MM-dd').parse(targetMonth),
+          firstDate: DateTime(DateTime.now().year - 10),
+          lastDate: _lastDayOfMonth(DateTime.now()),
+          builder: (BuildContext context, Widget? child) {
+            return Theme(
+              data: ThemeData.light().copyWith(
+                datePickerTheme: const DatePickerThemeData(
+                    headerBackgroundColor: Colors.blue,
+                    headerForegroundColor: Colors.white,
+                    dividerColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero)),
+                colorScheme: const ColorScheme.light(
+                  primary: Colors.blueAccent,
+                  onPrimary: Colors.white,
+                ),
+              ),
+              child: child!,
+            );
+          },
         );
+        if (picked != null) {
+          setState(() => setFunction(DateFormat('yyyy-MM-dd').format(picked)));
+        }
       },
       child: Container(
         height: 50,

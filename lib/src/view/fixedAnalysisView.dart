@@ -83,7 +83,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Tooltip(
-                  message: "次の月",
+                  message: "前の月",
                   child: IconButton(
                       onPressed: () {
                         setState(() {
@@ -101,7 +101,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                       icon: const Icon(Icons.arrow_back_ios)),
                 ),
                 Text('${env.getMonth()}月',
-                    style: const TextStyle(fontSize: 15)),
+                    style: const TextStyle(fontSize: 18)),
                 Tooltip(
                   message: "次の月",
                   child: IconButton(
