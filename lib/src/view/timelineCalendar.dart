@@ -184,8 +184,16 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                             : Colors.grey),
               ),
             ),
-            Text(fmtSpendSum, style: const TextStyle(color: Colors.red)),
-            Text(fmtIncomeSum, style: const TextStyle(color: Colors.green))
+            fmtSpendSum != ""
+                ? FittedBox(
+                    child: Text(fmtSpendSum,
+                        style: const TextStyle(color: Color(0xFFB71C1C))))
+                : const SizedBox(),
+            fmtIncomeSum != ""
+                ? FittedBox(
+                    child: Text(fmtIncomeSum,
+                        style: const TextStyle(color: Color(0xFF1B5E20))))
+                : const SizedBox()
           ],
         ),
       ),
