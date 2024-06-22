@@ -60,6 +60,7 @@ class TransactionClass {
     this.subCategoryId,
     this.subCategoryName,
     this.fixedFlg,
+    this.paymentId,
   );
 
   TransactionClass.setTimelineChart(
