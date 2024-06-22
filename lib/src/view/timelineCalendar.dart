@@ -77,6 +77,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                   DateTime.now().month == widget.env.getDateTimeMonth().month
                       ? DateTime.now()
                       : widget.env.getDateTimeMonth(),
+              availableGestures: AvailableGestures.none,
               daysOfWeekVisible: false,
               headerVisible: false,
               rowHeight: 100,
@@ -135,10 +136,13 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
         ),
         Center(
             child: selectedDate != null
-                ? TimelineList(
-                    env: widget.env,
-                    timelineList: transactions,
-                    setReload: widget.setReload)
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: TimelineList(
+                        env: widget.env,
+                        timelineList: transactions,
+                        setReload: widget.setReload),
+                  )
                 : const dataNotRegisteredBox(message: '日付を選択してください')),
         const SizedBox(height: 100)
       ],

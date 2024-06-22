@@ -80,7 +80,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                       icon: const Icon(Icons.arrow_back_ios)),
                 ),
                 Text('${env.getMonth()}月',
-                    style: const TextStyle(fontSize: 15)),
+                    style: const TextStyle(fontSize: 18)),
                 Tooltip(
                   message: "次の月",
                   child: IconButton(
