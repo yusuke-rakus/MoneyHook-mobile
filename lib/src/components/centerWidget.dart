@@ -8,6 +8,7 @@ class CenterWidget extends StatelessWidget {
   final double? width;
   final Alignment? alignment;
   final Color? color;
+  final double maxWidth;
 
   CenterWidget({
     this.child,
@@ -17,13 +18,14 @@ class CenterWidget extends StatelessWidget {
     this.width,
     this.alignment,
     this.color,
+    this.maxWidth = 800,
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 800),
+        constraints: BoxConstraints(maxWidth: maxWidth),
         padding: padding,
         margin: margin,
         height: height,

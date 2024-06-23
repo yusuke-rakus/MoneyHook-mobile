@@ -1,10 +1,12 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../class/response/homeTransaction.dart';
+
 class HomeChart extends StatefulWidget {
   const HomeChart({super.key, required this.data, required this.colorList});
 
-  final List<dynamic> data;
+  final HomeTransaction data;
   final List<Color> colorList;
 
   @override
@@ -16,7 +18,7 @@ class _HomeChartState extends State<HomeChart> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.data.isNotEmpty) {
+    if (widget.data.categoryList.isNotEmpty) {
       return PieChart(PieChartData(
           startDegreeOffset: 270.0,
           centerSpaceColor: Colors.transparent,
@@ -43,16 +45,24 @@ class _HomeChartState extends State<HomeChart> {
 }
 
 List<PieChartSectionData> _createHomeChart(
-    List<dynamic> data, colorList, int touchedIndex) {
-  List<PieChartSectionData> result = List.generate(data.length, (index) {
+    HomeTransaction data, colorList, int touchedIndex) {
+  List<PieChartSectionData> result =
+      List.generate(data.categoryList.length, (index) {
+    // 支出合計に占める割合が10%を超えていたらタイトルを表示する
+    num spendSum = data.balance.abs();
+    num value = data.categoryList[index]['category_total_amount'].abs();
+    bool showTitle =
+        value / spendSum * 100 > 10 || index == touchedIndex ? true : false;
+
     return PieChartSectionData(
-      value: data[index]['category_total_amount'].abs().toDouble(),
+      value: data.categoryList[index]['category_total_amount'].abs().toDouble(),
       color: colorList[index],
-      title: data[index]['category_name'],
-      showTitle: index == touchedIndex ? true : false,
-      titleStyle:
-          const TextStyle(color: Colors.white, backgroundColor: Colors.black38),
-      radius: 60,
+      title: data.categoryList[index]['category_name'],
+      showTitle: showTitle,
+      titleStyle: const TextStyle(
+          color: Colors.white,
+          shadows: <Shadow>[Shadow(blurRadius: 5.0, color: Colors.black)]),
+      radius: index == touchedIndex ? 70.0 : 60.0,
     );
   });
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../class/response/timelineTransaction.dart';
@@ -68,73 +69,76 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
     return ListView(
       shrinkWrap: true,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(10),
-          child: TableCalendar(
-              firstDay: widget.env.getDateTimeMonth(),
-              focusedDay: widget.env.getDateTimeMonth(),
-              lastDay:
-                  DateTime.now().month == widget.env.getDateTimeMonth().month
-                      ? DateTime.now()
-                      : widget.env.getDateTimeMonth(),
-              availableGestures: AvailableGestures.none,
-              daysOfWeekVisible: false,
-              headerVisible: false,
-              rowHeight: 100,
-              currentDay: DateTime.now(),
-              onDaySelected: ((selectedDay, focusedDay) {
-                setState(() {
-                  selectedDate = selectedDay;
-                  transactions = _getTransactionForDate(selectedDay);
-                });
-              }),
-              calendarBuilders: CalendarBuilders(
-                todayBuilder: (context, date, focusedDay) {
-                  final (spendSum, incomeSum) = _getSumForDate(date);
-                  String fmtSpendSum = spendSum != 0
-                      ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
-                      : "";
-                  String fmtIncomeSum = incomeSum != 0
-                      ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
-                      : "";
-                  return _buildContainer(date, fmtSpendSum, fmtIncomeSum,
-                      isToday: true);
-                },
-                defaultBuilder: (context, date, focusedDay) {
-                  final (spendSum, incomeSum) = _getSumForDate(date);
-                  String fmtSpendSum = spendSum != 0
-                      ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
-                      : "";
-                  String fmtIncomeSum = incomeSum != 0
-                      ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
-                      : "";
-                  return _buildContainer(date, fmtSpendSum, fmtIncomeSum);
-                },
-                outsideBuilder: (context, date, focusedDay) {
-                  final (spendSum, incomeSum) = _getSumForDate(date);
-                  String fmtSpendSum = spendSum != 0
-                      ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
-                      : "";
-                  String fmtIncomeSum = incomeSum != 0
-                      ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
-                      : "";
-                  return _buildContainer(date, fmtSpendSum, fmtIncomeSum,
-                      enable: false);
-                },
-                disabledBuilder: (context, date, focusedDay) {
-                  final (spendSum, incomeSum) = _getSumForDate(date);
-                  String fmtSpendSum = spendSum != 0
-                      ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
-                      : "";
-                  String fmtIncomeSum = incomeSum != 0
-                      ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
-                      : "";
-                  return _buildContainer(date, fmtSpendSum, fmtIncomeSum,
-                      enable: false);
-                },
-              )),
+        CenterWidget(
+          maxWidth: 1000,
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: TableCalendar(
+                firstDay: widget.env.getDateTimeMonth(),
+                focusedDay: widget.env.getDateTimeMonth(),
+                lastDay:
+                    DateTime.now().month == widget.env.getDateTimeMonth().month
+                        ? DateTime.now()
+                        : widget.env.getDateTimeMonth(),
+                availableGestures: AvailableGestures.none,
+                daysOfWeekVisible: false,
+                headerVisible: false,
+                rowHeight: 100,
+                currentDay: DateTime.now(),
+                onDaySelected: ((selectedDay, focusedDay) {
+                  setState(() {
+                    selectedDate = selectedDay;
+                    transactions = _getTransactionForDate(selectedDay);
+                  });
+                }),
+                calendarBuilders: CalendarBuilders(
+                  todayBuilder: (context, date, focusedDay) {
+                    final (spendSum, incomeSum) = _getSumForDate(date);
+                    String fmtSpendSum = spendSum != 0
+                        ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
+                        : "";
+                    String fmtIncomeSum = incomeSum != 0
+                        ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
+                        : "";
+                    return _buildContainer(date, fmtSpendSum, fmtIncomeSum,
+                        isToday: true);
+                  },
+                  defaultBuilder: (context, date, focusedDay) {
+                    final (spendSum, incomeSum) = _getSumForDate(date);
+                    String fmtSpendSum = spendSum != 0
+                        ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
+                        : "";
+                    String fmtIncomeSum = incomeSum != 0
+                        ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
+                        : "";
+                    return _buildContainer(date, fmtSpendSum, fmtIncomeSum);
+                  },
+                  outsideBuilder: (context, date, focusedDay) {
+                    final (spendSum, incomeSum) = _getSumForDate(date);
+                    String fmtSpendSum = spendSum != 0
+                        ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
+                        : "";
+                    String fmtIncomeSum = incomeSum != 0
+                        ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
+                        : "";
+                    return _buildContainer(date, fmtSpendSum, fmtIncomeSum,
+                        enable: false);
+                  },
+                  disabledBuilder: (context, date, focusedDay) {
+                    final (spendSum, incomeSum) = _getSumForDate(date);
+                    String fmtSpendSum = spendSum != 0
+                        ? "¥${TransactionClass.formatNum(spendSum.toInt())}"
+                        : "";
+                    String fmtIncomeSum = incomeSum != 0
+                        ? "¥${TransactionClass.formatNum(incomeSum.toInt())}"
+                        : "";
+                    return _buildContainer(date, fmtSpendSum, fmtIncomeSum,
+                        enable: false);
+                  },
+                )),
+          ),
         ),
-        Center(
+        CenterWidget(
             child: selectedDate != null
                 ? Padding(
                     padding: const EdgeInsets.only(left: 10, right: 10),
