@@ -348,6 +348,7 @@ class _EditTransaction extends State<EditTransaction> {
                                       transaction.subCategoryName =
                                           tran.subCategoryName;
                                       transaction.fixedFlg = tran.fixedFlg;
+                                      transaction.paymentId = tran.paymentId;
                                     });
                                   },
                                   style: OutlinedButton.styleFrom(

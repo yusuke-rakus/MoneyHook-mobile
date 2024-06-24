@@ -319,7 +319,8 @@ class transactionApi {
                 value['category_name'],
                 value['sub_category_id'],
                 value['sub_category_name'],
-                value['fixed_flg']);
+                value['fixed_flg'],
+                value['payment_id']);
             resultList.add(tran);
           });
           setRecommendList(resultList);

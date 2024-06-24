@@ -26,8 +26,6 @@ class HomeAccordion extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text.rich(TextSpan(children: [
-                        TextSpan(
-                            text: homeTransactionList[index]['category_name']),
                         WidgetSpan(
                             alignment: PlaceholderAlignment.top,
                             child: Icon(
@@ -35,6 +33,8 @@ class HomeAccordion extends StatelessWidget {
                               color: colorList[index],
                               size: 10,
                             )),
+                        TextSpan(
+                            text: homeTransactionList[index]['category_name']),
                       ])),
                       Text(
                           '¥${TransactionClass.formatNum(homeTransactionList[index]['category_total_amount'].abs())}'),

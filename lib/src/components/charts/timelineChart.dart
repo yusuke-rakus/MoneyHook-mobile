@@ -28,7 +28,7 @@ class _TimelineChartState extends State<TimelineChart> {
             enabled: true,
             handleBuiltInTouches: false,
             touchTooltipData: BarTouchTooltipData(
-              // tooltipBgColor: Colors.transparent,
+              getTooltipColor: (group) => Colors.transparent,
               tooltipMargin: 0,
               getTooltipItem: (
                 BarChartGroupData group,
@@ -38,7 +38,7 @@ class _TimelineChartState extends State<TimelineChart> {
               ) {
                 return BarTooltipItem(
                   '¥${TransactionClass.formatNum(rod.toY.toInt())}',
-                  const TextStyle(color: Colors.white),
+                  const TextStyle(color: Colors.grey),
                 );
               },
             ),

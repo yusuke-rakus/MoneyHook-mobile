@@ -76,36 +76,38 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: GradientBar(),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Tooltip(
-              message: "前の月",
-              child: IconButton(
-                  onPressed: () {
-                    env.subtractMonth();
-                    TransactionLoad.getHome(
-                        env, setLoading, setSnackBar, setHomeTransaction);
-                  },
-                  icon: const Icon(Icons.arrow_back_ios)),
-            ),
-            Text('${env.getMonth()}月'),
-            Tooltip(
-              message: "次の月",
-              child: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      // 翌月が未来でなければデータ取得
-                      if (env.isNotCurrentMonth()) {
-                        env.addMonth();
-                        TransactionLoad.getHome(
-                            env, setLoading, setSnackBar, setHomeTransaction);
-                      }
-                    });
-                  },
-                  icon: const Icon(Icons.arrow_forward_ios)),
-            ),
-          ],
+        title: CenterWidget(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Tooltip(
+                message: "前の月",
+                child: IconButton(
+                    onPressed: () {
+                      env.subtractMonth();
+                      TransactionLoad.getHome(
+                          env, setLoading, setSnackBar, setHomeTransaction);
+                    },
+                    icon: const Icon(Icons.arrow_back_ios)),
+              ),
+              Text('${env.getMonth()}月'),
+              Tooltip(
+                message: "次の月",
+                child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        // 翌月が未来でなければデータ取得
+                        if (env.isNotCurrentMonth()) {
+                          env.addMonth();
+                          TransactionLoad.getHome(
+                              env, setLoading, setSnackBar, setHomeTransaction);
+                        }
+                      });
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios)),
+              ),
+            ],
+          ),
         ),
       ),
       body: _isLoading
@@ -118,8 +120,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     margin: const EdgeInsets.only(top: 10),
                     height: 250,
                     child: HomeChart(
-                        data: homeTransactionList.categoryList,
-                        colorList: colorList),
+                        data: homeTransactionList, colorList: colorList),
                   ),
                 ),
                 // 収支
