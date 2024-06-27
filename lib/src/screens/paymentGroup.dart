@@ -167,18 +167,21 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
       ),
       child: ExpansionTile(
         title: !showTitle
-            ? Row(
-                children: [
-                  const Icon(Icons.credit_card_outlined),
-                  const SizedBox(width: 10),
-                  Text(widget.payment.paymentName),
-                  const SizedBox(width: 10),
-                  Text(
-                      TransactionClass.formatNum(
-                          widget.payment.paymentAmount.abs()),
-                      style: const TextStyle(
-                          fontSize: 16, color: Color(0xFFB71C1C)))
-                ],
+            ? Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    const Icon(Icons.credit_card_outlined),
+                    const SizedBox(width: 10),
+                    Text(widget.payment.paymentName),
+                    const SizedBox(width: 10),
+                    Text(
+                        TransactionClass.formatNum(
+                            widget.payment.paymentAmount.abs()),
+                        style: const TextStyle(
+                            fontSize: 16, color: Color(0xFFB71C1C)))
+                  ],
+                ),
               )
             : const SizedBox(),
         initiallyExpanded: showTitle,

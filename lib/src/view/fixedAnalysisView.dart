@@ -141,8 +141,21 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  const Text('可処分所得額',
-                                      style: TextStyle(fontSize: 17)),
+                                  const Tooltip(
+                                    message: "収入 - 固定費の支出",
+                                    preferBelow: false,
+                                    child: Text.rich(TextSpan(children: [
+                                      TextSpan(
+                                          text: '可処分所得額',
+                                          style: TextStyle(fontSize: 17)),
+                                      WidgetSpan(
+                                          alignment: PlaceholderAlignment.top,
+                                          child: Icon(
+                                            Icons.info_outline,
+                                            size: 12.5,
+                                          )),
+                                    ])),
+                                  ),
                                   const SizedBox(width: 20),
                                   Text(
                                       TransactionClass.formatNum(
