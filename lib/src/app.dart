@@ -9,11 +9,12 @@ import 'package:money_hooks/src/screens/analysis.dart';
 import 'package:money_hooks/src/screens/homeScreen.dart';
 import 'package:money_hooks/src/screens/loading.dart';
 import 'package:money_hooks/src/screens/login.dart';
+import 'package:money_hooks/src/screens/paymentGroup.dart';
 import 'package:money_hooks/src/screens/settings.dart';
 import 'package:money_hooks/src/screens/timelineScreen.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
-import 'components/commonSnackBar.dart';
+import 'components/customFloatingButtonLocation.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -60,6 +61,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final ScreenLabel timelineLabel = ScreenLabel("タイムライン", Icons.show_chart);
   final ScreenLabel analyticsLabel =
       ScreenLabel("費用分析", Icons.pie_chart_outline);
+  final ScreenLabel paymentGroupLabel =
+      ScreenLabel("支払い方法", Icons.credit_card_outlined);
   final ScreenLabel settingsLabel = ScreenLabel("設定", Icons.settings);
 
   void setScreenItems() {
@@ -68,6 +71,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         HomeScreen(isLoading, env),
         TimelineScreen(isLoading, env),
         AnalysisScreen(isLoading, env),
+        PaymentGroupScreen(isLoading, env),
         SettingsScreen(isLoading, env),
       ];
       isLogin = true;
@@ -151,8 +155,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           isLogin && MediaQuery.of(context).size.width > 768
               ? Drawer(
                   width: 250,
-                  // backgroundColor: Colors.white,
                   child: ListView(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 36),
                     children: [
@@ -161,8 +166,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                           context, timelineLabel.icon, timelineLabel.label, 1),
                       _sideBarItem(context, analyticsLabel.icon,
                           analyticsLabel.label, 2),
+                      _sideBarItem(context, paymentGroupLabel.icon,
+                          paymentGroupLabel.label, 3),
                       _sideBarItem(
-                          context, settingsLabel.icon, settingsLabel.label, 3),
+                          context, settingsLabel.icon, settingsLabel.label, 4),
                     ],
                   ),
                 )
@@ -190,6 +197,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 BottomNavigationBarItem(
                     icon: Icon(analyticsLabel.icon),
                     label: analyticsLabel.label),
+                BottomNavigationBarItem(
+                    icon: Icon(paymentGroupLabel.icon),
+                    label: paymentGroupLabel.label),
                 BottomNavigationBarItem(
                     icon: Icon(settingsLabel.icon), label: settingsLabel.label),
               ],

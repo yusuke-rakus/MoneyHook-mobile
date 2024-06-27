@@ -7,7 +7,8 @@ import '../class/transactionClass.dart';
 import '../components/centerWidget.dart';
 import '../components/charts/timelineChart.dart';
 import '../components/commonLoadingAnimation.dart';
-import '../components/commonSnackBar.dart';
+import '../components/customFloatingButtonLocation.dart';
+import '../components/smaple.dart';
 import '../components/timelineList.dart';
 import '../dataLoader/transactionLoad.dart';
 import '../env/envClass.dart';
@@ -188,6 +189,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
           ),
         ),
       ),
+      floatingActionButtonLocation: CustomFloatingActionButtonLocation(),
     );
   }
 }

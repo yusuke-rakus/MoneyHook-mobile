@@ -7,7 +7,7 @@ import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/centerWidget.dart';
-import '../components/commonSnackBar.dart';
+import '../components/customFloatingButtonLocation.dart';
 import '../components/fixedAnalysisAccordion.dart';
 
 class FixedAnalysisView extends StatefulWidget {
@@ -156,8 +156,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                                       monthlyFixedSpending
                                                           .disposableIncome) <
                                                   0
-                                              ? Colors.red
-                                              : Colors.green)),
+                                              ? const Color(0xFFB71C1C)
+                                              : const Color(0xFF1B5E20))),
                                 ],
                               ),
                             ),
@@ -182,7 +182,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
                                         style: const TextStyle(
-                                            fontSize: 20, color: Colors.green),
+                                            fontSize: 20,
+                                            color: Color(0xFF1B5E20)),
                                       )
                                     ],
                                   ),
@@ -218,7 +219,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
                                         style: const TextStyle(
-                                            fontSize: 20, color: Colors.red),
+                                            fontSize: 20,
+                                            color: Color(0xFFB71C1C)),
                                       )
                                     ],
                                   ),

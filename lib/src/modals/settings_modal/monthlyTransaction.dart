@@ -6,8 +6,9 @@ import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dar
 
 import '../../class/monthlyTransactionClass.dart';
 import '../../components/centerWidget.dart';
-import '../../components/commonSnackBar.dart';
+import '../../components/customFloatingButtonLocation.dart';
 import '../../components/gradientBar.dart';
+import '../../components/smaple.dart';
 import '../../env/envClass.dart';
 
 class MonthlyTransaction extends StatefulWidget {
@@ -131,6 +132,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
               child: const Icon(Icons.add)),
         ),
       ),
+      floatingActionButtonLocation: CustomFloatingActionButtonLocation(),
     );
   }
 

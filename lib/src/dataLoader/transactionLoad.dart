@@ -106,4 +106,20 @@ class TransactionLoad {
       }
     });
   }
+
+  /// 【支払い方法画面】データ
+  static Future<void> getGroupByPayment(envClass env, Function setLoading,
+      Function setSnackBar, Function setGroupByPaymentTransaction) async {
+    await TransactionStorage.getGroupByPayment(env.getJson().toString())
+        .then((value) async {
+      if (value.isEmpty || await isNeedApi()) {
+        await transactionApi.getGroupByPayment(
+            env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+        await setRegistrationDate();
+      } else {
+        setGroupByPaymentTransaction(
+            value['total_spending'], value['payment_list']);
+      }
+    });
+  }
 }

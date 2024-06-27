@@ -8,8 +8,9 @@ import '../class/transactionClass.dart';
 import '../components/centerWidget.dart';
 import '../components/charts/homeChart.dart';
 import '../components/commonLoadingAnimation.dart';
-import '../components/commonSnackBar.dart';
+import '../components/customFloatingButtonLocation.dart';
 import '../components/gradientBar.dart';
+import '../components/smaple.dart';
 import '../env/envClass.dart';
 import '../modals/editTransaction.dart';
 
@@ -137,8 +138,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           style: TextStyle(
                               fontSize: 20,
                               color: homeTransactionList.balance < 0
-                                  ? Colors.red
-                                  : Colors.green)),
+                                  ? const Color(0xFFB71C1C)
+                                  : const Color(0xFF1B5E20))),
                     ],
                   ),
                 ),
@@ -181,6 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Icon(Icons.add)),
         ),
       ),
+      floatingActionButtonLocation: CustomFloatingActionButtonLocation(),
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
 import '../components/centerWidget.dart';
-import '../components/commonSnackBar.dart';
+import '../components/customFloatingButtonLocation.dart';
 
 class VariableAnalysisView extends StatefulWidget {
   const VariableAnalysisView(this.env, this.isLoading, {super.key});

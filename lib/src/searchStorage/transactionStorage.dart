@@ -15,6 +15,7 @@ class TransactionStorage {
     deleteMonthlyVariableData();
     deleteMonthlyFixedIncome();
     deleteMonthlyFixedSpending();
+    deleteGroupByPaymentData();
   }
 
   /// ストレージ全削除(月指定)
@@ -285,5 +286,31 @@ class TransactionStorage {
     envClass env = envClass.initNew(userId, transactionDate);
     final id = 'monthlyFixedSpendingData${env.getJson()}';
     await db.collection('monthly_fixed_spending_data').doc(id).delete();
+  }
+
+  /// 【支払い方法画面】データ
+  static Future<Map<String, dynamic>> getGroupByPayment(String param) async {
+    final id = 'group_payment_data$param';
+    Map<String, dynamic> resultMap = <String, dynamic>{};
+
+    await db.collection('group_by_payment').doc(id).get().then((value) {
+      if (value != null) {
+        resultMap['total_spending'] = value['total_spending'];
+        resultMap['payment_list'] = value['payment_list'];
+      }
+    });
+    return resultMap;
+  }
+
+  static void saveGroupByPaymentData(
+      int totalSpending, List<dynamic> paymentList, String param) async {
+    await db
+        .collection('group_by_payment')
+        .doc('group_payment_data$param')
+        .set({'total_spending': totalSpending, 'payment_list': paymentList});
+  }
+
+  static void deleteGroupByPaymentData() async {
+    await db.collection('group_by_payment').delete();
   }
 }
