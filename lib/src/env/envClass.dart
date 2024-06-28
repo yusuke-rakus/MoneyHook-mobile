@@ -23,6 +23,14 @@ class envClass {
     return DateFormat('yyyy-MM-dd').parse(thisMonth);
   }
 
+  DateTime getLastDayOfMonth() {
+    DateTime date = DateFormat('yyyy-MM-dd').parse(thisMonth);
+    var beginningNextMonth = (date.month < 12)
+        ? DateTime(date.year, date.month + 1, 1)
+        : DateTime(date.year + 1, 1, 1);
+    return beginningNextMonth.subtract(const Duration(days: 1));
+  }
+
   // 今月にリセット
   void initMonth() {
     thisMonth = DateFormat('yyyy-MM-dd')
