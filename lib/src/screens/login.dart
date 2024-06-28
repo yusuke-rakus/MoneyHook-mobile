@@ -4,7 +4,7 @@ import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/env/googleSignIn.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
-import '../components/commonSnackBar.dart';
+import '../components/customFloatingButtonLocation.dart';
 import '../components/gradientBar.dart';
 
 class Login extends StatefulWidget {

@@ -6,7 +6,7 @@ import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 import '../../components/centerWidget.dart';
 import '../../components/commonConfirmDialog.dart';
 import '../../components/commonLoadingDialog.dart';
-import '../../components/commonSnackBar.dart';
+import '../../components/customFloatingButtonLocation.dart';
 import '../../components/dataNotRegisteredBox.dart';
 import '../../components/gradientBar.dart';
 import '../../dataLoader/paymentResource.dart';

@@ -8,7 +8,7 @@ import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
 import '../../components/centerWidget.dart';
-import '../../components/commonSnackBar.dart';
+import '../../components/customFloatingButtonLocation.dart';
 import '../../components/gradientBar.dart';
 import '../../env/envClass.dart';
 

@@ -13,7 +13,7 @@ import '../class/response/paymentResource.dart';
 import '../class/transactionClass.dart';
 import '../components/centerWidget.dart';
 import '../components/commonLoadingDialog.dart';
-import '../components/commonSnackBar.dart';
+import '../components/customFloatingButtonLocation.dart';
 import '../components/gradientBar.dart';
 import '../components/gradientButton.dart';
 import '../dataLoader/paymentResource.dart';
@@ -233,7 +233,7 @@ class _EditTransaction extends State<EditTransaction> {
                         }
                       },
                       child: SizedBox(
-                        height: 60,
+                        height: 50,
                         child: Center(
                             child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -252,7 +252,7 @@ class _EditTransaction extends State<EditTransaction> {
                   // 金額
                   CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 40),
-                    height: 100,
+                    height: 80,
                     child: Row(
                       children: [
                         Switcher(
@@ -306,7 +306,7 @@ class _EditTransaction extends State<EditTransaction> {
                   // 取引名
                   CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 40),
-                    height: 100,
+                    height: 80,
                     alignment: Alignment.center,
                     child: TextField(
                       onChanged: (value) {
@@ -417,34 +417,41 @@ class _EditTransaction extends State<EditTransaction> {
                       ? CenterWidget(
                           padding: const EdgeInsets.only(left: 40, right: 40),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              SizedBox(
-                                width: 250,
-                                child: DropdownButton(
-                                  hint: const Text("支払方法"),
-                                  isExpanded: true,
-                                  items: paymentResourceList
-                                      .map((resource) => DropdownMenuItem(
-                                            value: resource.paymentId,
-                                            child: Text(resource.paymentName),
-                                          ))
-                                      .toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      PaymentResourceData selectedPayment =
-                                          paymentResourceList
-                                              .where((resource) =>
-                                                  resource.paymentId == value)
-                                              .toList()
-                                              .first;
-                                      transaction.paymentId =
-                                          selectedPayment.paymentId;
-                                      transaction.paymentName =
-                                          selectedPayment.paymentName;
-                                    });
-                                  },
-                                  value: transaction.paymentId,
+                              const Text('支払方法',
+                                  style: TextStyle(fontSize: 15)),
+                              const SizedBox(width: 10),
+                              Flexible(
+                                child: ConstrainedBox(
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 250,
+                                  ),
+                                  child: DropdownButton(
+                                    hint: const Text("支払方法"),
+                                    isExpanded: true,
+                                    items: paymentResourceList
+                                        .map((resource) => DropdownMenuItem(
+                                              value: resource.paymentId,
+                                              child: Text(resource.paymentName),
+                                            ))
+                                        .toList(),
+                                    onChanged: (value) {
+                                      setState(() {
+                                        PaymentResourceData selectedPayment =
+                                            paymentResourceList
+                                                .where((resource) =>
+                                                    resource.paymentId == value)
+                                                .toList()
+                                                .first;
+                                        transaction.paymentId =
+                                            selectedPayment.paymentId;
+                                        transaction.paymentName =
+                                            selectedPayment.paymentName;
+                                      });
+                                    },
+                                    value: transaction.paymentId,
+                                  ),
                                 ),
                               ),
                             ],
@@ -458,7 +465,8 @@ class _EditTransaction extends State<EditTransaction> {
                     height: 100,
                     child: CheckboxListTile(
                       activeColor: Colors.blue,
-                      title: const Text('固定費として計算する'),
+                      title: const Text('固定費として計算する',
+                          style: TextStyle(fontSize: 15)),
                       value: transaction.fixedFlg,
                       onChanged: (value) {
                         setState(() {

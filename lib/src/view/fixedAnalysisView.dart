@@ -7,7 +7,7 @@ import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../components/centerWidget.dart';
-import '../components/commonSnackBar.dart';
+import '../components/customFloatingButtonLocation.dart';
 import '../components/fixedAnalysisAccordion.dart';
 
 class FixedAnalysisView extends StatefulWidget {
@@ -141,8 +141,21 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  const Text('可処分所得額',
-                                      style: TextStyle(fontSize: 17)),
+                                  const Tooltip(
+                                    message: "収入 - 固定費の支出",
+                                    preferBelow: false,
+                                    child: Text.rich(TextSpan(children: [
+                                      TextSpan(
+                                          text: '可処分所得額',
+                                          style: TextStyle(fontSize: 17)),
+                                      WidgetSpan(
+                                          alignment: PlaceholderAlignment.top,
+                                          child: Icon(
+                                            Icons.info_outline,
+                                            size: 12.5,
+                                          )),
+                                    ])),
+                                  ),
                                   const SizedBox(width: 20),
                                   Text(
                                       TransactionClass.formatNum(
@@ -156,8 +169,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                                       monthlyFixedSpending
                                                           .disposableIncome) <
                                                   0
-                                              ? Colors.red
-                                              : Colors.green)),
+                                              ? const Color(0xFFB71C1C)
+                                              : const Color(0xFF1B5E20))),
                                 ],
                               ),
                             ),
@@ -182,7 +195,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
                                         style: const TextStyle(
-                                            fontSize: 20, color: Colors.green),
+                                            fontSize: 20,
+                                            color: Color(0xFF1B5E20)),
                                       )
                                     ],
                                   ),
@@ -218,7 +232,8 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
                                         style: const TextStyle(
-                                            fontSize: 20, color: Colors.red),
+                                            fontSize: 20,
+                                            color: Color(0xFFB71C1C)),
                                       )
                                     ],
                                   ),

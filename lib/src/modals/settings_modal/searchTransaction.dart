@@ -6,7 +6,7 @@ import 'package:money_hooks/src/class/response/searchTransactionData.dart';
 import '../../class/transactionClass.dart';
 import '../../components/centerWidget.dart';
 import '../../components/commonLoadingDialog.dart';
-import '../../components/commonSnackBar.dart';
+import '../../components/customFloatingButtonLocation.dart';
 import '../../components/gradientBar.dart';
 import '../../components/gradientButton.dart';
 import '../../env/envClass.dart';
@@ -112,6 +112,8 @@ class _SearchTransaction extends State<SearchTransaction> {
                             searchTitle =
                                 '${transaction.categoryName} / ${transaction.subCategoryName}';
                           }
+                          searchTitle +=
+                              ' ${transaction.startMonth} : ${transaction.endMonth}';
                         }
                       });
                     },

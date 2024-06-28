@@ -33,6 +33,7 @@ class HomeAccordion extends StatelessWidget {
                               color: colorList[index],
                               size: 10,
                             )),
+                        const WidgetSpan(child: SizedBox(width: 7.5)),
                         TextSpan(
                             text: homeTransactionList[index]['category_name']),
                       ])),

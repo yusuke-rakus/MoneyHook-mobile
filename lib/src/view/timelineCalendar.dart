@@ -140,13 +140,10 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
         ),
         CenterWidget(
             child: selectedDate != null
-                ? Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    child: TimelineList(
-                        env: widget.env,
-                        timelineList: transactions,
-                        setReload: widget.setReload),
-                  )
+                ? TimelineList(
+                    env: widget.env,
+                    timelineList: transactions,
+                    setReload: widget.setReload)
                 : const dataNotRegisteredBox(message: '日付を選択してください')),
         const SizedBox(height: 100)
       ],
@@ -189,14 +186,20 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
               ),
             ),
             fmtSpendSum != ""
-                ? FittedBox(
-                    child: Text(fmtSpendSum,
-                        style: const TextStyle(color: Color(0xFFB71C1C))))
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 3.5, right: 3.5),
+                    child: FittedBox(
+                        child: Text(fmtSpendSum,
+                            style: const TextStyle(color: Color(0xFFB71C1C)))),
+                  )
                 : const SizedBox(),
             fmtIncomeSum != ""
-                ? FittedBox(
-                    child: Text(fmtIncomeSum,
-                        style: const TextStyle(color: Color(0xFF1B5E20))))
+                ? Padding(
+                    padding: const EdgeInsets.only(left: 3.0, right: 3.0),
+                    child: FittedBox(
+                        child: Text(fmtIncomeSum,
+                            style: const TextStyle(color: Color(0xFF1B5E20)))),
+                  )
                 : const SizedBox()
           ],
         ),
