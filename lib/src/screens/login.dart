@@ -5,7 +5,6 @@ import 'package:money_hooks/src/env/googleSignIn.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 import '../components/customFloatingButtonLocation.dart';
-import '../components/gradientBar.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -37,10 +36,6 @@ class _LoginState extends State<Login> {
         return Center(child: CommonLoadingAnimation.build());
       },
       child: Scaffold(
-        appBar: AppBar(
-          flexibleSpace: GradientBar(),
-          title: (const Text('ログイン')),
-        ),
         body: Container(
           padding: const EdgeInsets.all(20.0),
           child: Align(
@@ -60,6 +55,33 @@ class _LoginState extends State<Login> {
                       child: Image.asset(
                         "images/color_logo.png",
                         fit: BoxFit.contain,
+                      ),
+                    ),
+                    Center(
+                      child: TweenAnimationBuilder<double>(
+                        tween: Tween<double>(begin: 0.00, end: 0.5),
+                        duration: const Duration(seconds: 1),
+                        builder: (BuildContext context, double value,
+                            Widget? child) {
+                          return ShaderMask(
+                            shaderCallback: (bounds) {
+                              return LinearGradient(colors: const [
+                                Color(0xFF42A5F5),
+                                Color(0xFFBA68C8),
+                                Color(0xFFFB8C00)
+                              ], stops: [
+                                value,
+                                0.75,
+                                1.00,
+                              ]).createShader(bounds);
+                            },
+                            child: const Text('こんにちは',
+                                style: TextStyle(
+                                  fontSize: 35,
+                                  color: Colors.white,
+                                )),
+                          );
+                        },
                       ),
                     ),
                     const Center(child: Text('外部アカウントでログインしてください')),

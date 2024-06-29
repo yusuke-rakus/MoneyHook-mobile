@@ -264,6 +264,7 @@ class _EditTransaction extends State<EditTransaction> {
                                 ? transaction.transactionSign = 1
                                 : transaction.transactionSign = -1;
                           },
+                          curveType: Curves.easeOutExpo,
                           iconOff: Icons.remove,
                           colorOff: Colors.red,
                           iconOn: Icons.add,
