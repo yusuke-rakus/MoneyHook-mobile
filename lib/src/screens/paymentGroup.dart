@@ -7,6 +7,7 @@ import '../class/transactionClass.dart';
 import '../components/centerWidget.dart';
 import '../components/commonLoadingAnimation.dart';
 import '../components/customFloatingButtonLocation.dart';
+import '../components/dataNotRegisteredBox.dart';
 import '../components/gradientBar.dart';
 import '../env/envClass.dart';
 
@@ -115,22 +116,24 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                       const SizedBox(width: 20),
                       Text(
                           TransactionClass.formatNum(
-                              paymentTransactionList.totalSpending),
-                          style: const TextStyle(
-                              fontSize: 20, color: Color(0xFFB71C1C))),
+                              paymentTransactionList.totalSpending.abs()),
+                          style: const TextStyle(fontSize: 20)),
                     ],
                   ),
                 ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: paymentTransactionList.paymentList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CenterWidget(
-                        child: PaymentGroupCard(
-                            payment: paymentTransactionList.paymentList[index]),
-                      );
-                    }),
+                paymentTransactionList.paymentList.isEmpty
+                    ? const dataNotRegisteredBox(message: '取引履歴が存在しません')
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: paymentTransactionList.paymentList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CenterWidget(
+                            child: PaymentGroupCard(
+                                payment:
+                                    paymentTransactionList.paymentList[index]),
+                          );
+                        }),
                 const SizedBox(
                   height: 90,
                 )
@@ -233,8 +236,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                           DataCell(_tableText(tran.transactionName,
                               fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(
-                              TransactionClass.formatNum(
-                                  tran.transactionAmount),
+                              "¥${TransactionClass.formatNum(tran.transactionAmount.abs())}",
                               fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(tran.categoryName,
                               fixedFlg: tran.fixedFlg)),
