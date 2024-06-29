@@ -285,7 +285,7 @@ class TransactionStorage {
   static void deleteMonthlyFixedSpendingWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
-    final id = 'monthlyFixedSpendingData${env.getJson()}';
+    final id = 'monthly_fixed_spending_data${env.getJson()}';
     await db.collection('monthly_fixed_spending_data').doc(id).delete();
   }
 
