@@ -212,10 +212,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget _sideBarItem(
       BuildContext context, IconData icons, String title, int selectedIndex) {
     return ListTile(
-        leading: Icon(icons, color: Colors.lightBlueAccent),
+        leading: Icon(icons, color: Colors.blue),
         title: Text(
           title,
-          style: const TextStyle(color: Colors.black54),
+          style: const TextStyle(color: Color(0xFF757575)),
         ),
         onTap: () {
           setState(() {

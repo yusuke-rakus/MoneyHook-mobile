@@ -26,6 +26,7 @@ class TransactionStorage {
     deleteMonthlyVariableDataWithParam(userId, transactionDate);
     deleteMonthlyFixedIncomeWithParam(userId, transactionDate);
     deleteMonthlyFixedSpendingWithParam(userId, transactionDate);
+    deleteGroupByPaymentDataWithParam(userId, transactionDate);
   }
 
   /// 【タイムライン画面】データ
@@ -284,7 +285,7 @@ class TransactionStorage {
   static void deleteMonthlyFixedSpendingWithParam(
       String userId, String transactionDate) async {
     envClass env = envClass.initNew(userId, transactionDate);
-    final id = 'monthlyFixedSpendingData${env.getJson()}';
+    final id = 'monthly_fixed_spending_data${env.getJson()}';
     await db.collection('monthly_fixed_spending_data').doc(id).delete();
   }
 
@@ -312,5 +313,12 @@ class TransactionStorage {
 
   static void deleteGroupByPaymentData() async {
     await db.collection('group_by_payment').delete();
+  }
+
+  static void deleteGroupByPaymentDataWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'group_payment_data${env.getJson()}';
+    await db.collection('group_by_payment').doc(id).delete();
   }
 }
