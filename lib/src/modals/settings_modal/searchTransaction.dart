@@ -28,15 +28,11 @@ class _SearchTransaction extends State<SearchTransaction> {
   String searchTitle = '';
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   void setStartMonth(String value) {
