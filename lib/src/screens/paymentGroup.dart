@@ -73,7 +73,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Tooltip(
-                message: "前の月",
+                message: '前の月',
                 child: IconButton(
                     onPressed: () {
                       env.subtractMonth();
@@ -84,7 +84,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
               ),
               Text('${env.getMonth()}月'),
               Tooltip(
-                message: "次の月",
+                message: '次の月',
                 child: IconButton(
                     onPressed: () {
                       setState(() {
@@ -115,8 +115,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                       const Text('支出合計', style: TextStyle(fontSize: 20)),
                       const SizedBox(width: 20),
                       Text(
-                          TransactionClass.formatNum(
-                              paymentTransactionList.totalSpending.abs()),
+                          '¥${TransactionClass.formatNum(paymentTransactionList.totalSpending.abs())}',
                           style: const TextStyle(fontSize: 20)),
                     ],
                   ),
@@ -163,6 +162,12 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
 
   @override
   Widget build(BuildContext context) {
+    Payment payment = widget.payment;
+
+    String lastMonthSum = payment.lastMonthSum != null
+        ? TransactionClass.formatNum(payment.lastMonthSum!.abs())
+        : '';
+
     return Card(
       margin: const EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
       shape: RoundedRectangleBorder(
@@ -176,11 +181,10 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                   children: [
                     const Icon(Icons.credit_card_outlined),
                     const SizedBox(width: 10),
-                    Text(widget.payment.paymentName),
+                    Text(payment.paymentName),
                     const SizedBox(width: 10),
                     Text(
-                        TransactionClass.formatNum(
-                            widget.payment.paymentAmount.abs()),
+                        TransactionClass.formatNum(payment.paymentAmount.abs()),
                         style: const TextStyle(
                             fontSize: 16, color: Color(0xFFB71C1C)))
                   ],
@@ -198,16 +202,59 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
             leading: const Icon(Icons.credit_card_outlined),
             title: Row(
               children: [
-                Text(widget.payment.paymentName,
-                    style: const TextStyle(fontSize: 18)),
+                Text(payment.paymentName, style: const TextStyle(fontSize: 18)),
                 const SizedBox(width: 15),
                 Text(
-                    TransactionClass.formatNum(
-                        widget.payment.paymentAmount.abs()),
+                    '¥${TransactionClass.formatNum(payment.paymentAmount.abs())}',
                     style:
                         const TextStyle(fontSize: 16, color: Color(0xFFB71C1C)))
               ],
             ),
+            subtitle: payment.lastMonthSum != null &&
+                    payment.monthOverMonth != null
+                ? Row(
+                    children: [
+                      const Expanded(child: SizedBox()),
+                      Tooltip(
+                        message: '前月合計(前月比)',
+                        child: Opacity(
+                          opacity: 0.75,
+                          child: RichText(
+                            text: TextSpan(
+                                style: const TextStyle(color: Colors.black),
+                                children: [
+                                  const TextSpan(
+                                      text: '前月データ: ',
+                                      style: TextStyle(fontSize: 13)),
+                                  TextSpan(
+                                      text: '¥$lastMonthSum',
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFFB71C1C))),
+                                  const TextSpan(text: ' ('),
+                                  TextSpan(
+                                    text:
+                                        '${payment.monthOverMonth.toString()}%',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: payment.monthOverMonth! <= 0.0
+                                            ? const Color(0xFF1B5E20)
+                                            : const Color(0xFFB71C1C)),
+                                  ),
+                                  const TextSpan(text: ')'),
+                                  const WidgetSpan(
+                                      alignment: PlaceholderAlignment.top,
+                                      child: Icon(
+                                        Icons.info_outline,
+                                        size: 12,
+                                      )),
+                                ]),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                : const SizedBox(),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 50.0),
@@ -218,16 +265,16 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                   dataRowMinHeight: 25,
                   dataRowMaxHeight: 25,
                   columns: [
-                    DataColumn(label: _tableText("取引名", isBold: true)),
-                    DataColumn(label: _tableText("金額", isBold: true)),
-                    DataColumn(label: _tableText("カテゴリ", isBold: true)),
-                    DataColumn(label: _tableText("サブカテゴリ", isBold: true)),
-                    DataColumn(label: _tableText("固定費", isBold: true)),
+                    DataColumn(label: _tableText('取引名', isBold: true)),
+                    DataColumn(label: _tableText('金額', isBold: true)),
+                    DataColumn(label: _tableText('カテゴリ', isBold: true)),
+                    DataColumn(label: _tableText('サブカテゴリ', isBold: true)),
+                    DataColumn(label: _tableText('固定費', isBold: true)),
                   ],
                   rows: List.generate(
-                    widget.payment.transactionList.length,
+                    payment.transactionList.length,
                     (index) {
-                      Transaction tran = widget.payment.transactionList[index];
+                      Transaction tran = payment.transactionList[index];
                       return DataRow(
                         color: WidgetStateProperty.all(index.isEven
                             ? Colors.white
@@ -236,7 +283,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                           DataCell(_tableText(tran.transactionName,
                               fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(
-                              "¥${TransactionClass.formatNum(tran.transactionAmount.abs())}",
+                              '¥${TransactionClass.formatNum(tran.transactionAmount.abs())}',
                               fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(tran.categoryName,
                               fixedFlg: tran.fixedFlg)),
