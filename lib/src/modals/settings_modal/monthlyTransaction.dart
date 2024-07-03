@@ -8,7 +8,7 @@ import '../../class/monthlyTransactionClass.dart';
 import '../../components/centerWidget.dart';
 import '../../components/customFloatingButtonLocation.dart';
 import '../../components/gradientBar.dart';
-import '../../components/smaple.dart';
+import '../../components/customFloatingActionButtonLocation.dart';
 import '../../env/envClass.dart';
 
 class MonthlyTransaction extends StatefulWidget {

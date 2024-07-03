@@ -6,6 +6,7 @@ import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
+import '../components/appBarMonth.dart';
 import '../components/centerWidget.dart';
 import '../components/customFloatingButtonLocation.dart';
 import '../components/fixedAnalysisAccordion.dart';
@@ -79,51 +80,31 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
           CenterWidget(
             margin: const EdgeInsets.only(right: 15, left: 15),
             height: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Tooltip(
-                  message: "前の月",
-                  child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          env.subtractMonth();
-                          setLoading();
-                          Future(() async {
-                            await TransactionLoad.getMonthlyFixedIncome(
-                                env, setMonthlyFixedIncome);
-                            await TransactionLoad.getMonthlyFixedSpending(
-                                env, setSnackBar, setMonthlyFixedSpending);
-                            setLoading();
-                          });
-                        });
-                      },
-                      icon: const Icon(Icons.arrow_back_ios)),
-                ),
-                Text('${env.getMonth()}月',
-                    style: const TextStyle(fontSize: 18)),
-                Tooltip(
-                  message: "次の月",
-                  child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          // 翌月が未来でなければデータ取得
-                          if (env.isNotCurrentMonth()) {
-                            env.addMonth();
-                            setLoading();
-                            Future(() async {
-                              await TransactionLoad.getMonthlyFixedIncome(
-                                  env, setMonthlyFixedIncome);
-                              await TransactionLoad.getMonthlyFixedSpending(
-                                  env, setSnackBar, setMonthlyFixedSpending);
-                              setLoading();
-                            });
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.arrow_forward_ios)),
-                ),
-              ],
+            child: AppBarMonth(
+              titleFontSize: 18,
+              subtractMonth: () {
+                env.subtractMonth();
+                setLoading();
+                Future(() async {
+                  await TransactionLoad.getMonthlyFixedIncome(
+                      env, setMonthlyFixedIncome);
+                  await TransactionLoad.getMonthlyFixedSpending(
+                      env, setSnackBar, setMonthlyFixedSpending);
+                  setLoading();
+                });
+              },
+              addMonth: () {
+                env.addMonth();
+                setLoading();
+                Future(() async {
+                  await TransactionLoad.getMonthlyFixedIncome(
+                      env, setMonthlyFixedIncome);
+                  await TransactionLoad.getMonthlyFixedSpending(
+                      env, setSnackBar, setMonthlyFixedSpending);
+                  setLoading();
+                });
+              },
+              env: env,
             ),
           ),
           _isLoading

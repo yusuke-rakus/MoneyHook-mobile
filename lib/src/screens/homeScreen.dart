@@ -5,12 +5,13 @@ import 'package:money_hooks/src/components/homeAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
 import '../class/transactionClass.dart';
+import '../components/appBarMonth.dart';
 import '../components/centerWidget.dart';
 import '../components/charts/homeChart.dart';
 import '../components/commonLoadingAnimation.dart';
+import '../components/customFloatingActionButtonLocation.dart';
 import '../components/customFloatingButtonLocation.dart';
 import '../components/gradientBar.dart';
-import '../components/smaple.dart';
 import '../env/envClass.dart';
 import '../modals/editTransaction.dart';
 
@@ -78,36 +79,18 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         flexibleSpace: GradientBar(),
         title: CenterWidget(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Tooltip(
-                message: "前の月",
-                child: IconButton(
-                    onPressed: () {
-                      env.subtractMonth();
-                      TransactionLoad.getHome(
-                          env, setLoading, setSnackBar, setHomeTransaction);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios)),
-              ),
-              Text('${env.getMonth()}月'),
-              Tooltip(
-                message: "次の月",
-                child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        // 翌月が未来でなければデータ取得
-                        if (env.isNotCurrentMonth()) {
-                          env.addMonth();
-                          TransactionLoad.getHome(
-                              env, setLoading, setSnackBar, setHomeTransaction);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios)),
-              ),
-            ],
+          child: AppBarMonth(
+            subtractMonth: () {
+              env.subtractMonth();
+              TransactionLoad.getHome(
+                  env, setLoading, setSnackBar, setHomeTransaction);
+            },
+            addMonth: () {
+              env.addMonth();
+              TransactionLoad.getHome(
+                  env, setLoading, setSnackBar, setHomeTransaction);
+            },
+            env: env,
           ),
         ),
       ),

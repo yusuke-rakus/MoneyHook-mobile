@@ -4,6 +4,7 @@ import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
 import '../class/response/groupByPaymentTransaction.dart';
 import '../class/transactionClass.dart';
+import '../components/appBarMonth.dart';
 import '../components/centerWidget.dart';
 import '../components/commonLoadingAnimation.dart';
 import '../components/customFloatingButtonLocation.dart';
@@ -69,36 +70,18 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
       appBar: AppBar(
         flexibleSpace: GradientBar(),
         title: CenterWidget(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Tooltip(
-                message: '前の月',
-                child: IconButton(
-                    onPressed: () {
-                      env.subtractMonth();
-                      TransactionLoad.getGroupByPayment(env, setLoading,
-                          setSnackBar, setGroupByPaymentTransaction);
-                    },
-                    icon: const Icon(Icons.arrow_back_ios)),
-              ),
-              Text('${env.getMonth()}月'),
-              Tooltip(
-                message: '次の月',
-                child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        // 翌月が未来でなければデータ取得
-                        if (env.isNotCurrentMonth()) {
-                          env.addMonth();
-                          TransactionLoad.getGroupByPayment(env, setLoading,
-                              setSnackBar, setGroupByPaymentTransaction);
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios)),
-              ),
-            ],
+          child: AppBarMonth(
+            subtractMonth: () {
+              env.subtractMonth();
+              TransactionLoad.getGroupByPayment(
+                  env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+            },
+            addMonth: () {
+              env.addMonth();
+              TransactionLoad.getGroupByPayment(
+                  env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+            },
+            env: env,
           ),
         ),
       ),

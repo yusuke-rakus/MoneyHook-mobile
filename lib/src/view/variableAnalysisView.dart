@@ -6,6 +6,7 @@ import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/monthlyVariableData.dart';
+import '../components/appBarMonth.dart';
 import '../components/centerWidget.dart';
 import '../components/customFloatingButtonLocation.dart';
 
@@ -64,39 +65,21 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
           CenterWidget(
             margin: const EdgeInsets.only(right: 15, left: 15),
             height: 60,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Tooltip(
-                  message: "前の月",
-                  child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          env.subtractMonth();
-                          TransactionLoad.getMonthlyVariableData(
-                              env, setLoading, setSnackBar, setMonthlyVariable);
-                        });
-                      },
-                      icon: const Icon(Icons.arrow_back_ios)),
-                ),
-                Text('${env.getMonth()}月',
-                    style: const TextStyle(fontSize: 18)),
-                Tooltip(
-                  message: "次の月",
-                  child: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          // 翌月が未来でなければデータ取得
-                          if (env.isNotCurrentMonth()) {
-                            env.addMonth();
-                            TransactionLoad.getMonthlyVariableData(env,
-                                setLoading, setSnackBar, setMonthlyVariable);
-                          }
-                        });
-                      },
-                      icon: const Icon(Icons.arrow_forward_ios)),
-                ),
-              ],
+            child: AppBarMonth(
+              titleFontSize: 18,
+              subtractMonth: () {
+                setState(() {
+                  env.subtractMonth();
+                  TransactionLoad.getMonthlyVariableData(
+                      env, setLoading, setSnackBar, setMonthlyVariable);
+                });
+              },
+              addMonth: () {
+                env.addMonth();
+                TransactionLoad.getMonthlyVariableData(
+                    env, setLoading, setSnackBar, setMonthlyVariable);
+              },
+              env: env,
             ),
           ),
           _isLoading
