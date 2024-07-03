@@ -164,33 +164,14 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
   Widget build(BuildContext context) {
     Payment payment = widget.payment;
 
-    String lastMonthSum = payment.lastMonthSum != null
-        ? TransactionClass.formatNum(payment.lastMonthSum!.abs())
-        : '';
-
     return Card(
       margin: const EdgeInsets.only(top: 20.0, left: 5.0, right: 5.0),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ExpansionTile(
-        title: !showTitle
-            ? Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  children: [
-                    const Icon(Icons.credit_card_outlined),
-                    const SizedBox(width: 10),
-                    Text(payment.paymentName),
-                    const SizedBox(width: 10),
-                    Text(
-                        TransactionClass.formatNum(payment.paymentAmount.abs()),
-                        style: const TextStyle(
-                            fontSize: 16, color: Color(0xFFB71C1C)))
-                  ],
-                ),
-              )
-            : const SizedBox(),
+        title: ListTile(
+          title: _titleText(payment.paymentName, payment.paymentAmount),
+          subtitle: _subTitleText(payment.lastMonthSum, payment.monthOverMonth),
+        ),
         initiallyExpanded: showTitle,
         textColor: Colors.black,
         iconColor: Colors.grey,
@@ -198,66 +179,8 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
           setState(() => showTitle = isOpen);
         },
         children: [
-          ListTile(
-            leading: const Icon(Icons.credit_card_outlined),
-            title: Row(
-              children: [
-                Text(payment.paymentName, style: const TextStyle(fontSize: 18)),
-                const SizedBox(width: 15),
-                Text(
-                    '¥${TransactionClass.formatNum(payment.paymentAmount.abs())}',
-                    style:
-                        const TextStyle(fontSize: 16, color: Color(0xFFB71C1C)))
-              ],
-            ),
-            subtitle: payment.lastMonthSum != null &&
-                    payment.monthOverMonth != null
-                ? Row(
-                    children: [
-                      const Expanded(child: SizedBox()),
-                      Tooltip(
-                        message: '前月合計(前月比)',
-                        child: Opacity(
-                          opacity: 0.75,
-                          child: RichText(
-                            text: TextSpan(
-                                style: const TextStyle(color: Colors.black),
-                                children: [
-                                  const TextSpan(
-                                      text: '前月データ: ',
-                                      style: TextStyle(fontSize: 13)),
-                                  TextSpan(
-                                      text: '¥$lastMonthSum',
-                                      style: const TextStyle(
-                                          fontSize: 16,
-                                          color: Color(0xFFB71C1C))),
-                                  const TextSpan(text: ' ('),
-                                  TextSpan(
-                                    text:
-                                        '${payment.monthOverMonth.toString()}%',
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        color: payment.monthOverMonth! <= 0.0
-                                            ? const Color(0xFF1B5E20)
-                                            : const Color(0xFFB71C1C)),
-                                  ),
-                                  const TextSpan(text: ')'),
-                                  const WidgetSpan(
-                                      alignment: PlaceholderAlignment.top,
-                                      child: Icon(
-                                        Icons.info_outline,
-                                        size: 12,
-                                      )),
-                                ]),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                : const SizedBox(),
-          ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 50.0),
+            padding: const EdgeInsets.only(top: 10, bottom: 50.0),
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: DataTable(
@@ -304,6 +227,70 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
         ],
       ),
     );
+  }
+
+  Widget _titleText(String paymentName, int paymentAmount) {
+    return RichText(
+      text: TextSpan(
+          style: const TextStyle(color: Colors.black, fontSize: 18),
+          children: [
+            const WidgetSpan(
+              child: Icon(Icons.credit_card_outlined),
+              alignment: PlaceholderAlignment.middle,
+            ),
+            const WidgetSpan(child: SizedBox(width: 10.0)),
+            TextSpan(text: paymentName),
+            const WidgetSpan(child: SizedBox(width: 10.0)),
+            TextSpan(
+                text: TransactionClass.formatNum(paymentAmount.abs()),
+                style: const TextStyle(color: Color(0xFFB71C1C)))
+          ]),
+    );
+  }
+
+  Widget _subTitleText(int? lastMonthSum, double? monthOverMonth) {
+    return lastMonthSum != null && monthOverMonth != null
+        ? Row(
+            children: [
+              const Expanded(child: SizedBox()),
+              Tooltip(
+                message: '前月合計(前月比)',
+                child: Opacity(
+                  opacity: 0.75,
+                  child: RichText(
+                    text: TextSpan(
+                        style: const TextStyle(color: Colors.black),
+                        children: [
+                          const TextSpan(
+                              text: '前月データ: ', style: TextStyle(fontSize: 13)),
+                          TextSpan(
+                              text:
+                                  '¥${TransactionClass.formatNum(lastMonthSum.abs())}',
+                              style: const TextStyle(
+                                  fontSize: 16, color: Color(0xFFB71C1C))),
+                          const TextSpan(text: ' ('),
+                          TextSpan(
+                            text: '${monthOverMonth.toString()}%',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: monthOverMonth <= 0.0
+                                    ? const Color(0xFF1B5E20)
+                                    : const Color(0xFFB71C1C)),
+                          ),
+                          const TextSpan(text: ')'),
+                          const WidgetSpan(
+                              alignment: PlaceholderAlignment.top,
+                              child: Icon(
+                                Icons.info_outline,
+                                size: 12,
+                              )),
+                        ]),
+                  ),
+                ),
+              ),
+            ],
+          )
+        : const SizedBox();
   }
 
   Widget _tableText(String value,
