@@ -118,7 +118,10 @@ class TransactionLoad {
         await setRegistrationDate();
       } else {
         setGroupByPaymentTransaction(
-            value['total_spending'], value['payment_list']);
+            value['total_spending'],
+            value['last_month_total_spending'],
+            value['month_over_month_sum'],
+            value['payment_list']);
       }
     });
   }

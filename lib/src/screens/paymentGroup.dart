@@ -42,10 +42,13 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
   }
 
   void setGroupByPaymentTransaction(
-      int totalSpending, List<dynamic> paymentList) {
+      int totalSpending,
+      int lastMonthTotalSpending,
+      double? monthOverMonthSum,
+      List<dynamic> paymentList) {
     setState(() {
-      paymentTransactionList =
-          GroupByPaymentTransaction.init(totalSpending, paymentList);
+      paymentTransactionList = GroupByPaymentTransaction.init(totalSpending,
+          lastMonthTotalSpending, monthOverMonthSum, paymentList);
     });
   }
 
@@ -90,19 +93,59 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
           : ListView(
               children: [
                 // 収支
-                CenterWidget(
-                  height: 40,
-                  margin: const EdgeInsets.only(left: 8),
-                  child: Row(
-                    children: [
-                      const Text('支出合計', style: TextStyle(fontSize: 20)),
-                      const SizedBox(width: 20),
-                      Text(
-                          '¥${TransactionClass.formatNum(paymentTransactionList.totalSpending.abs())}',
-                          style: const TextStyle(fontSize: 20)),
-                    ],
-                  ),
-                ),
+                paymentTransactionList.totalSpending != 0
+                    ? CenterWidget(
+                        padding: const EdgeInsets.only(left: 5.0),
+                        alignment: Alignment.bottomLeft,
+                        child: RichText(
+                          textAlign: TextAlign.start,
+                          text: TextSpan(
+                              style: const TextStyle(
+                                  color: Colors.black, fontSize: 20),
+                              children: [
+                                const TextSpan(text: '支出合計'),
+                                const WidgetSpan(child: SizedBox(width: 20.0)),
+                                TextSpan(
+                                    text:
+                                        '¥${TransactionClass.formatNum(paymentTransactionList.totalSpending.abs())}')
+                              ]),
+                        ),
+                      )
+                    : const SizedBox(),
+                paymentTransactionList.monthOverMonthSum != null
+                    ? CenterWidget(
+                        padding: const EdgeInsets.only(right: 5.0),
+                        alignment: Alignment.bottomRight,
+                        child: RichText(
+                          textAlign: TextAlign.right,
+                          text: TextSpan(
+                              style: const TextStyle(
+                                  color: Colors.black87, fontSize: 15.0),
+                              children: [
+                                const TextSpan(text: '前月:'),
+                                TextSpan(
+                                    text:
+                                        '¥${TransactionClass.formatNum(paymentTransactionList.lastMonthTotalSpending.abs())}'),
+                                const TextSpan(text: '('),
+                                TextSpan(
+                                  text:
+                                      '${paymentTransactionList.monthOverMonthSum.toString()}%',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: paymentTransactionList
+                                                  .totalSpending
+                                                  .abs() <=
+                                              paymentTransactionList
+                                                  .lastMonthTotalSpending
+                                                  .abs()
+                                          ? const Color(0xFF1B5E20)
+                                          : const Color(0xFFB71C1C)),
+                                ),
+                                const TextSpan(text: ')')
+                              ]),
+                        ),
+                      )
+                    : const SizedBox(),
                 paymentTransactionList.paymentList.isEmpty
                     ? const dataNotRegisteredBox(message: '取引履歴が存在しません')
                     : ListView.builder(
@@ -245,7 +288,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                         style: const TextStyle(color: Colors.black),
                         children: [
                           const TextSpan(
-                              text: '前月データ: ', style: TextStyle(fontSize: 13)),
+                              text: '前月: ', style: TextStyle(fontSize: 13)),
                           TextSpan(
                               text:
                                   '¥${TransactionClass.formatNum(lastMonthSum.abs())}',

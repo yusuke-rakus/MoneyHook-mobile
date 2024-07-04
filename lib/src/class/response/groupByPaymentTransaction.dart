@@ -47,17 +47,23 @@ class Payment {
 
 class GroupByPaymentTransaction {
   late int totalSpending = 0;
+  late int lastMonthTotalSpending = 0;
+  late double? monthOverMonthSum = null;
   late List<Payment> paymentList = [];
 
   GroupByPaymentTransaction.init(
-      this.totalSpending, List<dynamic> paymentList) {
+      this.totalSpending,
+      this.lastMonthTotalSpending,
+      this.monthOverMonthSum,
+      List<dynamic> paymentList) {
     this.paymentList =
         paymentList.map((payment) => Payment.fromMap(payment)).toList();
   }
 
   GroupByPaymentTransaction();
 
-  GroupByPaymentTransaction.setResponse(this.totalSpending, this.paymentList);
+  GroupByPaymentTransaction.setResponse(this.totalSpending,
+      this.lastMonthTotalSpending, this.monthOverMonthSum, this.paymentList);
 
   @override
   String toString() {
