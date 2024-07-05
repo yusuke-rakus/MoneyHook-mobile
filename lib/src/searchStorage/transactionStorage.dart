@@ -297,6 +297,9 @@ class TransactionStorage {
     await db.collection('group_by_payment').doc(id).get().then((value) {
       if (value != null) {
         resultMap['total_spending'] = value['total_spending'];
+        resultMap['last_month_total_spending'] =
+            value['last_month_total_spending'];
+        resultMap['month_over_month_sum'] = value['month_over_month_sum'];
         resultMap['payment_list'] = value['payment_list'];
       }
     });
@@ -304,11 +307,20 @@ class TransactionStorage {
   }
 
   static void saveGroupByPaymentData(
-      int totalSpending, List<dynamic> paymentList, String param) async {
+      int totalSpending,
+      int lastMonthTotalSpending,
+      double? monthOverMonthSum,
+      List<dynamic> paymentList,
+      String param) async {
     await db
         .collection('group_by_payment')
         .doc('group_payment_data$param')
-        .set({'total_spending': totalSpending, 'payment_list': paymentList});
+        .set({
+      'total_spending': totalSpending,
+      'last_month_total_spending': lastMonthTotalSpending,
+      'month_over_month_sum': monthOverMonthSum,
+      'payment_list': paymentList
+    });
   }
 
   static void deleteGroupByPaymentData() async {

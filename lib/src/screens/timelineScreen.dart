@@ -4,11 +4,12 @@ import 'package:money_hooks/src/class/response/timelineTransaction.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 
 import '../class/transactionClass.dart';
+import '../components/appBarMonth.dart';
 import '../components/centerWidget.dart';
 import '../components/charts/timelineChart.dart';
 import '../components/commonLoadingAnimation.dart';
+import '../components/customFloatingActionButtonLocation.dart';
 import '../components/customFloatingButtonLocation.dart';
-import '../components/smaple.dart';
 import '../components/timelineList.dart';
 import '../dataLoader/transactionLoad.dart';
 import '../env/envClass.dart';
@@ -81,46 +82,24 @@ class _TimelineScreenState extends State<TimelineScreen> {
       appBar: AppBar(
         flexibleSpace: GradientBar(),
         title: CenterWidget(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Tooltip(
-                message: "前の月",
-                child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        env.subtractMonth();
-                        Future(() async {
-                          await TransactionLoad.getTimelineData(
-                              env, setLoading, setSnackBar, setTimelineData);
-                          await TransactionLoad.getTimelineChart(
-                              env, setTimelineChart);
-                        });
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_back_ios)),
-              ),
-              Text('${env.getMonth()}月'),
-              Tooltip(
-                message: "次の月",
-                child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        // 翌月が未来でなければデータ取得
-                        if (env.isNotCurrentMonth()) {
-                          env.addMonth();
-                          Future(() async {
-                            await TransactionLoad.getTimelineData(
-                                env, setLoading, setSnackBar, setTimelineData);
-                            await TransactionLoad.getTimelineChart(
-                                env, setTimelineChart);
-                          });
-                        }
-                      });
-                    },
-                    icon: const Icon(Icons.arrow_forward_ios)),
-              ),
-            ],
+          child: AppBarMonth(
+            subtractMonth: () {
+              env.subtractMonth();
+              Future(() async {
+                await TransactionLoad.getTimelineData(
+                    env, setLoading, setSnackBar, setTimelineData);
+                await TransactionLoad.getTimelineChart(env, setTimelineChart);
+              });
+            },
+            addMonth: () {
+              env.addMonth();
+              Future(() async {
+                await TransactionLoad.getTimelineData(
+                    env, setLoading, setSnackBar, setTimelineData);
+                await TransactionLoad.getTimelineChart(env, setTimelineChart);
+              });
+            },
+            env: env,
           ),
         ),
       ),

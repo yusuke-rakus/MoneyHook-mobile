@@ -391,9 +391,16 @@ class transactionApi {
         } else {
           // 成功
           setPaymentGroupTransaction(
-              res.data['total_spending'], res.data['payment_list']);
-          TransactionStorage.saveGroupByPaymentData(res.data['total_spending'],
-              res.data['payment_list'], env.getJson().toString());
+              res.data['total_spending'],
+              res.data['last_month_total_spending'],
+              res.data['month_over_month_sum'],
+              res.data['payment_list']);
+          TransactionStorage.saveGroupByPaymentData(
+              res.data['total_spending'],
+              res.data['last_month_total_spending'],
+              res.data['month_over_month_sum'],
+              res.data['payment_list'],
+              env.getJson().toString());
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
