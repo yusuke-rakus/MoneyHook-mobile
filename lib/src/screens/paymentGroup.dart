@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/icons/MoneyBill.dart';
+import 'package:money_hooks/icons/QuestionCircleO.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
@@ -195,7 +197,8 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ExpansionTile(
         title: ListTile(
-          title: _titleText(payment.paymentName, payment.paymentAmount),
+          title: _titleText(payment.paymentName, payment.paymentAmount,
+              payment.paymentTypeId, payment.isPaymentDueLater),
           subtitle: _subTitleText(payment.lastMonthSum, payment.monthOverMonth),
         ),
         initiallyExpanded: showTitle,
@@ -255,13 +258,22 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
     );
   }
 
-  Widget _titleText(String paymentName, int paymentAmount) {
+  Widget _titleText(String paymentName, int paymentAmount, int? paymentTypeId,
+      bool isPaymentDueLater) {
+    Icon getIcon(bool isPaymentDueLater) {
+      return isPaymentDueLater
+          ? const Icon(Icons.credit_card_outlined)
+          : const Icon(MoneyBill.money_bill);
+    }
+
     return RichText(
       text: TextSpan(
           style: const TextStyle(color: Colors.black, fontSize: 18),
           children: [
-            const WidgetSpan(
-              child: Icon(Icons.credit_card_outlined),
+            WidgetSpan(
+              child: paymentTypeId == null
+                  ? const Icon(QuestionCircleO.question_circle_o)
+                  : getIcon(isPaymentDueLater),
               alignment: PlaceholderAlignment.middle,
             ),
             const WidgetSpan(child: SizedBox(width: 10.0)),

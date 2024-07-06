@@ -53,3 +53,11 @@ flutter:
   uses-material-design: true
   assets:
     - "images/"
+    - icons/
+  fonts:
+    - family: MoneyBill
+      fonts:
+        - asset: icons/MoneyBill.ttf
+    - family: QuestionCircleO
+      fonts:
+        - asset: icons/QuestionCircleO.ttf
