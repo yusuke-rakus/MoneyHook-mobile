@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/paymentResourceApi.dart';
 import 'package:money_hooks/src/class/response/paymentResource.dart';
+import 'package:money_hooks/src/class/response/paymentType.dart';
 import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 
 import '../../components/centerWidget.dart';
@@ -24,8 +25,10 @@ class _SearchTransaction extends State<PaymentResource> {
   late envClass env;
   late bool _isLoading;
   late List<PaymentResourceData> resultData = [];
+  late List<PaymentTypeData> paymentTypeResult = [];
   late PaymentResourceData editingData = PaymentResourceData();
-  late PaymentResourceData newData = PaymentResourceData.init(null, "");
+  late PaymentResourceData newData =
+      PaymentResourceData.init(null, "", null, null);
 
   void setLoading() {
     setState(() {
@@ -59,6 +62,15 @@ class _SearchTransaction extends State<PaymentResource> {
       if (resultList != []) {
         resultData = [];
         resultList.forEach((value) => resultData.add(value));
+      }
+    });
+  }
+
+  void setPaymentTypeList(List<PaymentTypeData> resultList) {
+    setState(() {
+      if (resultList != []) {
+        paymentTypeResult = [];
+        resultList.forEach((value) => paymentTypeResult.add(value));
       }
     });
   }
@@ -110,6 +122,7 @@ class _SearchTransaction extends State<PaymentResource> {
     env = widget.env;
     _isLoading = false;
     PaymentResourceLoad.getPaymentResource(env, setPaymentResourceList);
+    PaymentResourceApi.getPaymentType(env, setPaymentTypeList);
   }
 
   @override
@@ -169,52 +182,67 @@ class _SearchTransaction extends State<PaymentResource> {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: data.editMode
-                  ? TextField(
-                      autofocus: true,
-                      onChanged: (value) {
-                        setState(() {
-                          data.paymentName = value;
-                        });
-                      },
-                      controller: setController(data.paymentName),
-                      decoration: InputDecoration(
-                          labelText: '支払い名',
-                          suffixIcon: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Tooltip(
-                                message: "戻す",
-                                child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (editingData.paymentName != "") {
-                                          data.paymentName =
-                                              editingData.paymentName;
-                                        }
-                                        data.editMode = false;
-                                      });
-                                    },
-                                    icon: const Icon(
-                                      Icons.redo,
-                                      textDirection: TextDirection.rtl,
-                                    )),
+                  ? ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: [
+                        TextField(
+                          autofocus: true,
+                          onChanged: (value) {
+                            setState(() {
+                              data.paymentName = value;
+                            });
+                          },
+                          controller: setController(data.paymentName),
+                          decoration: InputDecoration(
+                              labelText: '支払い名',
+                              suffixIcon: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Tooltip(
+                                    message: "戻す",
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            if (editingData.paymentName != "") {
+                                              data.paymentName =
+                                                  editingData.paymentName;
+                                            }
+                                            data.editMode = false;
+                                          });
+                                        },
+                                        icon: const Icon(
+                                          Icons.redo,
+                                          textDirection: TextDirection.rtl,
+                                        )),
+                                  ),
+                                  Tooltip(
+                                    message: "登録",
+                                    child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            sendPaymentData(data);
+                                          });
+                                        },
+                                        icon: const Icon(Icons.send)),
+                                  ),
+                                ],
                               ),
-                              Tooltip(
-                                message: "登録",
-                                child: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        sendPaymentData(data);
-                                      });
-                                    },
-                                    icon: const Icon(Icons.send)),
-                              ),
-                            ],
-                          ),
-                          errorText: data.paymentNameError != ""
-                              ? data.paymentNameError
-                              : null),
-                      style: const TextStyle(fontSize: 20),
+                              errorText: data.paymentNameError != ""
+                                  ? data.paymentNameError
+                                  : null),
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 10.0),
+                        const Text('支払い種別を選択',
+                            style: TextStyle(fontSize: 12.5)),
+                        Wrap(
+                            children: paymentTypeResult
+                                .map<Widget>(
+                                    (paymentType) => _button(paymentType, data))
+                                .toList()),
+                        _inputInvoiceDate(paymentTypeResult, data)
+                      ],
                     )
                   : Row(
                       children: [
@@ -248,5 +276,40 @@ class _SearchTransaction extends State<PaymentResource> {
             ),
           )),
     );
+  }
+
+  Widget _button(PaymentTypeData data, PaymentResourceData paymentResource) {
+    return Container(
+      height: 23,
+      margin: const EdgeInsets.only(top: 3, right: 5),
+      child: OutlinedButton(
+        onPressed: () {
+          setState(() {
+            paymentResource.paymentTypeId = data.paymentTypeId;
+          });
+        },
+        style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+            ),
+            foregroundColor: paymentResource.paymentTypeId == data.paymentTypeId
+                ? Colors.white
+                : Colors.black87,
+            backgroundColor: paymentResource.paymentTypeId == data.paymentTypeId
+                ? const Color(0xFF42A5F5)
+                : const Color(0xFFBDBDBD),
+            side: const BorderSide(color: Colors.transparent)),
+        child: Text(data.paymentTypeName),
+      ),
+    );
+  }
+
+  Widget _inputInvoiceDate(List<PaymentTypeData> paymentTypeList,
+      PaymentResourceData paymentResource) {
+    PaymentTypeData data = paymentTypeList
+        .where((item) => item.paymentTypeId == paymentResource.paymentTypeId)
+        .toList()
+        .first;
+    return data.isPaymentDueLater ? Text("later") : const SizedBox();
   }
 }

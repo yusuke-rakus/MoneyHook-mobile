@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:money_hooks/src/api/validation/paymentResourceValidation.dart';
+import 'package:money_hooks/src/class/response/paymentType.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/response/paymentResource.dart';
@@ -23,7 +24,11 @@ class PaymentResourceApi {
           List<PaymentResourceData> resultList = [];
           res.data['payment_list'].forEach((value) {
             resultList.add(PaymentResourceData.init(
-                value['payment_id'], value['payment_name']));
+              value['payment_id'],
+              value['payment_name'],
+              value['payment_type_id'],
+              value['payment_date'],
+            ));
           });
           setPaymentResourceList(resultList);
 
@@ -47,7 +52,12 @@ class PaymentResourceApi {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post('$rootURI/payment/addPayment',
-            data: {'payment_name': data.paymentName}, options: option);
+            data: {
+              'payment_name': data.paymentName,
+              'payment_type_id': data.paymentTypeId,
+              'payment_date': data.paymentDate
+            },
+            options: option);
         if (res.statusCode != 200) {
           // 失敗
           setSnackBar("エラーが発生しました");
@@ -73,7 +83,9 @@ class PaymentResourceApi {
         Response res = await Api.dio.patch('$rootURI/payment/editPayment',
             data: {
               'payment_id': data.paymentId,
-              'payment_name': data.paymentName
+              'payment_name': data.paymentName,
+              'payment_type_id': data.paymentTypeId,
+              'payment_date': data.paymentDate
             },
             options: option);
         if (res.statusCode != 200) {
@@ -107,6 +119,30 @@ class PaymentResourceApi {
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
+      }
+    });
+  }
+
+  /// 支払い種類の取得
+  static Future<void> getPaymentType(
+      envClass env, Function setPaymentResourceList) async {
+    await Api.getHeader().then((option) async {
+      try {
+        Response res = await Api.dio
+            .get('$rootURI/payment/getPaymentType', options: option);
+        if (res.statusCode != 200) {
+          // 失敗
+        } else {
+          // 成功
+          List<PaymentTypeData> resultList = [];
+          res.data['payment_type_list'].forEach((value) {
+            resultList.add(PaymentTypeData.init(value['payment_type_id'],
+                value['payment_type_name'], value['is_payment_due_later']));
+          });
+          setPaymentResourceList(resultList);
+        }
+      } on DioException catch (e) {
+        Api.errorMessage(e);
       }
     });
   }
