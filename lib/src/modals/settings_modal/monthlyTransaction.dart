@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/monthlyTransactionApi.dart';
+import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
+import 'package:money_hooks/src/components/customFloatingActionButtonLocation.dart';
+import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
+import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
-
-import '../../class/monthlyTransactionClass.dart';
-import '../../components/centerWidget.dart';
-import '../../components/customFloatingButtonLocation.dart';
-import '../../components/gradientBar.dart';
-import '../../components/customFloatingActionButtonLocation.dart';
-import '../../env/envClass.dart';
 
 class MonthlyTransaction extends StatefulWidget {
   const MonthlyTransaction({Key? key, required this.env}) : super(key: key);
@@ -67,45 +67,47 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
       ),
       body: _isLoading
           ? Center(child: CommonLoadingAnimation.build())
-          : ListView(
-              children: [
-                CenterWidget(
-                    padding: const EdgeInsets.only(left: 10, bottom: 20),
-                    height: 55,
-                    child: const Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          '収支の自動入力',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ))),
-                ListView.builder(
-                    padding: const EdgeInsets.only(bottom: 90),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: monthlyTransactionList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return CenterWidget(
-                        child: InkWell(
-                          onTap: () {
-                            // 収支の編集画面へ遷移
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        EditMonthlyTransaction(
-                                            monthlyTransactionList[index],
-                                            env,
-                                            setReload,
-                                            setSnackBar),
-                                    fullscreenDialog: true));
-                          },
-                          child: _monthlyTransactionData(
-                              monthlyTransactionList[index]),
-                        ),
-                      );
-                    }),
-              ],
-            ),
+          : monthlyTransactionList.isNotEmpty
+              ? ListView(
+                  children: [
+                    CenterWidget(
+                        padding: const EdgeInsets.only(left: 10, bottom: 20),
+                        height: 55,
+                        child: const Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              '収支の自動入力',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ))),
+                    ListView.builder(
+                        padding: const EdgeInsets.only(bottom: 90),
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: monthlyTransactionList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return CenterWidget(
+                            child: InkWell(
+                              onTap: () {
+                                // 収支の編集画面へ遷移
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditMonthlyTransaction(
+                                                monthlyTransactionList[index],
+                                                env,
+                                                setReload,
+                                                setSnackBar),
+                                        fullscreenDialog: true));
+                              },
+                              child: _monthlyTransactionData(
+                                  monthlyTransactionList[index]),
+                            ),
+                          );
+                        }),
+                  ],
+                )
+              : const dataNotRegisteredBox(message: '自動入力データが存在しません'),
       floatingActionButton: Tooltip(
         message: "毎月の自動入力を追加",
         child: FloatingActionButton(

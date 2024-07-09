@@ -61,7 +61,9 @@ class _SearchTransaction extends State<PaymentResource> {
     setState(() {
       if (resultList != []) {
         resultData = [];
-        resultList.forEach((value) => resultData.add(value));
+        for (var value in resultList) {
+          resultData.add(value);
+        }
       }
     });
   }
@@ -70,7 +72,9 @@ class _SearchTransaction extends State<PaymentResource> {
     setState(() {
       if (resultList != []) {
         paymentTypeResult = [];
-        resultList.forEach((value) => paymentTypeResult.add(value));
+        for (var value in resultList) {
+          paymentTypeResult.add(value);
+        }
       }
     });
   }
@@ -155,6 +159,8 @@ class _SearchTransaction extends State<PaymentResource> {
                         if (resultData.isEmpty ||
                             resultData.last.paymentId != null) {
                           newData.editMode = true;
+                          newData.paymentTypeId =
+                              paymentTypeResult.first.paymentTypeId;
                           editingData.paymentName = "";
                           resultData.add(newData);
                         }
@@ -220,9 +226,7 @@ class _SearchTransaction extends State<PaymentResource> {
                                     message: "登録",
                                     child: IconButton(
                                         onPressed: () {
-                                          setState(() {
-                                            sendPaymentData(data);
-                                          });
+                                          sendPaymentData(data);
                                         },
                                         icon: const Icon(Icons.send)),
                                   ),
@@ -233,15 +237,21 @@ class _SearchTransaction extends State<PaymentResource> {
                                   : null),
                           style: const TextStyle(fontSize: 20),
                         ),
-                        const SizedBox(height: 10.0),
-                        const Text('支払い種別を選択',
-                            style: TextStyle(fontSize: 12.5)),
-                        Wrap(
-                            children: paymentTypeResult
-                                .map<Widget>(
-                                    (paymentType) => _button(paymentType, data))
-                                .toList()),
-                        _inputInvoiceDate(paymentTypeResult, data)
+                        const SizedBox(height: 13.0),
+                        paymentTypeResult.isNotEmpty
+                            ? const Text('支払い種別を選択',
+                                style: TextStyle(fontSize: 12.5))
+                            : const SizedBox(),
+                        paymentTypeResult.isNotEmpty
+                            ? Wrap(
+                                children: paymentTypeResult
+                                    .map<Widget>((paymentType) =>
+                                        _button(paymentType, data))
+                                    .toList())
+                            : const SizedBox(),
+                        paymentTypeResult.isNotEmpty
+                            ? _inputInvoiceDate(paymentTypeResult, data)
+                            : const SizedBox()
                       ],
                     )
                   : Row(
@@ -286,6 +296,7 @@ class _SearchTransaction extends State<PaymentResource> {
         onPressed: () {
           setState(() {
             paymentResource.paymentTypeId = data.paymentTypeId;
+            paymentResource.paymentDate = null;
           });
         },
         style: OutlinedButton.styleFrom(
@@ -310,6 +321,27 @@ class _SearchTransaction extends State<PaymentResource> {
         .where((item) => item.paymentTypeId == paymentResource.paymentTypeId)
         .toList()
         .first;
-    return data.isPaymentDueLater ? Text("later") : const SizedBox();
+    final dateList = [for (int i = 1; i < 32; i++) i];
+    return data.isPaymentDueLater
+        ? Padding(
+            padding: const EdgeInsets.only(top: 12.5),
+            child: Row(
+              children: [
+                const Text("引落日を選択: ", style: TextStyle(fontSize: 12.5)),
+                DropdownButton(
+                  hint: const Text("支払日"),
+                  value: paymentResource.paymentDate,
+                  items: dateList
+                      .map((date) =>
+                          DropdownMenuItem(value: date, child: Text('$date日')))
+                      .toList(),
+                  onChanged: (value) async {
+                    setState(() => paymentResource.paymentDate = value);
+                  },
+                ),
+              ],
+            ),
+          )
+        : const SizedBox();
   }
 }

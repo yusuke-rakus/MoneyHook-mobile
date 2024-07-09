@@ -61,3 +61,9 @@ flutter:
     - family: QuestionCircleO
       fonts:
         - asset: icons/QuestionCircleO.ttf
+    - family: Dollar
+      fonts:
+        - asset: icons/Dollar.ttf
+    - family: Wallet
+      fonts:
+        - asset: icons/Wallet.ttf

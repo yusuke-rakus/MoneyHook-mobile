@@ -17,6 +17,18 @@
       "css": "money_bill",
       "code": 61654,
       "src": "fontawesome5"
+    },
+    {
+      "uid": "d58dc0a0927a7dea2992f615f2fbf400",
+      "css": "wallet",
+      "code": 59393,
+      "src": "linecons"
+    },
+    {
+      "uid": "fhpup8jff2yw9kmuwavhyqxogczcbbhj",
+      "css": "dollar",
+      "code": 59392,
+      "src": "modernpics"
     }
   ]
 }
