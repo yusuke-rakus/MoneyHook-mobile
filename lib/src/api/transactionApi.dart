@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:money_hooks/src/api/validation/searchTransactionValidation.dart';
 import 'package:money_hooks/src/api/validation/transactionValidation.dart';
+import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
@@ -406,6 +407,33 @@ class transactionApi {
         setSnackBar(Api.errorMessage(e));
       } finally {
         setLoading();
+      }
+    });
+  }
+
+  /// タイムラインカレンダーの引落し予定を取得
+  static Future<void> getMonthlyWithdrawalAmount(
+      envClass env, Function setSnackBar, Function setWithdrawalList) async {
+    await Api.getHeader().then((option) async {
+      try {
+        Response res = await Api.dio.get('$rootURI/getMonthlyWithdrawalAmount',
+            queryParameters: env.getJson(), options: option);
+        if (res.statusCode != 200) {
+          // 失敗
+        } else {
+          // 成功
+          List<WithdrawalData> resultList = [];
+          res.data['withdrawal_list'].forEach((value) {
+            resultList.add(WithdrawalData.init(
+                value['payment_id'],
+                value['payment_name'],
+                value['payment_date'],
+                value['withdrawal_amount']));
+          });
+          setWithdrawalList(resultList);
+        }
+      } on DioException catch (e) {
+        setSnackBar(Api.errorMessage(e));
       }
     });
   }

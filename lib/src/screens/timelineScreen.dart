@@ -32,28 +32,20 @@ class _TimelineScreenState extends State<TimelineScreen> {
   late bool timelineMode = true;
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   // メッセージの設定
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   void setTimelineData(List<TransactionClass> responseList) {
-    setState(() {
-      timelineList = TimelineTransaction.init(responseList);
-    });
+    setState(() => timelineList = TimelineTransaction.init(responseList));
   }
 
   void setTimelineChart(List<TransactionClass> responseList) {
-    setState(() {
-      timelineChart = responseList;
-    });
+    setState(() => timelineChart = responseList);
   }
 
   @override

@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 
-class MonthlyTransactionCard extends StatelessWidget {
-  final List<MonthlyTransactionClass> displayMonthlyTransactions;
+class WithdrawalListCard extends StatelessWidget {
+  final List<WithdrawalData> displayWithdrawalData;
 
-  const MonthlyTransactionCard(
-      {super.key, required this.displayMonthlyTransactions});
+  const WithdrawalListCard({super.key, required this.displayWithdrawalData});
 
   @override
   Widget build(BuildContext context) {
-    return displayMonthlyTransactions.isNotEmpty
+    return displayWithdrawalData.isNotEmpty
         ? CenterWidget(
             child: Card(
               shape: RoundedRectangleBorder(
@@ -22,22 +21,21 @@ class MonthlyTransactionCard extends StatelessWidget {
                 children: [
                   const ListTile(
                     title: Text(
-                      '自動入力予定',
+                      '引落し予定',
                       style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
                     ),
-                    leading: Icon(Icons.account_tree),
+                    leading: Icon(Icons.credit_card_outlined),
                   ),
                   ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     padding: const EdgeInsets.all(10.0),
-                    itemCount: displayMonthlyTransactions.length,
+                    itemCount: displayWithdrawalData.length,
                     itemBuilder: (BuildContext context, int index) {
-                      return _monthlyTransactionItem(
-                          displayMonthlyTransactions[index]);
+                      return _withdrawalItem(displayWithdrawalData[index]);
                     },
                     separatorBuilder: (BuildContext context, int index) {
                       return const Divider();
@@ -50,8 +48,7 @@ class MonthlyTransactionCard extends StatelessWidget {
         : const SizedBox();
   }
 
-  Widget _monthlyTransactionItem(
-      MonthlyTransactionClass displayMonthlyTransaction) {
+  Widget _withdrawalItem(WithdrawalData withdrawalData) {
     return SizedBox(
       height: 35,
       child: Row(
@@ -59,7 +56,7 @@ class MonthlyTransactionCard extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Text(
-              '${displayMonthlyTransaction.monthlyTransactionDate}日',
+              '${withdrawalData.paymentDate}日',
               style: const TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
@@ -67,15 +64,7 @@ class MonthlyTransactionCard extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Text(
-              displayMonthlyTransaction.categoryName,
-              style: const TextStyle(fontSize: 15),
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          Expanded(
-            flex: 3,
-            child: Text(
-              displayMonthlyTransaction.monthlyTransactionName,
+              withdrawalData.paymentName,
               style: const TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
@@ -83,7 +72,7 @@ class MonthlyTransactionCard extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Text(
-              '¥${TransactionClass.formatNum(displayMonthlyTransaction.monthlyTransactionAmount.toInt())}',
+              '¥${TransactionClass.formatNum(withdrawalData.withdrawalAmount.abs())}',
               style: const TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),

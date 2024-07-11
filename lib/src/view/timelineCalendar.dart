@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/src/class/response/timelineTransaction.dart';
+import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
@@ -9,8 +10,10 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
 import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
+import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/organisms/timelineCalendar/monthlyTransactionCard.dart';
+import 'package:money_hooks/src/organisms/timelineCalendar/withdrawalListCard.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class TimelineCalendar extends StatefulWidget {
@@ -38,6 +41,8 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
   List<TransactionClass> transactions = [];
   late List<MonthlyTransactionClass> monthlyTransactionList = [];
   late List<MonthlyTransactionClass> displayMonthlyTransactions = [];
+  late List<WithdrawalData> withdrawalList = [];
+  late List<WithdrawalData> displayWithdrawalList = [];
   late bool _isLoading;
 
   (num, num) _getSumForDate(DateTime day) {
@@ -70,13 +75,19 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
     setState(() => monthlyTransactionList = resultList);
   }
 
-  (num, num, List<MonthlyTransactionClass>) _selectMonthlyTransactionAmount(
-      DateTime date) {
+  void setWithdrawalList(List<WithdrawalData> resultList) {
+    setState(() => withdrawalList = resultList);
+  }
+
+  (num, num, List<MonthlyTransactionClass>, List<WithdrawalData>)
+      _selectMonthlyTransactionAmount(DateTime date) {
     DateTime lastDate = widget.env.getLastDayOfMonth();
 
     num spendSum = 0;
     num incomeSum = 0;
-    List<MonthlyTransactionClass> resultList = [];
+    List<MonthlyTransactionClass> monthlyTransactions = [];
+    List<WithdrawalData> withdrawals = [];
+
     monthlyTransactionList.forEach((value) {
       // 今月の予定を集計する
       if (lastDate.month == date.month) {
@@ -88,7 +99,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
           incomeSum += value.monthlyTransactionSign == 1
               ? value.monthlyTransactionAmount
               : 0;
-          resultList.add(value);
+          monthlyTransactions.add(value);
         } else if (value.monthlyTransactionDate == date.day) {
           spendSum += value.monthlyTransactionSign == -1
               ? value.monthlyTransactionAmount
@@ -96,33 +107,42 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
           incomeSum += value.monthlyTransactionSign == 1
               ? value.monthlyTransactionAmount
               : 0;
-          resultList.add(value);
+          monthlyTransactions.add(value);
         }
       }
     });
-    return (spendSum, incomeSum, resultList);
+    withdrawalList.forEach((value) {
+      // 今月の予定を集計する
+      if (lastDate.month == date.month) {
+        if (lastDate.day == date.day && value.paymentDate >= lastDate.day) {
+          spendSum += value.withdrawalAmount.abs();
+          withdrawals.add(value);
+        } else if (value.paymentDate == date.day) {
+          spendSum += value.withdrawalAmount.abs();
+          withdrawals.add(value);
+        }
+      }
+    });
+    return (spendSum, incomeSum, monthlyTransactions, withdrawals);
   }
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   // メッセージの設定
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   @override
   void initState() {
     super.initState();
     _isLoading = true;
-
     MonthlyTransactionLoad.getFixed(
         widget.env, setMonthlyTransactionList, setLoading, setSnackBar);
+    Future(() async => await TransactionLoad.getMonthlyWithdrawalAmount(
+        widget.env, setSnackBar, setWithdrawalList));
   }
 
   @override
@@ -152,6 +172,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                         setState(() {
                           selectedDate = selectedDay;
                           displayMonthlyTransactions = [];
+                          displayWithdrawalList = [];
                           transactions = _getTransactionForDate(selectedDay);
                         });
                       }),
@@ -192,8 +213,12 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                               enable: false);
                         },
                         disabledBuilder: (context, date, focusedDay) {
-                          final (mtSpendSum, mtIncomeSum, monthlyTransactions) =
-                              _selectMonthlyTransactionAmount(date);
+                          final (
+                            mtSpendSum,
+                            mtIncomeSum,
+                            monthlyTransactions,
+                            withdrawals
+                          ) = _selectMonthlyTransactionAmount(date);
                           String fmtSpendSum = mtSpendSum != 0
                               ? '¥${TransactionClass.formatNum(mtSpendSum.toInt())}'
                               : '';
@@ -205,6 +230,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                               selectedDate = date;
                               transactions = [];
                               displayMonthlyTransactions = monthlyTransactions;
+                              displayWithdrawalList = withdrawals;
                             }),
                             child: _buildContainer(
                                 date, fmtSpendSum, fmtIncomeSum,
@@ -285,9 +311,18 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
   }
 
   Widget _buildDetail() {
-    return displayMonthlyTransactions.isNotEmpty
-        ? MonthlyTransactionCard(
-            displayMonthlyTransactions: displayMonthlyTransactions)
+    return displayMonthlyTransactions.isNotEmpty ||
+            displayWithdrawalList.isNotEmpty
+        ? ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+                MonthlyTransactionCard(
+                    displayMonthlyTransactions: displayMonthlyTransactions),
+                WithdrawalListCard(
+                  displayWithdrawalData: displayWithdrawalList,
+                )
+              ])
         : TimelineList(
             env: widget.env,
             timelineList: transactions,

@@ -125,4 +125,26 @@ class TransactionLoad {
       }
     });
   }
+
+  /// 【タイムライン画面】データ
+  static Future<void> getMonthlyWithdrawalAmount(
+      envClass env, Function setSnackBar, Function setWithdrawalList) async {
+    await transactionApi.getMonthlyWithdrawalAmount(
+        env, setSnackBar, setWithdrawalList);
+    //   await TransactionStorage.getMonthlyWithdrawalAmount(
+    //           env.getJson().toString())
+    //       .then((value) async {
+    //     if (value.isEmpty || await isNeedApi()) {
+    //       await transactionApi.getMonthlyWithdrawalAmount(
+    //           env, setSnackBar, setWithdrawalList);
+    //       await setRegistrationDate();
+    //     } else {
+    //       setWithdrawalList(
+    //           value['total_spending'],
+    //           value['last_month_total_spending'],
+    //           value['month_over_month_sum'],
+    //           value['payment_list']);
+    //     }
+    //   });
+  }
 }
