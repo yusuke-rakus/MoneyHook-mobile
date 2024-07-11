@@ -194,11 +194,8 @@ class _SearchTransaction extends State<PaymentResource> {
                       children: [
                         TextField(
                           autofocus: true,
-                          onChanged: (value) {
-                            setState(() {
-                              data.paymentName = value;
-                            });
-                          },
+                          onChanged: (value) =>
+                              setState(() => data.paymentName = value),
                           controller: setController(data.paymentName),
                           decoration: InputDecoration(
                               labelText: '支払い名',
@@ -208,15 +205,14 @@ class _SearchTransaction extends State<PaymentResource> {
                                   Tooltip(
                                     message: "戻す",
                                     child: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            if (editingData.paymentName != "") {
-                                              data.paymentName =
-                                                  editingData.paymentName;
-                                            }
-                                            data.editMode = false;
-                                          });
-                                        },
+                                        onPressed: () => setState(() {
+                                              if (editingData.paymentName !=
+                                                  "") {
+                                                data.paymentName =
+                                                    editingData.paymentName;
+                                              }
+                                              data.editMode = false;
+                                            }),
                                         icon: const Icon(
                                           Icons.redo,
                                           textDirection: TextDirection.rtl,
