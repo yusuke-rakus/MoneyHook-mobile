@@ -1,4 +1,5 @@
 import 'package:localstore/localstore.dart';
+import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +17,7 @@ class TransactionStorage {
     deleteMonthlyFixedIncome();
     deleteMonthlyFixedSpending();
     deleteGroupByPaymentData();
+    deleteMonthlyWithdrawalAmountData();
   }
 
   /// ストレージ全削除(月指定)
@@ -27,6 +29,7 @@ class TransactionStorage {
     deleteMonthlyFixedIncomeWithParam(userId, transactionDate);
     deleteMonthlyFixedSpendingWithParam(userId, transactionDate);
     deleteGroupByPaymentDataWithParam(userId, transactionDate);
+    deleteMonthlyWithdrawalAmountDataWithParam(userId, transactionDate);
   }
 
   /// 【タイムライン画面】データ
@@ -332,5 +335,45 @@ class TransactionStorage {
     envClass env = envClass.initNew(userId, transactionDate);
     final id = 'group_payment_data${env.getJson()}';
     await db.collection('group_by_payment').doc(id).delete();
+  }
+
+  /// 【タイムライン画面】データ
+  static Future<List<WithdrawalData>> getMonthlyWithdrawalAmount(
+      String param) async {
+    final id = 'withdrawal_amount$param';
+    List<WithdrawalData> resultList = [];
+
+    await db.collection('withdrawal_amount_data').doc(id).get().then((value) {
+      if (value != null) {
+        value['data'].forEach((e) {
+          int paymentId = e['payment_id'];
+          String paymentName = e['payment_name'];
+          int paymentDate = e['payment_date'];
+          int withdrawalAmount = e['withdrawal_amount'];
+          resultList.add(WithdrawalData.init(
+              paymentId, paymentName, paymentDate, withdrawalAmount));
+        });
+      }
+    });
+    return resultList;
+  }
+
+  static void saveMonthlyWithdrawalAmountData(
+      List<WithdrawalData> resultList, String param) async {
+    await db
+        .collection('withdrawal_amount_data')
+        .doc('withdrawal_amount$param')
+        .set({'data': resultList.map((e) => e.getWithdrawalJson()).toList()});
+  }
+
+  static void deleteMonthlyWithdrawalAmountData() async {
+    await db.collection('withdrawal_amount_data').delete();
+  }
+
+  static void deleteMonthlyWithdrawalAmountDataWithParam(
+      String userId, String transactionDate) async {
+    envClass env = envClass.initNew(userId, transactionDate);
+    final id = 'withdrawal_amount${env.getJson()}';
+    await db.collection('withdrawal_amount_data').doc(id).delete();
   }
 }

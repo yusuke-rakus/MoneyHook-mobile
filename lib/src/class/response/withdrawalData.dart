@@ -19,4 +19,13 @@ class WithdrawalData extends Response {
 
   WithdrawalData.setResponse(super.status, super.message, this.paymentId,
       this.paymentName, this.paymentDate, this.withdrawalAmount);
+
+  Map<String, dynamic> getWithdrawalJson() {
+    return {
+      'payment_id': paymentId,
+      'payment_name': paymentName,
+      'payment_date': paymentDate,
+      'withdrawal_amount': withdrawalAmount
+    };
+  }
 }

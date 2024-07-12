@@ -431,6 +431,9 @@ class transactionApi {
                 value['withdrawal_amount']));
           });
           setWithdrawalList(resultList);
+
+          TransactionStorage.saveMonthlyWithdrawalAmountData(
+              resultList, env.getJson().toString());
         }
       } on DioException catch (e) {
         setSnackBar(Api.errorMessage(e));
