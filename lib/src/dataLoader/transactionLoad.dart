@@ -125,4 +125,22 @@ class TransactionLoad {
       }
     });
   }
+
+  /// 【タイムライン画面】データ
+  static Future<void> getMonthlyWithdrawalAmount(
+      envClass env, Function setSnackBar, Function setWithdrawalList) async {
+    await TransactionStorage.getMonthlyWithdrawalAmount(
+            env.getJson().toString())
+        .then((value) async {
+      if (value.isEmpty || await isNeedApi()) {
+        await transactionApi.getMonthlyWithdrawalAmount(
+            env, setSnackBar, setWithdrawalList);
+        await setRegistrationDate();
+        print('API実行');
+      } else {
+        setWithdrawalList(value);
+        print('ローカルから取得');
+      }
+    });
+  }
 }

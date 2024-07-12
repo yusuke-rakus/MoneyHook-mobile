@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/icons/QuestionCircleO.dart';
+import 'package:money_hooks/icons/Wallet.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 
@@ -95,7 +97,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                 // 収支
                 paymentTransactionList.totalSpending != 0
                     ? CenterWidget(
-                        padding: const EdgeInsets.only(left: 5.0),
+                        padding: const EdgeInsets.only(top: 18.0, left: 5.0),
                         alignment: Alignment.bottomLeft,
                         child: RichText(
                           textAlign: TextAlign.start,
@@ -104,7 +106,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                                   color: Colors.black, fontSize: 20),
                               children: [
                                 const TextSpan(text: '支出合計'),
-                                const WidgetSpan(child: SizedBox(width: 20.0)),
+                                const WidgetSpan(child: SizedBox(width: 18.0)),
                                 TextSpan(
                                     text:
                                         '¥${TransactionClass.formatNum(paymentTransactionList.totalSpending.abs())}')
@@ -122,11 +124,11 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                               style: const TextStyle(
                                   color: Colors.black87, fontSize: 15.0),
                               children: [
-                                const TextSpan(text: '前月:'),
+                                const TextSpan(text: '前月: '),
                                 TextSpan(
                                     text:
                                         '¥${TransactionClass.formatNum(paymentTransactionList.lastMonthTotalSpending.abs())}'),
-                                const TextSpan(text: '('),
+                                const TextSpan(text: ' ('),
                                 TextSpan(
                                   text:
                                       '${paymentTransactionList.monthOverMonthSum.toString()}%',
@@ -195,7 +197,8 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       child: ExpansionTile(
         title: ListTile(
-          title: _titleText(payment.paymentName, payment.paymentAmount),
+          title: _titleText(payment.paymentName, payment.paymentAmount,
+              payment.paymentTypeId, payment.isPaymentDueLater),
           subtitle: _subTitleText(payment.lastMonthSum, payment.monthOverMonth),
         ),
         initiallyExpanded: showTitle,
@@ -255,13 +258,22 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
     );
   }
 
-  Widget _titleText(String paymentName, int paymentAmount) {
+  Widget _titleText(String paymentName, int paymentAmount, int? paymentTypeId,
+      bool isPaymentDueLater) {
+    Icon getIcon(bool isPaymentDueLater) {
+      return isPaymentDueLater
+          ? const Icon(Icons.credit_card_outlined)
+          : const Icon(Wallet.wallet, size: 20.0);
+    }
+
     return RichText(
       text: TextSpan(
           style: const TextStyle(color: Colors.black, fontSize: 18),
           children: [
-            const WidgetSpan(
-              child: Icon(Icons.credit_card_outlined),
+            WidgetSpan(
+              child: paymentTypeId == null
+                  ? const Icon(QuestionCircleO.question_circle_o, size: 20.0)
+                  : getIcon(isPaymentDueLater),
               alignment: PlaceholderAlignment.middle,
             ),
             const WidgetSpan(child: SizedBox(width: 10.0)),

@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/timelineTransaction.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/appBarMonth.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/components/charts/timelineChart.dart';
+import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
+import 'package:money_hooks/src/components/customFloatingActionButtonLocation.dart';
+import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
-
-import '../class/transactionClass.dart';
-import '../components/appBarMonth.dart';
-import '../components/centerWidget.dart';
-import '../components/charts/timelineChart.dart';
-import '../components/commonLoadingAnimation.dart';
-import '../components/customFloatingActionButtonLocation.dart';
-import '../components/customFloatingButtonLocation.dart';
-import '../components/timelineList.dart';
-import '../dataLoader/transactionLoad.dart';
-import '../env/envClass.dart';
-import '../view/timelineCalendar.dart';
+import 'package:money_hooks/src/components/timelineList.dart';
+import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
+import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/view/timelineCalendar.dart';
 
 class TimelineScreen extends StatefulWidget {
   const TimelineScreen(this.isLoading, this.env, {super.key});
@@ -33,28 +32,20 @@ class _TimelineScreenState extends State<TimelineScreen> {
   late bool timelineMode = true;
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   // メッセージの設定
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   void setTimelineData(List<TransactionClass> responseList) {
-    setState(() {
-      timelineList = TimelineTransaction.init(responseList);
-    });
+    setState(() => timelineList = TimelineTransaction.init(responseList));
   }
 
   void setTimelineChart(List<TransactionClass> responseList) {
-    setState(() {
-      timelineChart = responseList;
-    });
+    setState(() => timelineChart = responseList);
   }
 
   @override

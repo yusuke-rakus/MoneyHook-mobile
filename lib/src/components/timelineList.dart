@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/env/envClass.dart';
-
-import '../modals/editTransaction.dart';
-import 'dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/modals/editTransaction.dart';
 
 class TimelineList extends StatelessWidget {
   const TimelineList(

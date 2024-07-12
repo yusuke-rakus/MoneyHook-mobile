@@ -24,12 +24,22 @@ class Transaction {
 class Payment {
   late String paymentName;
   late int paymentAmount;
+  late int? paymentTypeId;
+  late String paymentTypeName;
+  late bool isPaymentDueLater;
   late int? lastMonthSum;
   late double? monthOverMonth;
   late List<Transaction> transactionList;
 
-  Payment(this.paymentName, this.paymentAmount, this.lastMonthSum,
-      this.monthOverMonth, this.transactionList);
+  Payment(
+      this.paymentName,
+      this.paymentAmount,
+      this.paymentTypeId,
+      this.paymentTypeName,
+      this.isPaymentDueLater,
+      this.lastMonthSum,
+      this.monthOverMonth,
+      this.transactionList);
 
   factory Payment.fromMap(Map<String, dynamic> map) {
     List<Transaction> transactions = (map['transaction_list'] as List)
@@ -38,6 +48,9 @@ class Payment {
     return Payment(
       map['payment_name'],
       map['payment_amount'],
+      map['payment_type_id'],
+      map['payment_type_name'],
+      map['is_payment_due_later'],
       map['last_month_sum'],
       map['month_over_month'],
       transactions,
