@@ -136,10 +136,8 @@ class TransactionLoad {
         await transactionApi.getMonthlyWithdrawalAmount(
             env, setSnackBar, setWithdrawalList);
         await setRegistrationDate();
-        print('API実行');
       } else {
         setWithdrawalList(value);
-        print('ローカルから取得');
       }
     });
   }
