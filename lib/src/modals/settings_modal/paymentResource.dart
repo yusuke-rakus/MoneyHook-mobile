@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/paymentResourceApi.dart';
 import 'package:money_hooks/src/class/response/paymentResource.dart';
 import 'package:money_hooks/src/class/response/paymentType.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/components/commonConfirmDialog.dart';
+import 'package:money_hooks/src/components/commonLoadingDialog.dart';
+import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
+import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
+import 'package:money_hooks/src/dataLoader/paymentResource.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
-
-import '../../components/centerWidget.dart';
-import '../../components/commonConfirmDialog.dart';
-import '../../components/commonLoadingDialog.dart';
-import '../../components/customFloatingButtonLocation.dart';
-import '../../components/dataNotRegisteredBox.dart';
-import '../../components/gradientBar.dart';
-import '../../dataLoader/paymentResource.dart';
-import '../../env/envClass.dart';
 
 class PaymentResource extends StatefulWidget {
   const PaymentResource({Key? key, required this.env}) : super(key: key);
@@ -28,12 +27,10 @@ class _SearchTransaction extends State<PaymentResource> {
   late List<PaymentTypeData> paymentTypeResult = [];
   late PaymentResourceData editingData = PaymentResourceData();
   late PaymentResourceData newData =
-      PaymentResourceData.init(null, "", null, null);
+      PaymentResourceData.init(null, "", null, null, 31);
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   void cancelEditMode(PaymentResourceData data) {
@@ -52,9 +49,7 @@ class _SearchTransaction extends State<PaymentResource> {
   }
 
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   void setPaymentResourceList(List<PaymentResourceData> resultList) {
@@ -242,11 +237,14 @@ class _SearchTransaction extends State<PaymentResource> {
                             ? Wrap(
                                 children: paymentTypeResult
                                     .map<Widget>((paymentType) =>
-                                        _button(paymentType, data))
+                                        _paymentTypeButton(paymentType, data))
                                     .toList())
                             : const SizedBox(),
                         paymentTypeResult.isNotEmpty
-                            ? _inputInvoiceDate(paymentTypeResult, data)
+                            ? Wrap(children: [
+                                _inputInvoiceDate(paymentTypeResult, data),
+                                _inputClosingDate(paymentTypeResult, data)
+                              ])
                             : const SizedBox()
                       ],
                     )
@@ -284,7 +282,8 @@ class _SearchTransaction extends State<PaymentResource> {
     );
   }
 
-  Widget _button(PaymentTypeData data, PaymentResourceData paymentResource) {
+  Widget _paymentTypeButton(
+      PaymentTypeData data, PaymentResourceData paymentResource) {
     return Container(
       height: 23,
       margin: const EdgeInsets.only(top: 3, right: 5),
@@ -319,20 +318,49 @@ class _SearchTransaction extends State<PaymentResource> {
         .first;
     final dateList = [for (int i = 1; i < 32; i++) i];
     return data.isPaymentDueLater
+        ? Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              const Text("引落日を選択: ", style: TextStyle(fontSize: 12.5)),
+              DropdownButton(
+                hint: const Text("支払日"),
+                value: paymentResource.paymentDate,
+                items: dateList
+                    .map((date) =>
+                        DropdownMenuItem(value: date, child: Text('$date日')))
+                    .toList(),
+                onChanged: (value) async {
+                  setState(() => paymentResource.paymentDate = value);
+                },
+              ),
+            ],
+          )
+        : const SizedBox();
+  }
+
+  Widget _inputClosingDate(List<PaymentTypeData> paymentTypeList,
+      PaymentResourceData paymentResource) {
+    PaymentTypeData data = paymentTypeList
+        .where((item) => item.paymentTypeId == paymentResource.paymentTypeId)
+        .toList()
+        .first;
+    final dateList = [for (int i = 1; i < 32; i++) i];
+    return data.isPaymentDueLater
         ? Padding(
-            padding: const EdgeInsets.only(top: 12.5),
-            child: Row(
+            padding: const EdgeInsets.only(left: 12.5),
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                const Text("引落日を選択: ", style: TextStyle(fontSize: 12.5)),
+                const Text("締日を選択: ", style: TextStyle(fontSize: 12.5)),
                 DropdownButton(
-                  hint: const Text("支払日"),
-                  value: paymentResource.paymentDate,
+                  hint: const Text("締日"),
+                  value: paymentResource.closingDate,
                   items: dateList
                       .map((date) =>
                           DropdownMenuItem(value: date, child: Text('$date日')))
                       .toList(),
                   onChanged: (value) async {
-                    setState(() => paymentResource.paymentDate = value);
+                    setState(() => paymentResource.closingDate = value);
                   },
                 ),
               ],

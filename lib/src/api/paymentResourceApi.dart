@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/paymentResourceValidation.dart';
+import 'package:money_hooks/src/class/response/paymentResource.dart';
 import 'package:money_hooks/src/class/response/paymentType.dart';
 import 'package:money_hooks/src/env/envClass.dart';
-
-import '../class/response/paymentResource.dart';
-import '../searchStorage/paymentResourceStorage.dart';
-import 'api.dart';
+import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 
 class PaymentResourceApi {
   static String rootURI = Api.rootURI;
@@ -28,6 +27,7 @@ class PaymentResourceApi {
               value['payment_name'],
               value['payment_type_id'],
               value['payment_date'],
+              value['closing_date'],
             ));
           });
           setPaymentResourceList(resultList);
@@ -55,7 +55,8 @@ class PaymentResourceApi {
             data: {
               'payment_name': data.paymentName,
               'payment_type_id': data.paymentTypeId,
-              'payment_date': data.paymentDate
+              'payment_date': data.paymentDate,
+              'closing_date': data.closingDate
             },
             options: option);
         if (res.statusCode != 200) {
@@ -85,7 +86,8 @@ class PaymentResourceApi {
               'payment_id': data.paymentId,
               'payment_name': data.paymentName,
               'payment_type_id': data.paymentTypeId,
-              'payment_date': data.paymentDate
+              'payment_date': data.paymentDate,
+              'closing_date': data.closingDate
             },
             options: option);
         if (res.statusCode != 200) {

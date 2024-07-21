@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/env/envClass.dart';
@@ -349,9 +350,18 @@ class TransactionStorage {
           int paymentId = e['payment_id'];
           String paymentName = e['payment_name'];
           int paymentDate = e['payment_date'];
+          DateTime aggregationStartDate =
+              DateFormat('yyyy-MM-dd').parse(e['aggregation_start_date']);
+          DateTime aggregationEndDate =
+              DateFormat('yyyy-MM-dd').parse(e['aggregation_end_date']);
           int withdrawalAmount = e['withdrawal_amount'];
           resultList.add(WithdrawalData.init(
-              paymentId, paymentName, paymentDate, withdrawalAmount));
+              paymentId,
+              paymentName,
+              paymentDate,
+              aggregationStartDate,
+              aggregationEndDate,
+              withdrawalAmount));
         });
       }
     });

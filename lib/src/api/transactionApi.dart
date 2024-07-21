@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/validation/searchTransactionValidation.dart';
 import 'package:money_hooks/src/api/validation/transactionValidation.dart';
 import 'package:money_hooks/src/class/response/withdrawalData.dart';
@@ -428,6 +429,8 @@ class transactionApi {
                 value['payment_id'],
                 value['payment_name'],
                 value['payment_date'],
+                DateFormat('yyyy-MM-dd').parse(value['aggregation_start_date']),
+                DateFormat('yyyy-MM-dd').parse(value['aggregation_end_date']),
                 value['withdrawal_amount']));
           });
           setWithdrawalList(resultList);
