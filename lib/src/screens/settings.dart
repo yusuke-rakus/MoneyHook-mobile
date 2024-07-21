@@ -1,14 +1,13 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/userApi.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
 import 'package:money_hooks/src/modals/settings_modal/monthlyTransaction.dart';
 import 'package:money_hooks/src/modals/settings_modal/paymentResource.dart';
-
-import '../components/centerWidget.dart';
-import '../components/gradientBar.dart';
-import '../env/envClass.dart';
-import '../modals/settings_modal/searchTransaction.dart';
+import 'package:money_hooks/src/modals/settings_modal/searchTransaction.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen(this.isLoading, this.env, {super.key});

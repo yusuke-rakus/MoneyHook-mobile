@@ -1,6 +1,5 @@
 import 'package:localstore/localstore.dart';
-
-import '../class/response/paymentResource.dart';
+import 'package:money_hooks/src/class/response/paymentResource.dart';
 
 class PaymentResourceStorage {
   static final db = Localstore.instance;
@@ -20,8 +19,13 @@ class PaymentResourceStorage {
     await db.collection('payment_resource_list').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          resultList.add(PaymentResourceData.init(e['payment_id'],
-              e['payment_name'], e['payment_type_id'], e['payment_date']));
+          resultList.add(PaymentResourceData.init(
+            e['payment_id'],
+            e['payment_name'],
+            e['payment_type_id'],
+            e['payment_date'],
+            e['closing_date'],
+          ));
         });
       }
     });

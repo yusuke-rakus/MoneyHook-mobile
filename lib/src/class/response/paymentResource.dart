@@ -5,11 +5,12 @@ class PaymentResourceData extends Response {
   late String paymentName;
   num? paymentTypeId;
   int? paymentDate;
+  int? closingDate;
   late String paymentNameError = "";
   late bool editMode = false;
 
-  PaymentResourceData.init(
-      this.paymentId, this.paymentName, this.paymentTypeId, this.paymentDate)
+  PaymentResourceData.init(this.paymentId, this.paymentName, this.paymentTypeId,
+      this.paymentDate, this.closingDate)
       : super('', '');
 
   PaymentResourceData() : super('', '') {
@@ -17,6 +18,7 @@ class PaymentResourceData extends Response {
     paymentName = "";
     paymentTypeId = null;
     paymentDate = null;
+    closingDate = null;
   }
 
   Map<String, dynamic> getPaymentJson() {
@@ -24,7 +26,8 @@ class PaymentResourceData extends Response {
       'payment_id': paymentId,
       'payment_name': paymentName,
       'payment_type_id': paymentTypeId,
-      'payment_date': paymentDate
+      'payment_date': paymentDate,
+      'closing_date': closingDate
     };
   }
 
