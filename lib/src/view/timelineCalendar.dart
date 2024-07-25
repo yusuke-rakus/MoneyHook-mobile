@@ -8,10 +8,10 @@ import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
-import 'package:money_hooks/src/components/timelineList.dart';
 import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/organisms/timelineCalendar/calendarTimelineListCard.dart';
 import 'package:money_hooks/src/organisms/timelineCalendar/monthlyTransactionCard.dart';
 import 'package:money_hooks/src/organisms/timelineCalendar/withdrawalListCard.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -323,7 +323,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                   displayWithdrawalData: displayWithdrawalList,
                 )
               ])
-        : TimelineList(
+        : CalendarTimelineListCard(
             env: widget.env,
             timelineList: transactions,
             setReload: widget.setReload);
