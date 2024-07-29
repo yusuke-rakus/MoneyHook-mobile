@@ -1,15 +1,14 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/appBarMonth.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
+import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/components/fixedAnalysisAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
-
-import '../components/appBarMonth.dart';
-import '../components/centerWidget.dart';
-import '../components/customFloatingButtonLocation.dart';
-import '../components/fixedAnalysisAccordion.dart';
 
 class FixedAnalysisView extends StatefulWidget {
   const FixedAnalysisView(this.env, this.isLoading, {super.key});
@@ -28,16 +27,12 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
   late bool _isLoading;
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   // メッセージの設定
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   void setMonthlyFixedIncome(

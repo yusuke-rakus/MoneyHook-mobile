@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-
-import '../../class/transactionClass.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
 
 class TimelineChart extends StatefulWidget {
   const TimelineChart(this.data, {super.key});
