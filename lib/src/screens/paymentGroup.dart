@@ -30,9 +30,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
   late bool _isLoading;
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   // メッセージの設定
@@ -212,6 +210,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                   dataRowMinHeight: 25,
                   dataRowMaxHeight: 25,
                   columns: [
+                    DataColumn(label: _tableText('取引日', isBold: true)),
                     DataColumn(label: _tableText('取引名', isBold: true)),
                     DataColumn(label: _tableText('金額', isBold: true)),
                     DataColumn(label: _tableText('カテゴリ', isBold: true)),
@@ -227,6 +226,8 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                             ? Colors.white
                             : const Color(0xFFF5F5F5)),
                         cells: [
+                          DataCell(_tableText('${tran.transactionDate.day}日',
+                              fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(tran.transactionName,
                               fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(
