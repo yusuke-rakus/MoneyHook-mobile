@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/icons/QuestionCircleO.dart';
 import 'package:money_hooks/icons/Wallet.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/class/response/groupByPaymentTransaction.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/appBarMonth.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
+import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
+import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
-
-import '../class/response/groupByPaymentTransaction.dart';
-import '../class/transactionClass.dart';
-import '../components/appBarMonth.dart';
-import '../components/centerWidget.dart';
-import '../components/commonLoadingAnimation.dart';
-import '../components/customFloatingButtonLocation.dart';
-import '../components/dataNotRegisteredBox.dart';
-import '../components/gradientBar.dart';
-import '../env/envClass.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 class PaymentGroupScreen extends StatefulWidget {
   const PaymentGroupScreen(this.isLoading, this.env, {super.key});
@@ -31,16 +30,12 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
   late bool _isLoading;
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   // メッセージの設定
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   void setGroupByPaymentTransaction(
@@ -48,10 +43,8 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
       int lastMonthTotalSpending,
       double? monthOverMonthSum,
       List<dynamic> paymentList) {
-    setState(() {
-      paymentTransactionList = GroupByPaymentTransaction.init(totalSpending,
-          lastMonthTotalSpending, monthOverMonthSum, paymentList);
-    });
+    setState(() => paymentTransactionList = GroupByPaymentTransaction.init(
+        totalSpending, lastMonthTotalSpending, monthOverMonthSum, paymentList));
   }
 
   @override
@@ -217,6 +210,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                   dataRowMinHeight: 25,
                   dataRowMaxHeight: 25,
                   columns: [
+                    DataColumn(label: _tableText('取引日', isBold: true)),
                     DataColumn(label: _tableText('取引名', isBold: true)),
                     DataColumn(label: _tableText('金額', isBold: true)),
                     DataColumn(label: _tableText('カテゴリ', isBold: true)),
@@ -232,6 +226,8 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                             ? Colors.white
                             : const Color(0xFFF5F5F5)),
                         cells: [
+                          DataCell(_tableText('${tran.transactionDate.day}日',
+                              fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(tran.transactionName,
                               fixedFlg: tran.fixedFlg)),
                           DataCell(_tableText(

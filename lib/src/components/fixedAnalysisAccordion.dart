@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
-
-import 'centerWidget.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
 
 class FixedAnalysisAccordion extends StatelessWidget {
   const FixedAnalysisAccordion({Key? key, required this.monthlyFixedList})
@@ -32,11 +32,23 @@ class FixedAnalysisAccordion extends StatelessWidget {
               children: monthlyFixedList[index]['transaction_list']
                   .map<Widget>((value) => ListTile(
                           title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(value['transaction_name']),
-                          Text(
-                              '¥${TransactionClass.formatNum(value['transaction_amount'].abs())}'),
+                          Expanded(
+                              flex: 2,
+                              child: Text(
+                                  '${DateFormat('yyyy-MM-dd').parse(value['transaction_date']).day}日')),
+                          Expanded(
+                              flex: 5, child: Text(value['transaction_name'])),
+                          Expanded(
+                            flex: 3,
+                            child: Row(
+                              children: [
+                                const Expanded(child: SizedBox()),
+                                Text(
+                                    '¥${TransactionClass.formatNum(value['transaction_amount'].abs())}'),
+                              ],
+                            ),
+                          ),
                         ],
                       )))
                   .toList(),

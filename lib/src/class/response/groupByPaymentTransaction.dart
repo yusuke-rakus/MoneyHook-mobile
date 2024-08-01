@@ -1,19 +1,29 @@
+import 'package:intl/intl.dart';
+
 class Transaction {
   late int transactionId;
   late String transactionName;
   late int transactionAmount;
+  late DateTime transactionDate;
   late String categoryName;
   late String subCategoryName;
   late bool fixedFlg;
 
-  Transaction(this.transactionId, this.transactionName, this.transactionAmount,
-      this.categoryName, this.subCategoryName, this.fixedFlg);
+  Transaction(
+      this.transactionId,
+      this.transactionName,
+      this.transactionAmount,
+      this.transactionDate,
+      this.categoryName,
+      this.subCategoryName,
+      this.fixedFlg);
 
   factory Transaction.fromMap(Map<String, dynamic> map) {
     return Transaction(
       map['transaction_id'],
       map['transaction_name'],
       map['transaction_amount'],
+      DateFormat('yyyy-MM-dd').parse(map['transaction_date']),
       map['category_name'],
       map['sub_category_name'],
       map['fixed_flg'],
