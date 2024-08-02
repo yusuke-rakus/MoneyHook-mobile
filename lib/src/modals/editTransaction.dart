@@ -2,22 +2,21 @@ import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/class/response/paymentResource.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/commonConfirmDialog.dart';
+import 'package:money_hooks/src/components/commonLoadingDialog.dart';
+import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
+import 'package:money_hooks/src/components/gradientButton.dart';
+import 'package:money_hooks/src/dataLoader/paymentResource.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
+import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
-
-import '../class/response/paymentResource.dart';
-import '../class/transactionClass.dart';
-import '../components/centerWidget.dart';
-import '../components/commonLoadingDialog.dart';
-import '../components/customFloatingButtonLocation.dart';
-import '../components/gradientBar.dart';
-import '../components/gradientButton.dart';
-import '../dataLoader/paymentResource.dart';
-import '../searchStorage/categoryStorage.dart';
 
 class EditTransaction extends StatefulWidget {
   const EditTransaction(this.transaction, this.env, this.setReload,
@@ -70,9 +69,7 @@ class _EditTransaction extends State<EditTransaction> {
 
   // 取引候補
   void setRecommendList(List<TransactionClass> resultList) {
-    setState(() {
-      recommendList = resultList;
-    });
+    setState(() => recommendList = resultList);
   }
 
   // 支払い方法
@@ -89,9 +86,7 @@ class _EditTransaction extends State<EditTransaction> {
 
   // メッセージの設定
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   // 戻る・更新処理
@@ -313,6 +308,17 @@ class _EditTransaction extends State<EditTransaction> {
                       onChanged: (value) {
                         setState(() {
                           transaction.transactionName = value;
+                          for (var item in recommendList) {
+                            if (value == item.transactionName) {
+                              transaction.categoryId = item.categoryId;
+                              transaction.categoryName = item.categoryName;
+                              transaction.subCategoryId = item.subCategoryId;
+                              transaction.subCategoryName =
+                                  item.subCategoryName;
+                              transaction.fixedFlg = item.fixedFlg;
+                              transaction.paymentId = item.paymentId;
+                            }
+                          }
                         });
                       },
                       controller: nameController,
@@ -330,28 +336,26 @@ class _EditTransaction extends State<EditTransaction> {
                     alignment: Alignment.centerLeft,
                     child: Wrap(
                         children: recommendList
+                            .take(5)
                             .map<Widget>(
                               (tran) => Container(
                                 height: 23,
                                 margin: const EdgeInsets.only(top: 3, right: 5),
                                 child: OutlinedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      nameController.text =
-                                          tran.transactionName;
-                                      transaction.transactionName =
-                                          tran.transactionName;
-                                      transaction.categoryId = tran.categoryId;
-                                      transaction.categoryName =
-                                          tran.categoryName;
-                                      transaction.subCategoryId =
-                                          tran.subCategoryId;
-                                      transaction.subCategoryName =
-                                          tran.subCategoryName;
-                                      transaction.fixedFlg = tran.fixedFlg;
-                                      transaction.paymentId = tran.paymentId;
-                                    });
-                                  },
+                                  onPressed: () => setState(() {
+                                    nameController.text = tran.transactionName;
+                                    transaction.transactionName =
+                                        tran.transactionName;
+                                    transaction.categoryId = tran.categoryId;
+                                    transaction.categoryName =
+                                        tran.categoryName;
+                                    transaction.subCategoryId =
+                                        tran.subCategoryId;
+                                    transaction.subCategoryName =
+                                        tran.subCategoryName;
+                                    transaction.fixedFlg = tran.fixedFlg;
+                                    transaction.paymentId = tran.paymentId;
+                                  }),
                                   style: OutlinedButton.styleFrom(
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
