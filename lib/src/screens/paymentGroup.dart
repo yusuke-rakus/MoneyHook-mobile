@@ -51,7 +51,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
   void initState() {
     super.initState();
     env = widget.env;
-    env.initMonth();
+    // env.initMonth();
     _isLoading = widget.isLoading;
     TransactionLoad.getGroupByPayment(
         env, setLoading, setSnackBar, setGroupByPaymentTransaction);

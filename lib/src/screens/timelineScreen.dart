@@ -52,7 +52,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   void initState() {
     super.initState();
     env = widget.env;
-    env.initMonth();
+    // env.initMonth();
     _isLoading = widget.isLoading;
     Future(() async {
       await TransactionLoad.getTimelineData(

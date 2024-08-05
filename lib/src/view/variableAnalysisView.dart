@@ -47,7 +47,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
     super.initState();
     _isLoading = widget.isLoading;
     env = widget.env;
-    env.initMonth();
+    // env.initMonth();
     TransactionLoad.getMonthlyVariableData(
         env, setLoading, setSnackBar, setMonthlyVariable);
   }
