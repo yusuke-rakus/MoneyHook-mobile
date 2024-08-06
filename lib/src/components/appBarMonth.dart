@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../env/envClass.dart';
+import 'package:money_hooks/src/env/envClass.dart';
 
 class AppBarMonth extends StatefulWidget {
   final Function subtractMonth;

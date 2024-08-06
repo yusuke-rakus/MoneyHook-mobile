@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/homeTransaction.dart';
+import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/appBarMonth.dart';
+import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/components/charts/homeChart.dart';
+import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
+import 'package:money_hooks/src/components/customFloatingActionButtonLocation.dart';
+import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
+import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/components/homeAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
-
-import '../class/transactionClass.dart';
-import '../components/appBarMonth.dart';
-import '../components/centerWidget.dart';
-import '../components/charts/homeChart.dart';
-import '../components/commonLoadingAnimation.dart';
-import '../components/customFloatingActionButtonLocation.dart';
-import '../components/customFloatingButtonLocation.dart';
-import '../components/gradientBar.dart';
-import '../env/envClass.dart';
-import '../modals/editTransaction.dart';
+import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/modals/editTransaction.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen(this.isLoading, this.env, {super.key});
@@ -41,16 +40,12 @@ class _HomeScreenState extends State<HomeScreen> {
   ];
 
   void setLoading() {
-    setState(() {
-      _isLoading = !_isLoading;
-    });
+    setState(() => _isLoading = !_isLoading);
   }
 
   // メッセージの設定
   void setSnackBar(String message) {
-    setState(() {
-      CommonSnackBar.build(context: context, text: message);
-    });
+    setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
   void setHomeTransaction(int balance, List<dynamic> responseList) {
@@ -64,7 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     env = widget.env;
-    env.initMonth();
     _isLoading = widget.isLoading;
     TransactionLoad.getHome(env, setLoading, setSnackBar, setHomeTransaction);
   }

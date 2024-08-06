@@ -57,7 +57,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
     env = widget.env;
     _isLoading = widget.isLoading;
     setLoading();
-    env.initMonth();
+    // env.initMonth();
     Future(() async {
       await TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
       await TransactionLoad.getMonthlyFixedSpending(
