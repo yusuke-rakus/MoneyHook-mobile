@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
@@ -34,7 +35,7 @@ class _LoginLayerState extends State<LoginLayer> {
 Widget _signInCard(Function googleSignInProcess) {
   return Align(
       alignment: Alignment.center,
-      child: Card(
+      child: CardWidget(
           child: Container(
               constraints: const BoxConstraints(
                 maxWidth: 400,

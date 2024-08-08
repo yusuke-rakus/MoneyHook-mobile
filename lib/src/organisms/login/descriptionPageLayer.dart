@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 
 class DescriptionPageLayer extends StatelessWidget {
@@ -87,10 +88,7 @@ class DescriptionPageLayer extends StatelessWidget {
         child: Container(
             width: width,
             margin: const EdgeInsets.symmetric(horizontal: 10),
-            child: Card(
-                shape: RoundedRectangleBorder(
-                    side: const BorderSide(color: Color(0xFFEEEEEE)),
-                    borderRadius: BorderRadius.circular(10.0)),
+            child: CardWidget(
                 child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(children: [

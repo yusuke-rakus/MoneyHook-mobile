@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/searchTransactionData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/commonLoadingDialog.dart';
 import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
@@ -89,7 +90,7 @@ class _SearchTransaction extends State<SearchTransaction> {
           child: ListView(
             children: [
               CenterWidget(
-                child: Card(
+                child: CardWidget(
                   margin: const EdgeInsets.all(10),
                   child: ExpansionTile(
                     title: Text(
