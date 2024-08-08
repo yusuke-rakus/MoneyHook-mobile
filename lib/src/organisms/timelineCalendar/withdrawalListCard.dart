@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 
 class WithdrawalListCard extends StatelessWidget {
@@ -13,9 +14,7 @@ class WithdrawalListCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return displayWithdrawalData.isNotEmpty
         ? CenterWidget(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.5)),
+            child: CardWidget(
               child: ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

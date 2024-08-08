@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
+import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 
 class MonthlyTransactionCard extends StatelessWidget {
@@ -13,9 +14,7 @@ class MonthlyTransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return displayMonthlyTransactions.isNotEmpty
         ? CenterWidget(
-            child: Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7.5)),
+            child: CardWidget(
               child: ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),

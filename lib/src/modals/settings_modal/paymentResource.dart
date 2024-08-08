@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:money_hooks/src/api/paymentResourceApi.dart';
 import 'package:money_hooks/src/class/response/paymentResource.dart';
 import 'package:money_hooks/src/class/response/paymentType.dart';
+import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/commonConfirmDialog.dart';
 import 'package:money_hooks/src/components/commonLoadingDialog.dart';
@@ -170,7 +171,7 @@ class _SearchTransaction extends State<PaymentResource> {
 
   Widget _card(PaymentResourceData data) {
     return CenterWidget(
-      child: Card(
+      child: CardWidget(
           margin: const EdgeInsets.all(10),
           child: InkWell(
             onTap: () {

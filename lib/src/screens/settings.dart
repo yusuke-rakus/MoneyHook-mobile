@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/api/userApi.dart';
+import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/env/envClass.dart';
@@ -55,7 +56,7 @@ class SettingsScreen extends StatelessWidget {
   Widget _menuCard(
       BuildContext context, IconData icons, String title, Widget loadView) {
     return CenterWidget(
-      child: Card(
+      child: CardWidget(
         margin: const EdgeInsets.only(top: 15, left: 10, right: 10),
         child: InkWell(
             splashColor: Colors.blue.withAlpha(30),
