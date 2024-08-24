@@ -7,8 +7,10 @@ import 'package:money_hooks/src/components/cardWidget.dart';
 
 class PaymentGroupCard extends StatefulWidget {
   final Payment payment;
+  final bool showTitle;
 
-  const PaymentGroupCard({super.key, required this.payment});
+  const PaymentGroupCard(
+      {super.key, required this.payment, required this.showTitle});
 
   @override
   State<PaymentGroupCard> createState() => _PaymentGroupCardState();
@@ -20,7 +22,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
   @override
   void initState() {
     super.initState();
-    showTitle = true;
+    showTitle = widget.showTitle;
   }
 
   @override
