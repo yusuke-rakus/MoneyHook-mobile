@@ -180,6 +180,24 @@ class TransactionStorage {
     prefs.setBool('IS_TRANSACTION_RECOMMEND_ACTIVE', activeState);
   }
 
+  /// デフォルトでカードを開け他状態にするかどうか
+  static Future<bool> getIsCardDefaultOpenState() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? activeState = prefs.getBool('IS_CARD_DEFAULT_OPEN');
+    if (activeState == null) {
+      await prefs.setBool('IS_CARD_DEFAULT_OPEN', true);
+      return true;
+    } else {
+      return activeState;
+    }
+  }
+
+  /// デフォルトでカードを開け他状態にするかどうか
+  static void setIsCardDefaultOpenState(bool activeState) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('IS_CARD_DEFAULT_OPEN', activeState);
+  }
+
   /// 【月別変動費画面】データ
   static Future<Map<String, dynamic>> getMonthlyVariableData(
       String param) async {

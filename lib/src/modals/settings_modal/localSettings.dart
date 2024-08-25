@@ -16,13 +16,15 @@ class LocalSettings extends StatefulWidget {
 
 class _LocalSettingsState extends State<LocalSettings> {
   late bool _transactionRecommendState = false;
+  late bool _isCardDefaultOpen = false;
 
   @override
   void initState() {
     TransactionStorage.getTransactionRecommendState().then((value) {
-      setState(() {
-        _transactionRecommendState = value;
-      });
+      setState(() => _transactionRecommendState = value);
+    });
+    TransactionStorage.getIsCardDefaultOpenState().then((value) {
+      setState(() => _isCardDefaultOpen = value);
     });
     super.initState();
   }
@@ -31,6 +33,13 @@ class _LocalSettingsState extends State<LocalSettings> {
     setState(() {
       _transactionRecommendState = state;
       TransactionStorage.setTransactionRecommendState(state);
+    });
+  }
+
+  void _changeIsCardDefaultOpenState(bool state) {
+    setState(() {
+      _isCardDefaultOpen = state;
+      TransactionStorage.setIsCardDefaultOpenState(state);
     });
   }
 
@@ -51,9 +60,21 @@ class _LocalSettingsState extends State<LocalSettings> {
                   CupertinoSwitch(
                       activeColor: Colors.blue,
                       value: _transactionRecommendState,
-                      onChanged: (activeState) {
-                        _changeRecommendState(activeState);
-                      })
+                      onChanged: (activeState) =>
+                          _changeRecommendState(activeState))
+                ],
+              ),
+            ]),
+            _settingsGroup(context, '支払い方法画面', [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('デフォルトでカードを開ける'),
+                  CupertinoSwitch(
+                      activeColor: Colors.blue,
+                      value: _isCardDefaultOpen,
+                      onChanged: (activeState) =>
+                          _changeIsCardDefaultOpenState(activeState))
                 ],
               ),
             ]),
@@ -78,7 +99,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                       )),
                 ],
               ),
-            ])
+            ]),
           ],
         ));
   }

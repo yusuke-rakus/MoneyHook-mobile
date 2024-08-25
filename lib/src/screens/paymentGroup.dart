@@ -11,6 +11,7 @@ import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/organisms/paymentGroup/paymentGroupCard.dart';
+import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 class PaymentGroupScreen extends StatefulWidget {
   const PaymentGroupScreen(this.isLoading, this.env, {super.key});
@@ -27,6 +28,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
   late GroupByPaymentTransaction paymentTransactionList =
       GroupByPaymentTransaction();
   late bool _isLoading;
+  late bool isCardDefaultOpen = true;
 
   void setLoading() {
     setState(() => _isLoading = !_isLoading);
@@ -54,6 +56,11 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
     _isLoading = widget.isLoading;
     TransactionLoad.getGroupByPayment(
         env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+    Future(() {
+      TransactionStorage.getIsCardDefaultOpenState().then((activeState) async {
+        isCardDefaultOpen = activeState;
+      });
+    });
   }
 
   void setReload() {
@@ -149,8 +156,10 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                         itemBuilder: (BuildContext context, int index) {
                           return CenterWidget(
                             child: PaymentGroupCard(
-                                payment:
-                                    paymentTransactionList.paymentList[index]),
+                              payment:
+                                  paymentTransactionList.paymentList[index],
+                              showTitle: isCardDefaultOpen,
+                            ),
                           );
                         }),
                 const SizedBox(
