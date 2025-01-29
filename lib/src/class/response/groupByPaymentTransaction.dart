@@ -5,7 +5,9 @@ class Transaction {
   late String transactionName;
   late int transactionAmount;
   late DateTime transactionDate;
+  late int categoryId;
   late String categoryName;
+  late int subCategoryId;
   late String subCategoryName;
   late bool fixedFlg;
 
@@ -14,7 +16,9 @@ class Transaction {
       this.transactionName,
       this.transactionAmount,
       this.transactionDate,
+      this.categoryId,
       this.categoryName,
+      this.subCategoryId,
       this.subCategoryName,
       this.fixedFlg);
 
@@ -24,7 +28,9 @@ class Transaction {
       map['transaction_name'],
       map['transaction_amount'],
       DateFormat('yyyy-MM-dd').parse(map['transaction_date']),
+      map['category_id'],
       map['category_name'],
+      map['sub_category_id'],
       map['sub_category_name'],
       map['fixed_flg'],
     );
@@ -32,6 +38,7 @@ class Transaction {
 }
 
 class Payment {
+  late int paymentId;
   late String paymentName;
   late int paymentAmount;
   late int? paymentTypeId;
@@ -42,6 +49,7 @@ class Payment {
   late List<Transaction> transactionList;
 
   Payment(
+      this.paymentId,
       this.paymentName,
       this.paymentAmount,
       this.paymentTypeId,
@@ -56,6 +64,7 @@ class Payment {
         .map((tran) => Transaction.fromMap(tran))
         .toList();
     return Payment(
+      map['payment_id'],
       map['payment_name'],
       map['payment_amount'],
       map['payment_type_id'],

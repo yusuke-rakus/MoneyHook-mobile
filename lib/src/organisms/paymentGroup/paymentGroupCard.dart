@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:money_hooks/icons/QuestionCircleO.dart';
 import 'package:money_hooks/icons/Wallet.dart';
 import 'package:money_hooks/src/class/response/groupByPaymentTransaction.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
+import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/modals/editTransaction.dart';
 
 class PaymentGroupCard extends StatefulWidget {
   final Payment payment;
   final bool showTitle;
+  final envClass env;
+  final Function setReload;
 
   const PaymentGroupCard(
-      {super.key, required this.payment, required this.showTitle});
+      {super.key,
+      required this.payment,
+      required this.showTitle,
+      required this.env,
+      required this.setReload});
 
   @override
   State<PaymentGroupCard> createState() => _PaymentGroupCardState();
@@ -53,6 +62,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                   headingRowHeight: 25,
                   dataRowMinHeight: 25,
                   dataRowMaxHeight: 25,
+                  showCheckboxColumn: false,
                   columns: [
                     DataColumn(label: _tableText('取引日', isBold: true)),
                     DataColumn(label: _tableText('取引名', isBold: true)),
@@ -69,6 +79,35 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                         color: WidgetStateProperty.all(index.isEven
                             ? Colors.white
                             : const Color(0xFFF5F5F5)),
+                        onSelectChanged: (selected) {
+                          if (selected ?? false) {
+                            Transaction transaction =
+                                payment.transactionList[index];
+
+                            TransactionClass tran =
+                                TransactionClass.setTimelineFields(
+                                    transaction.transactionId,
+                                    DateFormat('yyyy-MM-dd')
+                                        .format(transaction.transactionDate),
+                                    transaction.transactionAmount.sign,
+                                    transaction.transactionAmount.abs(),
+                                    transaction.transactionName,
+                                    transaction.categoryId,
+                                    transaction.categoryName,
+                                    transaction.subCategoryId,
+                                    transaction.subCategoryName,
+                                    transaction.fixedFlg,
+                                    payment.paymentId,
+                                    payment.paymentName);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditTransaction(
+                                      tran, widget.env, widget.setReload),
+                                  fullscreenDialog: true),
+                            );
+                          }
+                        },
                         cells: [
                           DataCell(_tableText('${tran.transactionDate.day}日',
                               fixedFlg: tran.fixedFlg)),
