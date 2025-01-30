@@ -116,7 +116,7 @@ class MVSubCategoryClass {
       subCategoryName: json['subCategoryName'],
       subCategoryTotalAmount: json['subCategoryTotalAmount'],
       transactionList: (json['transactionList'] as List)
-          .map((tran) => TransactionClass.fromJson(tran))
+          .map((tran) => TransactionClass.mvFromJson(tran))
           .toList(),
     );
   }

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/api/validation/searchTransactionValidation.dart';
 import 'package:money_hooks/src/api/validation/transactionValidation.dart';
+import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/response/monthlyVariableData.dart';
 import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
@@ -166,13 +167,22 @@ class transactionApi {
         if (res.statusCode != 200) {
           // 失敗
         } else {
+          late MonthlyFixedData resultData = MonthlyFixedData();
+          resultData.disposableIncome = res.data['disposable_income'].abs();
+          res.data['monthly_fixed_list'].forEach((categoryData) {
+            List<TransactionClass> tranList = [];
+            categoryData['transaction_list'].forEach((tranData) {
+              tranList.add(TransactionClass.setMonthlyFixedData(tranData));
+            });
+            resultData.monthlyFixedList
+                .add(MFCategoryClass.init(categoryData, tranList));
+          });
+
           // 成功
           setMonthlyFixedIncome(
-              res.data['disposable_income'], res.data['monthly_fixed_list']);
-          TransactionStorage.saveMonthlyFixedIncome(
-              res.data['disposable_income'],
-              res.data['monthly_fixed_list'],
-              env.getJson().toString());
+              resultData.disposableIncome, resultData.monthlyFixedList);
+          TransactionStorage.saveMonthlyFixedIncome(resultData.disposableIncome,
+              resultData.toJson(), env.getJson().toString());
         }
       } on DioException catch (e) {
         Api.errorMessage(e);
@@ -189,12 +199,23 @@ class transactionApi {
         if (res.statusCode != 200) {
           // 失敗
         } else {
+          late MonthlyFixedData resultData = MonthlyFixedData();
+          resultData.disposableIncome = res.data['disposable_income'].abs();
+          res.data['monthly_fixed_list'].forEach((categoryData) {
+            List<TransactionClass> tranList = [];
+            categoryData['transaction_list'].forEach((tranData) {
+              tranList.add(TransactionClass.setMonthlyFixedData(tranData));
+            });
+            resultData.monthlyFixedList
+                .add(MFCategoryClass.init(categoryData, tranList));
+          });
+
           // 成功
           setMonthlyFixedSpending(
-              res.data['disposable_income'], res.data['monthly_fixed_list']);
+              resultData.disposableIncome, resultData.monthlyFixedList);
           TransactionStorage.saveMonthlyFixedSpending(
-              res.data['disposable_income'],
-              res.data['monthly_fixed_list'],
+              resultData.disposableIncome,
+              resultData.toJson(),
               env.getJson().toString());
         }
       } on DioException catch (e) {

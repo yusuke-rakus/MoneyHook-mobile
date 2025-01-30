@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/modals/editTransaction.dart';
 
 class FixedAnalysisAccordion extends StatelessWidget {
-  const FixedAnalysisAccordion({Key? key, required this.monthlyFixedList})
+  const FixedAnalysisAccordion(
+      {Key? key,
+      required this.monthlyFixedList,
+      required this.env,
+      required this.setReload})
       : super(key: key);
-  final List<dynamic> monthlyFixedList;
+  final List<MFCategoryClass> monthlyFixedList;
+  final envClass env;
+  final Function setReload;
 
   @override
   Widget build(BuildContext context) {
@@ -23,33 +32,61 @@ class FixedAnalysisAccordion extends StatelessWidget {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(monthlyFixedList[index]['category_name']),
+                  Text(monthlyFixedList[index].categoryName),
                   Text(
-                      '¥${TransactionClass.formatNum(monthlyFixedList[index]['total_category_amount'].abs())}'),
+                      '¥${TransactionClass.formatNum(monthlyFixedList[index].totalCategoryAmount.abs())}'),
                 ],
               ),
               textColor: Colors.black,
-              children: monthlyFixedList[index]['transaction_list']
-                  .map<Widget>((value) => ListTile(
-                          title: Row(
-                        children: [
-                          Expanded(
-                              flex: 2,
-                              child: Text(
-                                  '${DateFormat('yyyy-MM-dd').parse(value['transaction_date']).day}日')),
-                          Expanded(
-                              flex: 5, child: Text(value['transaction_name'])),
-                          Expanded(
-                            flex: 3,
-                            child: Row(
-                              children: [
-                                const Expanded(child: SizedBox()),
-                                Text(
-                                    '¥${TransactionClass.formatNum(value['transaction_amount'].abs())}'),
-                              ],
+              children: monthlyFixedList[index]
+                  .transactionList
+                  .map<Widget>((tran) => ListTile(
+                          title: InkWell(
+                        onTap: () {
+                          TransactionClass transaction =
+                              TransactionClass.setTimelineFields(
+                                  tran.transactionId,
+                                  tran.transactionDate,
+                                  tran.transactionAmount.toInt(),
+                                  tran.transactionAmount.abs(),
+                                  tran.transactionName,
+                                  monthlyFixedList[index].categoryId,
+                                  monthlyFixedList[index].categoryName,
+                                  tran.subCategoryId,
+                                  tran.subCategoryName,
+                                  tran.fixedFlg,
+                                  tran.paymentId,
+                                  tran.paymentName);
+                          print(transaction);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditTransaction(
+                                    transaction, env, setReload),
+                                fullscreenDialog: true),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                                flex: 2,
+                                child: Text(
+                                    '${DateFormat('yyyy-MM-dd').parse(tran.transactionDate).day}日')),
+                            Expanded(
+                                flex: 5, child: Text(tran.transactionName)),
+                            Expanded(
+                              flex: 3,
+                              child: Row(
+                                children: [
+                                  const Expanded(child: SizedBox()),
+                                  Text(
+                                      '¥${TransactionClass.formatNum(tran.transactionAmount.abs().toInt())}'),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )))
                   .toList(),
             ),

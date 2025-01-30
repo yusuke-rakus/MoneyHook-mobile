@@ -1,4 +1,5 @@
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/response/monthlyVariableData.dart';
 import 'package:money_hooks/src/dataLoader/registrationDate.dart';
 import 'package:money_hooks/src/env/envClass.dart';
@@ -88,7 +89,9 @@ class TransactionLoad {
         await setRegistrationDate();
       } else {
         setMonthlyFixedIncome(
-            value['disposable_income'], value['monthly_fixed_list']);
+            value['disposable_income'],
+            MonthlyFixedData.fromJson(value['monthly_fixed_list'])
+                .monthlyFixedList);
       }
     });
   }
@@ -104,7 +107,9 @@ class TransactionLoad {
         await setRegistrationDate();
       } else {
         setMonthlyFixedSpending(
-            value['disposable_income'], value['monthly_fixed_list']);
+            value['disposable_income'],
+            MonthlyFixedData.fromJson(value['monthly_fixed_list'])
+                .monthlyFixedList);
       }
     });
   }

@@ -36,7 +36,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
   }
 
   void setMonthlyFixedIncome(
-      int disposableIncome, List<dynamic> monthlyFixedList) {
+      int disposableIncome, List<MFCategoryClass> monthlyFixedList) {
     setState(() {
       monthlyFixedIncome.disposableIncome = disposableIncome;
       monthlyFixedIncome.monthlyFixedList = monthlyFixedList;
@@ -44,11 +44,17 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
   }
 
   void setMonthlyFixedSpending(
-      int disposableIncome, List<dynamic> monthlyFixedList) {
+      int disposableIncome, List<MFCategoryClass> monthlyFixedList) {
     setState(() {
       monthlyFixedSpending.disposableIncome = disposableIncome;
       monthlyFixedSpending.monthlyFixedList = monthlyFixedList;
     });
+  }
+
+  Future<void> fetchFixedData() async {
+    await TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+    await TransactionLoad.getMonthlyFixedSpending(
+        env, setSnackBar, setMonthlyFixedSpending);
   }
 
   @override
@@ -59,9 +65,10 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
     setLoading();
     // env.initMonth();
     Future(() async {
-      await TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
-      await TransactionLoad.getMonthlyFixedSpending(
-          env, setSnackBar, setMonthlyFixedSpending);
+      await fetchFixedData();
+      // await TransactionLoad.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+      // await TransactionLoad.getMonthlyFixedSpending(
+      //     env, setSnackBar, setMonthlyFixedSpending);
       setLoading();
     });
   }
@@ -182,7 +189,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       const EdgeInsets.only(left: 5, right: 5),
                                   child: FixedAnalysisAccordion(
                                       monthlyFixedList:
-                                          monthlyFixedIncome.monthlyFixedList),
+                                          monthlyFixedIncome.monthlyFixedList,
+                                      env: env,
+                                      setReload: fetchFixedData),
                                 )
                               ],
                             ),
@@ -216,7 +225,9 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                 ),
                                 FixedAnalysisAccordion(
                                     monthlyFixedList:
-                                        monthlyFixedSpending.monthlyFixedList),
+                                        monthlyFixedSpending.monthlyFixedList,
+                                    env: env,
+                                    setReload: fetchFixedData),
                                 const SizedBox(
                                   height: 100,
                                 )
