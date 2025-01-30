@@ -1,4 +1,5 @@
 import 'package:money_hooks/src/api/transactionApi.dart';
+import 'package:money_hooks/src/class/response/monthlyVariableData.dart';
 import 'package:money_hooks/src/dataLoader/registrationDate.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
@@ -70,7 +71,9 @@ class TransactionLoad {
             env, setLoading, setSnackBar, setMonthlyVariable);
       } else {
         setMonthlyVariable(
-            value['total_variable'], value['monthly_variable_list']);
+            value['total_variable'],
+            MonthlyVariableData.fromJson(value['monthly_variable_list'])
+                .monthlyVariableList);
       }
     });
   }

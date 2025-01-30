@@ -74,6 +74,24 @@ class TransactionClass {
     this.transactionAmount = transactionAmount.abs();
   }
 
+  TransactionClass.setMonthlyVariableData(Map<String, dynamic> tran) {
+    transactionId = tran['transaction_id'];
+    transactionDate = tran['transaction_date'];
+    transactionSign = tran['transaction_amount'];
+    transactionAmount = tran['transaction_amount'];
+    transactionName = tran['transaction_name'];
+    paymentId = tran['payment_id'];
+    paymentName = tran['payment_name'];
+  }
+
+  TransactionClass.setMVTran(
+      {required this.transactionId,
+      required this.transactionName,
+      required this.transactionAmount,
+      required this.transactionDate,
+      required this.paymentId,
+      required this.paymentName});
+
   static String formatNum(int num) {
     final formatter = NumberFormat('#,###');
     return formatter.format(num);
@@ -99,6 +117,17 @@ class TransactionClass {
     return DateFormat('yyyy-MM-dd').parse(transactionDate).day.toString();
   }
 
+  Map<String, dynamic> toMVJson() {
+    return {
+      'transactionId': transactionId,
+      'transactionName': transactionName,
+      'transactionAmount': transactionAmount,
+      'transactionDate': transactionDate,
+      'paymentId': paymentId,
+      'paymentName': paymentName
+    };
+  }
+
   Map<String, dynamic> getTransactionJson() {
     return {
       'transaction_id': transactionId,
@@ -114,6 +143,17 @@ class TransactionClass {
       'payment_id': paymentId,
       'payment_name': paymentName
     };
+  }
+
+  factory TransactionClass.fromJson(Map<String, dynamic> json) {
+    return TransactionClass.setMVTran(
+      transactionId: json['transactionId'],
+      transactionName: json['transactionName'],
+      transactionAmount: json['transactionAmount'],
+      transactionDate: json['transactionDate'],
+      paymentId: json['paymentId'],
+      paymentName: json['paymentName'],
+    );
   }
 
   @override
