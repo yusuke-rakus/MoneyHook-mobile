@@ -74,6 +74,47 @@ class TransactionClass {
     this.transactionAmount = transactionAmount.abs();
   }
 
+  TransactionClass.setMonthlyVariableData(Map<String, dynamic> tran) {
+    transactionId = tran['transaction_id'];
+    transactionDate = tran['transaction_date'];
+    transactionSign = tran['transaction_amount'];
+    transactionAmount = tran['transaction_amount'];
+    transactionName = tran['transaction_name'];
+    paymentId = tran['payment_id'];
+    paymentName = tran['payment_name'];
+  }
+
+  TransactionClass.setMonthlyFixedData(Map<String, dynamic> tran) {
+    transactionId = tran['transaction_id'];
+    transactionName = tran['transaction_name'];
+    transactionAmount = tran['transaction_amount'];
+    transactionDate = tran['transaction_date'];
+    subCategoryId = tran['sub_category_id'];
+    subCategoryName = tran['sub_category_name'];
+    fixedFlg = tran['fixed_flg'];
+    paymentId = tran['payment_id'];
+    paymentName = tran['payment_name'];
+  }
+
+  TransactionClass.setMVTran(
+      {required this.transactionId,
+      required this.transactionName,
+      required this.transactionAmount,
+      required this.transactionDate,
+      required this.paymentId,
+      required this.paymentName});
+
+  TransactionClass.setMFTran(
+      {required this.transactionId,
+      required this.transactionName,
+      required this.transactionAmount,
+      required this.transactionDate,
+      required this.subCategoryId,
+      required this.subCategoryName,
+      required this.fixedFlg,
+      required this.paymentId,
+      required this.paymentName});
+
   static String formatNum(int num) {
     final formatter = NumberFormat('#,###');
     return formatter.format(num);
@@ -99,6 +140,31 @@ class TransactionClass {
     return DateFormat('yyyy-MM-dd').parse(transactionDate).day.toString();
   }
 
+  Map<String, dynamic> toMVJson() {
+    return {
+      'transactionId': transactionId,
+      'transactionName': transactionName,
+      'transactionAmount': transactionAmount,
+      'transactionDate': transactionDate,
+      'paymentId': paymentId,
+      'paymentName': paymentName
+    };
+  }
+
+  Map<String, dynamic> toMFJson() {
+    return {
+      'transactionId': transactionId,
+      'transactionName': transactionName,
+      'transactionAmount': transactionAmount,
+      'transactionDate': transactionDate,
+      'subCategoryId': subCategoryId,
+      'subCategoryName': subCategoryName,
+      'fixedFlg': fixedFlg,
+      'paymentId': paymentId,
+      'paymentName': paymentName
+    };
+  }
+
   Map<String, dynamic> getTransactionJson() {
     return {
       'transaction_id': transactionId,
@@ -116,8 +182,33 @@ class TransactionClass {
     };
   }
 
+  factory TransactionClass.mvFromJson(Map<String, dynamic> json) {
+    return TransactionClass.setMVTran(
+      transactionId: json['transactionId'],
+      transactionName: json['transactionName'],
+      transactionAmount: json['transactionAmount'],
+      transactionDate: json['transactionDate'],
+      paymentId: json['paymentId'],
+      paymentName: json['paymentName'],
+    );
+  }
+
+  factory TransactionClass.mfFromJson(Map<String, dynamic> json) {
+    return TransactionClass.setMFTran(
+      transactionId: json['transactionId'],
+      transactionName: json['transactionName'],
+      transactionAmount: json['transactionAmount'],
+      transactionDate: json['transactionDate'],
+      subCategoryId: json['subCategoryId'],
+      subCategoryName: json['subCategoryName'],
+      fixedFlg: json['fixedFlg'],
+      paymentId: json['paymentId'],
+      paymentName: json['paymentName'],
+    );
+  }
+
   @override
   String toString() {
-    return 'ユーザID: $userId, 取引ID: $transactionId, 取引日: $transactionDate, 金額符号: $transactionSign, 金額: $transactionAmount, 取引名: $transactionName, カテゴリID: $categoryId, カテゴリ名: $categoryName, サブカテゴリID: $subCategoryId, サブカテゴリ名: $subCategoryName, 固定費フラグ: $fixedFlg, 支払いID: $paymentId, 支払い名: $paymentName';
+    return 'ユーザID: $userId, 取引ID: $transactionId, 取引日: $transactionDate, 金額符号: $transactionSign, 金額: $transactionAmount, 取引名: $transactionName, カテゴリ: ($categoryId, $categoryName), サブカテゴリ: ($subCategoryId, $subCategoryName), 固定費フラグ: $fixedFlg, 支払い: ($paymentId, $paymentName)';
   }
 }

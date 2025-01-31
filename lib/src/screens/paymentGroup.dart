@@ -159,6 +159,8 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                               payment:
                                   paymentTransactionList.paymentList[index],
                               showTitle: isCardDefaultOpen,
+                              env: env,
+                              setReload: setReload,
                             ),
                           );
                         }),

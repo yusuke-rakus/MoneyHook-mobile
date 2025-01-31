@@ -64,8 +64,8 @@ class _TimelineChartState extends State<TimelineChart> {
     );
     String text = widget.data[value.toInt()].transactionDate;
     return SideTitleWidget(
-      axisSide: meta.axisSide,
       space: 4,
+      meta: meta,
       child: Text(text, style: style),
     );
   }

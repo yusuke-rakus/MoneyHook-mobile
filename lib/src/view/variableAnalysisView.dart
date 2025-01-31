@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
+import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/monthlyVariableData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/appBarMonth.dart';
@@ -9,6 +10,7 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
 import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/modals/editTransaction.dart';
 
 class VariableAnalysisView extends StatefulWidget {
   const VariableAnalysisView(this.env, this.isLoading, {super.key});
@@ -35,11 +37,16 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
   }
 
   void setMonthlyVariable(
-      int totalVariable, List<dynamic> monthlyVariableList) {
+      int totalVariable, List<MVCategoryClass> monthlyVariableList) {
     setState(() {
       data.totalVariable = totalVariable;
       data.monthlyVariableList = monthlyVariableList;
     });
+  }
+
+  void setReload() async {
+    await transactionApi.getMonthlyVariableData(
+        env, setLoading, setSnackBar, setMonthlyVariable);
   }
 
   @override
@@ -133,7 +140,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
 
   // アコーディオン
   Widget _variableAccordion(
-      BuildContext context, Map<String, dynamic> monthlyVariableList) {
+      BuildContext context, MVCategoryClass monthlyVariableList) {
     return CenterWidget(
       child: Theme(
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -141,13 +148,13 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('${monthlyVariableList['category_name']}'),
+                Text(monthlyVariableList.categoryName),
                 Text(
-                    '¥${TransactionClass.formatNum(monthlyVariableList['category_total_amount'].abs())}'),
+                    '¥${TransactionClass.formatNum(monthlyVariableList.categoryTotalAmount.abs())}'),
               ],
             ),
             textColor: Colors.black,
-            children: monthlyVariableList['sub_category_list']
+            children: monthlyVariableList.subCategoryList
                 .map<Widget>((subCategory) => Theme(
                       data: Theme.of(context)
                           .copyWith(dividerColor: Colors.transparent),
@@ -155,41 +162,67 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(subCategory['sub_category_name']),
+                            Text(subCategory.subCategoryName),
                             Text(
-                                '¥${TransactionClass.formatNum(subCategory['sub_category_total_amount'].abs())}'),
+                                '¥${TransactionClass.formatNum(subCategory.subCategoryTotalAmount.abs())}'),
                           ],
                         ),
                         textColor: Colors.black,
-                        children: subCategory['transaction_list']
+                        children: subCategory.transactionList
                             .map<Widget>((tran) => ListTile(
-                                    title: Row(
-                                  children: [
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(
-                                        '${DateFormat('yyyy-MM-dd').parse(tran['transaction_date']).day}日',
-                                        overflow: TextOverflow.ellipsis,
+                                    title: InkWell(
+                                  onTap: () {
+                                    TransactionClass transaction =
+                                        TransactionClass.setTimelineFields(
+                                            tran.transactionId,
+                                            tran.transactionDate,
+                                            tran.transactionSign,
+                                            tran.transactionAmount.abs(),
+                                            tran.transactionName,
+                                            monthlyVariableList.categoryId,
+                                            monthlyVariableList.categoryName,
+                                            subCategory.subCategoryId,
+                                            subCategory.subCategoryName,
+                                            tran.fixedFlg,
+                                            tran.paymentId,
+                                            tran.paymentName);
+
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => EditTransaction(
+                                              transaction, env, setReload),
+                                          fullscreenDialog: true),
+                                    );
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 2,
+                                        child: Text(
+                                          '${DateFormat('yyyy-MM-dd').parse(tran.transactionDate).day}日',
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 5,
-                                      child: Text(
-                                        tran['transaction_name'],
-                                        overflow: TextOverflow.ellipsis,
+                                      Expanded(
+                                        flex: 5,
+                                        child: Text(
+                                          tran.transactionName,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
-                                    Expanded(
-                                      flex: 3,
-                                      child: Row(
-                                        children: [
-                                          const Expanded(child: SizedBox()),
-                                          Text(
-                                              '¥${TransactionClass.formatNum(tran['transaction_amount'].abs())}'),
-                                        ],
+                                      Expanded(
+                                        flex: 3,
+                                        child: Row(
+                                          children: [
+                                            const Expanded(child: SizedBox()),
+                                            Text(
+                                                '¥${TransactionClass.formatNum(tran.transactionAmount.abs().toInt())}'),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 )))
                             .toList(),
                       ),
