@@ -168,7 +168,7 @@ class transactionApi {
           // 失敗
         } else {
           late MonthlyFixedData resultData = MonthlyFixedData();
-          resultData.disposableIncome = res.data['disposable_income'].abs();
+          resultData.disposableIncome = res.data['disposable_income'];
           res.data['monthly_fixed_list'].forEach((categoryData) {
             List<TransactionClass> tranList = [];
             categoryData['transaction_list'].forEach((tranData) {
@@ -200,7 +200,7 @@ class transactionApi {
           // 失敗
         } else {
           late MonthlyFixedData resultData = MonthlyFixedData();
-          resultData.disposableIncome = res.data['disposable_income'].abs();
+          resultData.disposableIncome = res.data['disposable_income'];
           res.data['monthly_fixed_list'].forEach((categoryData) {
             List<TransactionClass> tranList = [];
             categoryData['transaction_list'].forEach((tranData) {
