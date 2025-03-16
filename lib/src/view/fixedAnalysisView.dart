@@ -8,6 +8,7 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/fixedAnalysisAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class FixedAnalysisView extends StatefulWidget {
@@ -124,13 +125,14 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  const Tooltip(
+                                  Tooltip(
                                     message: "収入 - 固定費の支出",
                                     preferBelow: false,
                                     child: Text.rich(TextSpan(children: [
                                       TextSpan(
                                           text: '可処分所得額',
-                                          style: TextStyle(fontSize: 17)),
+                                          style: AppTextStyle.of(context,
+                                              fontSize: 17)),
                                       WidgetSpan(
                                           alignment: PlaceholderAlignment.top,
                                           child: Icon(
@@ -145,7 +147,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                           (monthlyFixedIncome.disposableIncome +
                                               monthlyFixedSpending
                                                   .disposableIncome)),
-                                      style: TextStyle(
+                                      style: AppTextStyle.of(context,
                                           fontSize: 30,
                                           color: (monthlyFixedIncome
                                                           .disposableIncome +
@@ -171,13 +173,14 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
+                                      Text(
                                         '収入',
-                                        style: TextStyle(fontSize: 20),
+                                        style: AppTextStyle.of(context,
+                                            fontSize: 20),
                                       ),
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
-                                        style: TextStyle(
+                                        style: AppTextStyle.of(context,
                                             fontSize: 20,
                                             color: Color(0xFF1B5E20)),
                                       )
@@ -210,13 +213,14 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      const Text(
+                                      Text(
                                         '支出',
-                                        style: TextStyle(fontSize: 20),
+                                        style: AppTextStyle.of(context,
+                                            fontSize: 20),
                                       ),
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
-                                        style: TextStyle(
+                                        style: AppTextStyle.of(context,
                                             fontSize: 20,
                                             color: Color(0xFFB71C1C)),
                                       )

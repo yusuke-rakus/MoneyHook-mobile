@@ -9,6 +9,7 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/organisms/paymentGroup/paymentGroupCard.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
@@ -101,8 +102,8 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                         child: RichText(
                           textAlign: TextAlign.start,
                           text: TextSpan(
-                              style:
-                                  TextStyle(color: Colors.black, fontSize: 20),
+                              style: AppTextStyle.of(context,
+                                  color: Colors.black, fontSize: 20),
                               children: [
                                 const TextSpan(text: '支出合計'),
                                 const WidgetSpan(child: SizedBox(width: 18.0)),
@@ -120,7 +121,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                         child: RichText(
                           textAlign: TextAlign.right,
                           text: TextSpan(
-                              style: TextStyle(
+                              style: AppTextStyle.of(context,
                                   color: Colors.black87, fontSize: 15.0),
                               children: [
                                 const TextSpan(text: '前月: '),
@@ -131,7 +132,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                                 TextSpan(
                                   text:
                                       '${paymentTransactionList.monthOverMonthSum.toString()}%',
-                                  style: TextStyle(
+                                  style: AppTextStyle.of(context,
                                       fontSize: 14,
                                       color: paymentTransactionList
                                                   .totalSpending

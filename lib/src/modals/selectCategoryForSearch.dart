@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/class/categoryClass.dart';
 import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectSubCategoryForSearch.dart';
 
@@ -67,7 +68,8 @@ class _SelectCategoryForSearch extends State<SelectCategoryForSearch> {
                         child: Text(
                           categoryList[index].categoryName,
                           overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
+                          style: AppTextStyle.of(
+                            context,
                             fontSize: 20.0,
                           ),
                         ),

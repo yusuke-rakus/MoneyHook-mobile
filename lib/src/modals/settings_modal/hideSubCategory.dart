@@ -5,6 +5,7 @@ import 'package:money_hooks/src/class/categoryClass.dart';
 import 'package:money_hooks/src/class/subCategoryClass.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
 import '../../components/centerWidget.dart';
@@ -162,11 +163,12 @@ class _HideSubCategoryState extends State<HideSubCategory> {
                 CenterWidget(
                     padding: const EdgeInsets.only(left: 10, bottom: 20),
                     height: 55,
-                    child: const Align(
+                    child: Align(
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           'サブカテゴリの表示',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: AppTextStyle.of(context,
+                              fontWeight: FontWeight.bold),
                         ))),
                 ListView.builder(
                     shrinkWrap: true,
@@ -232,7 +234,7 @@ class _HideSubCategoryState extends State<HideSubCategory> {
                                       trailing: Tooltip(
                                         message: "表示・非表示",
                                         child: CupertinoSwitch(
-                                            activeColor: Colors.blue,
+                                            activeTrackColor: Colors.blue,
                                             value: subCategory.value.enable,
                                             onChanged: (activeState) {
                                               _changeEnable(activeState, index,
