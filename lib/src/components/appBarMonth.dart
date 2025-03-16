@@ -35,7 +35,7 @@ class _CenterWidgetState extends State<AppBarMonth> {
         ),
         Text(
           '${widget.env.getMonth()}月',
-          style: AppTextStyle(fontSize: widget.titleFontSize),
+          style: AppTextStyle.of(context, fontSize: widget.titleFontSize),
         ),
         Tooltip(
           message: '次の月',

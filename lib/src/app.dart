@@ -223,7 +223,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         leading: Icon(icons, color: Colors.blue),
         title: Text(
           title,
-          style: AppTextStyle(color: Color(0xFF757575)),
+          style: AppTextStyle.of(context, color: Color(0xFF757575)),
         ),
         onTap: () {
           setState(() {
