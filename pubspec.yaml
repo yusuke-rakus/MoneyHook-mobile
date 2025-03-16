@@ -54,17 +54,25 @@ flutter:
   uses-material-design: true
   assets:
     - "images/"
-    - icons/
+    - assets/icons/
   fonts:
+    - family: MPLUS1p
+      fonts:
+        - asset: assets/fonts/MPLUS1p-Light.ttf
+          weight: 300
+        - asset: assets/fonts/MPLUS1p-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/MPLUS1p-Medium.ttf
+          weight: 500
     - family: MoneyBill
       fonts:
-        - asset: icons/MoneyBill.ttf
+        - asset: assets/icons/MoneyBill.ttf
     - family: QuestionCircleO
       fonts:
-        - asset: icons/QuestionCircleO.ttf
+        - asset: assets/icons/QuestionCircleO.ttf
     - family: Dollar
       fonts:
-        - asset: icons/Dollar.ttf
+        - asset: assets/icons/Dollar.ttf
     - family: Wallet
       fonts:
-        - asset: icons/Wallet.ttf
+        - asset: assets/icons/Wallet.ttf
