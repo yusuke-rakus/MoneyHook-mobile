@@ -34,14 +34,10 @@ class MyApp extends StatelessWidget {
         useMaterial3: false,
         primarySwatch: Colors.blue,
         textTheme: TextTheme(
-            bodyMedium: TextStyle(fontFamily: "MPLUS1p", fontSize: 16),
-            bodyLarge: TextStyle(
-                fontFamily: "MPLUS1p",
-                fontSize: 20,
-                fontWeight: FontWeight.bold)),
+            bodyMedium: TextStyle(fontFamily: "MPLUS1p", fontSize: 16)),
         snackBarTheme: SnackBarThemeData(
             contentTextStyle: TextStyle(
-                fontFamily: "MPLUS1p", fontSize: 16.0, color: Colors.white)),
+                fontFamily: "MPLUS1p", fontSize: 16, color: Colors.white)),
       ),
       home: const MyStatefulWidget(),
     );

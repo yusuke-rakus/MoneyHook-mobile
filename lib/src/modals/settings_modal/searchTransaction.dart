@@ -9,6 +9,7 @@ import 'package:money_hooks/src/components/commonLoadingDialog.dart';
 import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/components/gradientButton.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategoryForSearch.dart';
 
@@ -95,7 +96,7 @@ class _SearchTransaction extends State<SearchTransaction> {
                   child: ExpansionTile(
                     title: Text(
                       searchTitle,
-                      style: TextStyle(fontSize: 20),
+                      style: AppTextStyle.of(context, fontSize: 20),
                     ),
                     textColor: Colors.black,
                     initiallyExpanded: true,
@@ -117,11 +118,12 @@ class _SearchTransaction extends State<SearchTransaction> {
                       // カテゴリタイトル
                       Container(
                           padding: const EdgeInsets.only(left: 20),
-                          child: const Align(
+                          child: Align(
                               alignment: Alignment.bottomLeft,
                               child: Text(
                                 '検索するカテゴリを選択',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: AppTextStyle.of(context,
+                                    fontWeight: FontWeight.bold),
                               ))),
                       // カテゴリ
                       Container(
@@ -164,7 +166,8 @@ class _SearchTransaction extends State<SearchTransaction> {
                                                   ? '${transaction.categoryName} / ${transaction.subCategoryName}'
                                                   : '',
                                               overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(fontSize: 20),
+                                              style: AppTextStyle.of(context,
+                                                  fontSize: 20),
                                             )),
                                             const Align(
                                                 alignment:
@@ -177,11 +180,12 @@ class _SearchTransaction extends State<SearchTransaction> {
                       // 期間タイトル
                       Container(
                           padding: const EdgeInsets.only(left: 20),
-                          child: const Align(
+                          child: Align(
                               alignment: Alignment.bottomLeft,
                               child: Text(
                                 '期間を選択',
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                style: AppTextStyle.of(context,
+                                    fontWeight: FontWeight.bold),
                               ))),
                       dateSelectWidget(
                           context: context,
@@ -205,9 +209,9 @@ class _SearchTransaction extends State<SearchTransaction> {
                                   width: double.infinity,
                                   child: GradientButton(
                                       onPressed: () => searchTransaction(),
-                                      child: const Text(
+                                      child: Text(
                                         '検索',
-                                        style: TextStyle(
+                                        style: AppTextStyle.of(context,
                                             fontSize: 23, letterSpacing: 20),
                                       )))))
                     ],
@@ -221,12 +225,12 @@ class _SearchTransaction extends State<SearchTransaction> {
                           // 検索結果タイトル
                           Container(
                               padding: const EdgeInsets.only(left: 20, top: 30),
-                              child: const Align(
+                              child: Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
                                     '検索結果',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: AppTextStyle.of(context,
+                                        fontWeight: FontWeight.bold),
                                   ))),
                           Center(
                               // 検索結果
@@ -292,13 +296,13 @@ class _SearchTransaction extends State<SearchTransaction> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: TextStyle(fontSize: 20)),
+            Text(title, style: AppTextStyle.of(context, fontSize: 20)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                     '${targetMonth.replaceAll('-', '月').replaceFirst('月', '年')}日',
-                    style: TextStyle(fontSize: 20)),
+                    style: AppTextStyle.of(context, fontSize: 20)),
                 const Icon(Icons.edit),
               ],
             )

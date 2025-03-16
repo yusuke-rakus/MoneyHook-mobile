@@ -3,6 +3,7 @@ import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/timelineList.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class CalendarTimelineListCard extends StatefulWidget {
@@ -30,10 +31,10 @@ class _CalendarTimelineListCardState extends State<CalendarTimelineListCard> {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            const ListTile(
+            ListTile(
               title: Text(
                 'タイムライン',
-                style: TextStyle(
+                style: AppTextStyle.of(context,
                     fontSize: 12.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.black),

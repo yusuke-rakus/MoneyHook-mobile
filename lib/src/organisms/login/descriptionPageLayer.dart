@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 class DescriptionPageLayer extends StatelessWidget {
   final bool secondVisible;
@@ -21,10 +22,10 @@ class DescriptionPageLayer extends StatelessWidget {
                 children: [
                   const SizedBox(height: 10),
                   CenterWidget(
-                      child: const Align(
+                      child: Align(
                           alignment: Alignment.centerLeft,
-                          child:
-                              Text('機能のご紹介', style: TextStyle(fontSize: 20)))),
+                          child: Text('機能のご紹介',
+                              style: AppTextStyle.of(context, fontSize: 20)))),
                   const SizedBox(height: 10),
                   CenterWidget(
                       color: Colors.white,
@@ -41,6 +42,7 @@ class DescriptionPageLayer extends StatelessWidget {
                                     viewportFraction: viewportFraction),
                                 children: [
                                   _fixedWidthPage(
+                                      context: context,
                                       width: itemWidth,
                                       child: Image.asset(
                                           'images/phone-home.png',
@@ -49,6 +51,7 @@ class DescriptionPageLayer extends StatelessWidget {
                                       description:
                                           '支出が円グラフで表示され、\nカテゴリ毎の合計支出を閲覧できます。'),
                                   _fixedWidthPage(
+                                      context: context,
                                       width: itemWidth,
                                       child: Image.asset(
                                           'images/phone-timeline.png',
@@ -57,6 +60,7 @@ class DescriptionPageLayer extends StatelessWidget {
                                       description:
                                           '支出推移のグラフが表示されます。\nまた、今月の支出リストが表示されます。'),
                                   _fixedWidthPage(
+                                      context: context,
                                       width: itemWidth,
                                       child: Image.asset(
                                           'images/phone-calendar.png',
@@ -65,6 +69,7 @@ class DescriptionPageLayer extends StatelessWidget {
                                       description:
                                           'カレンダーに支出額が表示されます。\n日付をタップすることで内訳の確認ができます。'),
                                   _fixedWidthPage(
+                                      context: context,
                                       width: itemWidth,
                                       child: Image.asset(
                                           'images/phone-payment.png',
@@ -78,6 +83,7 @@ class DescriptionPageLayer extends StatelessWidget {
   }
 
   static Widget _fixedWidthPage({
+    required BuildContext context,
     required double width,
     required Widget child,
     required String title,
@@ -97,7 +103,8 @@ class DescriptionPageLayer extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             title,
-                            style: TextStyle(color: Colors.black, fontSize: 16),
+                            style: AppTextStyle.of(context,
+                                color: Colors.black, fontSize: 16),
                           )),
                       Container(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -107,7 +114,7 @@ class DescriptionPageLayer extends StatelessWidget {
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(description,
-                              style: TextStyle(
+                              style: AppTextStyle.of(context,
                                   color: Color(0xFF303030), fontSize: 12))),
                     ])))));
   }

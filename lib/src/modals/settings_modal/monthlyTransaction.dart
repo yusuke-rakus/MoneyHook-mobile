@@ -8,6 +8,7 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
 
@@ -69,11 +70,12 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                     CenterWidget(
                         padding: const EdgeInsets.only(left: 10, bottom: 20),
                         height: 55,
-                        child: const Align(
+                        child: Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
                               '収支の自動入力',
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: AppTextStyle.of(context,
+                                  fontWeight: FontWeight.bold),
                             ))),
                     ListView.builder(
                         padding: const EdgeInsets.only(bottom: 90),
@@ -151,7 +153,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                   labelText: '振替日',
                   suffix: Text('日'),
                 ),
-                style: TextStyle(fontSize: 17),
+                style: AppTextStyle.of(context, fontSize: 17),
               ),
             ),
             const SizedBox(width: 10),
@@ -164,7 +166,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                 decoration: const InputDecoration(
                   labelText: '取引名',
                 ),
-                style: TextStyle(fontSize: 15),
+                style: AppTextStyle.of(context, fontSize: 15),
               ),
             ),
             const SizedBox(width: 10),
@@ -192,7 +194,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                   labelText: '金額',
                   suffix: Text('円'),
                 ),
-                style: TextStyle(fontSize: 17),
+                style: AppTextStyle.of(context, fontSize: 17),
               ),
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 
 class LoginLayer extends StatefulWidget {
@@ -27,8 +28,9 @@ class _LoginLayerState extends State<LoginLayer> {
                           _signInCard(widget.googleSignInProcess));
                 },
                 style: TextButton.styleFrom(foregroundColor: Colors.grey),
-                child: const Text('ログイン',
-                    style: TextStyle(color: Color(0xFF616161))))));
+                child: Text('ログイン',
+                    style:
+                        AppTextStyle.of(context, color: Color(0xFF616161))))));
   }
 }
 

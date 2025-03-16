@@ -10,6 +10,7 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/organisms/timelineCalendar/calendarTimelineListCard.dart';
 import 'package:money_hooks/src/organisms/timelineCalendar/monthlyTransactionCard.dart';
@@ -273,7 +274,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                   BoxDecoration(shape: BoxShape.circle, color: circleColor),
               child: Text(
                 date.day.toString(),
-                style: TextStyle(
+                style: AppTextStyle.of(context,
                     fontSize: 16,
                     color: circleColor != Colors.transparent
                         ? Colors.white
@@ -287,7 +288,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                     padding: const EdgeInsets.only(left: 3.5, right: 3.5),
                     child: FittedBox(
                         child: Text(fmtSpendSum,
-                            style: TextStyle(
+                            style: AppTextStyle.of(context,
                                 color: enable
                                     ? const Color(0xFFB71C1C)
                                     : const Color(0xFFEF9A9A)))),
@@ -298,7 +299,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                     padding: const EdgeInsets.only(left: 3.0, right: 3.0),
                     child: FittedBox(
                         child: Text(fmtIncomeSum,
-                            style: TextStyle(
+                            style: AppTextStyle.of(context,
                                 color: enable
                                     ? const Color(0xFF1B5E20)
                                     : const Color(0xFF81C784)))),
