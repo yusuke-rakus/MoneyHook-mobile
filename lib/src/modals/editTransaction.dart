@@ -154,8 +154,8 @@ class _EditTransaction extends State<EditTransaction> {
             appBar: AppBar(
               flexibleSpace: GradientBar(),
               title: transaction.hasTransactionId()
-                  ? const Text('収支の編集')
-                  : const Text('収支の入力'),
+                  ? Text('収支の編集', style: AppTextStyle.of(context))
+                  : Text('収支の入力', style: AppTextStyle.of(context)),
               actions: [
                 // 削除アイコン
                 Visibility(
@@ -366,7 +366,8 @@ class _EditTransaction extends State<EditTransaction> {
                                       backgroundColor: Colors.black12,
                                       side: const BorderSide(
                                           color: Colors.white)),
-                                  child: Text(tran.transactionName),
+                                  child: Text(tran.transactionName,
+                                      style: AppTextStyle.of(context)),
                                 ),
                               ),
                             )
@@ -435,12 +436,15 @@ class _EditTransaction extends State<EditTransaction> {
                                     maxWidth: 250,
                                   ),
                                   child: DropdownButton(
-                                    hint: const Text("支払方法"),
+                                    hint: Text("支払方法",
+                                        style: AppTextStyle.of(context)),
                                     isExpanded: true,
                                     items: paymentResourceList
                                         .map((resource) => DropdownMenuItem(
                                               value: resource.paymentId,
-                                              child: Text(resource.paymentName),
+                                              child: Text(resource.paymentName,
+                                                  style:
+                                                      AppTextStyle.of(context)),
                                             ))
                                         .toList(),
                                     onChanged: (value) {
