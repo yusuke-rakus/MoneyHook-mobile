@@ -14,6 +14,7 @@ import 'package:money_hooks/src/screens/timelineScreen.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 import 'components/customFloatingButtonLocation.dart';
+import 'env/AppTextStyle.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -155,7 +156,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: DefaultTextStyle(
-        style: const TextStyle(fontFamily: "MPLUS1p"),
+        style: Theme.of(context).textTheme.bodyMedium!,
         child: Row(
           children: [
             isLogin && MediaQuery.of(context).size.width > 768
@@ -223,7 +224,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         leading: Icon(icons, color: Colors.blue),
         title: Text(
           title,
-          style: TextStyle(color: Color(0xFF757575)),
+          style: AppTextStyle(color: Color(0xFF757575)),
         ),
         onTap: () {
           setState(() {
