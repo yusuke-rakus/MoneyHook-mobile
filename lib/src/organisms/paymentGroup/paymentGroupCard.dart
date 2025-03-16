@@ -147,7 +147,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
 
     return RichText(
       text: TextSpan(
-          style: const TextStyle(color: Colors.black, fontSize: 18),
+          style: TextStyle(color: Colors.black, fontSize: 18),
           children: [
             WidgetSpan(
               child: paymentTypeId == null
@@ -160,7 +160,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
             const WidgetSpan(child: SizedBox(width: 10.0)),
             TextSpan(
                 text: TransactionClass.formatNum(paymentAmount.abs()),
-                style: const TextStyle(color: Color(0xFFB71C1C)))
+                style: TextStyle(color: Color(0xFFB71C1C)))
           ]),
     );
   }
@@ -176,14 +176,14 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                   opacity: 0.75,
                   child: RichText(
                     text: TextSpan(
-                        style: const TextStyle(color: Colors.black),
+                        style: TextStyle(color: Colors.black),
                         children: [
                           const TextSpan(
                               text: '前月: ', style: TextStyle(fontSize: 13)),
                           TextSpan(
                               text:
                                   '¥${TransactionClass.formatNum(lastMonthSum.abs())}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 16, color: Color(0xFFB71C1C))),
                           const TextSpan(text: ' ('),
                           TextSpan(

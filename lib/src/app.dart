@@ -154,32 +154,36 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        children: [
-          isLogin && MediaQuery.of(context).size.width > 768
-              ? Drawer(
-                  width: 250,
-                  child: ListView(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 36),
-                    children: [
-                      _sideBarItem(context, homeLabel.icon, homeLabel.label, 0),
-                      _sideBarItem(
-                          context, timelineLabel.icon, timelineLabel.label, 1),
-                      _sideBarItem(context, analyticsLabel.icon,
-                          analyticsLabel.label, 2),
-                      _sideBarItem(context, paymentGroupLabel.icon,
-                          paymentGroupLabel.label, 3),
-                      _sideBarItem(
-                          context, settingsLabel.icon, settingsLabel.label, 4),
-                    ],
-                  ),
-                )
-              : const SizedBox(),
-          Expanded(child: _screens[_selectedIndex]),
-        ],
+      body: DefaultTextStyle(
+        style: const TextStyle(fontFamily: "MPLUS1p"),
+        child: Row(
+          children: [
+            isLogin && MediaQuery.of(context).size.width > 768
+                ? Drawer(
+                    width: 250,
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 36),
+                      children: [
+                        _sideBarItem(
+                            context, homeLabel.icon, homeLabel.label, 0),
+                        _sideBarItem(context, timelineLabel.icon,
+                            timelineLabel.label, 1),
+                        _sideBarItem(context, analyticsLabel.icon,
+                            analyticsLabel.label, 2),
+                        _sideBarItem(context, paymentGroupLabel.icon,
+                            paymentGroupLabel.label, 3),
+                        _sideBarItem(context, settingsLabel.icon,
+                            settingsLabel.label, 4),
+                      ],
+                    ),
+                  )
+                : const SizedBox(),
+            Expanded(child: _screens[_selectedIndex]),
+          ],
+        ),
       ),
       bottomNavigationBar: isLogin && MediaQuery.of(context).size.width <= 768
           ? BottomNavigationBar(
@@ -219,7 +223,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         leading: Icon(icons, color: Colors.blue),
         title: Text(
           title,
-          style: const TextStyle(color: Color(0xFF757575)),
+          style: TextStyle(color: Color(0xFF757575)),
         ),
         onTap: () {
           setState(() {

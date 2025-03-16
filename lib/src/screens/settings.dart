@@ -74,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   Icon(icons),
                   const SizedBox(width: 10),
-                  Text(title, style: const TextStyle(fontSize: 16)),
+                  Text(title, style: TextStyle(fontSize: 16)),
                   const Expanded(child: SizedBox()),
                   const Icon(Icons.arrow_forward_ios),
                 ],

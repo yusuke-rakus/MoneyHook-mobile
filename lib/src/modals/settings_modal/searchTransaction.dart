@@ -95,7 +95,7 @@ class _SearchTransaction extends State<SearchTransaction> {
                   child: ExpansionTile(
                     title: Text(
                       searchTitle,
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20),
                     ),
                     textColor: Colors.black,
                     initiallyExpanded: true,
@@ -164,8 +164,7 @@ class _SearchTransaction extends State<SearchTransaction> {
                                                   ? '${transaction.categoryName} / ${transaction.subCategoryName}'
                                                   : '',
                                               overflow: TextOverflow.ellipsis,
-                                              style:
-                                                  const TextStyle(fontSize: 20),
+                                              style: TextStyle(fontSize: 20),
                                             )),
                                             const Align(
                                                 alignment:
@@ -293,13 +292,13 @@ class _SearchTransaction extends State<SearchTransaction> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title, style: const TextStyle(fontSize: 20)),
+            Text(title, style: TextStyle(fontSize: 20)),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                     '${targetMonth.replaceAll('-', '月').replaceFirst('月', '年')}日',
-                    style: const TextStyle(fontSize: 20)),
+                    style: TextStyle(fontSize: 20)),
                 const Icon(Icons.edit),
               ],
             )

@@ -58,7 +58,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                 children: [
                   const Text('取引名候補を表示する'),
                   CupertinoSwitch(
-                      activeColor: Colors.blue,
+                      activeTrackColor: Colors.blue,
                       value: _transactionRecommendState,
                       onChanged: (activeState) =>
                           _changeRecommendState(activeState))
@@ -71,7 +71,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                 children: [
                   const Text('デフォルトでカードを開ける'),
                   CupertinoSwitch(
-                      activeColor: Colors.blue,
+                      activeTrackColor: Colors.blue,
                       value: _isCardDefaultOpen,
                       onChanged: (activeState) =>
                           _changeIsCardDefaultOpenState(activeState))
@@ -118,7 +118,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       title,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),

@@ -59,7 +59,7 @@ List<PieChartSectionData> _createHomeChart(
       color: colorList[index],
       title: data.categoryList[index]['category_name'],
       showTitle: showTitle,
-      titleStyle: const TextStyle(
+      titleStyle: TextStyle(
           color: Colors.white,
           shadows: <Shadow>[Shadow(blurRadius: 5.0, color: Colors.black)]),
       radius: index == touchedIndex ? 70.0 : 60.0,

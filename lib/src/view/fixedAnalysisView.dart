@@ -177,7 +177,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       ),
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 20,
                                             color: Color(0xFF1B5E20)),
                                       )
@@ -216,7 +216,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                       ),
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                             fontSize: 20,
                                             color: Color(0xFFB71C1C)),
                                       )

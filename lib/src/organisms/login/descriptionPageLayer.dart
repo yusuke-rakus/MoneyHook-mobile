@@ -97,8 +97,7 @@ class DescriptionPageLayer extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             title,
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 16),
+                            style: TextStyle(color: Colors.black, fontSize: 16),
                           )),
                       Container(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -108,7 +107,7 @@ class DescriptionPageLayer extends StatelessWidget {
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(description,
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Color(0xFF303030), fontSize: 12))),
                     ])))));
   }

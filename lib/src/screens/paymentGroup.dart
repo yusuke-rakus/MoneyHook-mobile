@@ -101,8 +101,8 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                         child: RichText(
                           textAlign: TextAlign.start,
                           text: TextSpan(
-                              style: const TextStyle(
-                                  color: Colors.black, fontSize: 20),
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
                               children: [
                                 const TextSpan(text: '支出合計'),
                                 const WidgetSpan(child: SizedBox(width: 18.0)),
@@ -120,7 +120,7 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
                         child: RichText(
                           textAlign: TextAlign.right,
                           text: TextSpan(
-                              style: const TextStyle(
+                              style: TextStyle(
                                   color: Colors.black87, fontSize: 15.0),
                               children: [
                                 const TextSpan(text: '前月: '),

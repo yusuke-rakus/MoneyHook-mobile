@@ -59,7 +59,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 1,
             child: Text(
               '${displayMonthlyTransaction.monthlyTransactionDate}日',
-              style: const TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -67,7 +67,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 3,
             child: Text(
               displayMonthlyTransaction.categoryName,
-              style: const TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -75,7 +75,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 3,
             child: Text(
               displayMonthlyTransaction.monthlyTransactionName,
-              style: const TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -83,7 +83,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 2,
             child: Text(
               '¥${TransactionClass.formatNum(displayMonthlyTransaction.monthlyTransactionAmount.toInt())}',
-              style: const TextStyle(fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),

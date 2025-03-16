@@ -78,7 +78,7 @@ class _SelectSubCategoryForSearch extends State<SelectSubCategoryForSearch> {
                                             subCategoryList[index]
                                                 .subCategoryName,
                                             overflow: TextOverflow.ellipsis,
-                                            style: const TextStyle(
+                                            style: TextStyle(
                                               fontSize: 20.0,
                                             ))),
                                     const Align(
