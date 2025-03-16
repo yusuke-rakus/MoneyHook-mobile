@@ -40,10 +40,12 @@ class HomeAccordion extends StatelessWidget {
                               text: homeTransactionList[index]
                                   ['category_name']),
                         ]),
-                        style: AppTextStyle(),
+                        style: AppTextStyle.of(context),
                       ),
                       Text(
-                          '¥${TransactionClass.formatNum(homeTransactionList[index]['category_total_amount'].abs())}'),
+                        '¥${TransactionClass.formatNum(homeTransactionList[index]['category_total_amount'].abs())}',
+                        style: AppTextStyle.of(context),
+                      ),
                     ],
                   ),
                   textColor: Colors.black,
