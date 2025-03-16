@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class AppBarMonth extends StatefulWidget {
@@ -34,7 +35,7 @@ class _CenterWidgetState extends State<AppBarMonth> {
         ),
         Text(
           '${widget.env.getMonth()}月',
-          style: TextStyle(fontSize: widget.titleFontSize),
+          style: AppTextStyle(fontSize: widget.titleFontSize),
         ),
         Tooltip(
           message: '次の月',

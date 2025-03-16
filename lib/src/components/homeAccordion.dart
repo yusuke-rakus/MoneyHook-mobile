@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
+import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 class HomeAccordion extends StatelessWidget {
   const HomeAccordion(
@@ -25,18 +26,22 @@ class HomeAccordion extends StatelessWidget {
                   title: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text.rich(TextSpan(children: [
-                        WidgetSpan(
-                            alignment: PlaceholderAlignment.top,
-                            child: Icon(
-                              Icons.circle,
-                              color: colorList[index],
-                              size: 10,
-                            )),
-                        const WidgetSpan(child: SizedBox(width: 7.5)),
-                        TextSpan(
-                            text: homeTransactionList[index]['category_name']),
-                      ])),
+                      Text.rich(
+                        TextSpan(children: [
+                          WidgetSpan(
+                              alignment: PlaceholderAlignment.top,
+                              child: Icon(
+                                Icons.circle,
+                                color: colorList[index],
+                                size: 10,
+                              )),
+                          const WidgetSpan(child: SizedBox(width: 7.5)),
+                          TextSpan(
+                              text: homeTransactionList[index]
+                                  ['category_name']),
+                        ]),
+                        style: AppTextStyle(),
+                      ),
                       Text(
                           '¥${TransactionClass.formatNum(homeTransactionList[index]['category_total_amount'].abs())}'),
                     ],
