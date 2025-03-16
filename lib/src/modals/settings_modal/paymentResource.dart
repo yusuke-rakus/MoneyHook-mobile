@@ -227,7 +227,7 @@ class _SearchTransaction extends State<PaymentResource> {
                               errorText: data.paymentNameError != ""
                                   ? data.paymentNameError
                                   : null),
-                          style: const TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 20),
                         ),
                         const SizedBox(height: 13.0),
                         paymentTypeResult.isNotEmpty
@@ -251,8 +251,7 @@ class _SearchTransaction extends State<PaymentResource> {
                     )
                   : Row(
                       children: [
-                        Text(data.paymentName,
-                            style: const TextStyle(fontSize: 16)),
+                        Text(data.paymentName, style: TextStyle(fontSize: 16)),
                         const Expanded(child: SizedBox()),
                         const Tooltip(message: "編集", child: Icon(Icons.edit)),
                         const SizedBox(width: 20),

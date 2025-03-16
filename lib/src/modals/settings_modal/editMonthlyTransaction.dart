@@ -185,8 +185,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                           },
                           controller: dateController,
                           decoration: InputDecoration(
-                              hintStyle: const TextStyle(
-                                  fontSize: 20, letterSpacing: 8),
+                              hintStyle:
+                                  TextStyle(fontSize: 20, letterSpacing: 8),
                               errorText: monthlyTransaction
                                       .monthlyTransactionDateError.isNotEmpty
                                   ? monthlyTransaction
@@ -196,7 +196,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          style: const TextStyle(fontSize: 20),
+                          style: TextStyle(fontSize: 20),
                         ),
                       ),
                       const Text(
@@ -248,8 +248,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                             controller: amountController,
                             decoration: InputDecoration(
                                 hintText: '¥0',
-                                hintStyle: const TextStyle(
-                                    fontSize: 20, letterSpacing: 8),
+                                hintStyle:
+                                    TextStyle(fontSize: 20, letterSpacing: 8),
                                 errorText: monthlyTransaction
                                         .monthlyTransactionAmountError
                                         .isNotEmpty
@@ -260,7 +260,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            style: const TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ],
@@ -284,7 +284,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                   .monthlyTransactionNameError.isNotEmpty
                               ? monthlyTransaction.monthlyTransactionNameError
                               : null),
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                   // カテゴリ
@@ -325,7 +325,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                       ? '${monthlyTransaction.categoryName} / ${widget.monthlyTransaction.subCategoryName}'
                                       : '',
                                   overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 20),
                                 ),
                               ),
                               const Align(

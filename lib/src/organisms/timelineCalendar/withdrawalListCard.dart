@@ -79,7 +79,7 @@ class WithdrawalListCard extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: const TextStyle(fontSize: 15),
+            style: TextStyle(fontSize: 15),
             overflow: TextOverflow.ellipsis,
           ),
         ));

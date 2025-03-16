@@ -235,7 +235,7 @@ class _EditTransaction extends State<EditTransaction> {
                           children: [
                             Text(
                               '${transaction.transactionDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             const Icon(Icons.edit),
@@ -283,8 +283,8 @@ class _EditTransaction extends State<EditTransaction> {
                             controller: amountController,
                             decoration: InputDecoration(
                                 hintText: '¥0',
-                                hintStyle: const TextStyle(
-                                    fontSize: 20, letterSpacing: 8),
+                                hintStyle:
+                                    TextStyle(fontSize: 20, letterSpacing: 8),
                                 errorText: transaction
                                         .transactionAmountError.isNotEmpty
                                     ? transaction.transactionAmountError
@@ -293,7 +293,7 @@ class _EditTransaction extends State<EditTransaction> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            style: const TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ],
@@ -327,7 +327,7 @@ class _EditTransaction extends State<EditTransaction> {
                           errorText: transaction.transactionNameError.isNotEmpty
                               ? transaction.transactionNameError
                               : null),
-                      style: const TextStyle(fontSize: 20),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                   // 候補リスト
@@ -406,8 +406,7 @@ class _EditTransaction extends State<EditTransaction> {
                                           child: Text(
                                             '${transaction.categoryName} / ${transaction.subCategoryName}',
                                             overflow: TextOverflow.ellipsis,
-                                            style:
-                                                const TextStyle(fontSize: 20),
+                                            style: TextStyle(fontSize: 20),
                                           ),
                                         ),
                                         const Align(

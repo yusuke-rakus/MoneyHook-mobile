@@ -67,7 +67,7 @@ class _SelectCategoryForSearch extends State<SelectCategoryForSearch> {
                         child: Text(
                           categoryList[index].categoryName,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20.0,
                           ),
                         ),

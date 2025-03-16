@@ -67,7 +67,7 @@ class _SelectCategory extends State<SelectCategory> {
                         child: Text(
                           categoryList[index].categoryName,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 20.0,
                           ),
                         ),

@@ -43,7 +43,7 @@ class TimelineList extends StatelessWidget {
                           flex: 1,
                           child: Text(
                             '${timelineList[index].getDay()}日',
-                            style: const TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -51,7 +51,7 @@ class TimelineList extends StatelessWidget {
                           flex: 3,
                           child: Text(
                             timelineList[index].categoryName,
-                            style: const TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -59,7 +59,7 @@ class TimelineList extends StatelessWidget {
                           flex: 3,
                           child: Text(
                             timelineList[index].transactionName,
-                            style: const TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -67,7 +67,7 @@ class TimelineList extends StatelessWidget {
                           flex: 2,
                           child: Text(
                             '¥${TransactionClass.formatNum(timelineList[index].transactionAmount.toInt())}',
-                            style: const TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

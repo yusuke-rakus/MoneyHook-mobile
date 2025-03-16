@@ -100,7 +100,7 @@ class _VariableAnalysis extends State<VariableAnalysisView> {
                             const Text('変動費合計', style: TextStyle(fontSize: 17)),
                             const SizedBox(width: 10),
                             Text(TransactionClass.formatNum(data.totalVariable),
-                                style: const TextStyle(fontSize: 30)),
+                                style: TextStyle(fontSize: 30)),
                             const SizedBox(width: 5),
                             const Text('円', style: TextStyle(fontSize: 17)),
                           ],

@@ -75,7 +75,7 @@ class _SelectSubCategory extends State<SelectSubCategory> {
                               child: Text(
                                 subCategoryList[index].subCategoryName,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 20.0,
                                 ),
                               ),
@@ -102,7 +102,7 @@ class _SelectSubCategory extends State<SelectSubCategory> {
               decoration: const InputDecoration(
                 labelText: 'サブカテゴリを作成',
               ),
-              style: const TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 20),
               onSubmitted: (value) {
                 Navigator.pop(context);
                 Navigator.pop(context, {
