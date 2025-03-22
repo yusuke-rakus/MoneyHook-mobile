@@ -53,16 +53,7 @@
         ]
       },
       {
-        "source": "/canvaskit/*.wasm",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      },
-      {
-        "source": "/canvaskit/*.js",
+        "source": "/canvaskit/**",
         "headers": [
           {
             "key": "Cache-Control",
