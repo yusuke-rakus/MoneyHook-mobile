@@ -3,7 +3,6 @@ import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/settings_modal/hideSubCategory.dart';
 import 'package:money_hooks/src/modals/settings_modal/localSettings.dart';
@@ -46,7 +45,7 @@ class SettingsScreen extends StatelessWidget {
                   },
                   child: Text(
                     'ログアウト',
-                    style: AppTextStyle.of(context, color: Colors.black54),
+                    style: TextStyle(color: Colors.black54),
                   )),
             ),
           ],
@@ -75,7 +74,7 @@ class SettingsScreen extends StatelessWidget {
                 children: [
                   Icon(icons),
                   const SizedBox(width: 10),
-                  Text(title, style: AppTextStyle.of(context, fontSize: 16)),
+                  Text(title, style: TextStyle(fontSize: 16)),
                   const Expanded(child: SizedBox()),
                   const Icon(Icons.arrow_forward_ios),
                 ],

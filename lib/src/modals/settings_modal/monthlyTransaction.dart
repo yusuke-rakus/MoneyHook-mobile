@@ -8,7 +8,6 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/dataLoader/monthlyTransactionLoad.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/settings_modal/editMonthlyTransaction.dart';
 
@@ -74,8 +73,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                             alignment: Alignment.bottomLeft,
                             child: Text(
                               '収支の自動入力',
-                              style: AppTextStyle.of(context,
-                                  fontWeight: FontWeight.bold),
+                              style: TextStyle(fontWeight: FontWeight.bold),
                             ))),
                     ListView.builder(
                         padding: const EdgeInsets.only(bottom: 90),
@@ -153,7 +151,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                   labelText: '振替日',
                   suffix: Text('日'),
                 ),
-                style: AppTextStyle.of(context, fontSize: 17),
+                style: TextStyle(fontSize: 17),
               ),
             ),
             const SizedBox(width: 10),
@@ -166,7 +164,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                 decoration: const InputDecoration(
                   labelText: '取引名',
                 ),
-                style: AppTextStyle.of(context, fontSize: 15),
+                style: TextStyle(fontSize: 15),
               ),
             ),
             const SizedBox(width: 10),
@@ -194,7 +192,7 @@ class _MonthlyTransactionState extends State<MonthlyTransaction> {
                   labelText: '金額',
                   suffix: Text('円'),
                 ),
-                style: AppTextStyle.of(context, fontSize: 17),
+                style: TextStyle(fontSize: 17),
               ),
             ),
           ],

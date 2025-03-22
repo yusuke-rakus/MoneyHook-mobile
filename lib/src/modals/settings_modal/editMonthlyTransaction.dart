@@ -1,7 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:money_hooks/src/api/monthlyTransactionApi.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
 import 'package:switcher/core/switcher_size.dart';
@@ -186,8 +185,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                           },
                           controller: dateController,
                           decoration: InputDecoration(
-                              hintStyle: AppTextStyle.of(context,
-                                  fontSize: 20, letterSpacing: 8),
+                              hintStyle:
+                                  TextStyle(fontSize: 20, letterSpacing: 8),
                               errorText: monthlyTransaction
                                       .monthlyTransactionDateError.isNotEmpty
                                   ? monthlyTransaction
@@ -197,12 +196,12 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                           inputFormatters: [
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          style: AppTextStyle.of(context, fontSize: 20),
+                          style: TextStyle(fontSize: 20),
                         ),
                       ),
                       Text(
                         '日',
-                        style: AppTextStyle.of(context, fontSize: 17),
+                        style: TextStyle(fontSize: 17),
                       ),
                       const Expanded(flex: 1, child: SizedBox()),
                     ]),
@@ -249,8 +248,8 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                             controller: amountController,
                             decoration: InputDecoration(
                                 hintText: '¥0',
-                                hintStyle: AppTextStyle.of(context,
-                                    fontSize: 20, letterSpacing: 8),
+                                hintStyle:
+                                    TextStyle(fontSize: 20, letterSpacing: 8),
                                 errorText: monthlyTransaction
                                         .monthlyTransactionAmountError
                                         .isNotEmpty
@@ -261,7 +260,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            style: AppTextStyle.of(context, fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ],
@@ -285,7 +284,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                   .monthlyTransactionNameError.isNotEmpty
                               ? monthlyTransaction.monthlyTransactionNameError
                               : null),
-                      style: AppTextStyle.of(context, fontSize: 20),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                   // カテゴリ
@@ -326,7 +325,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                                       ? '${monthlyTransaction.categoryName} / ${widget.monthlyTransaction.subCategoryName}'
                                       : '',
                                   overflow: TextOverflow.ellipsis,
-                                  style: AppTextStyle.of(context, fontSize: 20),
+                                  style: TextStyle(fontSize: 20),
                                 ),
                               ),
                               const Align(
@@ -404,8 +403,7 @@ class _EditTransaction extends State<EditMonthlyTransaction> {
                         borderRadius: 25,
                         child: Text(
                           '登録',
-                          style: AppTextStyle.of(context,
-                              fontSize: 23, letterSpacing: 20),
+                          style: TextStyle(fontSize: 23, letterSpacing: 20),
                         ),
                       ),
                     )),

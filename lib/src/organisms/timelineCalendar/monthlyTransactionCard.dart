@@ -3,7 +3,6 @@ import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 class MonthlyTransactionCard extends StatelessWidget {
   final List<MonthlyTransactionClass> displayMonthlyTransactions;
@@ -23,7 +22,7 @@ class MonthlyTransactionCard extends StatelessWidget {
                   ListTile(
                     title: Text(
                       '自動入力予定',
-                      style: AppTextStyle.of(context,
+                      style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
@@ -60,7 +59,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 1,
             child: Text(
               '${displayMonthlyTransaction.monthlyTransactionDate}日',
-              style: AppTextStyle.of(context, fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -68,7 +67,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 3,
             child: Text(
               displayMonthlyTransaction.categoryName,
-              style: AppTextStyle.of(context, fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -76,7 +75,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 3,
             child: Text(
               displayMonthlyTransaction.monthlyTransactionName,
-              style: AppTextStyle.of(context, fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -84,7 +83,7 @@ class MonthlyTransactionCard extends StatelessWidget {
             flex: 2,
             child: Text(
               '¥${TransactionClass.formatNum(displayMonthlyTransaction.monthlyTransactionAmount.toInt())}',
-              style: AppTextStyle.of(context, fontSize: 15),
+              style: TextStyle(fontSize: 15),
               overflow: TextOverflow.ellipsis,
             ),
           ),

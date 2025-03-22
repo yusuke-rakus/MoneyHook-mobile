@@ -5,7 +5,6 @@ import 'package:money_hooks/src/class/categoryClass.dart';
 import 'package:money_hooks/src/class/subCategoryClass.dart';
 import 'package:money_hooks/src/components/commonLoadingAnimation.dart';
 import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
 import '../../components/centerWidget.dart';
@@ -167,8 +166,7 @@ class _HideSubCategoryState extends State<HideSubCategory> {
                         alignment: Alignment.bottomLeft,
                         child: Text(
                           'サブカテゴリの表示',
-                          style: AppTextStyle.of(context,
-                              fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ))),
                 ListView.builder(
                     shrinkWrap: true,

@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
@@ -96,7 +95,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                       },
                       child: Text(
                         '削除',
-                        style: AppTextStyle.of(context, color: Colors.black54),
+                        style: TextStyle(color: Colors.black54),
                       )),
                 ],
               ),
@@ -119,8 +118,7 @@ class _LocalSettingsState extends State<LocalSettings> {
                     alignment: Alignment.bottomLeft,
                     child: Text(
                       title,
-                      style:
-                          AppTextStyle.of(context, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ))),
             Container(
               padding: const EdgeInsets.only(left: 20, right: 20),

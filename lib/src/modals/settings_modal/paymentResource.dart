@@ -10,7 +10,6 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/dataLoader/paymentResource.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 
@@ -228,12 +227,11 @@ class _SearchTransaction extends State<PaymentResource> {
                               errorText: data.paymentNameError != ""
                                   ? data.paymentNameError
                                   : null),
-                          style: AppTextStyle.of(context, fontSize: 20),
+                          style: TextStyle(fontSize: 20),
                         ),
                         const SizedBox(height: 13.0),
                         paymentTypeResult.isNotEmpty
-                            ? Text('支払い種別を選択',
-                                style: AppTextStyle.of(context, fontSize: 12.5))
+                            ? Text('支払い種別を選択', style: TextStyle(fontSize: 12.5))
                             : const SizedBox(),
                         paymentTypeResult.isNotEmpty
                             ? Wrap(
@@ -252,8 +250,7 @@ class _SearchTransaction extends State<PaymentResource> {
                     )
                   : Row(
                       children: [
-                        Text(data.paymentName,
-                            style: AppTextStyle.of(context, fontSize: 16)),
+                        Text(data.paymentName, style: TextStyle(fontSize: 16)),
                         const Expanded(child: SizedBox()),
                         const Tooltip(message: "編集", child: Icon(Icons.edit)),
                         const SizedBox(width: 20),
@@ -323,7 +320,7 @@ class _SearchTransaction extends State<PaymentResource> {
         ? Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text("引落日を選択: ", style: AppTextStyle.of(context, fontSize: 12.5)),
+              Text("引落日を選択: ", style: TextStyle(fontSize: 12.5)),
               DropdownButton(
                 hint: const Text("支払日"),
                 value: paymentResource.paymentDate,
@@ -353,8 +350,7 @@ class _SearchTransaction extends State<PaymentResource> {
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text("締日を選択: ",
-                    style: AppTextStyle.of(context, fontSize: 12.5)),
+                Text("締日を選択: ", style: TextStyle(fontSize: 12.5)),
                 DropdownButton(
                   hint: const Text("締日"),
                   value: paymentResource.closingDate,

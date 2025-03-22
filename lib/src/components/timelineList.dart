@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/editTransaction.dart';
 
@@ -44,7 +43,7 @@ class TimelineList extends StatelessWidget {
                           flex: 1,
                           child: Text(
                             '${timelineList[index].getDay()}日',
-                            style: AppTextStyle.of(context, fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -52,7 +51,7 @@ class TimelineList extends StatelessWidget {
                           flex: 3,
                           child: Text(
                             timelineList[index].categoryName,
-                            style: AppTextStyle.of(context, fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -60,7 +59,7 @@ class TimelineList extends StatelessWidget {
                           flex: 3,
                           child: Text(
                             timelineList[index].transactionName,
-                            style: AppTextStyle.of(context, fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -68,7 +67,7 @@ class TimelineList extends StatelessWidget {
                           flex: 2,
                           child: Text(
                             '¥${TransactionClass.formatNum(timelineList[index].transactionAmount.toInt())}',
-                            style: AppTextStyle.of(context, fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

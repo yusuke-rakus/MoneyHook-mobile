@@ -12,7 +12,6 @@ import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/components/gradientButton.dart';
 import 'package:money_hooks/src/dataLoader/paymentResource.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/selectCategory.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
@@ -154,8 +153,8 @@ class _EditTransaction extends State<EditTransaction> {
             appBar: AppBar(
               flexibleSpace: GradientBar(),
               title: transaction.hasTransactionId()
-                  ? Text('収支の編集', style: AppTextStyle.of(context))
-                  : Text('収支の入力', style: AppTextStyle.of(context)),
+                  ? Text('収支の編集')
+                  : Text('収支の入力'),
               actions: [
                 // 削除アイコン
                 Visibility(
@@ -236,7 +235,7 @@ class _EditTransaction extends State<EditTransaction> {
                           children: [
                             Text(
                               '${transaction.transactionDate.replaceAll('-', '月').replaceFirst('月', '年')}日',
-                              style: AppTextStyle.of(context,
+                              style: TextStyle(
                                   fontWeight: FontWeight.bold, fontSize: 20),
                             ),
                             const Icon(Icons.edit),
@@ -284,8 +283,8 @@ class _EditTransaction extends State<EditTransaction> {
                             controller: amountController,
                             decoration: InputDecoration(
                                 hintText: '¥0',
-                                hintStyle: AppTextStyle.of(context,
-                                    fontSize: 20, letterSpacing: 8),
+                                hintStyle:
+                                    TextStyle(fontSize: 20, letterSpacing: 8),
                                 errorText: transaction
                                         .transactionAmountError.isNotEmpty
                                     ? transaction.transactionAmountError
@@ -294,7 +293,7 @@ class _EditTransaction extends State<EditTransaction> {
                             inputFormatters: [
                               FilteringTextInputFormatter.digitsOnly
                             ],
-                            style: AppTextStyle.of(context, fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                         ),
                       ],
@@ -328,7 +327,7 @@ class _EditTransaction extends State<EditTransaction> {
                           errorText: transaction.transactionNameError.isNotEmpty
                               ? transaction.transactionNameError
                               : null),
-                      style: AppTextStyle.of(context, fontSize: 20),
+                      style: TextStyle(fontSize: 20),
                     ),
                   ),
                   // 候補リスト
@@ -366,8 +365,9 @@ class _EditTransaction extends State<EditTransaction> {
                                       backgroundColor: Colors.black12,
                                       side: const BorderSide(
                                           color: Colors.white)),
-                                  child: Text(tran.transactionName,
-                                      style: AppTextStyle.of(context)),
+                                  child: Text(
+                                    tran.transactionName,
+                                  ),
                                 ),
                               ),
                             )
@@ -408,8 +408,7 @@ class _EditTransaction extends State<EditTransaction> {
                                           child: Text(
                                             '${transaction.categoryName} / ${transaction.subCategoryName}',
                                             overflow: TextOverflow.ellipsis,
-                                            style: AppTextStyle.of(context,
-                                                fontSize: 20),
+                                            style: TextStyle(fontSize: 20),
                                           ),
                                         ),
                                         const Align(
@@ -426,9 +425,7 @@ class _EditTransaction extends State<EditTransaction> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('支払方法',
-                                  style:
-                                      AppTextStyle.of(context, fontSize: 15)),
+                              Text('支払方法', style: TextStyle(fontSize: 15)),
                               const SizedBox(width: 10),
                               Flexible(
                                 child: ConstrainedBox(
@@ -436,15 +433,14 @@ class _EditTransaction extends State<EditTransaction> {
                                     maxWidth: 250,
                                   ),
                                   child: DropdownButton(
-                                    hint: Text("支払方法",
-                                        style: AppTextStyle.of(context)),
+                                    hint: Text("支払方法"),
                                     isExpanded: true,
                                     items: paymentResourceList
                                         .map((resource) => DropdownMenuItem(
                                               value: resource.paymentId,
-                                              child: Text(resource.paymentName,
-                                                  style:
-                                                      AppTextStyle.of(context)),
+                                              child: Text(
+                                                resource.paymentName,
+                                              ),
                                             ))
                                         .toList(),
                                     onChanged: (value) {
@@ -476,8 +472,7 @@ class _EditTransaction extends State<EditTransaction> {
                     height: 100,
                     child: CheckboxListTile(
                       activeColor: Colors.blue,
-                      title: Text('固定費として計算する',
-                          style: AppTextStyle.of(context, fontSize: 15)),
+                      title: Text('固定費として計算する', style: TextStyle(fontSize: 15)),
                       value: transaction.fixedFlg,
                       onChanged: (value) {
                         setState(() {
@@ -512,8 +507,8 @@ class _EditTransaction extends State<EditTransaction> {
                               borderRadius: 25,
                               child: Text(
                                 '登録',
-                                style: AppTextStyle.of(context,
-                                    fontSize: 23, letterSpacing: 20),
+                                style:
+                                    TextStyle(fontSize: 23, letterSpacing: 20),
                               )))))
             ])),
       ),
