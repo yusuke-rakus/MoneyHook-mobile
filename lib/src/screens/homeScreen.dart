@@ -11,7 +11,6 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/gradientBar.dart';
 import 'package:money_hooks/src/components/homeAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/editTransaction.dart';
 
@@ -108,13 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   margin: const EdgeInsets.only(left: 8),
                   child: Row(
                     children: [
-                      Text('支出合計',
-                          style: AppTextStyle.of(context, fontSize: 20)),
+                      Text('支出合計', style: TextStyle(fontSize: 20)),
                       const SizedBox(width: 20),
                       Text(
                           TransactionClass.formatNum(
                               homeTransactionList.balance),
-                          style: AppTextStyle.of(context,
+                          style: TextStyle(
                               fontSize: 20,
                               color: homeTransactionList.balance < 0
                                   ? const Color(0xFFB71C1C)

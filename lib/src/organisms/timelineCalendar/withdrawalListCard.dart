@@ -4,7 +4,6 @@ import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 class WithdrawalListCard extends StatelessWidget {
   final List<WithdrawalData> displayWithdrawalData;
@@ -23,7 +22,7 @@ class WithdrawalListCard extends StatelessWidget {
                   ListTile(
                     title: Text(
                       '引落し予定',
-                      style: AppTextStyle.of(context,
+                      style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
                           color: Colors.black),
@@ -90,7 +89,7 @@ class WithdrawalListCard extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: AppTextStyle.of(context, fontSize: 15),
+            style: TextStyle(fontSize: 15),
             overflow: TextOverflow.ellipsis,
           ),
         ));

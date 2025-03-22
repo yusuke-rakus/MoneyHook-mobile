@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 class DescriptionPageLayer extends StatelessWidget {
   final bool secondVisible;
@@ -24,8 +23,8 @@ class DescriptionPageLayer extends StatelessWidget {
                   CenterWidget(
                       child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text('機能のご紹介',
-                              style: AppTextStyle.of(context, fontSize: 20)))),
+                          child:
+                              Text('機能のご紹介', style: TextStyle(fontSize: 20)))),
                   const SizedBox(height: 10),
                   CenterWidget(
                       color: Colors.white,
@@ -103,8 +102,7 @@ class DescriptionPageLayer extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             title,
-                            style: AppTextStyle.of(context,
-                                color: Colors.black, fontSize: 16),
+                            style: TextStyle(color: Colors.black, fontSize: 16),
                           )),
                       Container(
                           padding: const EdgeInsets.only(top: 10, bottom: 10),
@@ -114,7 +112,7 @@ class DescriptionPageLayer extends StatelessWidget {
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(description,
-                              style: AppTextStyle.of(context,
+                              style: TextStyle(
                                   color: Color(0xFF303030), fontSize: 12))),
                     ])))));
   }

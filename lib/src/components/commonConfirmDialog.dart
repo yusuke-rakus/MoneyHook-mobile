@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 AlertDialog commonConfirmDialog({
   required BuildContext context,
@@ -11,7 +10,7 @@ AlertDialog commonConfirmDialog({
   Function? secondaryFunction,
 }) {
   return AlertDialog(
-    title: Text(title, style: AppTextStyle.of(context, fontSize: 18)),
+    title: Text(title, style: TextStyle(fontSize: 18)),
     content: subTitle != null ? Text(subTitle) : null,
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(0.0))),

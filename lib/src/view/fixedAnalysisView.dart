@@ -8,7 +8,6 @@ import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
 import 'package:money_hooks/src/components/dataNotRegisteredBox.dart';
 import 'package:money_hooks/src/components/fixedAnalysisAccordion.dart';
 import 'package:money_hooks/src/dataLoader/transactionLoad.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 class FixedAnalysisView extends StatefulWidget {
@@ -131,8 +130,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                     child: Text.rich(TextSpan(children: [
                                       TextSpan(
                                           text: '可処分所得額',
-                                          style: AppTextStyle.of(context,
-                                              fontSize: 17)),
+                                          style: TextStyle(fontSize: 17)),
                                       WidgetSpan(
                                           alignment: PlaceholderAlignment.top,
                                           child: Icon(
@@ -147,7 +145,7 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                           (monthlyFixedIncome.disposableIncome +
                                               monthlyFixedSpending
                                                   .disposableIncome)),
-                                      style: AppTextStyle.of(context,
+                                      style: TextStyle(
                                           fontSize: 30,
                                           color: (monthlyFixedIncome
                                                           .disposableIncome +
@@ -175,12 +173,11 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                     children: [
                                       Text(
                                         '収入',
-                                        style: AppTextStyle.of(context,
-                                            fontSize: 20),
+                                        style: TextStyle(fontSize: 20),
                                       ),
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedIncome.disposableIncome)}',
-                                        style: AppTextStyle.of(context,
+                                        style: TextStyle(
                                             fontSize: 20,
                                             color: Color(0xFF1B5E20)),
                                       )
@@ -215,12 +212,11 @@ class _FixedAnalysis extends State<FixedAnalysisView> {
                                     children: [
                                       Text(
                                         '支出',
-                                        style: AppTextStyle.of(context,
-                                            fontSize: 20),
+                                        style: TextStyle(fontSize: 20),
                                       ),
                                       Text(
                                         '¥${TransactionClass.formatNum(monthlyFixedSpending.disposableIncome.abs())}',
-                                        style: AppTextStyle.of(context,
+                                        style: TextStyle(
                                             fontSize: 20,
                                             color: Color(0xFFB71C1C)),
                                       )

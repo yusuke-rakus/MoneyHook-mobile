@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/components/centerWidget.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 class Imagelayer extends StatelessWidget {
   final bool firstVisible;
@@ -31,7 +30,7 @@ class Imagelayer extends StatelessWidget {
                             Image.asset('images/color_logo.png',
                                 fit: BoxFit.contain),
                             Text('シンプル家計簿',
-                                style: AppTextStyle.of(context,
+                                style: TextStyle(
                                     fontSize: 35, color: Colors.white70))
                           ])),
                     )))),

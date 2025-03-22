@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 
 class TimelineChart extends StatefulWidget {
   const TimelineChart(this.data, {super.key});
@@ -38,7 +37,7 @@ class _TimelineChartState extends State<TimelineChart> {
               ) {
                 return BarTooltipItem(
                   '¥${TransactionClass.formatNum(rod.toY.toInt())}',
-                  AppTextStyle.of(context, color: Colors.grey),
+                  TextStyle(color: Colors.grey),
                 );
               },
             ),
@@ -60,10 +59,7 @@ class _TimelineChartState extends State<TimelineChart> {
   }
 
   Widget getTitles(double value, TitleMeta meta) {
-    var style = AppTextStyle.of(
-      context,
-      color: Colors.grey,
-    );
+    var style = TextStyle(color: Colors.grey);
     String text = widget.data[value.toInt()].transactionDate;
     return SideTitleWidget(
       space: 4,

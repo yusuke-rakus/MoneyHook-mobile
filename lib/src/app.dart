@@ -4,7 +4,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/class/screenLabelClass.dart';
 import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/screens/analysis.dart';
 import 'package:money_hooks/src/screens/homeScreen.dart';
@@ -33,11 +32,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.blue,
-        textTheme: TextTheme(
-            bodyMedium: TextStyle(fontFamily: "MPLUS1p", fontSize: 16)),
-        snackBarTheme: SnackBarThemeData(
-            contentTextStyle: TextStyle(
-                fontFamily: "MPLUS1p", fontSize: 16, color: Colors.white)),
+        fontFamily: 'MPLUS1p',
       ),
       home: const MyStatefulWidget(),
     );
@@ -219,7 +214,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         leading: Icon(icons, color: Colors.blue),
         title: Text(
           title,
-          style: AppTextStyle.of(context, color: Color(0xFF757575)),
+          style: const TextStyle(color: Color(0xFF757575)),
         ),
         onTap: () {
           setState(() {

@@ -1,6 +1,5 @@
 import "package:flutter/material.dart";
 import 'package:money_hooks/src/dataLoader/categoryLoad.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 
 import '../class/subCategoryClass.dart';
@@ -76,8 +75,7 @@ class _SelectSubCategory extends State<SelectSubCategory> {
                               child: Text(
                                 subCategoryList[index].subCategoryName,
                                 overflow: TextOverflow.ellipsis,
-                                style: AppTextStyle.of(
-                                  context,
+                                style: TextStyle(
                                   fontSize: 20.0,
                                 ),
                               ),
@@ -104,7 +102,7 @@ class _SelectSubCategory extends State<SelectSubCategory> {
               decoration: const InputDecoration(
                 labelText: 'サブカテゴリを作成',
               ),
-              style: AppTextStyle.of(context, fontSize: 20),
+              style: TextStyle(fontSize: 20),
               onSubmitted: (value) {
                 Navigator.pop(context);
                 Navigator.pop(context, {

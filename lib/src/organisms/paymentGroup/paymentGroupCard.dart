@@ -5,7 +5,6 @@ import 'package:money_hooks/icons/Wallet.dart';
 import 'package:money_hooks/src/class/response/groupByPaymentTransaction.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 import 'package:money_hooks/src/components/cardWidget.dart';
-import 'package:money_hooks/src/env/AppTextStyle.dart';
 import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/modals/editTransaction.dart';
 
@@ -148,7 +147,10 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
 
     return RichText(
       text: TextSpan(
-          style: AppTextStyle.of(context, color: Colors.black, fontSize: 18),
+          style: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(color: Colors.black, fontSize: 18),
           children: [
             WidgetSpan(
               child: paymentTypeId == null
@@ -161,7 +163,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
             const WidgetSpan(child: SizedBox(width: 10.0)),
             TextSpan(
                 text: TransactionClass.formatNum(paymentAmount.abs()),
-                style: AppTextStyle.of(context, color: Color(0xFFB71C1C)))
+                style: TextStyle(color: Color(0xFFB71C1C)))
           ]),
     );
   }
@@ -177,20 +179,22 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
                   opacity: 0.75,
                   child: RichText(
                     text: TextSpan(
-                        style: AppTextStyle.of(context, color: Colors.black),
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: Colors.black),
                         children: [
-                          TextSpan(
-                              text: '前月: ',
-                              style: AppTextStyle.of(context, fontSize: 13)),
+                          const TextSpan(
+                              text: '前月: ', style: TextStyle(fontSize: 13)),
                           TextSpan(
                               text:
                                   '¥${TransactionClass.formatNum(lastMonthSum.abs())}',
-                              style: AppTextStyle.of(context,
+                              style: TextStyle(
                                   fontSize: 16, color: Color(0xFFB71C1C))),
                           const TextSpan(text: ' ('),
                           TextSpan(
                             text: '${monthOverMonth.toString()}%',
-                            style: AppTextStyle.of(context,
+                            style: TextStyle(
                                 fontSize: 14,
                                 color: monthOverMonth <= 0.0
                                     ? const Color(0xFF1B5E20)
@@ -215,7 +219,7 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
   Widget _tableText(String value,
       {bool fixedFlg = false, bool isBold = false}) {
     return Text(
-        style: AppTextStyle.of(context,
+        style: TextStyle(
             fontSize: 14,
             color: fixedFlg ? const Color(0xFF616161) : Colors.black,
             fontWeight: isBold ? FontWeight.bold : FontWeight.normal),
