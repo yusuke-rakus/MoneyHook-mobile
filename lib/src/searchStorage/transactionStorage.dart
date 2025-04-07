@@ -44,7 +44,7 @@ class TransactionStorage {
     await db.collection('timeline_data').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          int transactionId = e['transaction_id'];
+          String transactionId = e['transaction_id'];
           String transactionDate = e['transaction_date'];
           int transactionSign = e['transaction_sign'];
           String transactionAmount = e['transaction_amount'].toString();

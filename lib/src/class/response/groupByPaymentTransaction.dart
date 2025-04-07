@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class Transaction {
-  late int transactionId;
+  late String transactionId;
   late String transactionName;
   late int transactionAmount;
   late DateTime transactionDate;

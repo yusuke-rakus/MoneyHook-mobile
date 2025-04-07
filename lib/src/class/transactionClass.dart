@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class TransactionClass {
   var userId = '';
-  int? transactionId;
+  String? transactionId;
   var transactionDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   var transactionSign = -1;
   num transactionAmount = 0;

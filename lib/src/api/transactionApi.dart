@@ -53,7 +53,7 @@ class transactionApi {
           // 成功
           List<TransactionClass> resultList = [];
           res.data['transaction_list'].forEach((value) {
-            int transactionId = value['transaction_id'];
+            String transactionId = value['transaction_id'];
             String transactionDate = value['transaction_date'];
             int transactionSign = value['transaction_sign'];
             String transactionAmount = value['transaction_amount'].toString();
