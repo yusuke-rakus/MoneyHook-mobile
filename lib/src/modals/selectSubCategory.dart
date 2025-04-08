@@ -11,7 +11,7 @@ class SelectSubCategory extends StatefulWidget {
       {super.key});
 
   final envClass env;
-  final int categoryId;
+  final String categoryId;
   final String categoryName;
 
   @override
@@ -21,7 +21,7 @@ class SelectSubCategory extends StatefulWidget {
 class _SelectSubCategory extends State<SelectSubCategory> {
   late List<SubCategoryClass> subCategoryList = [];
   late String categoryName;
-  late int categoryId;
+  late String categoryId;
   late envClass env;
 
   void setSubCategoryList(List<SubCategoryClass> responseList) {

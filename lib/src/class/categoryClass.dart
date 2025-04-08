@@ -1,10 +1,10 @@
 import 'package:money_hooks/src/class/subCategoryClass.dart';
 
 class CategoryClass {
-  var _categoryId;
-  var _categoryName;
-  var _subCategoryId;
-  var _subCategoryName;
+  String? _categoryId;
+  String? _categoryName;
+  String? _subCategoryId;
+  String? _subCategoryName;
   late List<SubCategoryClass> _subCategoryList;
 
   CategoryClass(this._categoryId, this._categoryName);

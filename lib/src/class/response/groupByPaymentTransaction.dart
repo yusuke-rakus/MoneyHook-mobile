@@ -5,9 +5,9 @@ class Transaction {
   late String transactionName;
   late int transactionAmount;
   late DateTime transactionDate;
-  late int categoryId;
+  late String categoryId;
   late String categoryName;
-  late int subCategoryId;
+  late String subCategoryId;
   late String subCategoryName;
   late bool fixedFlg;
 
@@ -38,10 +38,10 @@ class Transaction {
 }
 
 class Payment {
-  late int paymentId;
+  late String? paymentId;
   late String paymentName;
   late int paymentAmount;
-  late int? paymentTypeId;
+  late String? paymentTypeId;
   late String paymentTypeName;
   late bool isPaymentDueLater;
   late int? lastMonthSum;

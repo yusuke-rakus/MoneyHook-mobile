@@ -35,7 +35,7 @@ class MonthlyVariableData extends Response {
 }
 
 class MVCategoryClass {
-  late int categoryId;
+  late String categoryId;
   late String categoryName;
   late int categoryTotalAmount;
   late List<MVSubCategoryClass> subCategoryList;
@@ -82,7 +82,7 @@ class MVCategoryClass {
 }
 
 class MVSubCategoryClass {
-  late int subCategoryId;
+  late String subCategoryId;
   late String subCategoryName;
   late int subCategoryTotalAmount;
   late List<TransactionClass> transactionList;

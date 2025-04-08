@@ -1,9 +1,9 @@
 import 'package:money_hooks/src/class/response/response.dart';
 
 class PaymentResourceData extends Response {
-  late num? paymentId;
+  late String? paymentId;
   late String paymentName;
-  num? paymentTypeId;
+  String? paymentTypeId;
   int? paymentDate;
   int? closingDate;
   late String paymentNameError = "";

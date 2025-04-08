@@ -18,8 +18,8 @@ class CategoryLoad {
 
   /// 【サブカテゴリ一覧取得】データ
   static Future<void> getSubCategoryList(
-      String userId, int categoryId, Function setSubCategoryList) async {
-    await CategoryStorage.getSubCategoryListData(categoryId.toString())
+      String userId, String categoryId, Function setSubCategoryList) async {
+    await CategoryStorage.getSubCategoryListData(categoryId)
         .then((value) async {
       if (value.isEmpty) {
         await CategoryApi.getSubCategoryList(

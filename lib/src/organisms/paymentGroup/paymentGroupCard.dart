@@ -137,8 +137,8 @@ class _PaymentGroupCardState extends State<PaymentGroupCard> {
     );
   }
 
-  Widget _titleText(String paymentName, int paymentAmount, int? paymentTypeId,
-      bool isPaymentDueLater) {
+  Widget _titleText(String paymentName, int paymentAmount,
+      String? paymentTypeId, bool isPaymentDueLater) {
     Icon getIcon(bool isPaymentDueLater) {
       return isPaymentDueLater
           ? const Icon(Icons.credit_card_outlined)

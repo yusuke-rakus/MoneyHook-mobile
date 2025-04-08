@@ -58,12 +58,12 @@ class transactionApi {
             int transactionSign = value['transaction_sign'];
             String transactionAmount = value['transaction_amount'].toString();
             String transactionName = value['transaction_name'];
-            int categoryId = value['category_id'];
+            String categoryId = value['category_id'];
             String categoryName = value['category_name'];
-            int subCategoryId = value['sub_category_id'];
+            String subCategoryId = value['sub_category_id'];
             String subCategoryName = value['sub_category_name'];
             bool fixedFlg = value['fixed_flg'];
-            num? paymentId = value['payment_id'];
+            String? paymentId = value['payment_id'];
             String paymentName = value['payment_name'];
             resultList.add(TransactionClass.setTimelineFields(
                 transactionId,

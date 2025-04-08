@@ -35,7 +35,7 @@ class CategoryApi {
 
   /// サブカテゴリ一覧の取得
   static Future<void> getSubCategoryList(
-      String userId, int categoryId, Function setSubCategoryList) async {
+      String userId, String categoryId, Function setSubCategoryList) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get(

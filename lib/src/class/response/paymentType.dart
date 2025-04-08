@@ -1,7 +1,7 @@
 import 'package:money_hooks/src/class/response/response.dart';
 
 class PaymentTypeData extends Response {
-  num? paymentTypeId;
+  String? paymentTypeId;
   late String paymentTypeName;
   late bool isPaymentDueLater;
 

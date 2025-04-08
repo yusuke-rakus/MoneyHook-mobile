@@ -2,17 +2,17 @@ import 'package:intl/intl.dart';
 
 class MonthlyTransactionClass {
   var userId = '';
-  num? monthlyTransactionId;
+  String? monthlyTransactionId;
   var monthlyTransactionName = '';
   num monthlyTransactionSign = -1;
   num monthlyTransactionAmount = 0;
   num monthlyTransactionDate = 31;
-  num? categoryId;
+  String? categoryId;
   var categoryName = '';
-  num? subCategoryId;
+  String? subCategoryId;
   var subCategoryName = '';
   String? paymentName;
-  num? paymentId;
+  String? paymentId;
 
   bool includeFlg = true;
   bool isDisable = false;

@@ -34,7 +34,7 @@ class MonthlyFixedData extends Response {
 }
 
 class MFCategoryClass {
-  late int categoryId;
+  late String categoryId;
   late String categoryName;
   late int totalCategoryAmount;
   late List<TransactionClass> transactionList;

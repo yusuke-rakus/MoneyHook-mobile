@@ -115,12 +115,13 @@ class CategoryStorage {
   }
 
   static Future<CategoryClass> getDefaultValue() async {
-    CategoryClass category = CategoryClass.setDefaultValue(1, '食費', 1, 'なし');
+    CategoryClass category =
+        CategoryClass.setDefaultValue('1', '食費', '1', 'なし');
     await db.collection('defaultValue').doc('defaultValue').get().then((value) {
       if (value != null) {
-        category.categoryId = value['categoryId'];
+        category.categoryId = value['categoryId'].toString();
         category.categoryName = value['categoryName'];
-        category.subCategoryId = value['subCategoryId'];
+        category.subCategoryId = value['subCategoryId'].toString();
         category.subCategoryName = value['subCategoryName'];
       }
     });

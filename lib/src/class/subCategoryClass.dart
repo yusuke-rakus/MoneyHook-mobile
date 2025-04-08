@@ -1,7 +1,9 @@
+
+
 class SubCategoryClass {
-  var _subCategoryId;
-  var _subCategoryName;
-  var _enable;
+  String? _subCategoryId;
+  String? _subCategoryName;
+  bool? _enable;
 
   SubCategoryClass(this._subCategoryId, this._subCategoryName);
 

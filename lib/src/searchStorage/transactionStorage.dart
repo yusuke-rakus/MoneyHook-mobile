@@ -49,11 +49,11 @@ class TransactionStorage {
           int transactionSign = e['transaction_sign'];
           String transactionAmount = e['transaction_amount'].toString();
           String transactionName = e['transaction_name'];
-          int categoryId = e['category_id'];
+          String categoryId = e['category_id'];
           String categoryName = e['category_name'];
-          int subCategoryId = e['sub_category_id'];
+          String subCategoryId = e['sub_category_id'];
           String subCategoryName = e['sub_category_name'];
-          num? paymentId = e['payment_id'];
+          String? paymentId = e['payment_id'];
           String paymentName = e['payment_name'];
           bool fixedFlg = e['fixed_flg'];
           resultList.add(TransactionClass.setTimelineFields(

@@ -7,12 +7,12 @@ class TransactionClass {
   var transactionSign = -1;
   num transactionAmount = 0;
   var transactionName = '';
-  int? categoryId;
+  String? categoryId;
   var categoryName = '';
-  int? subCategoryId;
+  String? subCategoryId;
   var subCategoryName = '';
   var fixedFlg = false;
-  num? paymentId;
+  String? paymentId;
   String? paymentName;
   bool isDisable = false;
   String transactionNameError = '';
