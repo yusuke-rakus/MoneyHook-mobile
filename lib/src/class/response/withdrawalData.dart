@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 import 'package:money_hooks/src/class/response/response.dart';
 
 class WithdrawalData extends Response {
-  late int paymentId;
+  late String paymentId;
   late String paymentName;
   late int paymentDate;
   late DateTime? aggregationStartDate;
@@ -19,7 +19,7 @@ class WithdrawalData extends Response {
   ) : super('', '');
 
   WithdrawalData() : super('', '') {
-    paymentId = 0;
+    paymentId = "0";
     paymentName = "";
     paymentDate = 0;
     aggregationStartDate = null;

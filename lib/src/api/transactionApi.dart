@@ -64,7 +64,7 @@ class transactionApi {
             String subCategoryName = value['sub_category_name'];
             bool fixedFlg = value['fixed_flg'];
             String? paymentId = value['payment_id'];
-            String paymentName = value['payment_name'];
+            String? paymentName = value['payment_name'];
             resultList.add(TransactionClass.setTimelineFields(
                 transactionId,
                 transactionDate,

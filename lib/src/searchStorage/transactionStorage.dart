@@ -365,7 +365,7 @@ class TransactionStorage {
     await db.collection('withdrawal_amount_data').doc(id).get().then((value) {
       if (value != null) {
         value['data'].forEach((e) {
-          int paymentId = e['payment_id'];
+          String paymentId = e['payment_id'];
           String paymentName = e['payment_name'];
           int paymentDate = e['payment_date'];
           DateTime aggregationStartDate =
