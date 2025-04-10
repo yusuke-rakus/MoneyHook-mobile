@@ -1,6 +1,6 @@
 import '../../class/monthlyTransactionClass.dart';
 
-class monthlyTransactionValidation {
+class MonthlyTransactionValidation {
   static bool checkMonthlyTransaction(
       MonthlyTransactionClass monthlyTransaction) {
     // 未入力チェック

@@ -1,19 +1,19 @@
 import 'package:money_hooks/src/api/transactionApi.dart';
 import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/response/monthlyVariableData.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
 import 'package:money_hooks/src/dataLoader/registrationDate.dart';
-import 'package:money_hooks/src/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 class TransactionLoad {
   /// 【タイムライン画面】データ
-  static Future<void> getTimelineData(envClass env, Function setLoading,
+  static Future<void> getTimelineData(EnvClass env, Function setLoading,
       Function setSnackBar, Function setTimelineData) async {
     await TransactionStorage.getTimelineData(
             env.getJson().toString(), setLoading)
         .then((value) async {
       if (value.isEmpty || await isNeedApi()) {
-        await transactionApi.getTimelineData(
+        await TransactionApi.getTimelineData(
             env, setLoading, setSnackBar, setTimelineData);
         await setRegistrationDate();
       } else {
@@ -24,11 +24,11 @@ class TransactionLoad {
 
   /// 【タイムライン画面】グラフ
   static Future<void> getTimelineChart(
-      envClass env, Function setTimelineChart) async {
+      EnvClass env, Function setTimelineChart) async {
     await TransactionStorage.getTimelineChart(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty || await isNeedApi()) {
-        await transactionApi.getTimelineChart(env, setTimelineChart);
+        await TransactionApi.getTimelineChart(env, setTimelineChart);
         await setRegistrationDate();
       } else {
         setTimelineChart(value);
@@ -37,12 +37,12 @@ class TransactionLoad {
   }
 
   /// 【ホーム画面】データ
-  static Future<void> getHome(envClass env, Function setLoading,
+  static Future<void> getHome(EnvClass env, Function setLoading,
       Function setSnackBar, Function setHomeTransaction) async {
     await TransactionStorage.getHome(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty || await isNeedApi()) {
-        await transactionApi.getHome(
+        await TransactionApi.getHome(
             env, setLoading, setSnackBar, setHomeTransaction);
         await setRegistrationDate();
       } else {
@@ -53,22 +53,22 @@ class TransactionLoad {
 
   /// 取引名レコメンド
   static Future<void> getFrequentTransactionName(
-      envClass env, Function setRecommendList) async {
+      EnvClass env, Function setRecommendList) async {
     await TransactionStorage.getTransactionRecommendState()
         .then((activeState) async {
       if (activeState) {
-        await transactionApi.getFrequentTransactionName(env, setRecommendList);
+        await TransactionApi.getFrequentTransactionName(env, setRecommendList);
       }
     });
   }
 
   /// 【月別変動費画面】データ
-  static Future<void> getMonthlyVariableData(envClass env, Function setLoading,
+  static Future<void> getMonthlyVariableData(EnvClass env, Function setLoading,
       Function setSnackBar, Function setMonthlyVariable) async {
     await TransactionStorage.getMonthlyVariableData(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty) {
-        await transactionApi.getMonthlyVariableData(
+        await TransactionApi.getMonthlyVariableData(
             env, setLoading, setSnackBar, setMonthlyVariable);
       } else {
         setMonthlyVariable(
@@ -81,11 +81,11 @@ class TransactionLoad {
 
   /// 【月別固定費画面】収入データ
   static Future<void> getMonthlyFixedIncome(
-      envClass env, Function setMonthlyFixedIncome) async {
+      EnvClass env, Function setMonthlyFixedIncome) async {
     await TransactionStorage.getMonthlyFixedIncome(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty || await isNeedApi()) {
-        await transactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
+        await TransactionApi.getMonthlyFixedIncome(env, setMonthlyFixedIncome);
         await setRegistrationDate();
       } else {
         setMonthlyFixedIncome(
@@ -97,12 +97,12 @@ class TransactionLoad {
   }
 
   /// 【月別固定費画面】支出データ
-  static Future<void> getMonthlyFixedSpending(envClass env,
+  static Future<void> getMonthlyFixedSpending(EnvClass env,
       Function setSnackBar, Function setMonthlyFixedSpending) async {
     await TransactionStorage.getMonthlyFixedSpending(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty || await isNeedApi()) {
-        await transactionApi.getMonthlyFixedSpending(
+        await TransactionApi.getMonthlyFixedSpending(
             env, setSnackBar, setMonthlyFixedSpending);
         await setRegistrationDate();
       } else {
@@ -115,12 +115,12 @@ class TransactionLoad {
   }
 
   /// 【支払い方法画面】データ
-  static Future<void> getGroupByPayment(envClass env, Function setLoading,
+  static Future<void> getGroupByPayment(EnvClass env, Function setLoading,
       Function setSnackBar, Function setGroupByPaymentTransaction) async {
     await TransactionStorage.getGroupByPayment(env.getJson().toString())
         .then((value) async {
       if (value.isEmpty || await isNeedApi()) {
-        await transactionApi.getGroupByPayment(
+        await TransactionApi.getGroupByPayment(
             env, setLoading, setSnackBar, setGroupByPaymentTransaction);
         await setRegistrationDate();
       } else {
@@ -135,12 +135,12 @@ class TransactionLoad {
 
   /// 【タイムライン画面】データ
   static Future<void> getMonthlyWithdrawalAmount(
-      envClass env, Function setSnackBar, Function setWithdrawalList) async {
+      EnvClass env, Function setSnackBar, Function setWithdrawalList) async {
     await TransactionStorage.getMonthlyWithdrawalAmount(
             env.getJson().toString())
         .then((value) async {
       if (value.isEmpty || await isNeedApi()) {
-        await transactionApi.getMonthlyWithdrawalAmount(
+        await TransactionApi.getMonthlyWithdrawalAmount(
             env, setSnackBar, setWithdrawalList);
         await setRegistrationDate();
       } else {

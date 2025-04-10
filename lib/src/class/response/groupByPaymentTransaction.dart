@@ -80,7 +80,7 @@ class Payment {
 class GroupByPaymentTransaction {
   late int totalSpending = 0;
   late int lastMonthTotalSpending = 0;
-  late double? monthOverMonthSum = null;
+  double? monthOverMonthSum;
   late List<Payment> paymentList = [];
 
   GroupByPaymentTransaction.init(

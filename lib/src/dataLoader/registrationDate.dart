@@ -1,4 +1,4 @@
-import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 const String registrationDate = 'REGISTRATION_DATE';
@@ -10,12 +10,12 @@ Future<String?> getRegistrationDate() async {
 
 Future<void> setRegistrationDate() async {
   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  prefs.setString(registrationDate, envClass.getToday());
+  prefs.setString(registrationDate, EnvClass.getToday());
 }
 
 Future<bool> isNeedApi() async {
   String? registrationDate = await getRegistrationDate();
-  if (registrationDate == envClass.getToday()) {
+  if (registrationDate == EnvClass.getToday()) {
     return false;
   } else {
     return true;

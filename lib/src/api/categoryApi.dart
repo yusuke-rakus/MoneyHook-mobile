@@ -3,7 +3,7 @@ import 'package:money_hooks/src/class/categoryClass.dart';
 import 'package:money_hooks/src/class/subCategoryClass.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
-import '../env/envClass.dart';
+import '../common/env/envClass.dart';
 import 'api.dart';
 
 class CategoryApi {
@@ -62,7 +62,7 @@ class CategoryApi {
 
   /// カテゴリ一覧の取得(サブカテゴリ含む)
   static Future<void> getCategoryWithSubCategoryList(
-      envClass env, setSnackBar, Function setCategoryList) async {
+      EnvClass env, setSnackBar, Function setCategoryList) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get(
@@ -97,7 +97,7 @@ class CategoryApi {
 
   /// サブカテゴリの表示・非表示
   static Future<void> editSubCategory(
-      envClass env, SubCategoryClass subCategory, int categoryId) async {
+      EnvClass env, SubCategoryClass subCategory, int categoryId) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.post(

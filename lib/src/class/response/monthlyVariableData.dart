@@ -47,11 +47,11 @@ class MVCategoryClass {
       required this.subCategoryList});
 
   MVCategoryClass.init(Map<String, dynamic> category,
-      List<MVSubCategoryClass> MVSubCategoryList) {
+      List<MVSubCategoryClass> mVSubCategoryList) {
     categoryId = category['category_id'];
     categoryName = category['category_name'];
     categoryTotalAmount = category['category_total_amount'];
-    subCategoryList = MVSubCategoryList;
+    subCategoryList = mVSubCategoryList;
   }
 
   Map<String, dynamic> toJson() {

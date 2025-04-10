@@ -3,7 +3,7 @@ import 'package:money_hooks/src/api/api.dart';
 import 'package:money_hooks/src/api/validation/paymentResourceValidation.dart';
 import 'package:money_hooks/src/class/response/paymentResource.dart';
 import 'package:money_hooks/src/class/response/paymentType.dart';
-import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/paymentResourceStorage.dart';
 
 class PaymentResourceApi {
@@ -11,7 +11,7 @@ class PaymentResourceApi {
 
   /// 支払い方法一覧の取得
   static Future<void> getPaymentResourceList(
-      envClass env, Function setPaymentResourceList) async {
+      EnvClass env, Function setPaymentResourceList) async {
     await Api.getHeader().then((option) async {
       try {
         Response res =
@@ -127,7 +127,7 @@ class PaymentResourceApi {
 
   /// 支払い種類の取得
   static Future<void> getPaymentType(
-      envClass env, Function setPaymentResourceList) async {
+      EnvClass env, Function setPaymentResourceList) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio

@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:money_hooks/src/api/userApi.dart';
-import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
 
 class Api {
   static late final String rootURI;
@@ -13,7 +13,7 @@ class Api {
   static Future<void> initialize() async {
     const localUri = String.fromEnvironment("ROOT_URI");
     if (localUri.isNotEmpty) {
-      rootURI = "${localUri}/api";
+      rootURI = "$localUri/api";
     } else {
       final remoteConfig = FirebaseRemoteConfig.instance;
       await remoteConfig.setConfigSettings(RemoteConfigSettings(
@@ -37,7 +37,7 @@ class Api {
       final String? token = value;
       final String? email = user.email;
 
-      if (envClass.enableFirebaseAuth()) {
+      if (EnvClass.enableFirebaseAuth()) {
         return Options(headers: {'Authorization': token});
       }
 

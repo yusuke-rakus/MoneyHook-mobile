@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/src/class/response/withdrawalData.dart';
-import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../class/transactionClass.dart';
@@ -89,7 +89,7 @@ class TransactionStorage {
 
   static void deleteTimelineDataWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'timeline_data${env.getJson()}';
     await db.collection('timeline_data').doc(id).delete();
   }
@@ -124,7 +124,7 @@ class TransactionStorage {
 
   static void deleteTimelineChartWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'timeline_chart${env.getJson()}';
     await db.collection('timeline_chart').doc(id).delete();
   }
@@ -157,7 +157,7 @@ class TransactionStorage {
 
   static void deleteHomeDataWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'home_data${env.getJson()}';
     await db.collection('home_data').doc(id).delete();
   }
@@ -227,7 +227,7 @@ class TransactionStorage {
 
   static void deleteMonthlyVariableDataWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'monthly_variable_data${env.getJson()}';
     await db.collection('monthly_variable_data').doc(id).delete();
   }
@@ -268,7 +268,7 @@ class TransactionStorage {
 
   static void deleteMonthlyFixedIncomeWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'monthly_fixed_income_data${env.getJson()}';
     await db.collection('monthly_fixed_income_data').doc(id).delete();
   }
@@ -306,7 +306,7 @@ class TransactionStorage {
 
   static void deleteMonthlyFixedSpendingWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'monthly_fixed_spending_data${env.getJson()}';
     await db.collection('monthly_fixed_spending_data').doc(id).delete();
   }
@@ -351,7 +351,7 @@ class TransactionStorage {
 
   static void deleteGroupByPaymentDataWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'group_payment_data${env.getJson()}';
     await db.collection('group_by_payment').doc(id).delete();
   }
@@ -400,7 +400,7 @@ class TransactionStorage {
 
   static void deleteMonthlyWithdrawalAmountDataWithParam(
       String userId, String transactionDate) async {
-    envClass env = envClass.initNew(userId, transactionDate);
+    EnvClass env = EnvClass.initNew(userId, transactionDate);
     final id = 'withdrawal_amount${env.getJson()}';
     await db.collection('withdrawal_amount_data').doc(id).delete();
   }

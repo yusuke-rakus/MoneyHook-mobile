@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
 
-class searchTransactionValidation {
+class SearchTransactionValidation {
   static bool checkTransaction(
       TransactionClass transaction, Function setSnackBar) {
     // 未入力チェック

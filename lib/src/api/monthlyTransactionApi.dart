@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:money_hooks/src/api/validation/monthlyTransactionValidation.dart';
 import 'package:money_hooks/src/class/monthlyTransactionClass.dart';
-import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/monthlyTransactionStorage.dart';
 
 import '../searchStorage/categoryStorage.dart';
@@ -11,7 +11,7 @@ class MonthlyTransactionApi {
   static String rootURI = '${Api.rootURI}/fixed';
 
   /// 月次取引の取得
-  static Future<void> getFixed(envClass env, Function setMonthlyTransactionList,
+  static Future<void> getFixed(EnvClass env, Function setMonthlyTransactionList,
       Function setLoading, Function setSnackBar) async {
     await Api.getHeader().then((option) async {
       try {
@@ -56,8 +56,8 @@ class MonthlyTransactionApi {
       Function setSnackBar,
       Function setDisable) async {
     setDisable();
-    if (monthlyTransactionValidation
-        .checkMonthlyTransaction(monthlyTransaction)) {
+    if (MonthlyTransactionValidation.checkMonthlyTransaction(
+        monthlyTransaction)) {
       setDisable();
       return;
     }
@@ -93,8 +93,8 @@ class MonthlyTransactionApi {
       Function setSnackBar,
       Function setDisable) async {
     setDisable();
-    if (monthlyTransactionValidation
-        .checkMonthlyTransaction(monthlyTransaction)) {
+    if (MonthlyTransactionValidation.checkMonthlyTransaction(
+        monthlyTransaction)) {
       setDisable();
       return;
     }

@@ -2,7 +2,7 @@ import 'package:money_hooks/src/api/categoryApi.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 
 import '../class/categoryClass.dart';
-import '../env/envClass.dart';
+import '../common/env/envClass.dart';
 
 class CategoryLoad {
   /// 【カテゴリ一覧取得】データ
@@ -32,7 +32,7 @@ class CategoryLoad {
 
   /// 【サブカテゴリ一覧取得】データ
   static Future<void> getCategoryWithSubCategoryList(
-      envClass env,
+      EnvClass env,
       Function setLoading,
       Function setSnackBar,
       Function setCategoryList) async {

@@ -3,19 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:money_hooks/src/api/userApi.dart';
 import 'package:money_hooks/src/class/screenLabelClass.dart';
-import 'package:money_hooks/src/components/customFloatingButtonLocation.dart';
-import 'package:money_hooks/src/env/envClass.dart';
-import 'package:money_hooks/src/screens/analysis.dart';
-import 'package:money_hooks/src/screens/homeScreen.dart';
-import 'package:money_hooks/src/screens/loading.dart';
-import 'package:money_hooks/src/screens/login.dart';
-import 'package:money_hooks/src/screens/paymentGroup.dart';
-import 'package:money_hooks/src/screens/settings.dart';
-import 'package:money_hooks/src/screens/timelineScreen.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
+import 'package:money_hooks/src/common/widgets/commonSnackBar.dart';
+import 'package:money_hooks/src/features/analysis/analysis.dart';
+import 'package:money_hooks/src/features/home/homeScreen.dart';
+import 'package:money_hooks/src/features/loading/loading.dart';
+import 'package:money_hooks/src/features/login/login.dart';
+import 'package:money_hooks/src/features/paymentGroup/paymentGroup.dart';
+import 'package:money_hooks/src/features/settings/settings.dart';
+import 'package:money_hooks/src/features/timeline/timelineScreen.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyStatefulWidget extends StatefulWidget {
-  const MyStatefulWidget({Key? key}) : super(key: key);
+  const MyStatefulWidget({super.key});
 
   @override
   State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
@@ -51,7 +51,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   bool isLogin = false;
   bool isLoading = false;
-  late envClass env;
+  late EnvClass env;
   final ScreenLabel homeLabel = ScreenLabel("ホーム", Icons.home_filled);
   final ScreenLabel timelineLabel = ScreenLabel("タイムライン", Icons.show_chart);
   final ScreenLabel analyticsLabel =
@@ -126,7 +126,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 } else {
                   // ホーム画面へ
                   setState(() {
-                    env = envClass.setUserId(userId);
+                    env = EnvClass.setUserId(userId);
                   });
                   setScreenItems();
                 }

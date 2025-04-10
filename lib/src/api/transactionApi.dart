@@ -6,16 +6,16 @@ import 'package:money_hooks/src/class/response/monthlyFixedData.dart';
 import 'package:money_hooks/src/class/response/monthlyVariableData.dart';
 import 'package:money_hooks/src/class/response/withdrawalData.dart';
 import 'package:money_hooks/src/class/transactionClass.dart';
-import 'package:money_hooks/src/env/envClass.dart';
+import 'package:money_hooks/src/common/env/envClass.dart';
 import 'package:money_hooks/src/searchStorage/categoryStorage.dart';
 import 'package:money_hooks/src/searchStorage/transactionStorage.dart';
 
 import 'api.dart';
 
-class transactionApi {
+class TransactionApi {
   static String rootURI = '${Api.rootURI}/transaction';
 
-  static Future<void> getHome(envClass env, Function setLoading,
+  static Future<void> getHome(EnvClass env, Function setLoading,
       Function setSnackBar, Function setHomeTransaction) async {
     setLoading();
 
@@ -39,7 +39,7 @@ class transactionApi {
     });
   }
 
-  static Future<void> getTimelineData(envClass env, Function setLoading,
+  static Future<void> getTimelineData(EnvClass env, Function setLoading,
       Function setSnackBar, Function setTimelineData) async {
     setLoading();
 
@@ -92,7 +92,7 @@ class transactionApi {
   }
 
   static Future<void> getTimelineChart(
-      envClass env, Function setTimelineChart) async {
+      EnvClass env, Function setTimelineChart) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getMonthlySpendingData',
@@ -116,7 +116,7 @@ class transactionApi {
     });
   }
 
-  static Future<void> getMonthlyVariableData(envClass env, Function setLoading,
+  static Future<void> getMonthlyVariableData(EnvClass env, Function setLoading,
       setSnackBar, Function setMonthlyVariable) async {
     setLoading();
     await Api.getHeader().then((option) async {
@@ -159,7 +159,7 @@ class transactionApi {
   }
 
   static Future<void> getMonthlyFixedIncome(
-      envClass env, Function setMonthlyFixedIncome) async {
+      EnvClass env, Function setMonthlyFixedIncome) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getMonthlyFixedIncome',
@@ -190,7 +190,7 @@ class transactionApi {
     });
   }
 
-  static Future<void> getMonthlyFixedSpending(envClass env,
+  static Future<void> getMonthlyFixedSpending(EnvClass env,
       Function setSnackBar, Function setMonthlyFixedSpending) async {
     await Api.getHeader().then((option) async {
       try {
@@ -231,7 +231,7 @@ class transactionApi {
       Function setDisable,
       Function setSnackBar) async {
     setDisable();
-    if (transactionValidation.checkTransaction(transaction)) {
+    if (TransactionValidation.checkTransaction(transaction)) {
       setDisable();
       return;
     }
@@ -270,7 +270,7 @@ class transactionApi {
       Function setDisable,
       Function setSnackBar) async {
     setDisable();
-    if (transactionValidation.checkTransaction(transaction)) {
+    if (TransactionValidation.checkTransaction(transaction)) {
       setDisable();
       return;
     }
@@ -304,7 +304,7 @@ class transactionApi {
 
   /// 取引の削除
   static Future<void> deleteTransaction(
-      envClass env,
+      EnvClass env,
       TransactionClass transaction,
       Function backNavigation,
       Function setDisable,
@@ -334,7 +334,7 @@ class transactionApi {
 
   /// レコメンドリストの取得
   static Future<void> getFrequentTransactionName(
-      envClass env, Function setRecommendList) async {
+      EnvClass env, Function setRecommendList) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio
@@ -365,11 +365,11 @@ class transactionApi {
 
   /// カテゴリ毎の支出総額を取得
   static Future<void> getTotalSpending(
-      envClass env,
+      EnvClass env,
       TransactionClass transaction,
       Function setTransactionList,
       Function setSnackBar) async {
-    if (searchTransactionValidation.checkTransaction(
+    if (SearchTransactionValidation.checkTransaction(
         transaction, setSnackBar)) {
       return;
     }
@@ -410,7 +410,7 @@ class transactionApi {
   }
 
   /// 支払い方法毎の支出を取得
-  static Future<void> getGroupByPayment(envClass env, Function setLoading,
+  static Future<void> getGroupByPayment(EnvClass env, Function setLoading,
       Function setSnackBar, Function setPaymentGroupTransaction) async {
     setLoading();
 
@@ -444,7 +444,7 @@ class transactionApi {
 
   /// タイムラインカレンダーの引落し予定を取得
   static Future<void> getMonthlyWithdrawalAmount(
-      envClass env, Function setSnackBar, Function setWithdrawalList) async {
+      EnvClass env, Function setSnackBar, Function setWithdrawalList) async {
     await Api.getHeader().then((option) async {
       try {
         Response res = await Api.dio.get('$rootURI/getMonthlyWithdrawalAmount',
