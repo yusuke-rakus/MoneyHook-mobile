@@ -1,4 +1,4 @@
-import 'package:money_hooks/class/response/paymentResource.dart';
+import 'package:money_hooks/common/class/paymentResource.dart';
 
 class PaymentResourceValidation {
   static bool checkPaymentResource(PaymentResourceData payment) {

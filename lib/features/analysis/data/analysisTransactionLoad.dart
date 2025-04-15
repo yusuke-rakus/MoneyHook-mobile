@@ -1,5 +1,5 @@
-import 'package:money_hooks/class/response/monthlyFixedData.dart';
-import 'package:money_hooks/class/response/monthlyVariableData.dart';
+import 'package:money_hooks/features/analysis/class/monthlyFixedData.dart';
+import 'package:money_hooks/features/analysis/class/monthlyVariableData.dart';
 import 'package:money_hooks/common/data/registrationDate.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/features/analysis/data/analysisTransactionApi.dart';

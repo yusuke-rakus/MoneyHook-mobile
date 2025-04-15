@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:money_hooks/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/common/data/api.dart';
 import 'package:money_hooks/features/editTransaction/data/category/editTranCategoryStorage.dart';
 import 'package:money_hooks/features/settings/data/monthlyTransaction/monthlyTransactionValidation.dart';

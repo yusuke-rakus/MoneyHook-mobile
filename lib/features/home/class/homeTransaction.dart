@@ -1,4 +1,4 @@
-import 'package:money_hooks/class/response/response.dart';
+import 'package:money_hooks/common/class/response.dart';
 
 class HomeTransaction extends Response {
   late int balance = 0;

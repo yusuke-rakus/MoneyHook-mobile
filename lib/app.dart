@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:money_hooks/class/screenLabelClass.dart';
+import 'package:money_hooks/common/class/screenLabelClass.dart';
 import 'package:money_hooks/common/data/data/transaction/commonTransactionStorage.dart';
 import 'package:money_hooks/common/data/data/user/userApi.dart';
 import 'package:money_hooks/common/env/envClass.dart';

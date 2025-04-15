@@ -1,5 +1,5 @@
-import 'package:money_hooks/class/response/response.dart';
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/common/class/response.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 
 class MonthlyVariableData extends Response {
   late int totalVariable = 0;

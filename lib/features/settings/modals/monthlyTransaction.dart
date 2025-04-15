@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/common/data/data/monthlyTransaction/commonMonthlyTransactionApi.dart';
 import 'package:money_hooks/common/data/data/monthlyTransaction/commonMonthlyTransactionLoad.dart';
 import 'package:money_hooks/common/env/envClass.dart';

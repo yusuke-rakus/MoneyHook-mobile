@@ -1,5 +1,5 @@
 import 'package:localstore/localstore.dart';
-import 'package:money_hooks/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
 
 class CommonMonthlyTransactionStorage {
   static final db = Localstore.instance;

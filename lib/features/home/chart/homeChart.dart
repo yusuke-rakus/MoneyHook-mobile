@@ -1,6 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:money_hooks/class/response/homeTransaction.dart';
+import 'package:money_hooks/features/home/class/homeTransaction.dart';
 
 class HomeChart extends StatefulWidget {
   const HomeChart({super.key, required this.data, required this.colorList});

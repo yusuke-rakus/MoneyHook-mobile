@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:money_hooks/class/response/paymentResource.dart';
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/common/class/paymentResource.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/data/data/category/commonCategoryStorage.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceLoad.dart';
 import 'package:money_hooks/common/data/data/transaction/commonTransactionLoad.dart';

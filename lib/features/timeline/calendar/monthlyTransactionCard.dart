@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/class/monthlyTransactionClass.dart';
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/widgets/cardWidget.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:money_hooks/class/categoryClass.dart';
-import 'package:money_hooks/class/subCategoryClass.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
+import 'package:money_hooks/common/class/subCategoryClass.dart';
 import 'package:money_hooks/common/data/data/category/commonCategoryStorage.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';

@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:money_hooks/class/categoryClass.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';
 import 'package:money_hooks/common/widgets/gradientBar.dart';

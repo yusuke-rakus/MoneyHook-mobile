@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
-import 'package:money_hooks/class/monthlyTransactionClass.dart';
-import 'package:money_hooks/class/response/paymentResource.dart';
+import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/common/class/paymentResource.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceLoad.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';

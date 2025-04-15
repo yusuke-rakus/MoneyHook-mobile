@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:intl/intl.dart';
-import 'package:money_hooks/class/response/monthlyVariableData.dart';
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/features/analysis/class/monthlyVariableData.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/appBarMonth.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';

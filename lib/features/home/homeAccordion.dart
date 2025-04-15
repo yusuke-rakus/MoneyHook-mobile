@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/widgets/dataNotRegisteredBox.dart';
 
 class HomeAccordion extends StatelessWidget {

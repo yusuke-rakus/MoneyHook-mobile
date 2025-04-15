@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:money_hooks/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
 import 'package:money_hooks/common/data/api.dart';
 import 'package:money_hooks/common/data/data/monthlyTransaction/commonMonthlyTransactionStorage.dart';
 import 'package:money_hooks/common/env/envClass.dart';

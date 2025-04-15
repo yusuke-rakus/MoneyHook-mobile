@@ -1,4 +1,4 @@
-import 'package:money_hooks/class/categoryClass.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/features/settings/data/hideSubCategory/hideSubCategoryApi.dart';
 import 'package:money_hooks/features/settings/data/hideSubCategory/hideSubCategoryStorage.dart';

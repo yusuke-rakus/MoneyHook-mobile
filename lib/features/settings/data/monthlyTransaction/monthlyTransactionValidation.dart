@@ -1,4 +1,4 @@
-import 'package:money_hooks/class/monthlyTransactionClass.dart';
+import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
 
 class MonthlyTransactionValidation {
   static bool checkMonthlyTransaction(

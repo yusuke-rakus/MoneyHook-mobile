@@ -1,4 +1,4 @@
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 
 class TransactionValidation {
   static bool checkTransaction(TransactionClass transaction) {

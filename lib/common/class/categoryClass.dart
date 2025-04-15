@@ -1,4 +1,4 @@
-import 'package:money_hooks/class/subCategoryClass.dart';
+import 'package:money_hooks/common/class/subCategoryClass.dart';
 
 class CategoryClass {
   String? _categoryId;

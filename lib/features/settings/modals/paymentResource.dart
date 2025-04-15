@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/class/response/paymentResource.dart';
-import 'package:money_hooks/class/response/paymentType.dart';
+import 'package:money_hooks/common/class/paymentResource.dart';
+import 'package:money_hooks/features/settings/class/paymentType.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceApi.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceLoad.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceStorage.dart';

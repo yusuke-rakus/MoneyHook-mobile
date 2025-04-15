@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 
 class SearchTransactionValidation {
   static bool checkTransaction(

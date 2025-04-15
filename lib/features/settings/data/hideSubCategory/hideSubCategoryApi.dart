@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:money_hooks/class/categoryClass.dart';
-import 'package:money_hooks/class/subCategoryClass.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
+import 'package:money_hooks/common/class/subCategoryClass.dart';
 import 'package:money_hooks/common/data/api.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/features/editTransaction/data/category/editTranCategoryStorage.dart';

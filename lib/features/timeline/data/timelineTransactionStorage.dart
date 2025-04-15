@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
-import 'package:money_hooks/class/response/withdrawalData.dart';
-import 'package:money_hooks/class/transactionClass.dart';
+import 'package:money_hooks/features/timeline/class/withdrawalData.dart';
+import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 
 class TimelineTransactionStorage {

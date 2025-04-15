@@ -1,6 +1,6 @@
 import 'package:localstore/localstore.dart';
-import 'package:money_hooks/class/categoryClass.dart';
-import 'package:money_hooks/class/subCategoryClass.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
+import 'package:money_hooks/common/class/subCategoryClass.dart';
 
 class HideSubCategoryStorage {
   static final db = Localstore.instance;

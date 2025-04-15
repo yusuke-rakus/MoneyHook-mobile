@@ -1,5 +1,5 @@
 import 'package:intl/intl.dart';
-import 'package:money_hooks/class/response/response.dart';
+import 'package:money_hooks/common/class/response.dart';
 
 class WithdrawalData extends Response {
   late String paymentId;

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:money_hooks/class/response/paymentResource.dart';
-import 'package:money_hooks/class/response/paymentType.dart';
+import 'package:money_hooks/common/class/paymentResource.dart';
+import 'package:money_hooks/features/settings/class/paymentType.dart';
 import 'package:money_hooks/common/data/api.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/features/settings/data/paymentResource/paymentResourceValidation.dart';

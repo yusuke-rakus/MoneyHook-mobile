@@ -1,5 +1,5 @@
 import 'package:localstore/localstore.dart';
-import 'package:money_hooks/class/categoryClass.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
 import 'package:money_hooks/features/editTransaction/data/category/editTranCategoryStorage.dart';
 import 'package:money_hooks/features/settings/data/hideSubCategory/hideSubCategoryStorage.dart';
 
