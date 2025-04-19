@@ -1,8 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:localstore/localstore.dart';
-import 'package:money_hooks/features/timeline/class/withdrawalData.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
+import 'package:money_hooks/features/timeline/class/withdrawalData.dart';
 
 class TimelineTransactionStorage {
   static final db = Localstore.instance;
@@ -28,7 +28,7 @@ class TimelineTransactionStorage {
           String subCategoryId = e['sub_category_id'];
           String subCategoryName = e['sub_category_name'];
           String? paymentId = e['payment_id'];
-          String paymentName = e['payment_name'];
+          String? paymentName = e['payment_name'];
           bool fixedFlg = e['fixed_flg'];
           resultList.add(TransactionClass.setTimelineFields(
               transactionId,
