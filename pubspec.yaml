@@ -77,3 +77,6 @@ flutter:
     - family: Wallet
       fonts:
         - asset: assets/icons/Wallet.ttf
+    - family: Dot
+      fonts:
+        - asset: assets/icons/Dot.ttf

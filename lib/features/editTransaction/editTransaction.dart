@@ -14,6 +14,7 @@ import 'package:money_hooks/common/widgets/commonSnackBar.dart';
 import 'package:money_hooks/common/widgets/gradientBar.dart';
 import 'package:money_hooks/common/widgets/gradientButton.dart';
 import 'package:money_hooks/features/editTransaction/data/transaction/editTransactionApi.dart';
+import 'package:money_hooks/features/editTransaction/icons/Dot.dart';
 import 'package:money_hooks/features/editTransaction/selectCategory/selectCategory.dart';
 import 'package:switcher/core/switcher_size.dart';
 import 'package:switcher/switcher.dart';
@@ -35,6 +36,7 @@ class _EditTransaction extends State<EditTransaction> {
   late EnvClass env;
   late List<TransactionClass> recommendList = [];
   late List<PaymentResourceData> paymentResourceList = [];
+  int recommendShowCount = 5;
 
   final TextEditingController nameController = TextEditingController();
 
@@ -335,44 +337,48 @@ class _EditTransaction extends State<EditTransaction> {
                   CenterWidget(
                     padding: const EdgeInsets.only(left: 40, right: 10),
                     alignment: Alignment.centerLeft,
-                    child: Wrap(
-                        children: recommendList
-                            .take(5)
-                            .map<Widget>(
-                              (tran) => Container(
-                                height: 23,
-                                margin: const EdgeInsets.only(top: 3, right: 5),
-                                child: OutlinedButton(
-                                  onPressed: () => setState(() {
-                                    nameController.text = tran.transactionName;
-                                    transaction.transactionName =
-                                        tran.transactionName;
-                                    transaction.categoryId = tran.categoryId;
-                                    transaction.categoryName =
-                                        tran.categoryName;
-                                    transaction.subCategoryId =
-                                        tran.subCategoryId;
-                                    transaction.subCategoryName =
-                                        tran.subCategoryName;
-                                    transaction.fixedFlg = tran.fixedFlg;
-                                    transaction.paymentId = tran.paymentId;
-                                  }),
-                                  style: OutlinedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(18.0),
-                                      ),
-                                      foregroundColor: Colors.black87,
-                                      backgroundColor: Colors.black12,
-                                      side: const BorderSide(
-                                          color: Colors.white)),
-                                  child: Text(
-                                    tran.transactionName,
+                    child: Wrap(children: [
+                      ...recommendList.take(recommendShowCount).map<Widget>(
+                            (tran) => Container(
+                              height: 23,
+                              margin: const EdgeInsets.only(top: 3, right: 5),
+                              child: OutlinedButton(
+                                onPressed: () => setState(() {
+                                  nameController.text = tran.transactionName;
+                                  transaction.transactionName =
+                                      tran.transactionName;
+                                  transaction.categoryId = tran.categoryId;
+                                  transaction.categoryName = tran.categoryName;
+                                  transaction.subCategoryId =
+                                      tran.subCategoryId;
+                                  transaction.subCategoryName =
+                                      tran.subCategoryName;
+                                  transaction.fixedFlg = tran.fixedFlg;
+                                  transaction.paymentId = tran.paymentId;
+                                }),
+                                style: OutlinedButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
                                   ),
+                                  foregroundColor: Colors.black87,
+                                  backgroundColor: Colors.black12,
+                                  side: const BorderSide(color: Colors.white),
                                 ),
+                                child: Text(tran.transactionName),
                               ),
-                            )
-                            .toList()),
+                            ),
+                          ),
+                      Visibility(
+                        visible: recommendShowCount <= recommendList.length,
+                        child: IconButton(
+                          splashRadius: 14,
+                          onPressed: () => setState(() {
+                            recommendShowCount += 5;
+                          }),
+                          icon: const Icon(Dot.dot, size: 20.0),
+                        ),
+                      )
+                    ]),
                   ),
                   // カテゴリ
                   CenterWidget(

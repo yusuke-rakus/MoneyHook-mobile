@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/features/timeline/class/timelineTransaction.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/appBarMonth.dart';
@@ -10,6 +10,8 @@ import 'package:money_hooks/common/widgets/customFloatingActionButtonLocation.da
 import 'package:money_hooks/common/widgets/gradientBar.dart';
 import 'package:money_hooks/features/timeline/calendar/timelineCalendar.dart';
 import 'package:money_hooks/features/timeline/chart/timelineChart.dart';
+import 'package:money_hooks/features/timeline/class/sortType.dart';
+import 'package:money_hooks/features/timeline/class/timelineTransaction.dart';
 import 'package:money_hooks/features/timeline/data/timelineTransactionApi.dart';
 import 'package:money_hooks/features/timeline/data/timelineTransactionLoad.dart';
 import 'package:money_hooks/features/timeline/timelineList.dart';
@@ -30,6 +32,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
   late List<TransactionClass> timelineChart = [];
   late bool _isLoading;
   late bool timelineMode = true;
+  List<SortType> sortTypes = SortType.values;
+  SortType sortType = SortType.values.first;
+  late List<CategoryClass> categoryList = [];
+  CategoryClass? filterCategory;
 
   void setLoading() {
     setState(() => _isLoading = !_isLoading);
@@ -41,7 +47,11 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   void setTimelineData(List<TransactionClass> responseList) {
-    setState(() => timelineList = TimelineTransaction.init(responseList));
+    setState(() {
+      timelineList = TimelineTransaction.init(responseList);
+      timelineList.transactionList =
+          sortTimelineList(sortType, timelineList.transactionList);
+    });
   }
 
   void setTimelineChart(List<TransactionClass> responseList) {
@@ -65,6 +75,38 @@ class _TimelineScreenState extends State<TimelineScreen> {
     TimelineTransactionApi.getTimelineData(
         env, setLoading, setSnackBar, setTimelineData);
     TimelineTransactionApi.getTimelineChart(env, setTimelineChart);
+  }
+
+  List<TransactionClass> sortTimelineList(
+      SortType sortType, List<TransactionClass> transactionList) {
+    List<TransactionClass> newTransactionList;
+    switch (sortType) {
+      case SortType.dateDesc:
+        newTransactionList = List.from(transactionList)
+          ..sort((a, b) => b.transactionDate.compareTo(a.transactionDate));
+        break;
+      case SortType.dateAsc:
+        newTransactionList = List.from(transactionList)
+          ..sort((a, b) => a.transactionDate.compareTo(b.transactionDate));
+        break;
+      case SortType.amountAsc:
+        newTransactionList = List.from(transactionList)
+          ..sort((a, b) => (b.transactionSign * b.transactionAmount)
+              .compareTo(a.transactionSign * a.transactionAmount));
+        break;
+      case SortType.amountDesc:
+        newTransactionList = List.from(transactionList)
+          ..sort((a, b) => (a.transactionSign * a.transactionAmount)
+              .compareTo(b.transactionSign * b.transactionAmount));
+        break;
+    }
+    return newTransactionList;
+  }
+
+  Future<void> setCategories(List<CategoryClass> responseList) async {
+    setState(() {
+      categoryList = responseList;
+    });
   }
 
   @override
@@ -111,6 +153,33 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     height: 180,
                     child: TimelineChart(timelineChart),
                   ),
+                  CenterWidget(
+                      padding: EdgeInsets.only(left: 30, right: 30),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          DropdownButton(
+                              style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontFamily: DefaultTextStyle.of(context)
+                                      .style
+                                      .fontFamily),
+                              focusColor: Colors.transparent,
+                              value: sortType,
+                              items: sortTypes
+                                  .map((SortType item) => DropdownMenuItem(
+                                      value: item, child: Text(item.label)))
+                                  .toList(),
+                              onChanged: (SortType? value) {
+                                setState(() {
+                                  sortType = value!;
+                                  timelineList.transactionList =
+                                      sortTimelineList(
+                                          value, timelineList.transactionList);
+                                });
+                              }),
+                        ],
+                      )),
                   CenterWidget(
                     child: _isLoading
                         ? CommonLoadingAnimation.build()
