@@ -103,12 +103,6 @@ class _TimelineScreenState extends State<TimelineScreen> {
     return newTransactionList;
   }
 
-  Future<void> setCategories(List<CategoryClass> responseList) async {
-    setState(() {
-      categoryList = responseList;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -157,28 +151,32 @@ class _TimelineScreenState extends State<TimelineScreen> {
                       padding: EdgeInsets.only(left: 30, right: 30),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          DropdownButton(
-                              style: TextStyle(
-                                  color: Colors.grey[700],
-                                  fontFamily: DefaultTextStyle.of(context)
-                                      .style
-                                      .fontFamily),
-                              focusColor: Colors.transparent,
-                              value: sortType,
-                              items: sortTypes
-                                  .map((SortType item) => DropdownMenuItem(
-                                      value: item, child: Text(item.label)))
-                                  .toList(),
-                              onChanged: (SortType? value) {
-                                setState(() {
-                                  sortType = value!;
-                                  timelineList.transactionList =
-                                      sortTimelineList(
-                                          value, timelineList.transactionList);
-                                });
-                              }),
-                        ],
+                        children: _isLoading
+                            ? []
+                            : [
+                                DropdownButton(
+                                    style: TextStyle(
+                                        color: Colors.grey[700],
+                                        fontFamily: DefaultTextStyle.of(context)
+                                            .style
+                                            .fontFamily),
+                                    focusColor: Colors.transparent,
+                                    value: sortType,
+                                    items: sortTypes
+                                        .map((SortType item) =>
+                                            DropdownMenuItem(
+                                                value: item,
+                                                child: Text(item.label)))
+                                        .toList(),
+                                    onChanged: (SortType? value) {
+                                      setState(() {
+                                        sortType = value!;
+                                        timelineList.transactionList =
+                                            sortTimelineList(value,
+                                                timelineList.transactionList);
+                                      });
+                                    }),
+                              ],
                       )),
                   CenterWidget(
                     child: _isLoading
