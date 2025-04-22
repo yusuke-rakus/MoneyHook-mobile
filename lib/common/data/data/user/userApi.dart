@@ -19,7 +19,6 @@ class UserApi {
       String token, Function setSnackBar, Function setLoginItem) async {
     final userId = convHash(email);
     final hashedToken = convHash(token);
-    saveToken(hashedToken);
 
     try {
       Response res = await Api.dio.post('$rootURI/googleSignIn',
@@ -41,7 +40,6 @@ class UserApi {
   }
 
   static Future<String?> updateToken(String userId, String hashedToken) async {
-    saveToken(hashedToken);
     try {
       Response res = await Api.dio.post('$rootURI/googleSignIn',
           data: {'userId': userId},
@@ -62,7 +60,6 @@ class UserApi {
 
   // サインアウト処理
   static void signOut() {
-    deleteToken();
     CommonTranTransactionStorage.allDelete();
     CommonMonthlyTransactionStorage.allDelete();
     CommonCategoryStorage.allDelete();
@@ -72,22 +69,5 @@ class UserApi {
   static String convHash(String value) {
     List<int> tokenBytes = utf8.encode(value);
     return sha256.convert(tokenBytes).toString();
-  }
-
-  /// 端末ストレージの操作メソッド
-  static Future<String?> getToken() async {
-    return await db
-        .collection('user')
-        .doc('token')
-        .get()
-        .then((value) => value?['data']);
-  }
-
-  static void saveToken(String token) async {
-    await db.collection('user').doc('token').set({'data': token});
-  }
-
-  static void deleteToken() async {
-    await db.collection('user').delete();
   }
 }

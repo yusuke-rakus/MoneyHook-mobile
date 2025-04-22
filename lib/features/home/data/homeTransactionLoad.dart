@@ -7,15 +7,15 @@ class HomeTransactionLoad {
   /// 【ホーム画面】データ
   static Future<void> getHome(EnvClass env, Function setLoading,
       Function setSnackBar, Function setHomeTransaction) async {
-    await HomeTransactionStorage.getHome(env.getJson().toString())
-        .then((value) async {
-      if (value.isEmpty || await isNeedApi()) {
-        await HomeTransactionApi.getHome(
-            env, setLoading, setSnackBar, setHomeTransaction);
-        await setRegistrationDate();
-      } else {
-        setHomeTransaction(value['balance'], value['category_list']);
-      }
-    });
+    Map<String, dynamic> value =
+        await HomeTransactionStorage.getHome(env.getJson().toString());
+
+    if (value.isEmpty || await isNeedApi()) {
+      await HomeTransactionApi.getHome(
+          env, setLoading, setSnackBar, setHomeTransaction);
+      await setRegistrationDate();
+    } else {
+      setHomeTransaction(value['balance'], value['category_list']);
+    }
   }
 }

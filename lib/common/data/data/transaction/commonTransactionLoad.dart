@@ -6,12 +6,12 @@ class CommonTranTransactionLoad {
   /// 取引名レコメンド
   static Future<void> getFrequentTransactionName(
       EnvClass env, Function setRecommendList) async {
-    await CommonTranTransactionStorage.getTransactionRecommendState()
-        .then((activeState) async {
-      if (activeState) {
-        await CommonTransactionApi.getFrequentTransactionName(
-            env, setRecommendList);
-      }
-    });
+    bool activeState =
+        await CommonTranTransactionStorage.getTransactionRecommendState();
+
+    if (activeState) {
+      await CommonTransactionApi.getFrequentTransactionName(
+          env, setRecommendList);
+    }
   }
 }

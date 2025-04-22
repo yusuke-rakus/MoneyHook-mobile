@@ -4,7 +4,6 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:money_hooks/common/data/data/user/userApi.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 
 class Api {
@@ -33,33 +32,18 @@ class Api {
 
   static Future<Options?> getHeader() async {
     User? user = FirebaseAuth.instance.currentUser;
-    Options? options = await user?.getIdToken().then((value) async {
-      final String? token = value;
-      final String? email = user.email;
+    final String? token = await user?.getIdToken();
+    final String? email = user!.email;
 
-      if (EnvClass.enableFirebaseAuth()) {
-        return Options(headers: {'Authorization': token});
-      }
+    if (EnvClass.enableFirebaseAuth()) {
+      return Options(headers: {'Authorization': token});
+    }
 
-      if (email == null || token == null) {
-        return null;
-      } else {
-        final String userId = convHash(email);
-        final String hashedToken = convHash(token);
-        // ローカルにあるトークンと比較
-        String? localToken = await UserApi.getToken();
-        if (localToken == null) {
-          return null;
-        }
-        // 異なる場合：GoogleSignIn
-        if (hashedToken.compareTo(localToken) != 0) {
-          await UserApi.updateToken(userId, hashedToken);
-        }
-
-        return Options(headers: {'Authorization': hashedToken});
-      }
-    });
-    return options;
+    if (email == null || token == null) {
+      return null;
+    } else {
+      return Options(headers: {'Authorization': convHash(email)});
+    }
   }
 
   static String errorMessage(DioException error) {

@@ -59,6 +59,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   final ScreenLabel paymentGroupLabel =
       ScreenLabel("支払い方法", Icons.credit_card_outlined);
   final ScreenLabel settingsLabel = ScreenLabel("設定", Icons.settings);
+  final int navigationBreakpointWidth = 768;
 
   void setScreenItems() {
     setState(() {
@@ -99,44 +100,38 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Future(() {
       // *** デバッグ用async ***
       FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-        setState(() {
-          _selectedIndex = 0;
-        });
+        setState(() => _selectedIndex = 0);
         if (user == null) {
           // ログイン画面へ
           setLoginItem();
-        } else {
-          user.getIdToken().then((value) {
-            final String? token = value;
-            final String? email = user.email;
+          return;
+        }
+        String? value = await user.getIdToken();
+        final String? token = value;
+        final String? email = user.email;
 
-            if (token != null && email != null) {
-              // ローディング画面の表示
-              setLoadingItem();
-              UserApi.googleSignIn(
-                      context, email, token, setSnackBar, setLoginItem)
-                  .then((userId) {
-                CommonTranTransactionStorage.allDelete();
-                if (userId == null) {
-                  setSnackBar('ログインエラーが発生しました');
-                  // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
-                  UserApi.signOut();
-                  // ログイン画面へ
-                  setLoginItem();
-                } else {
-                  // ホーム画面へ
-                  setState(() {
-                    env = EnvClass.setUserId(userId);
-                  });
-                  setScreenItems();
-                }
-              });
-            } else {
-              // ログイン画面へ
-              setLoginItem();
-              FirebaseAuth.instance.signOut();
-            }
-          });
+        if (token == null && email == null) {
+          // ログイン画面へ
+          setLoginItem();
+          FirebaseAuth.instance.signOut();
+          return;
+        }
+
+        // ローディング画面の表示
+        setLoadingItem();
+        String? userId = await UserApi.googleSignIn(
+            context, email!, token!, setSnackBar, setLoginItem);
+        CommonTranTransactionStorage.allDelete();
+        if (userId == null) {
+          setSnackBar('ログインエラーが発生しました');
+          // Googleサインインは成功するも独自サインインに失敗した場合、サインアウト
+          UserApi.signOut();
+          // ログイン画面へ
+          setLoginItem();
+        } else {
+          // ホーム画面へ
+          setState(() => env = EnvClass.setUserId(userId));
+          setScreenItems();
         }
       });
     });
@@ -149,7 +144,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         style: Theme.of(context).textTheme.bodyMedium!,
         child: Row(
           children: [
-            isLogin && MediaQuery.of(context).size.width > 768
+            isLogin &&
+                    MediaQuery.of(context).size.width >
+                        navigationBreakpointWidth
                 ? Drawer(
                     width: 250,
                     child: ListView(
@@ -176,7 +173,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ],
         ),
       ),
-      bottomNavigationBar: isLogin && MediaQuery.of(context).size.width <= 768
+      bottomNavigationBar: isLogin &&
+              MediaQuery.of(context).size.width <= navigationBreakpointWidth
           ? BottomNavigationBar(
               unselectedFontSize: 10,
               selectedFontSize: 10,
