@@ -49,4 +49,9 @@ class WithdrawalData extends Response {
       'withdrawal_amount': withdrawalAmount
     };
   }
+
+  @override
+  String toString() {
+    return '$paymentDate, $paymentName, $withdrawalAmount';
+  }
 }

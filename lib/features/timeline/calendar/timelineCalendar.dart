@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:money_hooks/common/class/monthlyTransactionClass.dart';
-import 'package:money_hooks/features/timeline/class/timelineTransaction.dart';
-import 'package:money_hooks/features/timeline/class/withdrawalData.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/data/data/monthlyTransaction/commonMonthlyTransactionLoad.dart';
 import 'package:money_hooks/common/env/envClass.dart';
@@ -13,6 +11,8 @@ import 'package:money_hooks/common/widgets/dataNotRegisteredBox.dart';
 import 'package:money_hooks/features/timeline/calendar/calendarTimelineListCard.dart';
 import 'package:money_hooks/features/timeline/calendar/monthlyTransactionCard.dart';
 import 'package:money_hooks/features/timeline/calendar/withdrawalListCard.dart';
+import 'package:money_hooks/features/timeline/class/timelineTransaction.dart';
+import 'package:money_hooks/features/timeline/class/withdrawalData.dart';
 import 'package:money_hooks/features/timeline/data/timelineTransactionLoad.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -50,12 +50,12 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
 
     num spendSum = 0;
     num incomeSum = 0;
-    widget.timelines.transactionList.forEach((value) {
+    for (var value in widget.timelines.transactionList) {
       if (today == value.transactionDate) {
         spendSum += value.transactionSign == -1 ? value.transactionAmount : 0;
         incomeSum += value.transactionSign == 1 ? value.transactionAmount : 0;
       }
-    });
+    }
     return (spendSum, incomeSum);
   }
 
@@ -63,11 +63,11 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
     String today = DateFormat('yyyy-MM-dd').format(day);
     List<TransactionClass> resultList = [];
 
-    widget.timelines.transactionList.forEach((value) {
+    for (var value in widget.timelines.transactionList) {
       if (today == value.transactionDate) {
         resultList.add(value);
       }
-    });
+    }
     return resultList;
   }
 
@@ -79,6 +79,17 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
     setState(() => withdrawalList = resultList);
   }
 
+  List<WithdrawalData> _selectWithdrawalAmount(DateTime date) {
+    List<WithdrawalData> withdrawals = [];
+
+    for (var value in withdrawalList) {
+      if (date.day == value.paymentDate) {
+        withdrawals.add(value);
+      }
+    }
+    return withdrawals;
+  }
+
   (num, num, List<MonthlyTransactionClass>, List<WithdrawalData>)
       _selectMonthlyTransactionAmount(DateTime date) {
     DateTime lastDate = widget.env.getLastDayOfMonth();
@@ -88,7 +99,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
     List<MonthlyTransactionClass> monthlyTransactions = [];
     List<WithdrawalData> withdrawals = [];
 
-    monthlyTransactionList.forEach((value) {
+    for (var value in monthlyTransactionList) {
       // 今月の予定を集計する
       if (lastDate.month == date.month) {
         if (lastDate.day == date.day &&
@@ -110,8 +121,8 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
           monthlyTransactions.add(value);
         }
       }
-    });
-    withdrawalList.forEach((value) {
+    }
+    for (var value in withdrawalList) {
       // 今月の予定を集計する
       if (lastDate.month == date.month) {
         if (lastDate.day == date.day && value.paymentDate >= lastDate.day) {
@@ -122,7 +133,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
           withdrawals.add(value);
         }
       }
-    });
+    }
     return (spendSum, incomeSum, monthlyTransactions, withdrawals);
   }
 
@@ -172,7 +183,8 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                         setState(() {
                           selectedDate = selectedDay;
                           displayMonthlyTransactions = [];
-                          displayWithdrawalList = [];
+                          displayWithdrawalList =
+                              _selectWithdrawalAmount(selectedDay);
                           transactions = _getTransactionForDate(selectedDay);
                         });
                       }),
@@ -311,8 +323,7 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
   }
 
   Widget _buildDetail() {
-    return displayMonthlyTransactions.isNotEmpty ||
-            displayWithdrawalList.isNotEmpty
+    return displayMonthlyTransactions.isNotEmpty
         ? ListView(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -323,9 +334,17 @@ class _TimelineCalendarState extends State<TimelineCalendar> {
                   displayWithdrawalData: displayWithdrawalList,
                 )
               ])
-        : CalendarTimelineListCard(
-            env: widget.env,
-            timelineList: transactions,
-            setReload: widget.setReload);
+        : ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+                CalendarTimelineListCard(
+                    env: widget.env,
+                    timelineList: transactions,
+                    setReload: widget.setReload),
+                WithdrawalListCard(
+                  displayWithdrawalData: displayWithdrawalList,
+                )
+              ]);
   }
 }
