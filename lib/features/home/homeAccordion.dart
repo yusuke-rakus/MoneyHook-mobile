@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/widgets/dataNotRegisteredBox.dart';
+import 'package:money_hooks/features/home/class/homeTransaction.dart';
 
 class HomeAccordion extends StatelessWidget {
   const HomeAccordion(
       {super.key, required this.homeTransactionList, required this.colorList});
 
-  final List<dynamic> homeTransactionList;
+  final List<Category> homeTransactionList;
   final List<Color> colorList;
 
   @override
@@ -36,24 +37,24 @@ class HomeAccordion extends StatelessWidget {
                               )),
                           const WidgetSpan(child: SizedBox(width: 7.5)),
                           TextSpan(
-                              text: homeTransactionList[index]
-                                  ['category_name']),
+                              text: homeTransactionList[index].categoryName),
                         ]),
                       ),
                       Text(
-                        '¥${TransactionClass.formatNum(homeTransactionList[index]['category_total_amount'].abs())}',
+                        '¥${TransactionClass.formatNum(homeTransactionList[index].categoryTotalAmount.abs())}',
                       ),
                     ],
                   ),
                   textColor: Colors.black,
-                  children: homeTransactionList[index]['sub_category_list']
+                  children: homeTransactionList[index]
+                      .subCategoryList
                       .map<Widget>((value) => ListTile(
                               title: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(value['sub_category_name']),
+                              Text(value.subCategoryName),
                               Text(
-                                  '¥${TransactionClass.formatNum(value['sub_category_total_amount'].abs())}'),
+                                  '¥${TransactionClass.formatNum(value.subCategoryTotalAmount.abs())}'),
                             ],
                           )))
                       .toList(),

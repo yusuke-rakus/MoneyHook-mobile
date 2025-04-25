@@ -7,34 +7,39 @@ import 'package:money_hooks/features/timeline/data/timelineTransactionStorage.da
 
 class TimelineTransactionLoad {
   /// 【タイムライン画面】データ
-  static Future<void> getTimelineData(EnvClass env, Function setLoading,
-      Function setSnackBar, Function setTimelineData) async {
+  static Future<List<TransactionClass>> getTimelineData(
+      EnvClass env, Function setLoading, Function setSnackBar) async {
+    List<TransactionClass> transactions = [];
+
     List<TransactionClass> value =
         await TimelineTransactionStorage.getTimelineData(
             env.getJson().toString(), setLoading);
 
     if (value.isEmpty || await isNeedApi()) {
-      await TimelineTransactionApi.getTimelineData(
-          env, setLoading, setSnackBar, setTimelineData);
+      transactions = await TimelineTransactionApi.getTimelineData(
+          env, setLoading, setSnackBar);
       await setRegistrationDate();
     } else {
-      setTimelineData(value);
+      transactions = value;
     }
+    return transactions;
   }
 
   /// 【タイムライン画面】グラフ
-  static Future<void> getTimelineChart(
-      EnvClass env, Function setTimelineChart) async {
+  static Future<List<TransactionClass>> getTimelineChart(EnvClass env) async {
+    List<TransactionClass> transactions = [];
+
     List<TransactionClass> value =
         await TimelineTransactionStorage.getTimelineChart(
             env.getJson().toString());
 
     if (value.isEmpty || await isNeedApi()) {
-      await TimelineTransactionApi.getTimelineChart(env, setTimelineChart);
+      transactions = await TimelineTransactionApi.getTimelineChart(env);
       await setRegistrationDate();
     } else {
-      setTimelineChart(value);
+      transactions = value;
     }
+    return transactions;
   }
 
   /// 【タイムライン画面】データ

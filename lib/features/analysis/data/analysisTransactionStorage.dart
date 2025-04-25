@@ -10,12 +10,13 @@ class AnalysisTransactionStorage {
     final id = 'monthly_variable_data$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
 
-    await db.collection('monthly_variable_data').doc(id).get().then((value) {
-      if (value != null) {
-        resultMap['total_variable'] = value['total_variable'];
-        resultMap['monthly_variable_list'] = value['monthly_variable_list'];
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('monthly_variable_data').doc(id).get();
+    if (value != null) {
+      resultMap['total_variable'] = value['total_variable'];
+      resultMap['monthly_variable_list'] = value['monthly_variable_list'];
+    }
+
     return resultMap;
   }
 
@@ -44,16 +45,14 @@ class AnalysisTransactionStorage {
     final id = 'monthly_fixed_income_data$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
 
-    await db
-        .collection('monthly_fixed_income_data')
-        .doc(id)
-        .get()
-        .then((value) {
-      if (value != null) {
-        resultMap['disposable_income'] = value['disposable_income'];
-        resultMap['monthly_fixed_list'] = value['monthly_fixed_list'];
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('monthly_fixed_income_data').doc(id).get();
+
+    if (value != null) {
+      resultMap['disposable_income'] = value['disposable_income'];
+      resultMap['monthly_fixed_list'] = value['monthly_fixed_list'];
+    }
+
     return resultMap;
   }
 
@@ -85,16 +84,14 @@ class AnalysisTransactionStorage {
     final id = 'monthly_fixed_spending_data$param';
     Map<String, dynamic> resultMap = <String, dynamic>{};
 
-    await db
-        .collection('monthly_fixed_spending_data')
-        .doc(id)
-        .get()
-        .then((value) {
-      if (value != null) {
-        resultMap['disposable_income'] = value['disposable_income'];
-        resultMap['monthly_fixed_list'] = value['monthly_fixed_list'];
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('monthly_fixed_spending_data').doc(id).get();
+
+    if (value != null) {
+      resultMap['disposable_income'] = value['disposable_income'];
+      resultMap['monthly_fixed_list'] = value['monthly_fixed_list'];
+    }
+
     return resultMap;
   }
 

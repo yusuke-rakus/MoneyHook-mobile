@@ -1,26 +1,26 @@
 import 'package:money_hooks/common/data/registrationDate.dart';
 import 'package:money_hooks/common/env/envClass.dart';
+import 'package:money_hooks/features/paymentGroup/class/groupByPaymentTransaction.dart';
 import 'package:money_hooks/features/paymentGroup/data/paymentGroupTransactionApi.dart';
 import 'package:money_hooks/features/paymentGroup/data/paymentGroupTransactionStorage.dart';
 
 class PaymentGroupTransactionLoad {
   /// 【支払い方法画面】データ
-  static Future<void> getGroupByPayment(EnvClass env, Function setLoading,
-      Function setSnackBar, Function setGroupByPaymentTransaction) async {
-    Map<String, dynamic> value =
+  static Future<GroupByPaymentTransaction> getGroupByPayment(
+      EnvClass env, Function setLoading, Function setSnackBar) async {
+    GroupByPaymentTransaction transaction = GroupByPaymentTransaction();
+
+    GroupByPaymentTransaction value =
         await PaymentGroupTransactionStorage.getGroupByPayment(
             env.getJson().toString());
 
-    if (value.isEmpty || await isNeedApi()) {
-      await PaymentGroupTransactionApi.getGroupByPayment(
-          env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+    if (value.paymentList.isEmpty || await isNeedApi()) {
+      transaction = await PaymentGroupTransactionApi.getGroupByPayment(
+          env, setLoading, setSnackBar);
       await setRegistrationDate();
     } else {
-      setGroupByPaymentTransaction(
-          value['total_spending'],
-          value['last_month_total_spending'],
-          value['month_over_month_sum'],
-          value['payment_list']);
+      transaction = value;
     }
+    return transaction;
   }
 }

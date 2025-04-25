@@ -16,19 +16,20 @@ class CommonPaymentResourceStorage {
 
     List<PaymentResourceData> resultList = [];
 
-    await db.collection('payment_resource_list').doc(id).get().then((value) {
-      if (value != null) {
-        value['data'].forEach((e) {
-          resultList.add(PaymentResourceData.init(
-            e['payment_id'].toString(),
-            e['payment_name'],
-            e['payment_type_id'].toString(),
-            e['payment_date'],
-            e['closing_date'],
-          ));
-        });
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('payment_resource_list').doc(id).get();
+    if (value != null) {
+      value['data'].forEach((e) {
+        resultList.add(PaymentResourceData.init(
+          e['payment_id'].toString(),
+          e['payment_name'],
+          e['payment_type_id'].toString(),
+          e['payment_date'],
+          e['closing_date'],
+        ));
+      });
+    }
+
     return resultList;
   }
 

@@ -14,23 +14,24 @@ class CommonMonthlyTransactionStorage {
     final id = 'monthly_transaction_data$param';
     List<MonthlyTransactionClass> resultList = [];
 
-    await db.collection('monthly_transaction_data').doc(id).get().then((value) {
-      if (value != null) {
-        value['data'].forEach((e) {
-          resultList.add(MonthlyTransactionClass.setFields(
-              e['monthly_transaction_id'],
-              e['monthly_transaction_name'],
-              e['monthly_transaction_amount'],
-              e['monthly_transaction_date'],
-              e['category_id'],
-              e['sub_category_id'],
-              e['monthly_transaction_sign'],
-              e['category_name'],
-              e['sub_category_name'],
-              e['payment_id']));
-        });
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('monthly_transaction_data').doc(id).get();
+    if (value != null) {
+      value['data'].forEach((e) {
+        resultList.add(MonthlyTransactionClass.setFields(
+            e['monthly_transaction_id'],
+            e['monthly_transaction_name'],
+            e['monthly_transaction_amount'],
+            e['monthly_transaction_date'],
+            e['category_id'],
+            e['sub_category_id'],
+            e['monthly_transaction_sign'],
+            e['category_name'],
+            e['sub_category_name'],
+            e['payment_id']));
+      });
+    }
+
     return resultList;
   }
 

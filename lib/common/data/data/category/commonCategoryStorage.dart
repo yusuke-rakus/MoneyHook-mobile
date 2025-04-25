@@ -16,14 +16,15 @@ class CommonCategoryStorage {
   static Future<CategoryClass> getDefaultValue() async {
     CategoryClass category =
         CategoryClass.setDefaultValue('1', '食費', '1', 'なし');
-    await db.collection('defaultValue').doc('defaultValue').get().then((value) {
-      if (value != null) {
-        category.categoryId = value['categoryId'].toString();
-        category.categoryName = value['categoryName'];
-        category.subCategoryId = value['subCategoryId'].toString();
-        category.subCategoryName = value['subCategoryName'];
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('defaultValue').doc('defaultValue').get();
+    if (value != null) {
+      category.categoryId = value['categoryId'].toString();
+      category.categoryName = value['categoryName'];
+      category.subCategoryId = value['subCategoryId'].toString();
+      category.subCategoryName = value['subCategoryName'];
+    }
+
     return category;
   }
 

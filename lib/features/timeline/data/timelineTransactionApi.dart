@@ -9,10 +9,11 @@ import 'package:money_hooks/features/timeline/data/timelineTransactionStorage.da
 class TimelineTransactionApi {
   static String rootURI = '${Api.rootURI}/transaction';
 
-  static Future<void> getTimelineData(EnvClass env, Function setLoading,
-      Function setSnackBar, Function setTimelineData) async {
+  static Future<List<TransactionClass>> getTimelineData(
+      EnvClass env, Function setLoading, Function setSnackBar) async {
     setLoading();
 
+    List<TransactionClass> transactions = [];
     Options? option = await Api.getHeader();
     try {
       Response res = await Api.dio.get('$rootURI/getTimelineData',
@@ -49,7 +50,7 @@ class TimelineTransactionApi {
               paymentId,
               paymentName));
         });
-        setTimelineData(resultList);
+        transactions = resultList;
         TimelineTransactionStorage.saveStorageTimelineData(
             resultList, env.getJson().toString());
       }
@@ -58,10 +59,11 @@ class TimelineTransactionApi {
     } finally {
       setLoading();
     }
+    return transactions;
   }
 
-  static Future<void> getTimelineChart(
-      EnvClass env, Function setTimelineChart) async {
+  static Future<List<TransactionClass>> getTimelineChart(EnvClass env) async {
+    List<TransactionClass> transactions = [];
     Options? option = await Api.getHeader();
     try {
       Response res = await Api.dio.get('$rootURI/getMonthlySpendingData',
@@ -75,13 +77,14 @@ class TimelineTransactionApi {
           resultList.add(TransactionClass.setTimelineChart(
               value['month'], value['total_amount']));
         });
-        setTimelineChart(resultList);
+        transactions = resultList;
         TimelineTransactionStorage.saveStorageTimelineChart(
             resultList, env.getJson().toString());
       }
     } on DioException catch (e) {
       Api.errorMessage(e);
     }
+    return transactions;
   }
 
   /// タイムラインカレンダーの引落し予定を取得

@@ -15,37 +15,39 @@ class TimelineTransactionStorage {
     final id = 'timeline_data$param';
     List<TransactionClass> resultList = [];
 
-    await db.collection('timeline_data').doc(id).get().then((value) {
-      if (value != null) {
-        value['data'].forEach((e) {
-          String transactionId = e['transaction_id'];
-          String transactionDate = e['transaction_date'];
-          int transactionSign = e['transaction_sign'];
-          String transactionAmount = e['transaction_amount'].toString();
-          String transactionName = e['transaction_name'];
-          String categoryId = e['category_id'];
-          String categoryName = e['category_name'];
-          String subCategoryId = e['sub_category_id'];
-          String subCategoryName = e['sub_category_name'];
-          String? paymentId = e['payment_id'];
-          String? paymentName = e['payment_name'];
-          bool fixedFlg = e['fixed_flg'];
-          resultList.add(TransactionClass.setTimelineFields(
-              transactionId,
-              transactionDate,
-              transactionSign,
-              int.parse(transactionAmount),
-              transactionName,
-              categoryId,
-              categoryName,
-              subCategoryId,
-              subCategoryName,
-              fixedFlg,
-              paymentId,
-              paymentName));
-        });
-      }
-    }).then((value) => setLoading());
+    Map<String, dynamic>? value =
+        await db.collection('timeline_data').doc(id).get();
+    if (value != null) {
+      value['data'].forEach((e) {
+        String transactionId = e['transaction_id'];
+        String transactionDate = e['transaction_date'];
+        int transactionSign = e['transaction_sign'];
+        String transactionAmount = e['transaction_amount'].toString();
+        String transactionName = e['transaction_name'];
+        String categoryId = e['category_id'];
+        String categoryName = e['category_name'];
+        String subCategoryId = e['sub_category_id'];
+        String subCategoryName = e['sub_category_name'];
+        String? paymentId = e['payment_id'];
+        String? paymentName = e['payment_name'];
+        bool fixedFlg = e['fixed_flg'];
+        resultList.add(TransactionClass.setTimelineFields(
+            transactionId,
+            transactionDate,
+            transactionSign,
+            int.parse(transactionAmount),
+            transactionName,
+            categoryId,
+            categoryName,
+            subCategoryId,
+            subCategoryName,
+            fixedFlg,
+            paymentId,
+            paymentName));
+      });
+    }
+
+    setLoading();
     return resultList;
   }
 
@@ -73,14 +75,15 @@ class TimelineTransactionStorage {
     final id = 'timeline_chart$param';
     List<TransactionClass> resultList = [];
 
-    await db.collection('timeline_chart').doc(id).get().then((value) {
-      if (value != null) {
-        value['data'].forEach((e) {
-          resultList.add(TransactionClass.setTimelineChart(
-              e['transaction_date'], e['transaction_amount']));
-        });
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('timeline_chart').doc(id).get();
+    if (value != null) {
+      value['data'].forEach((e) {
+        resultList.add(TransactionClass.setTimelineChart(
+            e['transaction_date'], e['transaction_amount']));
+      });
+    }
+
     return resultList;
   }
 
@@ -109,27 +112,23 @@ class TimelineTransactionStorage {
     final id = 'withdrawal_amount$param';
     List<WithdrawalData> resultList = [];
 
-    await db.collection('withdrawal_amount_data').doc(id).get().then((value) {
-      if (value != null) {
-        value['data'].forEach((e) {
-          String paymentId = e['payment_id'];
-          String paymentName = e['payment_name'];
-          int paymentDate = e['payment_date'];
-          DateTime aggregationStartDate =
-              DateFormat('yyyy-MM-dd').parse(e['aggregation_start_date']);
-          DateTime aggregationEndDate =
-              DateFormat('yyyy-MM-dd').parse(e['aggregation_end_date']);
-          int withdrawalAmount = e['withdrawal_amount'];
-          resultList.add(WithdrawalData.init(
-              paymentId,
-              paymentName,
-              paymentDate,
-              aggregationStartDate,
-              aggregationEndDate,
-              withdrawalAmount));
-        });
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('withdrawal_amount_data').doc(id).get();
+    if (value != null) {
+      value['data'].forEach((e) {
+        String paymentId = e['payment_id'];
+        String paymentName = e['payment_name'];
+        int paymentDate = e['payment_date'];
+        DateTime aggregationStartDate =
+            DateFormat('yyyy-MM-dd').parse(e['aggregation_start_date']);
+        DateTime aggregationEndDate =
+            DateFormat('yyyy-MM-dd').parse(e['aggregation_end_date']);
+        int withdrawalAmount = e['withdrawal_amount'];
+        resultList.add(WithdrawalData.init(paymentId, paymentName, paymentDate,
+            aggregationStartDate, aggregationEndDate, withdrawalAmount));
+      });
+    }
+
     return resultList;
   }
 

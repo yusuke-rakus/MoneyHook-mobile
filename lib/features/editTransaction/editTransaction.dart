@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
 import 'package:money_hooks/common/class/paymentResource.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/data/data/category/commonCategoryStorage.dart';
@@ -59,14 +60,13 @@ class _EditTransaction extends State<EditTransaction> {
     CommonPaymentResourceLoad.getPaymentResource(env, setPaymentResourceList);
   }
 
-  void _setDefaultCategory(TransactionClass transaction) {
-    CommonCategoryStorage.getDefaultValue().then((category) {
-      setState(() {
-        transaction.categoryId = category.categoryId;
-        transaction.categoryName = category.categoryName;
-        transaction.subCategoryId = category.subCategoryId;
-        transaction.subCategoryName = category.subCategoryName;
-      });
+  Future<void> _setDefaultCategory(TransactionClass transaction) async {
+    CategoryClass category = await CommonCategoryStorage.getDefaultValue();
+    setState(() {
+      transaction.categoryId = category.categoryId;
+      transaction.categoryName = category.categoryName;
+      transaction.subCategoryId = category.subCategoryId;
+      transaction.subCategoryName = category.subCategoryName;
     });
   }
 

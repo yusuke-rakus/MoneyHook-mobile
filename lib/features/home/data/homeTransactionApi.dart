@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:money_hooks/common/data/api.dart';
 import 'package:money_hooks/common/env/envClass.dart';
+import 'package:money_hooks/features/home/class/homeTransaction.dart';
 import 'package:money_hooks/features/home/data/homeTransactionStorage.dart';
 
 class HomeTransactionApi {
@@ -18,7 +19,22 @@ class HomeTransactionApi {
         // 失敗
       } else {
         // 成功
-        setHomeTransaction(res.data['balance'], res.data['category_list']);
+        List<Category> categoryList = [];
+        res.data['category_list'].forEach((category) {
+          List<SubCategory> subCategoryList = [];
+          category['sub_category_list'].forEach((subCategory) {
+            subCategoryList.add(SubCategory(
+                subCategoryName: subCategory['sub_category_name'],
+                subCategoryTotalAmount:
+                    subCategory['sub_category_total_amount']));
+          });
+          categoryList.add(Category(
+              categoryName: category['category_name'],
+              categoryTotalAmount: category['category_total_amount'],
+              subCategoryList: subCategoryList));
+        });
+
+        setHomeTransaction(res.data['balance'], categoryList);
         HomeTransactionStorage.saveStorageHomeData(res.data['balance'],
             res.data['category_list'], env.getJson().toString());
       }

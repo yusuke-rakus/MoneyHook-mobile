@@ -1,16 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:money_hooks/common/data/api.dart';
 import 'package:money_hooks/common/env/envClass.dart';
+import 'package:money_hooks/features/paymentGroup/class/groupByPaymentTransaction.dart';
 import 'package:money_hooks/features/paymentGroup/data/paymentGroupTransactionStorage.dart';
 
 class PaymentGroupTransactionApi {
   static String rootURI = '${Api.rootURI}/transaction';
 
   /// 支払い方法毎の支出を取得
-  static Future<void> getGroupByPayment(EnvClass env, Function setLoading,
-      Function setSnackBar, Function setPaymentGroupTransaction) async {
+  static Future<GroupByPaymentTransaction> getGroupByPayment(
+      EnvClass env, Function setLoading, Function setSnackBar) async {
     setLoading();
 
+    GroupByPaymentTransaction tran = GroupByPaymentTransaction();
     Options? option = await Api.getHeader();
     try {
       Response res = await Api.dio.get('$rootURI/groupByPayment',
@@ -19,7 +21,11 @@ class PaymentGroupTransactionApi {
         // 失敗
       } else {
         // 成功
-        setPaymentGroupTransaction(
+        List<Payment> payments = [];
+        res.data['payment_list'].forEach((payment) {
+          payments.add(Payment.fromMap(payment));
+        });
+        tran = GroupByPaymentTransaction.init(
             res.data['total_spending'],
             res.data['last_month_total_spending'],
             res.data['month_over_month_sum'],
@@ -36,5 +42,6 @@ class PaymentGroupTransactionApi {
     } finally {
       setLoading();
     }
+    return tran;
   }
 }
