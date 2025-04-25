@@ -20,28 +20,27 @@ class MonthlyTransactionApi {
       return;
     }
 
-    await Api.getHeader().then((option) async {
-      try {
-        Response res = await Api.dio.post('$rootURI/addFixed',
-            data: monthlyTransaction.convertEditMonthlyTranJson(),
-            options: option);
-        if (res.statusCode != 200) {
-          // 失敗
-          setDisable();
-          setSnackBar(res.data['message']);
-        } else {
-          // 成功
-          if (monthlyTransaction.subCategoryId == null) {
-            EditTranCategoryStorage.deleteSubCategoryListWithParam(
-                monthlyTransaction.categoryId.toString());
-          }
-        }
-        backNavigation();
-      } on DioException catch (e) {
+    Options? option = await Api.getHeader();
+    try {
+      Response res = await Api.dio.post('$rootURI/addFixed',
+          data: monthlyTransaction.convertEditMonthlyTranJson(),
+          options: option);
+      if (res.statusCode != 200) {
+        // 失敗
         setDisable();
-        setSnackBar(Api.errorMessage(e));
+        setSnackBar(res.data['message']);
+      } else {
+        // 成功
+        if (monthlyTransaction.subCategoryId == null) {
+          EditTranCategoryStorage.deleteSubCategoryListWithParam(
+              monthlyTransaction.categoryId.toString());
+        }
       }
-    });
+      backNavigation();
+    } on DioException catch (e) {
+      setDisable();
+      setSnackBar(Api.errorMessage(e));
+    }
   }
 
   /// 月次取引の編集
@@ -57,28 +56,27 @@ class MonthlyTransactionApi {
       return;
     }
 
-    await Api.getHeader().then((option) async {
-      try {
-        Response res = await Api.dio.patch('$rootURI/editFixed',
-            data: monthlyTransaction.convertEditMonthlyTranJson(),
-            options: option);
-        if (res.statusCode != 200) {
-          // 失敗
-          setDisable();
-          setSnackBar(res.data['message']);
-        } else {
-          // 成功
-          if (monthlyTransaction.subCategoryId == null) {
-            EditTranCategoryStorage.deleteSubCategoryListWithParam(
-                monthlyTransaction.categoryId.toString());
-          }
-        }
-        backNavigation();
-      } on DioException catch (e) {
+    Options? option = await Api.getHeader();
+    try {
+      Response res = await Api.dio.patch('$rootURI/editFixed',
+          data: monthlyTransaction.convertEditMonthlyTranJson(),
+          options: option);
+      if (res.statusCode != 200) {
+        // 失敗
         setDisable();
-        setSnackBar(Api.errorMessage(e));
+        setSnackBar(res.data['message']);
+      } else {
+        // 成功
+        if (monthlyTransaction.subCategoryId == null) {
+          EditTranCategoryStorage.deleteSubCategoryListWithParam(
+              monthlyTransaction.categoryId.toString());
+        }
       }
-    });
+      backNavigation();
+    } on DioException catch (e) {
+      setDisable();
+      setSnackBar(Api.errorMessage(e));
+    }
   }
 
   /// 月次取引の削除
@@ -88,24 +86,23 @@ class MonthlyTransactionApi {
       Function setSnackBar,
       Function setDisable) async {
     setDisable();
-    await Api.getHeader().then((option) async {
-      try {
-        Response res = await Api.dio.delete(
-            '$rootURI/deleteFixed/${monthlyTransaction.monthlyTransactionId}',
-            options: option);
-        if (res.statusCode != 200) {
-          // 失敗
-          setDisable();
-          setSnackBar("失敗しました");
-        } else {
-          // 成功
-        }
-        setSnackBar("削除に成功しました");
-        backNavigation();
-      } on DioException catch (e) {
+    Options? option = await Api.getHeader();
+    try {
+      Response res = await Api.dio.delete(
+          '$rootURI/deleteFixed/${monthlyTransaction.monthlyTransactionId}',
+          options: option);
+      if (res.statusCode != 200) {
+        // 失敗
         setDisable();
-        setSnackBar(Api.errorMessage(e));
+        setSnackBar("失敗しました");
+      } else {
+        // 成功
       }
-    });
+      setSnackBar("削除に成功しました");
+      backNavigation();
+    } on DioException catch (e) {
+      setDisable();
+      setSnackBar(Api.errorMessage(e));
+    }
   }
 }

@@ -10,23 +10,22 @@ class HomeTransactionApi {
       Function setSnackBar, Function setHomeTransaction) async {
     setLoading();
 
-    await Api.getHeader().then((option) async {
-      try {
-        Response res = await Api.dio.get('$rootURI/getHome',
-            queryParameters: env.getJson(), options: option);
-        if (res.statusCode != 200) {
-          // 失敗
-        } else {
-          // 成功
-          setHomeTransaction(res.data['balance'], res.data['category_list']);
-          HomeTransactionStorage.saveStorageHomeData(res.data['balance'],
-              res.data['category_list'], env.getJson().toString());
-        }
-      } on DioException catch (e) {
-        setSnackBar(Api.errorMessage(e));
-      } finally {
-        setLoading();
+    Options? option = await Api.getHeader();
+    try {
+      Response res = await Api.dio.get('$rootURI/getHome',
+          queryParameters: env.getJson(), options: option);
+      if (res.statusCode != 200) {
+        // 失敗
+      } else {
+        // 成功
+        setHomeTransaction(res.data['balance'], res.data['category_list']);
+        HomeTransactionStorage.saveStorageHomeData(res.data['balance'],
+            res.data['category_list'], env.getJson().toString());
       }
-    });
+    } on DioException catch (e) {
+      setSnackBar(Api.errorMessage(e));
+    } finally {
+      setLoading();
+    }
   }
 }

@@ -22,31 +22,30 @@ class EditTransactionApi {
       return;
     }
 
-    await Api.getHeader().then((option) async {
-      try {
-        Response res = await Api.dio.post('$rootURI/addTransaction',
-            data: {'transaction': transaction.getTransactionJson()},
-            options: option);
-        if (res.statusCode != 200) {
-          // 失敗
-          setSnackBar(res.data['message']);
-          setDisable();
-        } else {
-          // 成功
-          CommonTranTransactionStorage.allDeleteWithParam(
-              transaction.userId, transaction.transactionDate);
-          if (transaction.subCategoryId == null) {
-            HideSubCategoryStorage.deleteCategoryWithSubCategoryList();
-            EditTranCategoryStorage.deleteSubCategoryListWithParam(
-                transaction.categoryId.toString());
-          }
-          backNavigation(isUpdate: false);
-        }
-      } on DioException catch (e) {
+    Options? option = await Api.getHeader();
+    try {
+      Response res = await Api.dio.post('$rootURI/addTransaction',
+          data: {'transaction': transaction.getTransactionJson()},
+          options: option);
+      if (res.statusCode != 200) {
+        // 失敗
+        setSnackBar(res.data['message']);
         setDisable();
-        setSnackBar(Api.errorMessage(e));
+      } else {
+        // 成功
+        CommonTranTransactionStorage.allDeleteWithParam(
+            transaction.userId, transaction.transactionDate);
+        if (transaction.subCategoryId == null) {
+          HideSubCategoryStorage.deleteCategoryWithSubCategoryList();
+          EditTranCategoryStorage.deleteSubCategoryListWithParam(
+              transaction.categoryId.toString());
+        }
+        backNavigation(isUpdate: false);
       }
-    });
+    } on DioException catch (e) {
+      setDisable();
+      setSnackBar(Api.errorMessage(e));
+    }
   }
 
   /// 取引の編集
@@ -61,31 +60,30 @@ class EditTransactionApi {
       return;
     }
 
-    await Api.getHeader().then((option) async {
-      try {
-        Response res = await Api.dio.patch('$rootURI/editTransaction',
-            data: {'transaction': transaction.getTransactionJson()},
-            options: option);
-        if (res.statusCode != 200) {
-          // 失敗
-          setSnackBar(res.data['message']);
-          setDisable();
-        } else {
-          // 成功
-          CommonTranTransactionStorage.allDeleteWithParam(
-              transaction.userId, transaction.transactionDate);
-          if (transaction.subCategoryId == null) {
-            HideSubCategoryStorage.deleteCategoryWithSubCategoryList();
-            EditTranCategoryStorage.deleteSubCategoryListWithParam(
-                transaction.categoryId.toString());
-          }
-          backNavigation(isUpdate: true);
-        }
-      } on DioException catch (e) {
+    Options? option = await Api.getHeader();
+    try {
+      Response res = await Api.dio.patch('$rootURI/editTransaction',
+          data: {'transaction': transaction.getTransactionJson()},
+          options: option);
+      if (res.statusCode != 200) {
+        // 失敗
+        setSnackBar(res.data['message']);
         setDisable();
-        setSnackBar(Api.errorMessage(e));
+      } else {
+        // 成功
+        CommonTranTransactionStorage.allDeleteWithParam(
+            transaction.userId, transaction.transactionDate);
+        if (transaction.subCategoryId == null) {
+          HideSubCategoryStorage.deleteCategoryWithSubCategoryList();
+          EditTranCategoryStorage.deleteSubCategoryListWithParam(
+              transaction.categoryId.toString());
+        }
+        backNavigation(isUpdate: true);
       }
-    });
+    } on DioException catch (e) {
+      setDisable();
+      setSnackBar(Api.errorMessage(e));
+    }
   }
 
   /// 取引の削除
@@ -95,26 +93,25 @@ class EditTransactionApi {
       Function backNavigation,
       Function setDisable,
       Function setSnackBar) async {
-    await Api.getHeader().then((option) async {
-      try {
+    Options? option = await Api.getHeader();
+    try {
+      setDisable();
+      Response res = await Api.dio.delete(
+          '$rootURI/deleteTransaction/${transaction.transactionId}',
+          options: option);
+      if (res.statusCode != 200) {
+        // 失敗
+        setSnackBar(res.data['message']);
         setDisable();
-        Response res = await Api.dio.delete(
-            '$rootURI/deleteTransaction/${transaction.transactionId}',
-            options: option);
-        if (res.statusCode != 200) {
-          // 失敗
-          setSnackBar(res.data['message']);
-          setDisable();
-        } else {
-          // 成功
-          CommonTranTransactionStorage.allDeleteWithParam(
-              env.userId, transaction.transactionDate);
-          backNavigation(isUpdate: true);
-        }
-      } on DioException catch (e) {
-        setDisable();
-        setSnackBar(Api.errorMessage(e));
+      } else {
+        // 成功
+        CommonTranTransactionStorage.allDeleteWithParam(
+            env.userId, transaction.transactionDate);
+        backNavigation(isUpdate: true);
       }
-    });
+    } on DioException catch (e) {
+      setDisable();
+      setSnackBar(Api.errorMessage(e));
+    }
   }
 }
