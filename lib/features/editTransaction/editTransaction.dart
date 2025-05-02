@@ -320,6 +320,8 @@ class _EditTransaction extends State<EditTransaction> {
                                   item.subCategoryName;
                               transaction.fixedFlg = item.fixedFlg;
                               transaction.paymentId = item.paymentId;
+                              CommonSnackBar.build(
+                                  context: context, text: "自動補完しました");
                             }
                           }
                         });
