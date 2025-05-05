@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/features/home/class/homeTransaction.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/appBarMonth.dart';
@@ -10,6 +9,7 @@ import 'package:money_hooks/common/widgets/customFloatingActionButtonLocation.da
 import 'package:money_hooks/common/widgets/gradientBar.dart';
 import 'package:money_hooks/features/editTransaction/editTransaction.dart';
 import 'package:money_hooks/features/home/chart/homeChart.dart';
+import 'package:money_hooks/features/home/class/homeTransaction.dart';
 import 'package:money_hooks/features/home/data/homeTransactionApi.dart';
 import 'package:money_hooks/features/home/data/homeTransactionLoad.dart';
 import 'package:money_hooks/features/home/homeAccordion.dart';
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
-  void setHomeTransaction(int balance, List<dynamic> responseList) {
+  void setHomeTransaction(int balance, List<Category> responseList) {
     setState(() {
       homeTransactionList.balance = balance;
       homeTransactionList.categoryList = responseList;

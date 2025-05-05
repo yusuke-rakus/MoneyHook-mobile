@@ -56,20 +56,20 @@ class MVCategoryClass {
 
   Map<String, dynamic> toJson() {
     return {
-      'categoryId': categoryId,
-      'categoryName': categoryName,
-      'categoryTotalAmount': categoryTotalAmount,
-      'subCategoryList':
+      'category_id': categoryId,
+      'category_name': categoryName,
+      'category_total_amount': categoryTotalAmount,
+      'sub_category_list':
           subCategoryList.map((subCategory) => subCategory.toJson()).toList()
     };
   }
 
   factory MVCategoryClass.fromJson(Map<String, dynamic> json) {
     return MVCategoryClass(
-      categoryId: json['categoryId'],
-      categoryName: json['categoryName'],
-      categoryTotalAmount: json['categoryTotalAmount'],
-      subCategoryList: (json['subCategoryList'] as List)
+      categoryId: json['category_id'],
+      categoryName: json['category_name'],
+      categoryTotalAmount: json['category_total_amount'],
+      subCategoryList: (json['sub_category_list'] as List)
           .map((subCategory) => MVSubCategoryClass.fromJson(subCategory))
           .toList(),
     );
@@ -103,19 +103,20 @@ class MVSubCategoryClass {
 
   Map<String, dynamic> toJson() {
     return {
-      'subCategoryId': subCategoryId,
-      'subCategoryName': subCategoryName,
-      'subCategoryTotalAmount': subCategoryTotalAmount,
-      'transactionList': transactionList.map((tran) => tran.toMVJson()).toList()
+      'sub_category_id': subCategoryId,
+      'sub_category_name': subCategoryName,
+      'sub_category_total_amount': subCategoryTotalAmount,
+      'transaction_list':
+          transactionList.map((tran) => tran.toMVJson()).toList()
     };
   }
 
   factory MVSubCategoryClass.fromJson(Map<String, dynamic> json) {
     return MVSubCategoryClass(
-      subCategoryId: json['subCategoryId'],
-      subCategoryName: json['subCategoryName'],
-      subCategoryTotalAmount: json['subCategoryTotalAmount'],
-      transactionList: (json['transactionList'] as List)
+      subCategoryId: json['sub_category_id'],
+      subCategoryName: json['sub_category_name'],
+      subCategoryTotalAmount: json['sub_category_total_amount'],
+      transactionList: (json['transaction_list'] as List)
           .map((tran) => TransactionClass.mvFromJson(tran))
           .toList(),
     );

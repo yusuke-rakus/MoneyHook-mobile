@@ -26,7 +26,7 @@ class SettingsScreen extends StatelessWidget {
         body: ListView(
           children: [
             _menuCard(context, Icons.account_circle_outlined, 'ローカル設定',
-                const LocalSettings()),
+                LocalSettings(env: env)),
             _menuCard(context, Icons.account_tree, '自動入力',
                 MonthlyTransaction(env: env)),
             _menuCard(context, Icons.checklist_sharp, 'サブカテゴリの表示',

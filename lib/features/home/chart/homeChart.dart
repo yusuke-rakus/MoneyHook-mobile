@@ -49,14 +49,14 @@ List<PieChartSectionData> _createHomeChart(
       List.generate(data.categoryList.length, (index) {
     // 支出合計に占める割合が10%を超えていたらタイトルを表示する
     num spendSum = data.balance.abs();
-    num value = data.categoryList[index]['category_total_amount'].abs();
+    num value = data.categoryList[index].categoryTotalAmount.abs();
     bool showTitle =
         value / spendSum * 100 > 10 || index == touchedIndex ? true : false;
 
     return PieChartSectionData(
-      value: data.categoryList[index]['category_total_amount'].abs().toDouble(),
+      value: data.categoryList[index].categoryTotalAmount.abs().toDouble(),
       color: colorList[index],
-      title: data.categoryList[index]['category_name'],
+      title: data.categoryList[index].categoryName,
       showTitle: showTitle,
       titleStyle: TextStyle(
           color: Colors.white,

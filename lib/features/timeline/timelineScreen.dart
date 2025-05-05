@@ -65,16 +65,16 @@ class _TimelineScreenState extends State<TimelineScreen> {
     // env.initMonth();
     _isLoading = widget.isLoading;
     Future(() async {
-      await TimelineTransactionLoad.getTimelineData(
-          env, setLoading, setSnackBar, setTimelineData);
-      await TimelineTransactionLoad.getTimelineChart(env, setTimelineChart);
+      setTimelineData(await TimelineTransactionLoad.getTimelineData(
+          env, setLoading, setSnackBar));
+      setTimelineChart(await TimelineTransactionLoad.getTimelineChart(env));
     });
   }
 
-  void setReload() {
-    TimelineTransactionApi.getTimelineData(
-        env, setLoading, setSnackBar, setTimelineData);
-    TimelineTransactionApi.getTimelineChart(env, setTimelineChart);
+  void setReload() async {
+    setTimelineData(await TimelineTransactionApi.getTimelineData(
+        env, setLoading, setSnackBar));
+    setTimelineChart(await TimelineTransactionApi.getTimelineChart(env));
   }
 
   List<TransactionClass> sortTimelineList(
@@ -113,19 +113,19 @@ class _TimelineScreenState extends State<TimelineScreen> {
             subtractMonth: () {
               env.subtractMonth();
               Future(() async {
-                await TimelineTransactionLoad.getTimelineData(
-                    env, setLoading, setSnackBar, setTimelineData);
-                await TimelineTransactionLoad.getTimelineChart(
-                    env, setTimelineChart);
+                setTimelineData(await TimelineTransactionLoad.getTimelineData(
+                    env, setLoading, setSnackBar));
+                setTimelineChart(
+                    await TimelineTransactionLoad.getTimelineChart(env));
               });
             },
             addMonth: () {
               env.addMonth();
               Future(() async {
-                await TimelineTransactionLoad.getTimelineData(
-                    env, setLoading, setSnackBar, setTimelineData);
-                await TimelineTransactionLoad.getTimelineChart(
-                    env, setTimelineChart);
+                setTimelineData(await TimelineTransactionLoad.getTimelineData(
+                    env, setLoading, setSnackBar));
+                setTimelineChart(
+                    await TimelineTransactionLoad.getTimelineChart(env));
               });
             },
             env: env,
@@ -136,9 +136,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
           ? RefreshIndicator(
               color: Colors.grey,
               onRefresh: () async {
-                TimelineTransactionApi.getTimelineData(
-                    env, setLoading, setSnackBar, setTimelineData);
-                TimelineTransactionApi.getTimelineChart(env, setTimelineChart);
+                setTimelineData(await TimelineTransactionApi.getTimelineData(
+                    env, setLoading, setSnackBar));
+                setTimelineChart(
+                    await TimelineTransactionApi.getTimelineChart(env));
               },
               child: ListView(
                 children: [
@@ -194,9 +195,10 @@ class _TimelineScreenState extends State<TimelineScreen> {
             )
           : TimelineCalendar(
               onRefresh: () async {
-                TimelineTransactionApi.getTimelineData(
-                    env, setLoading, setSnackBar, setTimelineData);
-                TimelineTransactionApi.getTimelineChart(env, setTimelineChart);
+                setTimelineData(await TimelineTransactionApi.getTimelineData(
+                    env, setLoading, setSnackBar));
+                setTimelineChart(
+                    await TimelineTransactionApi.getTimelineChart(env));
               },
               isLoading: _isLoading,
               env: env,

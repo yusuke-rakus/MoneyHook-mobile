@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:money_hooks/features/timeline/class/withdrawalData.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/widgets/cardWidget.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';
+import 'package:money_hooks/features/timeline/class/withdrawalData.dart';
 
 class WithdrawalListCard extends StatelessWidget {
   final List<WithdrawalData> displayWithdrawalData;
@@ -21,7 +21,7 @@ class WithdrawalListCard extends StatelessWidget {
                 children: [
                   ListTile(
                     title: Text(
-                      '引落し予定',
+                      '引落し額',
                       style: TextStyle(
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,

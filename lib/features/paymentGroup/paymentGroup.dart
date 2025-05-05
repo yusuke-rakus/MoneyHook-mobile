@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:money_hooks/features/paymentGroup/class/groupByPaymentTransaction.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/data/data/transaction/commonTransactionStorage.dart';
 import 'package:money_hooks/common/env/envClass.dart';
@@ -9,6 +8,7 @@ import 'package:money_hooks/common/widgets/commonLoadingAnimation.dart';
 import 'package:money_hooks/common/widgets/commonSnackBar.dart';
 import 'package:money_hooks/common/widgets/dataNotRegisteredBox.dart';
 import 'package:money_hooks/common/widgets/gradientBar.dart';
+import 'package:money_hooks/features/paymentGroup/class/groupByPaymentTransaction.dart';
 import 'package:money_hooks/features/paymentGroup/data/paymentGroupTransactionApi.dart';
 import 'package:money_hooks/features/paymentGroup/data/paymentGroupTransactionLoad.dart';
 import 'package:money_hooks/features/paymentGroup/paymentGroupCard.dart';
@@ -39,13 +39,8 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
     setState(() => CommonSnackBar.build(context: context, text: message));
   }
 
-  void setGroupByPaymentTransaction(
-      int totalSpending,
-      int lastMonthTotalSpending,
-      double? monthOverMonthSum,
-      List<dynamic> paymentList) {
-    setState(() => paymentTransactionList = GroupByPaymentTransaction.init(
-        totalSpending, lastMonthTotalSpending, monthOverMonthSum, paymentList));
+  void setGroupByPaymentTransaction(GroupByPaymentTransaction transaction) {
+    setState(() => paymentTransactionList = transaction);
   }
 
   @override
@@ -54,9 +49,10 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
     env = widget.env;
     // env.initMonth();
     _isLoading = widget.isLoading;
-    PaymentGroupTransactionLoad.getGroupByPayment(
-        env, setLoading, setSnackBar, setGroupByPaymentTransaction);
-    Future(() {
+    Future(() async {
+      setGroupByPaymentTransaction(
+          await PaymentGroupTransactionLoad.getGroupByPayment(
+              env, setLoading, setSnackBar));
       CommonTranTransactionStorage.getIsCardDefaultOpenState()
           .then((activeState) async {
         isCardDefaultOpen = activeState;
@@ -64,9 +60,10 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
     });
   }
 
-  void setReload() {
-    PaymentGroupTransactionApi.getGroupByPayment(
-        env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+  void setReload() async {
+    setGroupByPaymentTransaction(
+        await PaymentGroupTransactionApi.getGroupByPayment(
+            env, setLoading, setSnackBar));
   }
 
   @override
@@ -76,15 +73,17 @@ class _PaymentGroupScreenState extends State<PaymentGroupScreen> {
         flexibleSpace: GradientBar(),
         title: CenterWidget(
           child: AppBarMonth(
-            subtractMonth: () {
+            subtractMonth: () async {
               env.subtractMonth();
-              PaymentGroupTransactionLoad.getGroupByPayment(
-                  env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+              setGroupByPaymentTransaction(
+                  await PaymentGroupTransactionLoad.getGroupByPayment(
+                      env, setLoading, setSnackBar));
             },
-            addMonth: () {
+            addMonth: () async {
               env.addMonth();
-              PaymentGroupTransactionLoad.getGroupByPayment(
-                  env, setLoading, setSnackBar, setGroupByPaymentTransaction);
+              setGroupByPaymentTransaction(
+                  await PaymentGroupTransactionLoad.getGroupByPayment(
+                      env, setLoading, setSnackBar));
             },
             env: env,
           ),

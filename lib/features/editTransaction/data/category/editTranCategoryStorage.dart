@@ -9,13 +9,14 @@ class EditTranCategoryStorage {
   static Future<List<CategoryClass>> getCategoryListData() async {
     List<CategoryClass> resultList = [];
 
-    await db.collection('categoryData').doc('categoryData').get().then((value) {
-      if (value != null) {
-        value['data'].forEach((e) {
-          resultList.add(CategoryClass(e['categoryId'], e['categoryName']));
-        });
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('categoryData').doc('categoryData').get();
+    if (value != null) {
+      value['data'].forEach((e) {
+        resultList.add(CategoryClass(e['categoryId'], e['categoryName']));
+      });
+    }
+
     return resultList;
   }
 
@@ -36,14 +37,15 @@ class EditTranCategoryStorage {
     List<SubCategoryClass> resultList = [];
     final id = 'subCategoryData$param';
 
-    await db.collection('subCategoryData').doc(id).get().then((value) {
-      if (value != null) {
-        value['data'].forEach((e) {
-          resultList
-              .add(SubCategoryClass(e['subCategoryId'], e['subCategoryName']));
-        });
-      }
-    });
+    Map<String, dynamic>? value =
+        await db.collection('subCategoryData').doc(id).get();
+    if (value != null) {
+      value['data'].forEach((e) {
+        resultList
+            .add(SubCategoryClass(e['subCategoryId'], e['subCategoryName']));
+      });
+    }
+
     return resultList;
   }
 

@@ -1,24 +1,27 @@
 import 'package:localstore/localstore.dart';
 import 'package:money_hooks/common/env/envClass.dart';
+import 'package:money_hooks/features/paymentGroup/class/groupByPaymentTransaction.dart';
 
 class PaymentGroupTransactionStorage {
   static final db = Localstore.instance;
 
   /// 【支払い方法画面】データ
-  static Future<Map<String, dynamic>> getGroupByPayment(String param) async {
+  static Future<GroupByPaymentTransaction> getGroupByPayment(
+      String param) async {
     final id = 'group_payment_data$param';
-    Map<String, dynamic> resultMap = <String, dynamic>{};
+    GroupByPaymentTransaction tran = GroupByPaymentTransaction();
 
-    await db.collection('group_by_payment').doc(id).get().then((value) {
-      if (value != null) {
-        resultMap['total_spending'] = value['total_spending'];
-        resultMap['last_month_total_spending'] =
-            value['last_month_total_spending'];
-        resultMap['month_over_month_sum'] = value['month_over_month_sum'];
-        resultMap['payment_list'] = value['payment_list'];
-      }
-    });
-    return resultMap;
+    Map<String, dynamic>? value =
+        await db.collection('group_by_payment').doc(id).get();
+    if (value != null) {
+      tran = GroupByPaymentTransaction.init(
+          value['total_spending'],
+          value['last_month_total_spending'],
+          value['month_over_month_sum'],
+          value['payment_list']);
+    }
+
+    return tran;
   }
 
   static void saveGroupByPaymentData(

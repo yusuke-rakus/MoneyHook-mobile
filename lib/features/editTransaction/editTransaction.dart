@@ -1,11 +1,13 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:money_hooks/common/class/categoryClass.dart';
 import 'package:money_hooks/common/class/paymentResource.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/data/data/category/commonCategoryStorage.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceLoad.dart';
 import 'package:money_hooks/common/data/data/transaction/commonTransactionLoad.dart';
+import 'package:money_hooks/common/data/data/transaction/commonTransactionStorage.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';
 import 'package:money_hooks/common/widgets/commonConfirmDialog.dart';
@@ -51,22 +53,37 @@ class _EditTransaction extends State<EditTransaction> {
         nameController.value.copyWith(text: transaction.transactionName);
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
-    if (!transaction.hasTransactionId()) {
-      CommonTranTransactionLoad.getFrequentTransactionName(
-          env, setRecommendList);
-      _setDefaultCategory(transaction);
-    }
-    CommonPaymentResourceLoad.getPaymentResource(env, setPaymentResourceList);
+    Future(() async {
+      if (!transaction.hasTransactionId()) {
+        CommonTranTransactionLoad.getFrequentTransactionName(
+            env, setRecommendList);
+        _setDefaultCategory(transaction);
+      }
+      await CommonPaymentResourceLoad.getPaymentResource(
+          env, setPaymentResourceList);
+
+      final String? defPaymentRes =
+          await CommonTranTransactionStorage.getDefaultPaymentResource();
+      if (defPaymentRes != null) {
+        PaymentResourceData selectedPayment = paymentResourceList
+            .where((resource) => resource.paymentId == defPaymentRes)
+            .toList()
+            .first;
+        setState(() {
+          transaction.paymentId = selectedPayment.paymentId;
+          transaction.paymentName = selectedPayment.paymentName;
+        });
+      }
+    });
   }
 
-  void _setDefaultCategory(TransactionClass transaction) {
-    CommonCategoryStorage.getDefaultValue().then((category) {
-      setState(() {
-        transaction.categoryId = category.categoryId;
-        transaction.categoryName = category.categoryName;
-        transaction.subCategoryId = category.subCategoryId;
-        transaction.subCategoryName = category.subCategoryName;
-      });
+  Future<void> _setDefaultCategory(TransactionClass transaction) async {
+    CategoryClass category = await CommonCategoryStorage.getDefaultValue();
+    setState(() {
+      transaction.categoryId = category.categoryId;
+      transaction.categoryName = category.categoryName;
+      transaction.subCategoryId = category.subCategoryId;
+      transaction.subCategoryName = category.subCategoryName;
     });
   }
 
@@ -320,6 +337,8 @@ class _EditTransaction extends State<EditTransaction> {
                                   item.subCategoryName;
                               transaction.fixedFlg = item.fixedFlg;
                               transaction.paymentId = item.paymentId;
+                              CommonSnackBar.build(
+                                  context: context, text: "自動補完しました");
                             }
                           }
                         });
