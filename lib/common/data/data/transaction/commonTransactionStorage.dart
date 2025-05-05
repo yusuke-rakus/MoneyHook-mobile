@@ -18,6 +18,7 @@ class CommonTranTransactionStorage {
     AnalysisTransactionStorage.deleteMonthlyFixedSpending();
     PaymentGroupTransactionStorage.deleteGroupByPaymentData();
     TimelineTransactionStorage.deleteMonthlyWithdrawalAmountData();
+    deleteDefaultPaymentResource();
   }
 
   /// ストレージ全削除(月指定)
@@ -49,6 +50,17 @@ class CommonTranTransactionStorage {
     } else {
       return activeState;
     }
+  }
+
+  /// デフォルトの支払い方法
+  static Future<String?> getDefaultPaymentResource() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('DEFAULT_PAYMENT_RESOURCE');
+  }
+
+  static void deleteDefaultPaymentResource() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('DEFAULT_PAYMENT_RESOURCE');
   }
 
   /// デフォルトでカードを開けた他状態にするかどうか

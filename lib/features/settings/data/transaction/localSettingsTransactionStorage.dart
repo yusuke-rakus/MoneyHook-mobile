@@ -10,6 +10,17 @@ class LocalSettingsTransactionStorage {
     prefs.setBool('IS_TRANSACTION_RECOMMEND_ACTIVE', activeState);
   }
 
+  /// デフォルトの支払い方法
+  static void setDefaultPaymentResource(String? paymentId) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final key = 'DEFAULT_PAYMENT_RESOURCE';
+    if (paymentId != null) {
+      prefs.setString(key, paymentId);
+    } else {
+      prefs.remove(key);
+    }
+  }
+
   /// デフォルトでカードを開けた他状態にするかどうか
   static void setIsCardDefaultOpenState(bool activeState) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

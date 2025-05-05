@@ -7,6 +7,7 @@ import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/data/data/category/commonCategoryStorage.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceLoad.dart';
 import 'package:money_hooks/common/data/data/transaction/commonTransactionLoad.dart';
+import 'package:money_hooks/common/data/data/transaction/commonTransactionStorage.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/centerWidget.dart';
 import 'package:money_hooks/common/widgets/commonConfirmDialog.dart';
@@ -52,12 +53,28 @@ class _EditTransaction extends State<EditTransaction> {
         nameController.value.copyWith(text: transaction.transactionName);
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
-    if (!transaction.hasTransactionId()) {
-      CommonTranTransactionLoad.getFrequentTransactionName(
-          env, setRecommendList);
-      _setDefaultCategory(transaction);
-    }
-    CommonPaymentResourceLoad.getPaymentResource(env, setPaymentResourceList);
+    Future(() async {
+      if (!transaction.hasTransactionId()) {
+        CommonTranTransactionLoad.getFrequentTransactionName(
+            env, setRecommendList);
+        _setDefaultCategory(transaction);
+      }
+      await CommonPaymentResourceLoad.getPaymentResource(
+          env, setPaymentResourceList);
+
+      final String? defPaymentRes =
+          await CommonTranTransactionStorage.getDefaultPaymentResource();
+      if (defPaymentRes != null) {
+        PaymentResourceData selectedPayment = paymentResourceList
+            .where((resource) => resource.paymentId == defPaymentRes)
+            .toList()
+            .first;
+        setState(() {
+          transaction.paymentId = selectedPayment.paymentId;
+          transaction.paymentName = selectedPayment.paymentName;
+        });
+      }
+    });
   }
 
   Future<void> _setDefaultCategory(TransactionClass transaction) async {
