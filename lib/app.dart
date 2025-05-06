@@ -32,7 +32,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.blue,
-        fontFamily: 'MPLUS1p',
+        fontFamily: 'DotGothic16',
       ),
       home: const MyStatefulWidget(),
     );
@@ -100,7 +100,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Future(() {
       // *** デバッグ用async ***
       FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-        setState(() => _selectedIndex = 0);
+        setState(() => _selectedIndex = 1);
         if (user == null) {
           // ログイン画面へ
           setLoginItem();

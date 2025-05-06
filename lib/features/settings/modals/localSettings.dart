@@ -60,13 +60,10 @@ class _LocalSettingsState extends State<LocalSettings> {
     });
   }
 
-  void _changeDefaultPaymentResource(String? paymentId) {
-    PaymentResourceData selectedPayment = paymentResourceList
-        .where((resource) => resource.paymentId == paymentId)
-        .toList()
-        .first;
+  void _changeDefaultPaymentResource(PaymentResourceData selectedPayment) {
     setState(() => _selectedPaymentData = selectedPayment);
-    LocalSettingsTransactionStorage.setDefaultPaymentResource(paymentId);
+    LocalSettingsTransactionStorage.setDefaultPaymentResource(
+        selectedPayment.paymentId);
   }
 
   void _changeIsCardDefaultOpenState(bool state) {
@@ -127,7 +124,15 @@ class _LocalSettingsState extends State<LocalSettings> {
                           )),
                     ],
                     onChanged: (value) {
-                      _changeDefaultPaymentResource(value);
+                      PaymentResourceData selectedPayment = paymentResourceList
+                          .where((resource) => resource.paymentId == value)
+                          .toList()
+                          .first;
+                      _changeDefaultPaymentResource(selectedPayment);
+
+                      CommonSnackBar.build(
+                          context: context,
+                          text: '「${selectedPayment.paymentName}」に設定しました');
                     },
                     value: _selectedPaymentData?.paymentId,
                   )

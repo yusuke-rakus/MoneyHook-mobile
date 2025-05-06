@@ -73,4 +73,13 @@ class CategoryClass {
   String toDefaultString() {
     return '$_categoryId,$_subCategoryId';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is CategoryClass && other._categoryId == _categoryId;
+  }
+
+  @override
+  int get hashCode => _categoryId.hashCode;
 }
