@@ -62,67 +62,23 @@ class _FilterWidgetState extends State<FilterWidget> {
           '絞り込み',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        content: StatefulBuilder(
-            builder: (BuildContext context, StateSetter setState) {
-          return SingleChildScrollView(
-            child: ListBody(
-              children: [
-                Divider(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('カテゴリ'),
-                    Visibility(
-                      visible: filterCategories.isNotEmpty,
-                      child: TextButton(
-                          onPressed: () {
-                            setState(() => filterCategories = []);
-                          },
-                          style: TextButton.styleFrom(
-                              foregroundColor: Colors.grey),
-                          child: Text("リセット")),
-                    )
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 5.0),
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[50],
-                  ),
-                  child: categoryList.isEmpty
-                      ? CenterWidget(child: CommonLoadingAnimation.build())
-                      : Wrap(
-                          spacing: 5.0,
-                          runSpacing: 5.0,
-                          children: categoryList.map((CategoryClass category) {
-                            return FilterChip(
-                                label: Text(category.categoryName),
-                                selected: filterCategories.contains(category),
-                                onSelected: (bool selected) {
-                                  setState(() {
-                                    if (selected) {
-                                      filterCategories.add(category);
-                                    } else {
-                                      filterCategories.remove(category);
-                                    }
-                                  });
-                                });
-                          }).toList(),
-                        ),
-                ),
-                SizedBox(height: 10.0),
-                Visibility(
-                  visible: payments.isNotEmpty,
-                  child: Row(
+        content: ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: 500),
+          child: StatefulBuilder(
+              builder: (BuildContext context, StateSetter setState) {
+            return SingleChildScrollView(
+              child: ListBody(
+                children: [
+                  Divider(),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('支払い方法'),
+                      Text('カテゴリ'),
                       Visibility(
-                        visible: filterPayments.isNotEmpty,
+                        visible: filterCategories.isNotEmpty,
                         child: TextButton(
                             onPressed: () {
-                              setState(() => filterPayments = []);
+                              setState(() => filterCategories = []);
                             },
                             style: TextButton.styleFrom(
                                 foregroundColor: Colors.grey),
@@ -130,40 +86,99 @@ class _FilterWidgetState extends State<FilterWidget> {
                       )
                     ],
                   ),
-                ),
-                Visibility(
-                  visible: payments.isNotEmpty,
-                  child: Container(
+                  Container(
                     margin: EdgeInsets.only(top: 5.0),
                     padding: EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: Colors.grey[50],
                     ),
-                    child: Wrap(
-                      spacing: 5.0,
-                      runSpacing: 5.0,
-                      children: payments.map((payment) {
-                        return FilterChip(
-                            label: Text(payment.paymentName),
-                            selected: filterPayments.contains(payment),
-                            onSelected: (bool selected) {
-                              setState(() {
-                                if (selected) {
-                                  filterPayments.add(payment);
-                                } else {
-                                  filterPayments.remove(payment);
-                                }
-                              });
-                            });
-                      }).toList(),
+                    child: categoryList.isEmpty
+                        ? CenterWidget(child: CommonLoadingAnimation.build())
+                        : ConstrainedBox(
+                            constraints: BoxConstraints(maxHeight: 200),
+                            child: SingleChildScrollView(
+                              child: Wrap(
+                                spacing: 5.0,
+                                runSpacing: 5.0,
+                                children:
+                                    categoryList.map((CategoryClass category) {
+                                  return FilterChip(
+                                      label: Text(category.categoryName),
+                                      selected:
+                                          filterCategories.contains(category),
+                                      onSelected: (bool selected) {
+                                        setState(() {
+                                          if (selected) {
+                                            filterCategories.add(category);
+                                          } else {
+                                            filterCategories.remove(category);
+                                          }
+                                        });
+                                      });
+                                }).toList(),
+                              ),
+                            ),
+                          ),
+                  ),
+                  SizedBox(height: 10.0),
+                  Visibility(
+                    visible: payments.isNotEmpty,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('支払い方法'),
+                        Visibility(
+                          visible: filterPayments.isNotEmpty,
+                          child: TextButton(
+                              onPressed: () {
+                                setState(() => filterPayments = []);
+                              },
+                              style: TextButton.styleFrom(
+                                  foregroundColor: Colors.grey),
+                              child: Text("リセット")),
+                        )
+                      ],
                     ),
                   ),
-                ),
-                Divider(),
-              ],
-            ),
-          );
-        }),
+                  Visibility(
+                    visible: payments.isNotEmpty,
+                    child: Container(
+                      margin: EdgeInsets.only(top: 5.0),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[50],
+                      ),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxHeight: 200),
+                        child: SingleChildScrollView(
+                          child: Wrap(
+                            spacing: 5.0,
+                            runSpacing: 5.0,
+                            children: payments.map((payment) {
+                              return FilterChip(
+                                  label: Text(payment.paymentName),
+                                  selected: filterPayments.contains(payment),
+                                  onSelected: (bool selected) {
+                                    setState(() {
+                                      if (selected) {
+                                        filterPayments.add(payment);
+                                      } else {
+                                        filterPayments.remove(payment);
+                                      }
+                                    });
+                                  });
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Divider(),
+                ],
+              ),
+            );
+          }),
+        ),
         actions: [
           GradientButton(
             onPressed: () {

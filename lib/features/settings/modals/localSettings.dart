@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:money_hooks/common/class/paymentResource.dart';
+import 'package:money_hooks/common/class/themeProvider.dart';
 import 'package:money_hooks/common/data/data/category/commonCategoryStorage.dart';
 import 'package:money_hooks/common/data/data/monthlyTransaction/commonMonthlyTransactionStorage.dart';
 import 'package:money_hooks/common/data/data/paymentResource/commonPaymentResourceLoad.dart';
@@ -9,7 +10,9 @@ import 'package:money_hooks/common/data/data/transaction/commonTransactionStorag
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/commonSnackBar.dart';
 import 'package:money_hooks/common/widgets/gradientBar.dart';
+import 'package:money_hooks/features/settings/class/fontFamily.dart';
 import 'package:money_hooks/features/settings/data/transaction/localSettingsTransactionStorage.dart';
+import 'package:provider/provider.dart';
 
 class LocalSettings extends StatefulWidget {
   const LocalSettings({super.key, required this.env});
@@ -25,6 +28,8 @@ class _LocalSettingsState extends State<LocalSettings> {
   late bool _isCardDefaultOpen = false;
   List<PaymentResourceData> paymentResourceList = [];
   PaymentResourceData? _selectedPaymentData;
+  List<FontFamily> fontFamilies = FontFamily.values;
+  FontFamily fontFamily = FontFamily.values.first;
 
   @override
   void initState() {
@@ -49,6 +54,15 @@ class _LocalSettingsState extends State<LocalSettings> {
             .first;
         setState(() => _selectedPaymentData = selectedPayment);
       }
+
+      String localFontFamily =
+          await CommonTranTransactionStorage.getFontFamily();
+      setState(() {
+        fontFamily = fontFamilies
+            .where((font) => font.label == localFontFamily)
+            .toList()
+            .first;
+      });
     });
     super.initState();
   }
@@ -86,6 +100,8 @@ class _LocalSettingsState extends State<LocalSettings> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
         appBar: AppBar(
           flexibleSpace: GradientBar(),
@@ -156,11 +172,42 @@ class _LocalSettingsState extends State<LocalSettings> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  const Text('フォント'),
+                  DropdownButton(
+                      style: TextStyle(
+                          color: Colors.grey[700],
+                          fontFamily:
+                              DefaultTextStyle.of(context).style.fontFamily),
+                      focusColor: Colors.transparent,
+                      value: fontFamily,
+                      items: fontFamilies
+                          .map((FontFamily item) => DropdownMenuItem(
+                              value: item,
+                              child: Text("このフォントを使用します",
+                                  style: TextStyle(fontFamily: item.label))))
+                          .toList(),
+                      onChanged: (FontFamily? value) {
+                        setState(() async {
+                          fontFamily = value!;
+                          await LocalSettingsTransactionStorage.setFontFamily(
+                              value.label);
+                          themeProvider.setFontFamily(fontFamily.label);
+                          CommonSnackBar.build(
+                              context: context, text: 'フォントを設定しました');
+                        });
+                      }),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
                   const Text('キャッシュを削除する'),
                   TextButton(
                       onPressed: () async {
                         Future(() async {
                           CommonTranTransactionStorage.allDelete();
+                          CommonTranTransactionStorage
+                              .deleteDefaultPaymentResource();
                           CommonMonthlyTransactionStorage.allDelete();
                           CommonCategoryStorage.allDelete();
                           CommonPaymentResourceStorage.allDelete();

@@ -26,4 +26,10 @@ class LocalSettingsTransactionStorage {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setBool('IS_CARD_DEFAULT_OPEN', activeState);
   }
+
+  /// フォントファミリー
+  static Future<void> setFontFamily(String fontFamily) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('FONT_FAMILY', fontFamily);
+  }
 }

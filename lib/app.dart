@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:money_hooks/common/class/screenLabelClass.dart';
+import 'package:money_hooks/common/class/themeProvider.dart';
 import 'package:money_hooks/common/data/data/transaction/commonTransactionStorage.dart';
 import 'package:money_hooks/common/data/data/user/userApi.dart';
 import 'package:money_hooks/common/env/envClass.dart';
@@ -13,12 +14,15 @@ import 'package:money_hooks/features/login/login.dart';
 import 'package:money_hooks/features/paymentGroup/paymentGroup.dart';
 import 'package:money_hooks/features/settings/settings.dart';
 import 'package:money_hooks/features/timeline/timelineScreen.dart';
+import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
@@ -32,7 +36,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.blue,
-        fontFamily: 'MPLUS1p',
+        fontFamily: themeProvider.fontFamily,
       ),
       home: const MyStatefulWidget(),
     );
