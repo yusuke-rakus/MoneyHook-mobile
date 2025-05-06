@@ -2,6 +2,7 @@ import 'package:localstore/localstore.dart';
 import 'package:money_hooks/features/analysis/data/analysisTransactionStorage.dart';
 import 'package:money_hooks/features/home/data/homeTransactionStorage.dart';
 import 'package:money_hooks/features/paymentGroup/data/paymentGroupTransactionStorage.dart';
+import 'package:money_hooks/features/settings/class/fontFamily.dart';
 import 'package:money_hooks/features/timeline/data/timelineTransactionStorage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,7 +19,6 @@ class CommonTranTransactionStorage {
     AnalysisTransactionStorage.deleteMonthlyFixedSpending();
     PaymentGroupTransactionStorage.deleteGroupByPaymentData();
     TimelineTransactionStorage.deleteMonthlyWithdrawalAmountData();
-    deleteDefaultPaymentResource();
   }
 
   /// ストレージ全削除(月指定)
@@ -72,6 +72,17 @@ class CommonTranTransactionStorage {
       return true;
     } else {
       return activeState;
+    }
+  }
+
+  /// フォントファミリー
+  static Future<String> getFontFamily() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? fontFamily = prefs.getString('FONT_FAMILY');
+    if (fontFamily == null) {
+      return FontFamily.values.first.label;
+    } else {
+      return fontFamily;
     }
   }
 }

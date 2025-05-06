@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:money_hooks/app.dart';
 import 'package:money_hooks/common/data/api.dart';
+import 'package:provider/provider.dart';
 
+import 'common/class/themeProvider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -13,5 +15,14 @@ void main() async {
   );
   await Api.initialize();
   GoogleFonts.config.allowRuntimeFetching = false;
-  runApp(const App());
+
+  final themeProvider = ThemeProvider();
+  await themeProvider.initializeFromApi();
+
+  runApp(
+    ChangeNotifierProvider.value(
+      value: themeProvider,
+      child: const App(),
+    ),
+  );
 }
