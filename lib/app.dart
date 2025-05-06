@@ -100,7 +100,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     Future(() {
       // *** デバッグ用async ***
       FirebaseAuth.instance.authStateChanges().listen((User? user) async {
-        setState(() => _selectedIndex = 1);
+        setState(() => _selectedIndex = 0);
         if (user == null) {
           // ログイン画面へ
           setLoginItem();

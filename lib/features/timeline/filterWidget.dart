@@ -9,16 +9,21 @@ import 'package:money_hooks/common/widgets/gradientButton.dart';
 import 'package:money_hooks/features/editTransaction/data/category/editTranCategoryLoad.dart';
 
 class FilterWidget extends StatefulWidget {
-  const FilterWidget({super.key, required this.env});
+  const FilterWidget(
+      {super.key,
+      required this.env,
+      required this.receivedFilterCategories,
+      required this.receivedFilterPayments});
 
   final EnvClass env;
+  final List<CategoryClass> receivedFilterCategories;
+  final List<PaymentResourceData> receivedFilterPayments;
 
   @override
   State<FilterWidget> createState() => _FilterWidgetState();
 }
 
 class _FilterWidgetState extends State<FilterWidget> {
-  bool categoryLoading = false;
   List<CategoryClass> categoryList = [];
   List<PaymentResourceData> payments = [];
   List<CategoryClass> filterCategories = [];
@@ -35,11 +40,18 @@ class _FilterWidgetState extends State<FilterWidget> {
   @override
   void initState() {
     super.initState();
-    categoryLoading = true;
     Future(() async {
       await EditTranCategoryLoad.getCategoryList(setCategoryList);
       await CommonPaymentResourceLoad.getPaymentResource(
           widget.env, setPaymentResourceList);
+      setState(() {
+        if (widget.receivedFilterCategories.isNotEmpty) {
+          filterCategories = widget.receivedFilterCategories;
+        }
+        if (widget.receivedFilterPayments.isNotEmpty) {
+          filterPayments = widget.receivedFilterPayments;
+        }
+      });
     });
   }
 
@@ -155,12 +167,6 @@ class _FilterWidgetState extends State<FilterWidget> {
         actions: [
           GradientButton(
             onPressed: () {
-              if (filterCategories.isEmpty) {
-                filterCategories = categoryList;
-              }
-              if (filterPayments.isEmpty) {
-                filterPayments = payments;
-              }
               Navigator.pop(context, {
                 'filterCategories': filterCategories,
                 'filterPayments': filterPayments

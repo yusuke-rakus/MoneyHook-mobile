@@ -38,6 +38,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
   SortType sortType = SortType.values.first;
   late List<CategoryClass> categoryList = [];
   CategoryClass? filterCategory;
+  List<CategoryClass> receivedFilterCategories = [];
+  List<PaymentResourceData> receivedFilterPayments = [];
 
   void setLoading() {
     setState(() => _isLoading = !_isLoading);
@@ -116,11 +118,15 @@ class _TimelineScreenState extends State<TimelineScreen> {
         filterPayments.map((payment) => payment.paymentId).toList();
 
     List<TransactionClass> filteredTransactions = timelineList.transactionList
-        .where((tran) => categoryIds.contains(tran.categoryId))
-        .where((tran) => paymentIds.contains(tran.paymentId))
+        .where((tran) =>
+            filterCategories.isEmpty | categoryIds.contains(tran.categoryId))
+        .where((tran) =>
+            filterPayments.isEmpty | paymentIds.contains(tran.paymentId))
         .toList();
 
     setState(() {
+      receivedFilterCategories = filterCategories;
+      receivedFilterPayments = filterPayments;
       timelineList.transactionList = filteredTransactions;
     });
   }
@@ -184,8 +190,12 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                         final result = await showDialog<
                                             Map<String, dynamic>>(
                                           context: context,
-                                          builder: (context) =>
-                                              FilterWidget(env: env),
+                                          builder: (context) => FilterWidget(
+                                              env: env,
+                                              receivedFilterCategories:
+                                                  receivedFilterCategories,
+                                              receivedFilterPayments:
+                                                  receivedFilterPayments),
                                         );
 
                                         if (result != null) {

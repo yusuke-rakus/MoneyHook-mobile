@@ -33,4 +33,13 @@ class PaymentResourceData extends Response {
 
   PaymentResourceData.setResponse(
       super.status, super.message, this.paymentId, this.paymentName);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is PaymentResourceData && other.paymentId == paymentId;
+  }
+
+  @override
+  int get hashCode => paymentId.hashCode;
 }
