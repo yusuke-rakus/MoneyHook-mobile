@@ -32,7 +32,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: false,
         primarySwatch: Colors.blue,
-        fontFamily: 'DotGothic16',
+        fontFamily: 'MPLUS1p',
       ),
       home: const MyStatefulWidget(),
     );
