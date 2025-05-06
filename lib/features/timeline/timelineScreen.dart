@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:money_hooks/common/class/categoryClass.dart';
+import 'package:money_hooks/common/class/paymentResource.dart';
 import 'package:money_hooks/common/class/transactionClass.dart';
 import 'package:money_hooks/common/env/envClass.dart';
 import 'package:money_hooks/common/widgets/appBarMonth.dart';
@@ -14,6 +15,7 @@ import 'package:money_hooks/features/timeline/class/sortType.dart';
 import 'package:money_hooks/features/timeline/class/timelineTransaction.dart';
 import 'package:money_hooks/features/timeline/data/timelineTransactionApi.dart';
 import 'package:money_hooks/features/timeline/data/timelineTransactionLoad.dart';
+import 'package:money_hooks/features/timeline/filterWidget.dart';
 import 'package:money_hooks/features/timeline/timelineList.dart';
 
 class TimelineScreen extends StatefulWidget {
@@ -36,6 +38,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
   SortType sortType = SortType.values.first;
   late List<CategoryClass> categoryList = [];
   CategoryClass? filterCategory;
+  List<CategoryClass> receivedFilterCategories = [];
+  List<PaymentResourceData> receivedFilterPayments = [];
 
   void setLoading() {
     setState(() => _isLoading = !_isLoading);
@@ -103,6 +107,30 @@ class _TimelineScreenState extends State<TimelineScreen> {
     return newTransactionList;
   }
 
+  Future<void> _filterTimeline(List<CategoryClass> filterCategories,
+      List<PaymentResourceData> filterPayments) async {
+    setTimelineData(await TimelineTransactionLoad.getTimelineData(
+        env, setLoading, setSnackBar));
+
+    List categoryIds =
+        filterCategories.map((category) => category.categoryId).toList();
+    List paymentIds =
+        filterPayments.map((payment) => payment.paymentId).toList();
+
+    List<TransactionClass> filteredTransactions = timelineList.transactionList
+        .where((tran) =>
+            filterCategories.isEmpty | categoryIds.contains(tran.categoryId))
+        .where((tran) =>
+            filterPayments.isEmpty | paymentIds.contains(tran.paymentId))
+        .toList();
+
+    setState(() {
+      receivedFilterCategories = filterCategories;
+      receivedFilterPayments = filterPayments;
+      timelineList.transactionList = filteredTransactions;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,6 +183,34 @@ class _TimelineScreenState extends State<TimelineScreen> {
                         children: _isLoading
                             ? []
                             : [
+                                Tooltip(
+                                  message: "フィルタ",
+                                  child: IconButton(
+                                      onPressed: () async {
+                                        final result = await showDialog<
+                                            Map<String, dynamic>>(
+                                          context: context,
+                                          builder: (context) => FilterWidget(
+                                              env: env,
+                                              receivedFilterCategories:
+                                                  receivedFilterCategories,
+                                              receivedFilterPayments:
+                                                  receivedFilterPayments),
+                                        );
+
+                                        if (result != null) {
+                                          _filterTimeline(
+                                              result["filterCategories"],
+                                              result["filterPayments"]);
+                                        }
+                                      },
+                                      icon: Icon(
+                                        Icons.filter_list,
+                                        color: Colors.grey[600],
+                                      ),
+                                      splashRadius: 20),
+                                ),
+                                SizedBox(width: 10),
                                 DropdownButton(
                                     style: TextStyle(
                                         color: Colors.grey[700],
