@@ -183,8 +183,15 @@ class _LocalSettingsState extends State<LocalSettings> {
                       items: fontFamilies
                           .map((FontFamily item) => DropdownMenuItem(
                               value: item,
-                              child: Text("このフォントを使用します",
-                                  style: TextStyle(fontFamily: item.label))))
+                              child: SizedBox(
+                                width: 250,
+                                child: Text(
+                                  "${item.name} あのイーハトーヴォのすきとおった風",
+                                  style: TextStyle(fontFamily: item.label),
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                ),
+                              )))
                           .toList(),
                       onChanged: (FontFamily? value) {
                         setState(() async {
