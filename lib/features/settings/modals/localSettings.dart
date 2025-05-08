@@ -173,36 +173,68 @@ class _LocalSettingsState extends State<LocalSettings> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text('フォント'),
-                  DropdownButton(
-                      style: TextStyle(
-                          color: Colors.grey[700],
-                          fontFamily:
-                              DefaultTextStyle.of(context).style.fontFamily),
-                      focusColor: Colors.transparent,
-                      value: fontFamily,
-                      items: fontFamilies
-                          .map((FontFamily item) => DropdownMenuItem(
-                              value: item,
-                              child: SizedBox(
-                                width: 250,
-                                child: Text(
-                                  "${item.name} あのイーハトーヴォのすきとおった風",
-                                  style: TextStyle(fontFamily: item.label),
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: false,
-                                ),
-                              )))
-                          .toList(),
-                      onChanged: (FontFamily? value) {
-                        setState(() async {
-                          fontFamily = value!;
-                          await LocalSettingsTransactionStorage.setFontFamily(
-                              value.label);
+                  GestureDetector(
+                    onTapDown: (details) async {
+                      final selected = await showMenu<String>(
+                        context: context,
+                        position: RelativeRect.fromLTRB(
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                          details.globalPosition.dx,
+                          details.globalPosition.dy,
+                        ),
+                        items: fontFamilies.map((FontFamily font) {
+                          return PopupMenuItem<String>(
+                            value: font.label,
+                            child: SizedBox(
+                              width: 400,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'あのイーハトーヴォのすきとおった風',
+                                    style: TextStyle(
+                                        fontSize: 14, fontFamily: font.label),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    font.name,
+                                    style: TextStyle(
+                                        fontSize: 12, color: Colors.grey),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      );
+                      if (selected != null) {
+                        setState(() {
+                          fontFamily = fontFamilies
+                              .where((font) => font.label == selected)
+                              .toList()
+                              .first;
+                          LocalSettingsTransactionStorage.setFontFamily(
+                              selected);
                           themeProvider.setFontFamily(fontFamily.label);
                           CommonSnackBar.build(
                               context: context, text: 'フォントを設定しました');
                         });
-                      }),
+                      }
+                    },
+                    child: Container(
+                      width: 200,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: Text(
+                        fontFamily.label,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  )
                 ],
               ),
               Row(

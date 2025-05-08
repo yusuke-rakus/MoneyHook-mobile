@@ -66,9 +66,9 @@ flutter:
       fonts:
         - asset: assets/fonts/DotGothic16.ttf
           weight: 300
-    - family: NotoSansJP-VariableFont_wght
+    - family: NotoSansJP-Regular
       fonts:
-        - asset: assets/fonts/NotoSansJP-VariableFont_wght.ttf
+        - asset: assets/fonts/NotoSansJP-Regular.ttf
           weight: 300
     - family: MoneyBill
       fonts:
