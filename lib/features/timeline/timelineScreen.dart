@@ -40,6 +40,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
   CategoryClass? filterCategory;
   List<CategoryClass> receivedFilterCategories = [];
   List<PaymentResourceData> receivedFilterPayments = [];
+  num amountSum = 0;
 
   void setLoading() {
     setState(() => _isLoading = !_isLoading);
@@ -54,12 +55,17 @@ class _TimelineScreenState extends State<TimelineScreen> {
     setState(() {
       timelineList = TimelineTransaction.init(responseList);
       timelineList.transactionList =
-          sortTimelineList(sortType, timelineList.transactionList);
+          _sortTimelineList(sortType, timelineList.transactionList);
     });
   }
 
   void setTimelineChart(List<TransactionClass> responseList) {
     setState(() => timelineChart = responseList);
+  }
+
+  int calcAmountSum(List<TransactionClass> transactions) {
+    return transactions.fold(
+        0, (sum, tran) => sum + tran.transactionAmount as int);
   }
 
   @override
@@ -72,6 +78,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
       setTimelineData(await TimelineTransactionLoad.getTimelineData(
           env, setLoading, setSnackBar));
       setTimelineChart(await TimelineTransactionLoad.getTimelineChart(env));
+      amountSum = calcAmountSum(timelineList.transactionList);
     });
   }
 
@@ -81,7 +88,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
     setTimelineChart(await TimelineTransactionApi.getTimelineChart(env));
   }
 
-  List<TransactionClass> sortTimelineList(
+  List<TransactionClass> _sortTimelineList(
       SortType sortType, List<TransactionClass> transactionList) {
     List<TransactionClass> newTransactionList;
     switch (sortType) {
@@ -128,6 +135,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
       receivedFilterCategories = filterCategories;
       receivedFilterPayments = filterPayments;
       timelineList.transactionList = filteredTransactions;
+      amountSum = calcAmountSum(filteredTransactions);
     });
   }
 
@@ -145,6 +153,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     env, setLoading, setSnackBar));
                 setTimelineChart(
                     await TimelineTransactionLoad.getTimelineChart(env));
+                _filterTimeline(
+                    receivedFilterCategories, receivedFilterPayments);
               });
             },
             addMonth: () {
@@ -154,6 +164,8 @@ class _TimelineScreenState extends State<TimelineScreen> {
                     env, setLoading, setSnackBar));
                 setTimelineChart(
                     await TimelineTransactionLoad.getTimelineChart(env));
+                _filterTimeline(
+                    receivedFilterCategories, receivedFilterPayments);
               });
             },
             env: env,
@@ -179,10 +191,12 @@ class _TimelineScreenState extends State<TimelineScreen> {
                   CenterWidget(
                       padding: EdgeInsets.only(left: 30, right: 30),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
                         children: _isLoading
                             ? []
                             : [
+                                Text(
+                                    "合計: ${TransactionClass.formatNum(amountSum as int)}"),
+                                Spacer(),
                                 Tooltip(
                                   message: "フィルタ",
                                   child: IconButton(
@@ -229,7 +243,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                                       setState(() {
                                         sortType = value!;
                                         timelineList.transactionList =
-                                            sortTimelineList(value,
+                                            _sortTimelineList(value,
                                                 timelineList.transactionList);
                                       });
                                     }),
