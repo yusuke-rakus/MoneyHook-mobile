@@ -1,6 +1,6 @@
 enum FontFamily {
   MPLUS1p("MPLUS1p"),
-  NotoSansJP("NotoSansJP-VariableFont_wght"),
+  NotoSansJP("NotoSansJP-Regular"),
   DotGothic16("DotGothic16");
 
   final String label;
