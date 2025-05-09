@@ -85,6 +85,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
   void setReload() async {
     setTimelineData(await TimelineTransactionApi.getTimelineData(
         env, setLoading, setSnackBar));
+    _filterTimeline(receivedFilterCategories, receivedFilterPayments);
+    timelineList.transactionList =
+        _sortTimelineList(sortType, timelineList.transactionList);
     setTimelineChart(await TimelineTransactionApi.getTimelineChart(env));
   }
 
