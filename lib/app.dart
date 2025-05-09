@@ -38,7 +38,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: themeProvider.fontFamily,
       ),
-      home: const MyStatefulWidget(),
+      home: SafeArea(child: const MyStatefulWidget()),
     );
   }
 }
