@@ -291,10 +291,28 @@ class _EditTransaction extends State<EditTransaction> {
                         Flexible(
                           child: TextField(
                             onChanged: (value) {
+                              // 全角数字を半角に変換
+                              String halfWidthValue = value.replaceAllMapped(
+                                RegExp(r'[０-９]'),
+                                (match) => String.fromCharCode(
+                                    match.group(0)!.codeUnitAt(0) -
+                                        0xFF10 +
+                                        0x30),
+                              );
+
+                              if (value != halfWidthValue) {
+                                amountController.text = halfWidthValue;
+                                amountController.selection =
+                                    TextSelection.fromPosition(
+                                  TextPosition(offset: halfWidthValue.length),
+                                );
+                              }
+
                               setState(() {
-                                if (value.isNotEmpty) {
+                                if (halfWidthValue.isNotEmpty) {
                                   transaction.transactionAmount =
-                                      TransactionClass.formatInt(value);
+                                      TransactionClass.formatInt(
+                                          halfWidthValue);
                                 } else {
                                   transaction.transactionAmount = 0;
                                 }
@@ -311,7 +329,8 @@ class _EditTransaction extends State<EditTransaction> {
                                     : null),
                             keyboardType: TextInputType.number,
                             inputFormatters: [
-                              FilteringTextInputFormatter.digitsOnly
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'[0-9０-９]')),
                             ],
                             style: TextStyle(fontSize: 20),
                           ),
@@ -421,29 +440,47 @@ class _EditTransaction extends State<EditTransaction> {
                             });
                           },
                           child: SizedBox(
-                              height: 70,
-                              child: InputDecorator(
-                                  decoration: const InputDecoration(
-                                    labelText: 'カテゴリ',
-                                  ),
-                                  child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${transaction.categoryName} / ${transaction.subCategoryName}',
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(fontSize: 20),
-                                          ),
+                            height: 70,
+                            child: InputDecorator(
+                              decoration: const InputDecoration(
+                                labelText: 'カテゴリ',
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: AnimatedSwitcher(
+                                        duration: Duration(milliseconds: 300),
+                                        transitionBuilder: (child, animation) {
+                                          return FadeTransition(
+                                            opacity: animation,
+                                            child: child,
+                                          );
+                                        },
+                                        child: Text(
+                                          '${transaction.categoryName} / ${transaction.subCategoryName}',
+                                          key: ValueKey<String>(
+                                              '${transaction.categoryName}_${transaction.subCategoryName}'),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(fontSize: 20),
                                         ),
-                                        const Align(
-                                            alignment: Alignment.centerRight,
-                                            child: Icon(
-                                              Icons.keyboard_arrow_right,
-                                              size: 30,
-                                            ))
-                                      ]))))),
+                                      ),
+                                    ),
+                                  ),
+                                  const Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Icon(
+                                      Icons.keyboard_arrow_right,
+                                      size: 30,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ))),
                   // 支払い元選択
                   paymentResourceList.isNotEmpty
                       ? CenterWidget(
