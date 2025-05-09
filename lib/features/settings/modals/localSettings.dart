@@ -186,7 +186,12 @@ class _LocalSettingsState extends State<LocalSettings> {
                         items: fontFamilies.map((FontFamily font) {
                           return PopupMenuItem<String>(
                             value: font.label,
-                            child: SizedBox(
+                            padding: EdgeInsets.zero,
+                            child: Container(
+                              color: fontFamily.label == font.label
+                                  ? Colors.lightBlue[50]
+                                  : Colors.transparent,
+                              padding: EdgeInsets.all(4.0),
                               width: 400,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
