@@ -179,32 +179,36 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
       bottomNavigationBar: isLogin &&
               MediaQuery.of(context).size.width <= navigationBreakpointWidth
-          ? BottomNavigationBar(
-              unselectedFontSize: 10,
-              selectedFontSize: 10,
-              currentIndex: _selectedIndex,
-              onTap: isLoading
-                  ? null
-                  : (int i) {
-                      setState(() {
-                        _selectedIndex = i;
-                      });
-                    },
-              items: <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                    icon: Icon(homeLabel.icon), label: homeLabel.label),
-                BottomNavigationBarItem(
-                    icon: Icon(timelineLabel.icon), label: timelineLabel.label),
-                BottomNavigationBarItem(
-                    icon: Icon(analyticsLabel.icon),
-                    label: analyticsLabel.label),
-                BottomNavigationBarItem(
-                    icon: Icon(paymentGroupLabel.icon),
-                    label: paymentGroupLabel.label),
-                BottomNavigationBarItem(
-                    icon: Icon(settingsLabel.icon), label: settingsLabel.label),
-              ],
-              type: BottomNavigationBarType.fixed,
+          ? SafeArea(
+              child: BottomNavigationBar(
+                unselectedFontSize: 10,
+                selectedFontSize: 10,
+                currentIndex: _selectedIndex,
+                onTap: isLoading
+                    ? null
+                    : (int i) {
+                        setState(() {
+                          _selectedIndex = i;
+                        });
+                      },
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                      icon: Icon(homeLabel.icon), label: homeLabel.label),
+                  BottomNavigationBarItem(
+                      icon: Icon(timelineLabel.icon),
+                      label: timelineLabel.label),
+                  BottomNavigationBarItem(
+                      icon: Icon(analyticsLabel.icon),
+                      label: analyticsLabel.label),
+                  BottomNavigationBarItem(
+                      icon: Icon(paymentGroupLabel.icon),
+                      label: paymentGroupLabel.label),
+                  BottomNavigationBarItem(
+                      icon: Icon(settingsLabel.icon),
+                      label: settingsLabel.label),
+                ],
+                type: BottomNavigationBarType.fixed,
+              ),
             )
           : const SizedBox(),
     );
