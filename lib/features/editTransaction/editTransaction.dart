@@ -54,25 +54,25 @@ class _EditTransaction extends State<EditTransaction> {
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
     Future(() async {
+      await CommonPaymentResourceLoad.getPaymentResource(
+          env, setPaymentResourceList);
       if (!transaction.hasTransactionId()) {
         CommonTranTransactionLoad.getFrequentTransactionName(
             env, setRecommendList);
         _setDefaultCategory(transaction);
-      }
-      await CommonPaymentResourceLoad.getPaymentResource(
-          env, setPaymentResourceList);
 
-      final String? defPaymentRes =
-          await CommonTranTransactionStorage.getDefaultPaymentResource();
-      if (defPaymentRes != null) {
-        PaymentResourceData selectedPayment = paymentResourceList
-            .where((resource) => resource.paymentId == defPaymentRes)
-            .toList()
-            .first;
-        setState(() {
-          transaction.paymentId = selectedPayment.paymentId;
-          transaction.paymentName = selectedPayment.paymentName;
-        });
+        final String? defPaymentRes =
+            await CommonTranTransactionStorage.getDefaultPaymentResource();
+        if (defPaymentRes != null) {
+          PaymentResourceData selectedPayment = paymentResourceList
+              .where((resource) => resource.paymentId == defPaymentRes)
+              .toList()
+              .first;
+          setState(() {
+            transaction.paymentId = selectedPayment.paymentId;
+            transaction.paymentName = selectedPayment.paymentName;
+          });
+        }
       }
     });
   }
