@@ -16,7 +16,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.29.3'
+          flutter-version: '3.32.0'
 
       - name: Create firebase_options.dart file
         run: echo "${{ secrets.FIREBASE_OPTIONS_CONTENT }}" > lib/firebase_options.dart
@@ -25,7 +25,7 @@ jobs:
         run: flutter pub get
 
       - name: Build project
-        run: flutter build web --release
+        run: flutter build web --release --split-debug-info=build/debug-info
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
