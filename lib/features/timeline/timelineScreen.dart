@@ -64,8 +64,9 @@ class _TimelineScreenState extends State<TimelineScreen> {
   }
 
   int calcAmountSum(List<TransactionClass> transactions) {
-    return transactions.fold(
-        0, (sum, tran) => sum + tran.transactionAmount as int);
+    return transactions
+        .where((item) => item.transactionSign < 0)
+        .fold(0, (sum, tran) => sum + tran.transactionAmount as int);
   }
 
   @override
@@ -198,7 +199,7 @@ class _TimelineScreenState extends State<TimelineScreen> {
                             ? []
                             : [
                                 Text(
-                                    "合計: ${TransactionClass.formatNum(amountSum as int)}"),
+                                    "支出計: ${TransactionClass.formatNum(amountSum as int)}"),
                                 Spacer(),
                                 Tooltip(
                                   message: "フィルタ",
