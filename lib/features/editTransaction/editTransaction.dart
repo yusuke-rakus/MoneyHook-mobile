@@ -37,6 +37,7 @@ class _EditTransaction extends State<EditTransaction> {
   late TransactionClass transaction;
   late EnvClass env;
   late List<TransactionClass> recommendList = [];
+  late List<TransactionClass> receivedRecommendList = [];
   late List<PaymentResourceData> paymentResourceList = [];
   int recommendShowCount = 5;
 
@@ -89,7 +90,10 @@ class _EditTransaction extends State<EditTransaction> {
 
   // 取引候補
   void setRecommendList(List<TransactionClass> resultList) {
-    setState(() => recommendList = resultList);
+    setState(() {
+      recommendList = resultList;
+      receivedRecommendList = resultList;
+    });
   }
 
   // 支払い方法
@@ -347,7 +351,7 @@ class _EditTransaction extends State<EditTransaction> {
                       onChanged: (value) {
                         setState(() {
                           transaction.transactionName = value;
-                          for (var item in recommendList) {
+                          for (var item in receivedRecommendList) {
                             if (value == item.transactionName) {
                               transaction.categoryId = item.categoryId;
                               transaction.categoryName = item.categoryName;
@@ -360,6 +364,11 @@ class _EditTransaction extends State<EditTransaction> {
                                   context: context, text: "自動補完しました");
                             }
                           }
+                          recommendList = receivedRecommendList
+                              .where((item) => item.transactionName
+                                  .toLowerCase()
+                                  .contains(value.toLowerCase()))
+                              .toList();
                         });
                       },
                       controller: nameController,
