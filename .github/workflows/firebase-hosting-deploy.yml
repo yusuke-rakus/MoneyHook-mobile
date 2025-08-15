@@ -16,7 +16,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.32.2'
+          flutter-version: '3.35.1'
 
       - name: Create firebase_options.dart file
         run: echo "${{ secrets.FIREBASE_OPTIONS_CONTENT }}" > lib/firebase_options.dart
