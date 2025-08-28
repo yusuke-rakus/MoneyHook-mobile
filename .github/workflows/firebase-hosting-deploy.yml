@@ -37,8 +37,7 @@ jobs:
           flutter build web \
             --release \
             --pwa-strategy=none \
-            --tree-shake-icons \
-            --analyze-size
+            --tree-shake-icons
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
