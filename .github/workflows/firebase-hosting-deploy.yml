@@ -33,9 +33,9 @@ jobs:
 
       - name: Build project (lean HTML renderer + no PWA precache)
         run: |
+          FLUTTER_WEB_RENDERER=html \
           flutter build web \
             --release \
-            --web-renderer html \
             --pwa-strategy=none \
             --tree-shake-icons \
             --analyze-size
