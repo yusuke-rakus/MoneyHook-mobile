@@ -52,6 +52,18 @@ class CommonTranTransactionStorage {
     }
   }
 
+  /// 自動補完
+  static Future<bool> getIsSmartEntryEnabled() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? activeState = prefs.getBool('IS_SMART_ENTRY_ENABLED');
+    if (activeState == null) {
+      await prefs.setBool('IS_SMART_ENTRY_ENABLED', true);
+      return true;
+    } else {
+      return activeState;
+    }
+  }
+
   /// デフォルトの支払い方法
   static Future<String?> getDefaultPaymentResource() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();

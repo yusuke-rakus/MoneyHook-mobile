@@ -39,6 +39,7 @@ class _EditTransaction extends State<EditTransaction> {
   late List<TransactionClass> recommendList = [];
   late List<TransactionClass> receivedRecommendList = [];
   late List<PaymentResourceData> paymentResourceList = [];
+  late bool isSmartEntryEnabled = true;
   int recommendShowCount = 5;
 
   final TextEditingController nameController = TextEditingController();
@@ -54,9 +55,12 @@ class _EditTransaction extends State<EditTransaction> {
         nameController.value.copyWith(text: transaction.transactionName);
     nameController.selection = TextSelection.fromPosition(
         TextPosition(offset: nameController.text.length));
+
     Future(() async {
       await CommonPaymentResourceLoad.getPaymentResource(
           env, setPaymentResourceList);
+      isSmartEntryEnabled =
+          await CommonTranTransactionStorage.getIsSmartEntryEnabled();
       if (!transaction.hasTransactionId()) {
         CommonTranTransactionLoad.getFrequentTransactionName(
             env, setRecommendList);
@@ -351,17 +355,19 @@ class _EditTransaction extends State<EditTransaction> {
                       onChanged: (value) {
                         setState(() {
                           transaction.transactionName = value;
-                          for (var item in receivedRecommendList) {
-                            if (value == item.transactionName) {
-                              transaction.categoryId = item.categoryId;
-                              transaction.categoryName = item.categoryName;
-                              transaction.subCategoryId = item.subCategoryId;
-                              transaction.subCategoryName =
-                                  item.subCategoryName;
-                              transaction.fixedFlg = item.fixedFlg;
-                              transaction.paymentId = item.paymentId;
-                              CommonSnackBar.build(
-                                  context: context, text: "自動補完しました");
+                          if (isSmartEntryEnabled) {
+                            for (var item in receivedRecommendList) {
+                              if (value == item.transactionName) {
+                                transaction.categoryId = item.categoryId;
+                                transaction.categoryName = item.categoryName;
+                                transaction.subCategoryId = item.subCategoryId;
+                                transaction.subCategoryName =
+                                    item.subCategoryName;
+                                transaction.fixedFlg = item.fixedFlg;
+                                transaction.paymentId = item.paymentId;
+                                CommonSnackBar.build(
+                                    context: context, text: "自動補完しました");
+                              }
                             }
                           }
                           recommendList = receivedRecommendList
@@ -394,14 +400,17 @@ class _EditTransaction extends State<EditTransaction> {
                                   nameController.text = tran.transactionName;
                                   transaction.transactionName =
                                       tran.transactionName;
-                                  transaction.categoryId = tran.categoryId;
-                                  transaction.categoryName = tran.categoryName;
-                                  transaction.subCategoryId =
-                                      tran.subCategoryId;
-                                  transaction.subCategoryName =
-                                      tran.subCategoryName;
-                                  transaction.fixedFlg = tran.fixedFlg;
-                                  transaction.paymentId = tran.paymentId;
+                                  if (isSmartEntryEnabled) {
+                                    transaction.categoryId = tran.categoryId;
+                                    transaction.categoryName =
+                                        tran.categoryName;
+                                    transaction.subCategoryId =
+                                        tran.subCategoryId;
+                                    transaction.subCategoryName =
+                                        tran.subCategoryName;
+                                    transaction.fixedFlg = tran.fixedFlg;
+                                    transaction.paymentId = tran.paymentId;
+                                  }
                                 }),
                                 style: OutlinedButton.styleFrom(
                                   shape: RoundedRectangleBorder(

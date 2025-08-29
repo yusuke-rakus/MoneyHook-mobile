@@ -10,6 +10,12 @@ class LocalSettingsTransactionStorage {
     prefs.setBool('IS_TRANSACTION_RECOMMEND_ACTIVE', activeState);
   }
 
+  /// 自動補完
+  static void setIsSmartEntryEnabled(bool activeState) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('IS_SMART_ENTRY_ENABLED', activeState);
+  }
+
   /// デフォルトの支払い方法
   static void setDefaultPaymentResource(String? paymentId) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
