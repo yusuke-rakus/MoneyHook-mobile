@@ -25,6 +25,7 @@ class LocalSettings extends StatefulWidget {
 
 class _LocalSettingsState extends State<LocalSettings> {
   late bool _transactionRecommendState = false;
+  late bool _isSmartEntryEnabled = false;
   late bool _isCardDefaultOpen = false;
   List<PaymentResourceData> paymentResourceList = [];
   PaymentResourceData? _selectedPaymentData;
@@ -38,11 +39,14 @@ class _LocalSettingsState extends State<LocalSettings> {
           widget.env, setPaymentResourceList);
       final bool tranRecState =
           await CommonTranTransactionStorage.getTransactionRecommendState();
+      final bool isSmartEntryEnabled =
+          await CommonTranTransactionStorage.getIsSmartEntryEnabled();
       final bool cardDefOpenState =
           await CommonTranTransactionStorage.getIsCardDefaultOpenState();
       setState(() {
         _transactionRecommendState = tranRecState;
         _isCardDefaultOpen = cardDefOpenState;
+        _isSmartEntryEnabled = isSmartEntryEnabled;
       });
 
       final String? defPaymentRes =
@@ -71,6 +75,13 @@ class _LocalSettingsState extends State<LocalSettings> {
     setState(() {
       _transactionRecommendState = state;
       LocalSettingsTransactionStorage.setTransactionRecommendState(state);
+    });
+  }
+
+  void _changeIsSmartEntryEnabled(bool state) {
+    setState(() {
+      _isSmartEntryEnabled = state;
+      LocalSettingsTransactionStorage.setIsSmartEntryEnabled(state);
     });
   }
 
@@ -119,6 +130,20 @@ class _LocalSettingsState extends State<LocalSettings> {
                       value: _transactionRecommendState,
                       onChanged: (activeState) =>
                           _changeRecommendState(activeState))
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Tooltip(
+                      message: "カテゴリ/サブカテゴリなどの自動補完を有効にします",
+                      preferBelow: false,
+                      child: const Text('スマート補完機能を利用する')),
+                  CupertinoSwitch(
+                      activeTrackColor: Colors.blue,
+                      value: _isSmartEntryEnabled,
+                      onChanged: (activeState) =>
+                          _changeIsSmartEntryEnabled(activeState))
                 ],
               ),
               Row(
