@@ -18,6 +18,11 @@ jobs:
           flutter-version: '3.35.2'
           cache: true
 
+      - name: Clean
+        run: |
+          flutter clean
+          rm -rf build/web
+
       - name: Create firebase_options.dart file
         run: echo "${{ secrets.FIREBASE_OPTIONS_CONTENT }}" > lib/firebase_options.dart
 
